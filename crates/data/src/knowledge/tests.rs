@@ -195,7 +195,7 @@ fn every_correlation_entry_is_verifiable() {
 
 /// The exact number of registered investigative techniques — the single place
 /// the count is written down, mirroring [`EXPECTED_TOOL_BEHAVIOUR_LEN`].
-const EXPECTED_INVESTIGATIVE_TECHNIQUE_LEN: usize = 6;
+const EXPECTED_INVESTIGATIVE_TECHNIQUE_LEN: usize = 7;
 
 #[test]
 fn investigative_len_matches_expected() {
@@ -820,6 +820,110 @@ fn wifi_bssid_geolocation_warns_added_at_is_migrated() {
         .failure_modes
         .iter()
         .any(|f| f.contains("AddedAt") && f.to_lowercase().contains("migrat")));
+}
+
+/// A WPS position carries no date: the service does not say when the access
+/// point was observed at that position, so a router that has since moved
+/// geolocates to its new home.
+#[test]
+fn wifi_bssid_geolocation_warns_position_date_is_undisclosed() {
+    let t = INVESTIGATIVE_TECHNIQUES
+        .iter()
+        .find(|t| t.id == "wifi_bssid_geolocation")
+        .expect("wifi_bssid_geolocation missing");
+    assert!(t
+        .failure_modes
+        .iter()
+        .any(|f| f.to_lowercase().contains("undisclosed")));
+}
+
+/// The Wi-Fi presence timeline technique dates when the Mac was on a network:
+/// it must consume the driver entries, wifi.log, the remembered-network store
+/// and the CUPS printer/spool evidence that bridges networks.
+#[test]
+fn wifi_presence_timeline_is_present_and_wired_to_artifacts() {
+    let t = INVESTIGATIVE_TECHNIQUES
+        .iter()
+        .find(|t| t.id == "wifi_presence_timeline")
+        .expect("wifi_presence_timeline technique must be registered");
+    for id in [
+        "macos_wifi_driver_log",
+        "macos_wifi_log",
+        "macos_unified_log",
+        "macos_wifi_known_networks",
+        "macos_cups_printers_conf",
+        "macos_cups_spool_jobs",
+    ] {
+        assert!(t.artifacts_used.contains(&id), "must consume {id}");
+    }
+    assert!(
+        t.steps.iter().any(|s| s.action.contains("log-archive")),
+        "must name the unifiedlog_iterator export mode"
+    );
+}
+
+/// Each way the timeline yields a confident wrong answer must be recorded.
+#[test]
+fn wifi_presence_timeline_records_its_failure_modes() {
+    let t = INVESTIGATIVE_TECHNIQUES
+        .iter()
+        .find(|t| t.id == "wifi_presence_timeline")
+        .expect("wifi_presence_timeline missing");
+    let body = t.failure_modes.join(" ").to_lowercase();
+    for (needle, why) in [
+        ("weeks", "unified log and wifi.log keep only weeks"),
+        ("removed", "known-networks keeps only networks not removed"),
+        ("addedat", "migrated AddedAt is the legacy last-join time"),
+        ("undisclosed", "the WPS position date is undisclosed"),
+        ("move together", "router and device may move together"),
+        ("printer", "a .local. printer can be moved"),
+        (
+            "control",
+            "the plain-text driver entries need a per-image control",
+        ),
+    ] {
+        assert!(body.contains(needle), "failure modes must record: {why}");
+    }
+}
+
+/// The full profile must collect the Wi-Fi presence evidence, and the
+/// unified log's uuidtext store without which its entries cannot be decoded.
+#[test]
+fn macos_full_references_wifi_presence_evidence() {
+    let full = EXAMINATION_PROFILES
+        .iter()
+        .find(|p| p.id == "macos_full")
+        .expect("macos_full missing");
+    for (id, cat) in [
+        ("macos_wifi_driver_log", InvestigativeCategory::Connections),
+        ("macos_wifi_log", InvestigativeCategory::Connections),
+        ("fa_file__7", InvestigativeCategory::ApplicationUse),
+    ] {
+        let m = full
+            .members
+            .iter()
+            .find(|m| m.artifact_id == id)
+            .unwrap_or_else(|| panic!("macos_full must reference {id}"));
+        assert_eq!(m.category, cat, "{id}");
+    }
+}
+
+/// The data-leakage profile places the machine on a named network at a time
+/// for egress correlation; the driver entries and wifi.log do that per day.
+#[test]
+fn macos_data_leakage_references_wifi_presence_evidence() {
+    let p = EXAMINATION_PROFILES
+        .iter()
+        .find(|p| p.id == "macos_data_leakage")
+        .expect("macos_data_leakage missing");
+    for id in ["macos_wifi_driver_log", "macos_wifi_log"] {
+        let m = p
+            .members
+            .iter()
+            .find(|m| m.artifact_id == id)
+            .unwrap_or_else(|| panic!("macos_data_leakage must reference {id}"));
+        assert_eq!(m.category, InvestigativeCategory::Connections);
+    }
 }
 
 /// The data-leakage profile is where location exposure and network egress

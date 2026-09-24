@@ -15,7 +15,7 @@ use crate::catalog::*;
 /// `catalog_integrity::catalog_len_matches_expected_catalog_len` asserts against
 /// it; every `catalog_*` test belonging to a batch asserts that batch's
 /// artifacts are *present*, which is the invariant those tests are named for.
-const EXPECTED_CATALOG_LEN: usize = 6879;
+const EXPECTED_CATALOG_LEN: usize = 6881;
 
 #[cfg(test)]
 mod catalog_integrity {
@@ -13905,6 +13905,219 @@ mod tests_macos_wifi_plist_backup {
             body.contains("com.apple.airport.preferences.plist.backup"),
             "the live plist is reduced after the Big Sur migration; say where the data went"
         );
+    }
+}
+
+// ── macOS Wi-Fi presence timeline layer ─────────────────────────────────────
+// Dating when a Mac was on a given Wi-Fi network: the Broadcom driver's
+// unified-log entries (BSSIDs in plain text despite the log's general
+// redaction), the text wifi.log, and CUPS printers reached over mDNS as
+// LAN co-presence evidence. The driver-message claims were observed on one
+// Big Sur 11.7 image; no public source was found, so the descriptor sits at
+// SearchedNotFound and names where the search went.
+#[cfg(test)]
+mod tests_macos_wifi_driver_log {
+    use super::*;
+    use crate::evidence::EvidenceTier;
+
+    #[test]
+    fn exists_and_reads_the_unified_log_store() {
+        let d = CATALOG
+            .by_id("macos_wifi_driver_log")
+            .expect("macos_wifi_driver_log missing");
+        assert_eq!(d.file_path, Some("/var/db/diagnostics/"));
+        assert_eq!(d.os_scope, crate::catalog::types::OsScope::MacOS);
+    }
+
+    #[test]
+    fn meaning_names_the_driver_messages() {
+        let d = CATALOG.by_id("macos_wifi_driver_log").unwrap();
+        for s in [
+            "ARPT",
+            "SetCryptoKey",
+            "Roamed or switched channel",
+            "/kernel",
+            "<private>",
+        ] {
+            assert!(d.meaning.contains(s), "meaning must name {s}");
+        }
+    }
+
+    #[test]
+    fn meaning_names_how_to_export_and_parse() {
+        let d = CATALOG.by_id("macos_wifi_driver_log").unwrap();
+        for s in ["uuidtext", "unifiedlog_iterator", "log-archive"] {
+            assert!(d.meaning.contains(s), "meaning must name {s}");
+        }
+    }
+
+    #[test]
+    fn caveats_cover_padding_control_and_retention() {
+        let d = CATALOG.by_id("macos_wifi_driver_log").unwrap();
+        let body = d.evidence_caveats.join(" ").to_lowercase();
+        assert!(
+            body.contains("zero-padded"),
+            "BSSIDs appear padded and unpadded"
+        );
+        assert!(body.contains("control"), "must require a per-image control");
+        assert!(body.contains("weeks"), "must state the retention window");
+    }
+
+    #[test]
+    fn observation_only_claim_is_recorded_with_where_searched() {
+        let d = CATALOG.by_id("macos_wifi_driver_log").unwrap();
+        assert_eq!(d.evidence_tier, Some(EvidenceTier::SearchedNotFound));
+        assert!(d.evidence_caveats.iter().any(|c| c.contains("Searched")));
+        assert!(d
+            .evidence_caveats
+            .iter()
+            .any(|c| c.contains("Big Sur 11.7")));
+    }
+
+    #[test]
+    fn cites_the_parser_and_apple_redaction_default() {
+        let d = CATALOG.by_id("macos_wifi_driver_log").unwrap();
+        assert!(d
+            .sources
+            .iter()
+            .any(|s| s.contains("mandiant/macos-UnifiedLogs")));
+        assert!(d
+            .sources
+            .iter()
+            .any(|s| s.contains("developer.apple.com") && s.contains("generating-log-messages")));
+    }
+
+    #[test]
+    fn cross_references_sibling_wifi_evidence() {
+        let d = CATALOG.by_id("macos_wifi_driver_log").unwrap();
+        for id in [
+            "macos_unified_log",
+            "macos_wifi_log",
+            "macos_wifi_known_networks",
+        ] {
+            assert!(d.related_artifacts.contains(&id), "must relate {id}");
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests_macos_wifi_log {
+    use super::*;
+    use crate::evidence::EvidenceTier;
+
+    #[test]
+    fn exists_and_covers_live_and_rotated_files() {
+        let d = CATALOG
+            .by_id("macos_wifi_log")
+            .expect("macos_wifi_log missing");
+        assert_eq!(d.file_path, Some("/private/var/log/wifi.log*"));
+    }
+
+    #[test]
+    fn meaning_names_the_disconnect_and_driver_init_lines() {
+        let d = CATALOG.by_id("macos_wifi_log").unwrap();
+        for s in [
+            "RSNSupplicant: Releasing authenticator for",
+            "_bsdDriver_init",
+            "wifi.log.N.bz2",
+        ] {
+            assert!(d.meaning.contains(s), "meaning must name {s}");
+        }
+    }
+
+    #[test]
+    fn caveats_cover_year_redaction_and_retention() {
+        let d = CATALOG.by_id("macos_wifi_log").unwrap();
+        let body = d.evidence_caveats.join(" ").to_lowercase();
+        assert!(body.contains("no year"), "timestamps carry no year");
+        assert!(body.contains("local time"), "timestamps are local time");
+        assert!(
+            body.contains("ssid") && body.contains("redacted"),
+            "SSIDs redacted, BSSIDs not"
+        );
+        assert!(body.contains("weeks"), "must state the retention window");
+    }
+
+    #[test]
+    fn is_graded_as_secondary_and_cites_them() {
+        let d = CATALOG.by_id("macos_wifi_log").unwrap();
+        assert_eq!(d.evidence_tier, Some(EvidenceTier::SingleSecondary));
+        assert!(d
+            .sources
+            .iter()
+            .any(|s| s.contains("discussions.apple.com")));
+        assert!(d.sources.iter().any(|s| s.contains("blog.frd.mn")));
+    }
+
+    #[test]
+    fn cross_references_driver_log_and_audit() {
+        let d = CATALOG.by_id("macos_wifi_log").unwrap();
+        assert!(d.related_artifacts.contains(&"macos_wifi_driver_log"));
+        assert!(d.related_artifacts.contains(&"macos_openbsm_audit"));
+    }
+}
+
+#[cfg(test)]
+mod tests_macos_unified_log_scope_and_uuidtext {
+    use super::*;
+
+    // The unified log exists from macOS 10.12 Sierra; `MacOS12Plus` means
+    // Monterey and would exclude the Big Sur image the Wi-Fi entries were
+    // observed on.
+    #[test]
+    fn os_scope_covers_every_unified_log_release() {
+        let d = CATALOG.by_id("macos_unified_log").unwrap();
+        assert_eq!(d.os_scope, crate::catalog::types::OsScope::MacOS);
+    }
+
+    #[test]
+    fn says_uuidtext_is_needed_and_links_it() {
+        let d = CATALOG.by_id("macos_unified_log").unwrap();
+        assert!(d.meaning.contains("/private/var/db/uuidtext/"));
+        assert!(d.related_artifacts.contains(&"fa_file__7"));
+        assert!(d.related_artifacts.contains(&"macos_wifi_driver_log"));
+    }
+}
+
+#[cfg(test)]
+mod tests_macos_cups_lan_copresence {
+    use super::*;
+
+    #[test]
+    fn printers_conf_explains_local_is_link_local_and_uuid_mac() {
+        let d = CATALOG.by_id("macos_cups_printers_conf").unwrap();
+        assert!(
+            d.meaning.contains("link-local"),
+            "mDNS .local. is link-local"
+        );
+        assert!(d.meaning.contains("MAC"), "a UUIDv1 node field is a MAC");
+        assert!(d.sources.iter().any(|s| s.contains("rfc6762")));
+        assert!(d.sources.iter().any(|s| s.contains("rfc9562")));
+        let caveats = d.evidence_caveats.join(" ").to_lowercase();
+        assert!(caveats.contains("moved"), "printers can be moved");
+        assert!(
+            caveats.contains("reflector") || caveats.contains("gateway"),
+            "mDNS reflectors/gateways extend .local. beyond one link"
+        );
+    }
+
+    #[test]
+    fn spool_jobs_explain_job_state_completed() {
+        let d = CATALOG.by_id("macos_cups_spool_jobs").unwrap();
+        assert!(d.meaning.contains("job-state 9"), "9 = completed");
+        assert!(d.meaning.contains("reachable"));
+        assert!(d.sources.iter().any(|s| s.contains("rfc8011")));
+        let caveats = d.evidence_caveats.join(" ").to_lowercase();
+        assert!(
+            caveats.contains("operator"),
+            "printing does not identify the operator"
+        );
+    }
+
+    #[test]
+    fn printers_relate_to_wifi_presence_evidence() {
+        let d = CATALOG.by_id("macos_cups_printers_conf").unwrap();
+        assert!(d.related_artifacts.contains(&"macos_wifi_driver_log"));
     }
 }
 
