@@ -3808,7 +3808,7 @@ pub static RECYCLE_BIN: ArtifactDescriptor = ArtifactDescriptor {
     fields: RECYCLE_BIN_FIELDS,
     retention: None,
     triage_priority: TriagePriority::High,
-    related_artifacts: &["sam_users", "mft_file", "usnjrnl", "lnk_files"],
+    related_artifacts: &["sam_users", "mft_file", "usnjrnl", "lnk_files", "zone_identifier"],
     sources: &[
         "https://www.sans.org/blog/digital-forensics-recycle-bin-forensics/",
         "https://windowsir.blogspot.com/2010/02/more-on-recycle-bin.html",
@@ -3820,7 +3820,12 @@ pub static RECYCLE_BIN: ArtifactDescriptor = ArtifactDescriptor {
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
     evidence_tier: None,
-    evidence_caveats: &["File name and deletion time available; original content may be overwritten"],
+    evidence_caveats: &[
+        "File name and deletion time available; original content may be overwritten",
+        "Map the SID folder's RID to an account on this machine's own SAM before treating it as a separate user; a SID that looks foreign is often the sole user's own",
+        "A $I/$R pair shows what was deleted under that profile, not which person deleted it: several people sharing one account produce one SID folder",
+        "Sending a file to the Recycle Bin renames it on the same NTFS volume, so a recovered $R file can keep its alternate data streams, including Zone.Identifier with the download URL",
+    ],
     volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
     volatility_rationale: "Deleted on permanent delete; survives recycle until purge",
 };
@@ -7386,6 +7391,7 @@ pub static PREFETCH_FILE: ArtifactDescriptor = ArtifactDescriptor {
         "Several .pf files for one executable NAME is expected for binaries launched with /prefetch:N — svchost.exe, dllhost.exe, rundll32.exe, backgroundtaskhost.exe — because the switch value is added into the path hash. Do not read the multiplicity as the same binary having run from several directories, and do not attempt to verify those hashes from the path alone",
         "The .pf file's own NTFS timestamps carry what the embedded array cannot: creation ~= first execution + ~10 s (the prefetcher writes the trace only after its ~10-second window) and last-modified ~= most recent execution + ~10 s. Past eight runs the array has wrapped and the creation time is the only remaining witness of the first execution. The ~10 s offset applies to the filesystem times only, never to the embedded FILETIMEs",
         "A .pf is produced for an execution ATTEMPT — the trace begins at process start — so its existence does not establish that the program initialised successfully or ran to completion",
+        "Prefetch is system-wide and does not identify the user or account that ran the program; pair it with per-SID sources (UserAssist, BAM, SRUM) for that",
     ],
     volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
     volatility_rationale: "Directory-level FIFO eviction: 128 .pf files on Windows 7 and earlier, 1024 from Windows 8 onward",

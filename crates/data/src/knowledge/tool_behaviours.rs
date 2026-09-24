@@ -571,6 +571,51 @@ pub static FTK_IMAGER_VERIFY_UNSTORED_HASH_MISMATCH: ToolBehaviour = ToolBehavio
     ],
 };
 
+/// The Sleuth Kit: a deleted FAT short name's lost first byte is shown as
+/// '_'.
+///
+/// # Verification
+///
+/// - Microsoft FAT32 File System Specification (fatgen103): "If
+///   DIR_Name[0] == 0xE5, then the directory entry is free", so the first
+///   character of a deleted entry's short name is overwritten.
+/// - `tsk/fs/fatxxfs_dent.c:293-294` (tags sleuthkit-4.14.0 and 4.15.0, and
+///   develop as fetched 2026-09-24): when the first short-name byte is the
+///   deleted marker, TSK writes '_' in its place. The substituted short name
+///   becomes the displayed name only when no long-name entry survives;
+///   otherwise the long name is shown and the 8.3 name goes to the
+///   short-name slot.
+/// - Observed: fls listed a deleted '_ROTHER' directory beside a live
+///   'BROTHER'.
+///
+/// Design, not a bug: the byte is gone from the volume, and TSK marks the
+/// loss rather than guessing.
+pub static TSK_FLS_FAT_DELETED_NAME_FIRST_CHAR: ToolBehaviour = ToolBehaviour {
+    id: "tsk_fls_fat_deleted_name_first_char",
+    tool: "The Sleuth Kit (fls, and tools built on its FAT directory parser)",
+    version_range: Some("sleuthkit-4.14.0 and 4.15.0 (read from source); develop as of 2026-09-24"),
+    artifact_id: Some("fat_exfat_directory_entry"),
+    kind: ToolBehaviourKind::OutputHidesDetail,
+    detail: "FAT marks a deleted directory entry by overwriting the first byte of its short \
+             name with 0xE5, so the original first character is lost on the volume. TSK's FAT \
+             parser (fatxxfs_dent.c) writes '_' in that position. Where a long-name entry \
+             survives, fls shows the long name; where none does, the deleted file or folder is \
+             listed as '_' plus the rest of the 8.3 name (for example '_ROTHER' for a deleted \
+             'BROTHER').",
+    consequence: "A search for the original name misses the deleted entry, and a '_'-prefixed \
+                  name can be read as the real name, or two entries that differ only in the \
+                  first character can be taken for different files.",
+    mitigation: "Search deleted entries (fls -d) by the rest of the name rather than the whole \
+                 name, and prefer surviving long-name entries, which keep the full name; state \
+                 in any report that the first character of a recovered short name is unknown.",
+    evidence_tier: EvidenceTier::SourceOrMultiImpl,
+    sources: &[
+        "https://github.com/sleuthkit/sleuthkit/blob/sleuthkit-4.15.0/tsk/fs/fatxxfs_dent.c",
+        "https://download.microsoft.com/download/1/6/1/161ba512-40e2-4cc9-843a-923143f3456c/fatgen103.doc",
+        "https://www.sleuthkit.org/sleuthkit/man/fls.html",
+    ],
+};
+
 /// Every registered tool behaviour. Lookup and iteration read this slice;
 /// a static not referenced here is invisible to every consumer.
 pub static TOOL_BEHAVIOURS: &[ToolBehaviour] = &[
@@ -585,4 +630,5 @@ pub static TOOL_BEHAVIOURS: &[ToolBehaviour] = &[
     LIBEWF_LEF_SHORT_NAME_OPEN_FAILURE,
     LIBEWF_DAMAGED_SEGMENT_ERROR_SEMANTICS,
     FTK_IMAGER_VERIFY_UNSTORED_HASH_MISMATCH,
+    TSK_FLS_FAT_DELETED_NAME_FIRST_CHAR,
 ];

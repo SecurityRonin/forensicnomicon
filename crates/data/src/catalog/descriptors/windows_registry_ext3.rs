@@ -479,6 +479,7 @@ pub(crate) static WINDOWS_INSTALL_DATE: ArtifactDescriptor = ArtifactDescriptor 
     evidence_caveats: &[
         "Reset by Windows Feature Updates — does not reflect original install date",
         "OEM/corporate image deployments inherit the original image build date",
+        "After a clean install, artefacts the install creates afresh (event logs, Prefetch, logon history) cannot reach conduct before it, while user files restored or migrated from elsewhere can be older than it; files older than InstallDate are consistent with migration or an upgrade reset and are not, by themselves, a sign of tampering. After a feature update the date moves but earlier artefacts may survive, so read it as the latest install or upgrade, not a floor for every artefact",
     ],
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "Registry value; persists until next Feature Update or reinstall",
