@@ -1150,9 +1150,14 @@ pub(crate) static MACOS_WIFI_INTELLIGENCE: ArtifactDescriptor = ArtifactDescript
 /// Workflow: `ewfmount` (for E01) → `mmls` → `losetup -r -o <byte_offset>` →
 /// `apfs-fuse /dev/loop0 /mnt/apfs`.
 ///
-/// APFS uses 4096-byte sectors (not the legacy 512-byte HFS+ sectors), which
-/// affects offset calculations. The container superblock ("NXSB") is at the
-/// start of the APFS partition.
+/// The partition start is in units of the DISK's logical sector size, as the
+/// partition table reports it (mmls prints "Units are in N-byte sectors"):
+/// 512 bytes on many Macs (observed on one Intel iMac, where the 200 MiB EFI
+/// System Partition is 409,600 sectors), 4096 on 4K-sector disks such as the
+/// one in the az4n6 Linux post. APFS's own block size (nx_block_size, default
+/// 4096) is a separate quantity: Apple's reference says it can be an integer
+/// multiple of the device's block size, so it is never the offset multiplier.
+/// The container superblock ("NXSB") is at the start of the APFS partition.
 ///
 /// On Windows, Paragon's "APFS for Windows" driver can mount APFS volumes
 /// natively once the image is presented as a SCSI device via Arsenal Image
@@ -1166,6 +1171,13 @@ pub(crate) static MACOS_WIFI_INTELLIGENCE: ArtifactDescriptor = ArtifactDescript
 /// - <https://az4n6.blogspot.com/2018/01/mounting-apfs-image-in-linux.html> —
 ///   step-by-step APFS mounting on Linux with apfs-fuse, mmls offset calculation
 /// - <https://github.com/sgan81/apfs-fuse> — experimental Linux APFS driver
+/// - <https://developer.apple.com/support/downloads/Apple-File-System-Reference.pdf> —
+///   nx_block_size: "often the same as the block size used by the underlying
+///   storage device, but it can also be an integer multiple of the device's
+///   block size"; NX_DEFAULT_BLOCK_SIZE 4096
+/// - <https://www.mac4n6.com/blog/2017/11/26/mount-all-the-things-mounting-apfs-and-4k-disk-images-on-macos-1013>
+///   — Macs moved from 512-byte to 4k blocks; hdiutil `-blocksize 4096` for
+///   4k images
 // Source: https://developer.apple.com/documentation/foundation/file_system/about_apple_file_system
 pub(crate) static APFS_CONTAINER: ArtifactDescriptor = ArtifactDescriptor {
     id: "apfs_container",
@@ -1182,7 +1194,10 @@ pub(crate) static APFS_CONTAINER: ArtifactDescriptor = ArtifactDescriptor {
         10.13 (High Sierra) that holds one or more APFS volumes with space-sharing, \
         snapshots, clones, and optional per-volume encryption. Forensic acquisition \
         requires locating the APFS partition via GPT partition table analysis (mmls), \
-        calculating the byte offset (sector_offset * bytes_per_sector, typically 4096), \
+        calculating the byte offset (sector_offset * bytes_per_sector, where bytes_per_sector \
+        is the disk's logical sector size as the partition table reports it: 512 on many \
+        Macs, 4096 on 4K-sector disks; APFS's own block size, nx_block_size, default 4096, \
+        is a different quantity and is not the multiplier), \
         and mounting with apfs-fuse on Linux or hdiutil/diskutil on macOS. On Windows, \
         Arsenal Image Mounter can present the image as a SCSI device (sector size 4096) \
         so that Paragon APFS for Windows auto-detects and mounts the volume — but this \
@@ -1229,8 +1244,9 @@ pub(crate) static APFS_CONTAINER: ArtifactDescriptor = ArtifactDescriptor {
         FieldSchema {
             name: "bytes_per_sector",
             value_type: ValueType::UnsignedInt,
-            description: "Sector size in bytes (typically 4096 for APFS, not 512); \
-                critical for correct offset calculation during acquisition",
+            description: "The disk's logical sector size in bytes, from the partition \
+                table (512 or 4096 depending on the disk); not APFS's block size. \
+                Critical for correct offset calculation during acquisition",
             is_uid_component: false,
         },
     ],
@@ -1246,6 +1262,11 @@ pub(crate) static APFS_CONTAINER: ArtifactDescriptor = ArtifactDescriptor {
         "https://az4n6.blogspot.com/2018/01/mounting-apfs-image-in-linux.html",
         // Source: https://github.com/sgan81/apfs-fuse — experimental Linux APFS FUSE driver
         "https://github.com/sgan81/apfs-fuse",
+        // Source: Apple File System Reference — nx_block_size may be a multiple
+        // of the device block size
+        "https://developer.apple.com/support/downloads/Apple-File-System-Reference.pdf",
+        // Source: mac4n6 — 512-byte vs 4k-block Mac disk images
+        "https://www.mac4n6.com/blog/2017/11/26/mount-all-the-things-mounting-apfs-and-4k-disk-images-on-macos-1013",
         // Source: https://az4n6.blogspot.com/2016/09/mac-live-imaging-functionality-versus.html
         // — live imaging FileVault2 via dd + /dev/rdisk; speed comparison dd vs FTK Imager CLI
         "https://az4n6.blogspot.com/2016/09/mac-live-imaging-functionality-versus.html",
@@ -3639,6 +3660,22 @@ pub(crate) static MACOS_APPLIST_DAT: ArtifactDescriptor = ArtifactDescriptor {
 ///   parses /private/var/db/dhcpclient/leases/ plists extracting IPAddress,
 ///   LeaseLength, LeaseStartDate, RouterIPAddress, RouterHardwareAddress,
 ///   SSID and raw PacketData (code-read).
+/// - <https://github.com/apple-oss-distributions/bootp/blob/bootp-534.120.2/IPConfiguration.bproj/DHCPLease.c>
+///   — `DHCPCLIENT_LEASE_FILE_FMT` is `DHCPCLIENT_LEASES_DIR "/%s.plist"`
+///   (interface name only; also so at bootp-413.80.1); keys LeaseStartDate,
+///   RouterHardwareAddress, SSID and NetworkID (Wi-Fi only), ClientIdentifier;
+///   `DHCPLeaseListWrite` saves "the last (current) lease" and unlinks the
+///   file when `DHCPLeaseListRemoveStaleLeases` has dropped every lease
+///   (`current_time >= lease_start + lease_length`). The leases directory
+///   is referenced nowhere else in that tree, so nothing removes files in the
+///   older naming scheme (code-read).
+/// - <https://github.com/apple-oss-distributions/bootp/blob/bootp-359.50.1/IPConfiguration.bproj/DHCPLease.c>
+///   — `DHCPCLIENT_LEASE_FILE_FMT` is `DHCPCLIENT_LEASES_DIR "/%s-%s"`:
+///   interface name and client identifier, one file per pair (code-read).
+///
+/// Observed on one macOS Big Sur 11.7 image: both formats for one interface,
+/// the old-format file orphaned across the OS upgrade and holding a
+/// pre-upgrade lease.
 pub(crate) static MACOS_DHCP_LEASES: ArtifactDescriptor = ArtifactDescriptor {
     id: "macos_dhcp_leases",
     name: "DHCP Client Lease Plists",
@@ -3650,12 +3687,18 @@ pub(crate) static MACOS_DHCP_LEASES: ArtifactDescriptor = ArtifactDescriptor {
     scope: DataScope::System,
     os_scope: OsScope::MacOS,
     decoder: Decoder::Identity,
-    meaning: "Per-interface plists recording the machine's most recent DHCP lease: \
-        assigned IP address, lease start time and length, gateway IP and MAC, the SSID \
-        for Wi-Fi interfaces, and the raw DHCP packet. Places the machine on a named \
-        network with a specific address at a specific time — the local half of a \
-        network-correlation with router/DHCP-server logs, and corroboration for Wi-Fi \
-        join history. Filenames encode the interface (and often the interface MAC).",
+    meaning: "Plists written by IPConfiguration recording a DHCP lease: assigned IP address, \
+        lease start time (LeaseStartDate) and length, gateway IP and MAC \
+        (RouterHardwareAddress), the SSID and NetworkID for Wi-Fi interfaces, the \
+        ClientIdentifier, and the raw DHCP packet. Places the machine on a named network with \
+        a specific address at a specific time — the local half of a network-correlation with \
+        router/DHCP-server logs, and corroboration for Wi-Fi join history. Apple's bootp \
+        source names the file two ways: `<ifname>.plist` (bootp-413.80.1 and later) and \
+        `<ifname>-<client-id>` (bootp-359.50.1 and earlier, e.g. en1-1,<client MAC>). Each \
+        file holds one lease, the last one written for it, and is deleted when that lease \
+        has expired at the next write. The newer code never touches old-format files, so a \
+        Mac upgraded across the change can hold both for one interface, the old one orphaned \
+        with the last lease from before the upgrade.",
     mitre_techniques: &["T1016"],
     fields: &[
         FieldSchema {
@@ -3689,14 +3732,19 @@ pub(crate) static MACOS_DHCP_LEASES: ArtifactDescriptor = ArtifactDescriptor {
             is_uid_component: true,
         },
     ],
-    retention: Some("One current lease per interface; overwritten on renewal"),
+    retention: Some("One lease per file, replaced whenever IPConfiguration saves a lease and deleted once expired; an orphaned old-format file is left untouched"),
     triage_priority: TriagePriority::Medium,
     related_artifacts: &["macos_wifi_plist", "macos_wifi_intelligence"],
-    sources: &["https://github.com/ydkhatri/mac_apt/blob/master/plugins/networking.py"],
+    sources: &[
+        "https://github.com/ydkhatri/mac_apt/blob/master/plugins/networking.py",
+        "https://github.com/apple-oss-distributions/bootp/blob/bootp-534.120.2/IPConfiguration.bproj/DHCPLease.c",
+        "https://github.com/apple-oss-distributions/bootp/blob/bootp-359.50.1/IPConfiguration.bproj/DHCPLease.c",
+    ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
     evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
     evidence_caveats: &[
-        "Holds only the most recent lease per interface — historical leases are overwritten",
+        "Each file holds only the last lease written to it, so earlier leases on the same interface are gone; but an old-format `<ifname>-<client-id>` file can survive an OS upgrade holding a lease from before the upgrade (observed on one Big Sur 11.7 image). List the whole directory, and date the old file from its LeaseStartDate, not from the OS in use",
+        "A file is deleted once its lease has expired at the next write, so a missing file does not mean the interface never held a lease",
         "Static-IP configurations leave no lease plist",
     ],
     volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
@@ -4901,8 +4949,13 @@ pub(crate) static MACOS_DSLOCAL_USERS: ArtifactDescriptor = ArtifactDescriptor {
 
 // ── AirDrop / sharingd activity ──────────────────────────────────────────
 //
-// Curated for the examination-profile gap: AirDrop leaves no dedicated
-// persistent transfer database on macOS — its history is in the unified log.
+// Curated for the examination-profile gap. The unified log holds the
+// transfer detail; the persistent per-file record of a RECEIVED AirDrop is
+// the row sharingd leaves in QuarantineEventsV2 (macos_quarantine_events).
+// Source: https://kieczkowska.wordpress.com/2020/06/29/airdrop-forensics-2/
+// — LSQuarantineAgentName is sharingd for an AirDropped file and
+// LSQuarantineSenderName names the sending device; persistent rows of that
+// shape observed on one macOS Big Sur 11.7 image.
 
 pub(crate) static MACOS_AIRDROP_SHARINGD: ArtifactDescriptor = ArtifactDescriptor {
     id: "macos_airdrop_sharingd",
@@ -4915,16 +4968,19 @@ pub(crate) static MACOS_AIRDROP_SHARINGD: ArtifactDescriptor = ArtifactDescripto
     scope: DataScope::System,
     os_scope: OsScope::MacOS,
     decoder: Decoder::Identity,
-    meaning: "AirDrop transfer history on macOS is not written to any dedicated persistent \
-        database — it survives only in the unified log (/var/db/diagnostics/), attributed to the \
-        `sharingd` process, alongside the wirelessproxd, bluetoothd and AWDL (Apple Wireless Direct \
+    meaning: "AirDrop transfer detail on macOS is in the unified log (/var/db/diagnostics/), \
+        attributed to the `sharingd` process, alongside the wirelessproxd, bluetoothd and AWDL (Apple Wireless Direct \
         Link) activity AirDrop rides on. The log records peer discovery, connections to a named \
         peer device / AirDrop ID, and file send/receive; query it with `log show --info --predicate \
         'process == \"sharingd\"'` (the --info/--debug levels are usually needed on macOS). The \
         per-user ~/Library/Preferences/com.apple.sharingd.plist holds the current AirDrop ID and \
         sharing configuration, but the AirDrop ID rotates and can be blank after inactivity, so it \
-        is state, not history. Provenance of a received file is additionally recorded in the \
-        com.apple.quarantine and kMDItemWhereFroms extended attributes on the saved file.",
+        is state, not history. A received file also leaves a persistent record that outlasts \
+        log rotation: a row in the per-user QuarantineEventsV2 database \
+        (~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2, table \
+        LSQuarantineEvent) with LSQuarantineAgentName = 'sharingd' and LSQuarantineSenderName \
+        naming the sending device (macos_quarantine_events), and the com.apple.quarantine and \
+        kMDItemWhereFroms extended attributes on the saved file.",
     mitre_techniques: &["T1011"],
     fields: &[
         FieldSchema { name: "event_time", value_type: ValueType::Timestamp, description: "Unified-log timestamp of the sharingd event", is_uid_component: true },
@@ -4933,18 +4989,19 @@ pub(crate) static MACOS_AIRDROP_SHARINGD: ArtifactDescriptor = ArtifactDescripto
         FieldSchema { name: "peer_device_name", value_type: ValueType::Text, description: "Advertised name of the peer device in the transfer", is_uid_component: false },
         FieldSchema { name: "event_message", value_type: ValueType::Text, description: "Full unified-log event message", is_uid_component: false },
     ],
-    retention: Some("Unified-log rotation window only (typically days to a few weeks); the sharingd.plist keeps configuration, not transfer history"),
+    retention: Some("Unified-log rotation window (typically days to a few weeks) for the transfer detail; QuarantineEventsV2 rows for received files persist until cleared; the sharingd.plist keeps configuration, not transfer history"),
     triage_priority: TriagePriority::High,
-    related_artifacts: &["macos_unified_log", "macos_quarantine_xattr", "macos_wherefroms_xattr"],
+    related_artifacts: &["macos_unified_log", "macos_quarantine_events", "macos_quarantine_xattr", "macos_wherefroms_xattr"],
     sources: &[
         "https://www.mac4n6.com/blog/2018/12/3/airdrop-analysis-of-the-udp-unsolicited-dick-pic",
         "http://www.mac4n6.com/blog/2020/6/5/analysis-of-apple-unified-logs-quarantine-edition-entry-11-airdropping-some-knowledge",
         "https://www.jamf.com/blog/stop-potential-airdrop-transfer-data-leaks-with-jamf-protect/",
+        "https://kieczkowska.wordpress.com/2020/06/29/airdrop-forensics-2/",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
     evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
     evidence_caveats: &[
-        "No persistent transfer-history store — the record lives only in the unified log and ages out on rotation, so absence never proves a transfer did not happen",
+        "The unified-log detail ages out on rotation; for received files check QuarantineEventsV2 (sharingd rows with LSQuarantineSenderName), which persists. Quarantine marks incoming files, so a file SENT from this Mac appears only in the unified log; absence in either store never proves a transfer did not happen",
         "The --info/--debug log levels needed for detail are not always retained",
         "The AirDrop ID rotates and can be blank; the com.apple.sharingd.plist path given is macOS per-user (iOS uses /private/var/mobile/Library/Preferences/)",
     ],
