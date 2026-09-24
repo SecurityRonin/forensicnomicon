@@ -195,7 +195,7 @@ fn every_correlation_entry_is_verifiable() {
 
 /// The exact number of registered investigative techniques — the single place
 /// the count is written down, mirroring [`EXPECTED_TOOL_BEHAVIOUR_LEN`].
-const EXPECTED_INVESTIGATIVE_TECHNIQUE_LEN: usize = 7;
+const EXPECTED_INVESTIGATIVE_TECHNIQUE_LEN: usize = 15;
 
 #[test]
 fn investigative_len_matches_expected() {
@@ -354,6 +354,101 @@ fn every_investigative_entry_is_verifiable() {
             );
         }
     }
+}
+
+/// The evidence-handling and Windows attribution batch: eight techniques an
+/// examiner needs when the evidence arrives as EWF/L01/AD1 containers and the
+/// question is who used a Windows machine or a removable device.
+#[test]
+fn evidence_handling_and_windows_attribution_techniques_are_present() {
+    let t = |id: &str| {
+        INVESTIGATIVE_TECHNIQUES
+            .iter()
+            .find(|t| t.id == id)
+            .unwrap_or_else(|| panic!("missing investigative technique: {id}"))
+    };
+    let fm = |id: &str| t(id).failure_modes.join(" ");
+
+    let prov = t("acquisition_provenance_from_evidence");
+    assert!(prov
+        .steps
+        .iter()
+        .any(|s| s.action.contains("ewfinfo") && s.action.contains("sector")));
+    assert!(prov.steps.iter().any(|s| s.action.contains(".txt")));
+
+    assert!(fm("evidence_hash_scope").contains("seizure"));
+    assert!(t("evidence_hash_scope")
+        .sources
+        .iter()
+        .any(|s| s.contains("800-86")));
+
+    assert!(fm("logical_export_selection_rule").contains("whitelist"));
+    let scope = t("container_scope_reproducibility_check");
+    assert!(scope
+        .steps
+        .iter()
+        .any(|s| s.action.contains("positive control")));
+    for id in [
+        "sam_user_f_record",
+        "windows_install_date",
+        "wechat_windows_files",
+    ] {
+        assert!(
+            scope.artifacts_used.contains(&id),
+            "scope check must consume {id}"
+        );
+    }
+
+    let wc = t("working_copy_integrity_before_findings");
+    assert!(wc.steps.iter().any(|s| s.action.contains("ewfverify")));
+    assert!(fm("working_copy_integrity_before_findings").contains("padding"));
+
+    let usb = t("usb_exhibit_host_correlation");
+    for id in [
+        "usb_stor_enum",
+        "mountpoints2",
+        "evtx_partition_diagnostic_1006",
+        "emdmgmt_readyboost",
+        "fat_exfat_directory_entry",
+        "macos_usb_mass_storage_log",
+    ] {
+        assert!(
+            usb.artifacts_used.contains(&id),
+            "USB correlation must consume {id}"
+        );
+    }
+    assert!(fm("usb_exhibit_host_correlation").contains("reformat"));
+
+    let os = t("removable_volume_host_os_residue");
+    assert!(os.artifacts_used.contains(&"macos_trash"));
+    assert!(
+        fm("removable_volume_host_os_residue").contains("System Volume Information")
+            && fm("removable_volume_host_os_residue").contains("searched"),
+        "SVI on removable FAT must be recorded as searched and unsourced"
+    );
+
+    let acct = t("windows_deleted_account_reconstruction");
+    for id in [
+        "sam_user_f_record",
+        "profile_list_users",
+        "evtx_security_account_management",
+        "ntfs_secure_sds",
+        "vss_snapshot_analysis",
+    ] {
+        assert!(
+            acct.artifacts_used.contains(&id),
+            "account reconstruction must consume {id}"
+        );
+    }
+    let acct_fm = fm("windows_deleted_account_reconstruction");
+    assert!(
+        acct_fm.contains("1002"),
+        "RID gaps are weak on OEM installs"
+    );
+    assert!(
+        acct_fm.contains("Amcache"),
+        "Amcache evidences programs, not accounts"
+    );
 }
 
 // ── Tool behaviours ──────────────────────────────────────────────────────────
