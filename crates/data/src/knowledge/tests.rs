@@ -11,7 +11,7 @@ use super::*;
 /// The exact number of registered tool behaviours — the single place the
 /// count is written down. Adding an entry updates this constant and nothing
 /// else; every other test asserts presence or invariants, not size.
-const EXPECTED_TOOL_BEHAVIOUR_LEN: usize = 8;
+const EXPECTED_TOOL_BEHAVIOUR_LEN: usize = 16;
 
 #[test]
 fn no_duplicate_ids() {
@@ -507,6 +507,122 @@ fn unsourced_tool_behaviours_announce_themselves_in_the_text() {
             "{}: must record where the search already went",
             b.id
         );
+    }
+}
+
+fn tool_behaviour(id: &str) -> &'static ToolBehaviour {
+    TOOL_BEHAVIOURS
+        .iter()
+        .find(|b| b.id == id)
+        .unwrap_or_else(|| panic!("missing tool behaviour: {id}"))
+}
+
+/// The cross-platform examination-tool batch: SQLite readers, PDF tooling,
+/// OpenBSM's praudit, ZIP member-name decoding and RIR whois — each a tool
+/// whose output an examiner reads as the evidence when it is not.
+#[test]
+fn cross_platform_tool_batch_is_present() {
+    for id in [
+        "sqlite_immutable_uri_ignores_wal",
+        "sqlite_main_file_only_copy_drops_wal",
+        "sqlite_open_missing_path_creates_empty_db",
+        "qpdf_show_encryption_blank_user_password",
+        "poppler_pdftotext_encrypted_pdf_empty_stdout",
+        "praudit_resolves_ids_on_analysis_host",
+        "zip_legacy_codepage_member_names_misdecoded",
+        "apnic_whois_first_country_is_not_the_asn_holder",
+    ] {
+        tool_behaviour(id);
+    }
+}
+
+/// `immutable=1` was once recorded as THE safe way to read an evidence
+/// database. It is not: it skips the WAL, so committed-but-uncheckpointed rows
+/// vanish. The corrected rule must be present, graded on the SQLite source
+/// that proves it, and must hand the examiner the read that works.
+#[test]
+fn sqlite_immutable_is_recorded_as_lossy_not_safe() {
+    let b = tool_behaviour("sqlite_immutable_uri_ignores_wal");
+    assert_eq!(b.kind, ToolBehaviourKind::SilentlyIncomplete);
+    assert!(b.evidence_tier >= EvidenceTier::SourceOrMultiImpl);
+    assert!(
+        b.sources.iter().any(|s| s.contains("pager.c")),
+        "the WAL skip is in pager.c (immutable -> act_like_temp_file); cite it"
+    );
+    for needle in ["-wal", "-shm", "copy"] {
+        assert!(
+            b.mitigation.contains(needle),
+            "mitigation must name the db + -wal + -shm copy; missing {needle}"
+        );
+    }
+}
+
+/// Copying only the main file loses the same rows by a different route, and
+/// the safe read must never be run against the original: the last connection
+/// to close checkpoints and deletes the WAL.
+#[test]
+fn sqlite_main_file_copy_warns_against_opening_the_original() {
+    let b = tool_behaviour("sqlite_main_file_only_copy_drops_wal");
+    assert_eq!(b.kind, ToolBehaviourKind::SilentlyIncomplete);
+    assert!(b.mitigation.contains("original"));
+    assert!(format!("{} {}", b.detail, b.mitigation).contains("checkpoint"));
+}
+
+/// A mistyped path must not read as an empty or schema-less database.
+#[test]
+fn sqlite_missing_path_entry_names_mode_ro() {
+    let b = tool_behaviour("sqlite_open_missing_path_creates_empty_db");
+    assert!(b.mitigation.contains("mode=ro"));
+    assert!(b.consequence.contains("no such table"));
+}
+
+/// The blank `User password =` line is only safe to read with the line above
+/// it; the entry must name that discriminating line.
+#[test]
+fn qpdf_entry_names_the_discriminating_line() {
+    let b = tool_behaviour("qpdf_show_encryption_blank_user_password");
+    assert_eq!(b.kind, ToolBehaviourKind::OutputHidesDetail);
+    assert!(b.detail.contains("Incorrect password supplied"));
+    assert!(b.mitigation.contains("--requires-password"));
+}
+
+/// An encrypted PDF must not be recordable as "blank" by a pipeline that
+/// reads only stdout.
+#[test]
+fn pdftotext_entry_points_at_exit_status() {
+    let b = tool_behaviour("poppler_pdftotext_encrypted_pdf_empty_stdout");
+    assert!(b.detail.contains("Incorrect password"));
+    assert!(b.mitigation.contains("exit"));
+}
+
+/// praudit renders numeric ids through the ANALYSIS host's account database;
+/// the entry must be wired to the audit-trail descriptor and name `-n`.
+#[test]
+fn praudit_entry_is_wired_to_the_audit_trail() {
+    let b = tool_behaviour("praudit_resolves_ids_on_analysis_host");
+    assert_eq!(b.kind, ToolBehaviourKind::RequiresFlag);
+    assert_eq!(b.artifact_id, Some("macos_openbsm_audit"));
+    assert!(
+        crate::catalog::CATALOG
+            .by_id("macos_openbsm_audit")
+            .is_some(),
+        "artifact_id must resolve"
+    );
+    assert!(b.mitigation.contains("-n"));
+    assert!(b.mitigation.contains("TZ=UTC"));
+}
+
+/// Every artifact_id a tool behaviour names must resolve in the catalog.
+#[test]
+fn every_tool_behaviour_artifact_id_resolves() {
+    for b in TOOL_BEHAVIOURS {
+        if let Some(a) = b.artifact_id {
+            assert!(
+                crate::catalog::CATALOG.by_id(a).is_some(),
+                "{}: artifact_id not in catalog: {a}",
+                b.id
+            );
+        }
     }
 }
 
