@@ -1602,12 +1602,12 @@ fn macos_tool_behaviour_batch_is_present_and_shaped() {
         tsk.detail.contains("not tried") || tsk.consequence.contains("not tried"),
         "the pool options were never tried on the observed image: hedge"
     );
-    for id in [
-        "hdiutil_truncated_raw_hides_apfs_container",
-        "log_show_zero_events_on_copied_archive",
-    ] {
-        let b = by_id(id);
-        assert_eq!(b.evidence_tier, EvidenceTier::SearchedNotFound, "{id}");
-        assert!(b.detail.contains("Searched"), "{id}: name where searched");
-    }
+    let trunc = by_id("hdiutil_truncated_raw_hides_apfs_container");
+    assert_eq!(trunc.evidence_tier, EvidenceTier::SearchedNotFound);
+    assert!(trunc.detail.contains("Searched"), "name where searched");
+    let log = by_id("log_show_zero_events_on_copied_archive");
+    assert!(
+        log.detail.contains("Info.plist") && log.detail.contains("OSArchiveVersion"),
+        "a copied archive lacks the Info.plist that log collect writes (mac4n6, padawan-4n6)"
+    );
 }
