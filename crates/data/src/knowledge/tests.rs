@@ -11,7 +11,7 @@ use super::*;
 /// The exact number of registered tool behaviours — the single place the
 /// count is written down. Adding an entry updates this constant and nothing
 /// else; every other test asserts presence or invariants, not size.
-const EXPECTED_TOOL_BEHAVIOUR_LEN: usize = 11;
+const EXPECTED_TOOL_BEHAVIOUR_LEN: usize = 12;
 
 #[test]
 fn no_duplicate_ids() {
@@ -652,6 +652,23 @@ fn evidence_container_tool_batch_is_present() {
     assert!(
         ftk.consequence.contains("seizure"),
         "a match proves image = itself since acquisition, not = source at seizure"
+    );
+}
+
+/// Sleuth Kit renders a deleted FAT short name's lost first byte as '_'
+/// (fatxxfs_dent.c), so a name search for the original misses it.
+#[test]
+fn tsk_fat_deleted_first_char_is_recorded() {
+    let b = TOOL_BEHAVIOURS
+        .iter()
+        .find(|b| b.id == "tsk_fls_fat_deleted_name_first_char")
+        .expect("tsk_fls_fat_deleted_name_first_char missing");
+    assert_eq!(b.kind, ToolBehaviourKind::OutputHidesDetail);
+    assert!(b.detail.contains("0xE5") && b.detail.contains("'_'"));
+    assert!(b.sources.iter().any(|s| s.contains("fatxxfs_dent.c")));
+    assert!(
+        b.mitigation.contains("long"),
+        "surviving long-name entries keep the full name"
     );
 }
 

@@ -14615,3 +14615,36 @@ mod tests_windows_user_attribution_descriptors {
         }
     }
 }
+
+// ── Windows attribution caveats on existing descriptors ────────────────────
+#[cfg(test)]
+mod tests_windows_attribution_caveats {
+    use super::*;
+
+    #[test]
+    fn install_date_scopes_what_install_time_artefacts_can_reach() {
+        let d = CATALOG.by_id("windows_install_date").unwrap();
+        let body = d.evidence_caveats.join(" ");
+        assert!(body.contains("cannot reach"));
+        assert!(body.contains("older than"));
+    }
+
+    #[test]
+    fn recycle_bin_sid_folder_is_an_account_not_a_person() {
+        let d = CATALOG.by_id("recycle_bin").unwrap();
+        let body = d.evidence_caveats.join(" ");
+        assert!(body.contains("SAM"), "map the SID on the native SAM first");
+        assert!(body.contains("not which person"));
+        assert!(body.contains("Zone.Identifier"));
+        assert!(d.related_artifacts.contains(&"zone_identifier"));
+    }
+
+    #[test]
+    fn prefetch_does_not_identify_the_user() {
+        let d = CATALOG.by_id("prefetch_file").unwrap();
+        assert!(d
+            .evidence_caveats
+            .iter()
+            .any(|c| c.contains("does not identify") && c.contains("user")));
+    }
+}
