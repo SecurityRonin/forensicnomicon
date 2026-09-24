@@ -308,6 +308,39 @@ parameters:
         );
     }
 
+    const SAMPLE_MACOS_YAML: &str = r#"
+name: MacOS.System.TimeMachine
+description: Time Machine settings.
+parameters:
+  - name: TimeMachinePlist
+    default: /Library/Preferences/com.apple.TimeMachine.plist
+"#;
+
+    const SAMPLE_LINUX_YAML: &str = r#"
+name: Linux.Forensics.Journal
+description: systemd journal.
+parameters:
+  - name: JournalGlob
+    default: /var/log/journal/*/*.journal
+"#;
+
+    /// Velociraptor names every artifact with its platform as the first
+    /// dotted component; a macOS or Linux path must not be scoped to Windows.
+    #[test]
+    fn os_scope_follows_the_artifact_name_platform_prefix() {
+        let mac = parse_velociraptor_yaml(SAMPLE_MACOS_YAML);
+        assert!(!mac.is_empty());
+        assert!(mac.iter().all(|r| r.os_scope == "MacOS"), "{mac:?}");
+
+        let linux = parse_velociraptor_yaml(SAMPLE_LINUX_YAML);
+        assert!(!linux.is_empty());
+        assert!(linux.iter().all(|r| r.os_scope == "Linux"), "{linux:?}");
+
+        let win = parse_velociraptor_yaml(SAMPLE_FILE_YAML);
+        assert!(!win.is_empty());
+        assert!(win.iter().all(|r| r.os_scope == "Win7Plus"), "{win:?}");
+    }
+
     #[test]
     fn non_string_defaults_are_skipped() {
         // MaxCount = "1000" — not a path, should be skipped

@@ -1478,3 +1478,33 @@ fn windows_user_attribution_profile_is_present_and_caveated() {
         assert_eq!(m.category, cat, "{id} is in the wrong category");
     }
 }
+
+/// The macos_full loginwindow member's rationale (last logged-in user,
+/// auto-login) describes the SYSTEM file /Library/Preferences/
+/// com.apple.loginwindow.plist, so the member must point at that descriptor,
+/// not the per-user ~/Library/Preferences/loginwindow.plist.
+#[test]
+fn macos_full_loginwindow_member_points_at_the_system_plist() {
+    let full = EXAMINATION_PROFILES
+        .iter()
+        .find(|p| p.id == "macos_full")
+        .expect("macos_full missing");
+    assert!(
+        !full
+            .members
+            .iter()
+            .any(|m| m.artifact_id == "fa_file_preferences_loginwindow_plist"),
+        "the per-user loginwindow.plist does not hold lastUserName/autoLoginUser"
+    );
+    let m = full
+        .members
+        .iter()
+        .find(|m| m.artifact_id == "fa_file_preferences_com_apple_loginwindow_plist")
+        .expect("macos_full must reference the system loginwindow plist");
+    assert!(m.rationale.contains("lastUserName") && m.rationale.contains("autoLoginUser"));
+    let d = crate::catalog::CATALOG.by_id(m.artifact_id).unwrap();
+    assert_eq!(
+        d.file_path,
+        Some("/Library/Preferences/com.apple.loginwindow.plist")
+    );
+}

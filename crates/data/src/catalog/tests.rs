@@ -14752,3 +14752,39 @@ mod tests_macos_contradictions {
         );
     }
 }
+
+// ── Generated Velociraptor scope ─────────────────────────────────────────
+// The Velociraptor ingest source hard-coded OsScope::Win7Plus for every
+// record, so MacOS.* and Linux.* artifacts (e.g. MacOS.System.TimeMachine at
+// /Library/Preferences/com.apple.TimeMachine.plist) were scoped to Windows.
+#[cfg(test)]
+mod tests_velociraptor_generated_scope {
+    use super::*;
+
+    #[test]
+    fn timemachine_plist_is_macos_scoped() {
+        let d = CATALOG
+            .by_id("velociraptor_file_preferences_com_apple_timemachine_plist")
+            .expect("velociraptor TimeMachine descriptor missing");
+        assert_eq!(d.os_scope, OsScope::MacOS);
+    }
+
+    #[test]
+    fn every_velociraptor_entry_scope_matches_its_name_prefix() {
+        let mut checked = 0;
+        for d in CATALOG
+            .list()
+            .iter()
+            .filter(|d| d.id.starts_with("velociraptor_"))
+        {
+            if d.name.starts_with("MacOS.") {
+                assert_eq!(d.os_scope, OsScope::MacOS, "{}", d.id);
+                checked += 1;
+            } else if d.name.starts_with("Linux.") {
+                assert_eq!(d.os_scope, OsScope::Linux, "{}", d.id);
+                checked += 1;
+            }
+        }
+        assert!(checked > 0, "selector matched no MacOS./Linux. entries");
+    }
+}
