@@ -15,7 +15,7 @@ use crate::catalog::*;
 /// `catalog_integrity::catalog_len_matches_expected_catalog_len` asserts against
 /// it; every `catalog_*` test belonging to a batch asserts that batch's
 /// artifacts are *present*, which is the invariant those tests are named for.
-const EXPECTED_CATALOG_LEN: usize = 6885;
+const EXPECTED_CATALOG_LEN: usize = 6886;
 
 #[cfg(test)]
 mod catalog_integrity {
@@ -14786,5 +14786,60 @@ mod tests_velociraptor_generated_scope {
             }
         }
         assert!(checked > 0, "selector matched no MacOS./Linux. entries");
+    }
+}
+
+// ── Wi-Fi SSIDs in the unified log come from userland, not the driver ──────
+// The Broadcom driver's ARPT: entries carry BSSIDs only. SSIDs are written by
+// configd's IPConfiguration ("<if>: SSID <name> BSSID <bssid> Security ...",
+// the format string in Apple's bootp ipconfigd.c), configd's captive
+// subsystem, and sharingd/rapportd (com.apple.CoreUtils "SysMon: WiFi join
+// started"). The IPConfiguration line pairs SSID with BSSID.
+#[cfg(test)]
+mod tests_macos_wifi_ssid_unified_log {
+    use super::*;
+
+    #[test]
+    fn driver_log_no_longer_attributes_ssids_to_the_driver() {
+        let d = CATALOG.by_id("macos_wifi_driver_log").unwrap();
+        assert!(
+            !d.meaning.contains("other driver entries carry the SSID"),
+            "ARPT driver entries carry BSSIDs only"
+        );
+        assert!(
+            !d.fields.iter().any(|f| f.name == "ssid"),
+            "the driver entries have no SSID field"
+        );
+        assert!(d.related_artifacts.contains(&"macos_wifi_ssid_unified_log"));
+    }
+
+    #[test]
+    fn ssid_descriptor_names_the_userland_sources() {
+        let d = CATALOG
+            .by_id("macos_wifi_ssid_unified_log")
+            .expect("macos_wifi_ssid_unified_log missing");
+        assert_eq!(d.file_path, Some("/var/db/diagnostics/"));
+        for s in [
+            "/usr/libexec/configd",
+            "com.apple.IPConfiguration",
+            "com.apple.captive",
+            "/usr/libexec/sharingd",
+            "/usr/libexec/rapportd",
+            "com.apple.CoreUtils",
+            "SSID %@ BSSID",
+        ] {
+            assert!(d.meaning.contains(s), "meaning must name {s}");
+        }
+        assert!(d
+            .sources
+            .iter()
+            .any(|s| s.contains("apple-oss-distributions/bootp") && s.contains("ipconfigd.c")));
+        assert!(
+            d.evidence_caveats
+                .iter()
+                .any(|c| c.contains("hide_wifi_string") && c.contains("494.140.4")),
+            "must record that later bootp redacts SSID/BSSID by default"
+        );
+        assert!(d.related_artifacts.contains(&"macos_wifi_driver_log"));
     }
 }

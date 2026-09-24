@@ -1508,3 +1508,33 @@ fn macos_full_loginwindow_member_points_at_the_system_plist() {
         Some("/Library/Preferences/com.apple.loginwindow.plist")
     );
 }
+
+/// SSIDs come from userland unified-log entries (configd IPConfiguration and
+/// others), not the ARPT: driver lines, which carry BSSIDs only.
+#[test]
+fn wifi_presence_timeline_takes_ssids_from_userland_entries() {
+    let t = INVESTIGATIVE_TECHNIQUES
+        .iter()
+        .find(|t| t.id == "wifi_presence_timeline")
+        .expect("wifi_presence_timeline missing");
+    assert!(t.artifacts_used.contains(&"macos_wifi_ssid_unified_log"));
+    assert!(
+        !t.steps
+            .iter()
+            .any(|s| s.action.contains("driver entries naming the SSID")),
+        "driver entries carry BSSIDs only"
+    );
+    assert!(t
+        .steps
+        .iter()
+        .any(|s| s.artifact_id == Some("macos_wifi_ssid_unified_log")
+            && s.action.contains("com.apple.IPConfiguration")));
+    let full = EXAMINATION_PROFILES
+        .iter()
+        .find(|p| p.id == "macos_full")
+        .expect("macos_full missing");
+    assert!(full
+        .members
+        .iter()
+        .any(|m| m.artifact_id == "macos_wifi_ssid_unified_log"));
+}
