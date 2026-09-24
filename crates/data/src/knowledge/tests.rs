@@ -11,7 +11,7 @@ use super::*;
 /// The exact number of registered tool behaviours — the single place the
 /// count is written down. Adding an entry updates this constant and nothing
 /// else; every other test asserts presence or invariants, not size.
-const EXPECTED_TOOL_BEHAVIOUR_LEN: usize = 20;
+const EXPECTED_TOOL_BEHAVIOUR_LEN: usize = 26;
 
 #[test]
 fn no_duplicate_ids() {
@@ -1537,4 +1537,77 @@ fn wifi_presence_timeline_takes_ssids_from_userland_entries() {
         .members
         .iter()
         .any(|m| m.artifact_id == "macos_wifi_ssid_unified_log"));
+}
+
+/// macOS image-handling and log/Spotlight tool behaviours: each one where a
+/// wrong conclusion (no APFS container, no log events, a spurious hit, a
+/// missing Spotlight record, an unreadable volume) follows from the tool's
+/// default behaviour.
+#[test]
+fn macos_tool_behaviour_batch_is_present_and_shaped() {
+    let by_id = |id: &str| {
+        TOOL_BEHAVIOURS
+            .iter()
+            .find(|b| b.id == id)
+            .unwrap_or_else(|| panic!("missing tool behaviour: {id}"))
+    };
+    for (id, kind, artifact) in [
+        (
+            "hdiutil_headerless_raw_requires_craw_image_class",
+            ToolBehaviourKind::RequiresFlag,
+            "apfs_container",
+        ),
+        (
+            "hdiutil_truncated_raw_hides_apfs_container",
+            ToolBehaviourKind::SilentlyIncomplete,
+            "apfs_container",
+        ),
+        (
+            "log_show_zero_events_on_copied_archive",
+            ToolBehaviourKind::SilentlyIncomplete,
+            "macos_unified_log",
+        ),
+        (
+            "unifiedlog_iterator_evidence_field_false_hits",
+            ToolBehaviourKind::FalsePositiveProne,
+            "macos_unified_log",
+        ),
+        (
+            "spotlight_parser_one_store_per_run",
+            ToolBehaviourKind::SilentlyIncomplete,
+            "macos_spotlight_store",
+        ),
+        (
+            "tsk_apfs_plain_offset_without_pool_options",
+            ToolBehaviourKind::RequiresFlag,
+            "apfs_container",
+        ),
+    ] {
+        let b = by_id(id);
+        assert_eq!(b.kind, kind, "{id}");
+        assert_eq!(b.artifact_id, Some(artifact), "{id}");
+    }
+    assert!(by_id("hdiutil_headerless_raw_requires_craw_image_class")
+        .mitigation
+        .contains("diskimage-class=CRawDiskImage"));
+    assert!(by_id("unifiedlog_iterator_evidence_field_false_hits")
+        .detail
+        .contains("evidence"));
+    assert!(by_id("spotlight_parser_one_store_per_run")
+        .detail
+        .contains(".store.db"));
+    let tsk = by_id("tsk_apfs_plain_offset_without_pool_options");
+    assert!(tsk.mitigation.contains("-B"));
+    assert!(
+        tsk.detail.contains("not tried") || tsk.consequence.contains("not tried"),
+        "the pool options were never tried on the observed image: hedge"
+    );
+    for id in [
+        "hdiutil_truncated_raw_hides_apfs_container",
+        "log_show_zero_events_on_copied_archive",
+    ] {
+        let b = by_id(id);
+        assert_eq!(b.evidence_tier, EvidenceTier::SearchedNotFound, "{id}");
+        assert!(b.detail.contains("Searched"), "{id}: name where searched");
+    }
 }
