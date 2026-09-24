@@ -14843,3 +14843,74 @@ mod tests_macos_wifi_ssid_unified_log {
         assert!(d.related_artifacts.contains(&"macos_wifi_driver_log"));
     }
 }
+
+// ── macOS OS scope: MacOS12Plus on artifacts that predate Monterey ────────
+// knowledgeC.db, the SFL2 recent-items and recent-servers lists, and the
+// system TCC.db were scoped "macOS 12 Monterey and later", but each is
+// documented on earlier releases (mac4n6 2017/2018, Jamf 2018) and three were
+// present on one Big Sur 11.7 image. Screen Time was also mis-pathed: its
+// store lives in the per-user DARWIN_USER_DIR (mac_apt screentime.py), and
+// Screen Time reached the Mac in Catalina (Apple Newsroom).
+#[cfg(test)]
+mod tests_macos_os_scope_predates_monterey {
+    use super::*;
+
+    const DEAD: &[&str] = &[
+        "mac4n6.com/blog/2016/6/21/introduction-to-sfl-and-sfl2-files",
+        "mac4n6.com/blog/2019/6/20/screen-time-in-ios-12-macos-mojave",
+        "knowledgecdb-database-on-macos-ios-to-determine",
+    ];
+
+    fn check(id: &str, release: &str) {
+        let d = CATALOG.by_id(id).unwrap_or_else(|| panic!("{id} missing"));
+        assert_eq!(d.os_scope, OsScope::MacOS, "{id}: predates Monterey");
+        assert!(
+            d.evidence_caveats.iter().any(|c| c.contains(release)),
+            "{id}: a caveat must name the earliest release confirmed ({release})"
+        );
+        for s in d.sources {
+            assert!(
+                !DEAD.iter().any(|x| s.contains(x)),
+                "{id}: source returns 404: {s}"
+            );
+        }
+    }
+
+    #[test]
+    fn knowledgec_is_not_monterey_only() {
+        check("macos_knowledgec", "10.13");
+    }
+
+    #[test]
+    fn sfl2_recent_items_is_not_monterey_only() {
+        check("macos_sfl2_recent_items", "10.13");
+        let d = CATALOG.by_id("macos_sfl2_recent_items").unwrap();
+        assert!(!d.meaning.contains("10.12+"), "sfl2 is new with 10.13");
+    }
+
+    #[test]
+    fn sfl2_recent_servers_is_not_monterey_only() {
+        check("macos_sfl2_recent_servers", "10.13");
+    }
+
+    #[test]
+    fn tcc_system_db_is_not_monterey_only() {
+        check("macos_tcc_system_db", "High Sierra");
+    }
+
+    #[test]
+    fn screen_time_db_path_and_scope() {
+        check("macos_screen_time_db", "10.15");
+        let d = CATALOG.by_id("macos_screen_time_db").unwrap();
+        let p = d.file_path.unwrap_or("");
+        assert!(p.starts_with("/private/var/folders/"), "{p}");
+        assert!(
+            p.ends_with("/0/com.apple.ScreenTimeAgent/Store/RMAdminStore-Local.sqlite"),
+            "{p}"
+        );
+        assert!(d
+            .sources
+            .iter()
+            .any(|s| s.contains("mac_apt") && s.contains("screentime.py")));
+    }
+}
