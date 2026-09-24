@@ -14,6 +14,7 @@ mod linux_ext;
 mod macos_ext;
 mod vehicle_ext;
 mod windows_ad_ext;
+mod windows_attribution_ext;
 mod windows_evtx_ext;
 mod windows_evtx_format;
 mod windows_files_ext;
@@ -1515,7 +1516,7 @@ pub static SAM_USERS: ArtifactDescriptor = ArtifactDescriptor {
     fields: SAM_FIELDS,
     retention: None,
     triage_priority: TriagePriority::Critical,
-    related_artifacts: &["lsa_secrets", "dcc2_cache"],
+    related_artifacts: &["lsa_secrets", "dcc2_cache", "sam_user_f_record", "profile_list_users"],
     sources: &[
         "https://www.sans.org/blog/windows-credential-storage-for-penetration-testers/",
         "https://windowsir.blogspot.com/2010/11/recovering-passwords.html",
@@ -1524,8 +1525,9 @@ pub static SAM_USERS: ArtifactDescriptor = ArtifactDescriptor {
     evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
     evidence_tier: None,
     evidence_caveats: &[
-        "Contains local account NTLM hashes; requires SYSTEM privilege to read",
+        "Contains local account NTLM hashes; on a live system reading it requires SYSTEM privilege, while an offline hive from an image needs none",
         "Must be used with SYSTEM hive to decrypt",
+        "Lists accounts, not people: several people sharing one account appear as one entry; for last logon, logon count, flags and RID semantics (including why a first owner at RID 1002 is ordinary on OEM installs) see sam_user_f_record",
     ],
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "SAM registry hive; persists until account deleted",
@@ -3269,6 +3271,7 @@ pub static USNJRNL: ArtifactDescriptor = ArtifactDescriptor {
         "Journal is a rolling window (~32 MB default); older entries are overwritten",
         "Journal can be cleared by an attacker with sufficient privileges",
         "$J alternate data stream requires raw NTFS access — not visible via Win32 APIs",
+        "A record carries the change Reason and the file's SecurityId (its security descriptor), not the user or process that made the change; attribute the change from other sources",
     ],
     volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
     volatility_rationale: "$UsnJrnl:$J is a rolling window (~32 MB); oldest records are overwritten as the journal grows",
@@ -9243,6 +9246,7 @@ pub static MOUNTPOINTS2: ArtifactDescriptor = ArtifactDescriptor {
         "The per-SUBKEY LastWrite dates the mount, not the parent key's LastWrite; read each resource subkey's own time",
         "Entries are retained after a device is removed or a mapped drive is disconnected, so presence does not imply the resource is still mounted",
         "LastWrite-as-last-mount is the accepted convention but carries no explicit event record — corroborate with USBSTOR/MountedDevices/setupapi.dev.log for the connection timeline",
+        "Attributes to the Windows profile (SID) under whose NTUSER.DAT the subkey sits, not a person: several people sharing one account produce one SID",
     ],
     volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
     volatility_rationale: "Subkeys are written when the user mounts a resource; persist in NTUSER.DAT after disconnection",
@@ -18530,6 +18534,12 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     macos_ext::MACOS_SMB_SERVER_IDENTITY,
     macos_ext::MACOS_CONNECT_TO_SERVER_HISTORY,
     windows_files_ext::ONEDRIVE_ODL_LOGS,
+    // ── Windows user attribution (SAM F record, WeChat, Partition/Diagnostic
+    //    1006, FAT/exFAT directory entries) ──
+    windows_attribution_ext::SAM_USER_F_RECORD,
+    windows_attribution_ext::WECHAT_WINDOWS_FILES,
+    windows_attribution_ext::EVTX_PARTITION_DIAGNOSTIC_1006,
+    windows_attribution_ext::FAT_EXFAT_DIRECTORY_ENTRY,
     // ── Android ─────────────────────────────────────────────────────────────
     android_ext::SAMSUNG_GALLERY3D_TRASH,
     android_ext::SAMSUNG_GALLERY3D_LOG,
