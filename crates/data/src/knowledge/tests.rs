@@ -792,7 +792,7 @@ fn tsk_fat_deleted_first_char_is_recorded() {
 
 /// The exact number of registered examination profiles — the single place the
 /// count is written down, mirroring [`EXPECTED_TOOL_BEHAVIOUR_LEN`].
-const EXPECTED_EXAMINATION_PROFILE_LEN: usize = 4;
+const EXPECTED_EXAMINATION_PROFILE_LEN: usize = 5;
 
 #[test]
 fn examination_len_matches_expected() {
@@ -1610,4 +1610,84 @@ fn macos_tool_behaviour_batch_is_present_and_shaped() {
         log.detail.contains("Info.plist") && log.detail.contains("OSArchiveVersion"),
         "a copied archive lacks the Info.plist that log collect writes (mac4n6, padawan-4n6)"
     );
+}
+
+/// The macOS user-attribution profile: the macOS counterpart of
+/// windows_user_attribution. One account is not one person, so every member
+/// must say in its own rationale that the artefact attributes to an account,
+/// device or the machine, not a person.
+#[test]
+fn macos_user_attribution_profile_is_present_and_caveated() {
+    let p = EXAMINATION_PROFILES
+        .iter()
+        .find(|p| p.id == "macos_user_attribution")
+        .expect("macos_user_attribution profile missing");
+    assert_eq!(p.platform, Platform::MacOS);
+    assert_eq!(p.kind, ProfileKind::Focused);
+    assert_eq!(p.focus, ExaminationFocus::UserAttribution);
+    assert!(p.description.contains("One account is not one person"));
+    for m in p.members {
+        assert!(
+            m.rationale.contains("not a person") || m.rationale.contains("not the person"),
+            "{}: rationale must state the artefact does not identify a person",
+            m.artifact_id
+        );
+    }
+    for (id, cat) in [
+        ("macos_dslocal_users", InvestigativeCategory::AccountUse),
+        ("macos_openbsm_audit", InvestigativeCategory::AccountUse),
+        (
+            "fa_file_preferences_com_apple_loginwindow_plist",
+            InvestigativeCategory::AccountUse,
+        ),
+        ("macos_knowledgec", InvestigativeCategory::ApplicationUse),
+        (
+            "macos_install_history",
+            InvestigativeCategory::ApplicationUse,
+        ),
+        (
+            "macos_sfl2_recent_items",
+            InvestigativeCategory::FileActivity,
+        ),
+        (
+            "macos_wifi_known_networks",
+            InvestigativeCategory::Connections,
+        ),
+        ("macos_sms_db", InvestigativeCategory::Communications),
+        ("macos_safari_history", InvestigativeCategory::WebActivity),
+        (
+            "ooxml_core_properties",
+            InvestigativeCategory::DocumentAuthorship,
+        ),
+    ] {
+        let m = p
+            .members
+            .iter()
+            .find(|m| m.artifact_id == id)
+            .unwrap_or_else(|| panic!("macos_user_attribution must include {id}"));
+        assert_eq!(m.category, cat, "{id} is in the wrong category");
+    }
+}
+
+/// An InstallHistory.plist entry can record an installer being DOWNLOADED,
+/// not an OS being installed; the installed version is SystemVersion.plist's.
+#[test]
+fn install_history_warns_that_an_entry_can_be_a_download() {
+    let d = crate::catalog::CATALOG
+        .by_id("macos_install_history")
+        .expect("macos_install_history missing");
+    let body = d.evidence_caveats.join(" ");
+    assert!(body.contains("download"), "an entry can record a download");
+    assert!(body.contains("SystemVersion.plist"));
+    assert!(d
+        .related_artifacts
+        .contains(&"fa_file_coreservices_systemversion_plist"));
+    assert!(
+        !d.sources.iter().any(|s| s.contains("forensicmike1.com")),
+        "the forensicmike1 URL returns 404"
+    );
+    assert!(d
+        .sources
+        .iter()
+        .any(|s| s.contains("mac_apt") && s.contains("installhistory.py")));
 }
