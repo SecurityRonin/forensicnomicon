@@ -14337,3 +14337,134 @@ mod tests_macos_quarantine_events_airdrop_sender {
         );
     }
 }
+
+// ── Windows contradictions: BAM granularity, Amcache headline, EWF logical ──
+// Three descriptors contradicted their own decoders or sources. BAM said
+// "per-day" over a FILETIME decoder; amcache_app_file headlined "execution"
+// while ANSSI shows InventoryApplicationFile lists files never run; the EWF
+// container named L01 but registered only the EVF signature, so an EWF1 L01
+// ("LVF\x09\x0d\x0a\xff\x00", libewf_segment_file.c:70) matched nothing.
+#[cfg(test)]
+mod tests_windows_contradictions {
+    use super::*;
+
+    #[test]
+    fn bam_caveats_state_filetime_not_per_day() {
+        let d = CATALOG.by_id("bam_user").expect("bam_user missing");
+        let body = d.evidence_caveats.join(" ");
+        assert!(
+            !body.contains("per-day"),
+            "BAM value data is a FILETIME (decoder FiletimeAt); 'per-day' contradicts it"
+        );
+        assert!(body.contains("FILETIME"), "caveat must name the FILETIME");
+        assert!(
+            body.to_lowercase().contains("7 days"),
+            "must record the boot-time pruning of entries older than 7 days"
+        );
+        assert!(
+            body.contains("not a person") || body.contains("not the person"),
+            "the SID is an account context, not a person"
+        );
+    }
+
+    #[test]
+    fn amcache_app_file_headline_is_inventory_not_execution() {
+        let d = CATALOG
+            .by_id("amcache_app_file")
+            .expect("amcache_app_file missing");
+        assert!(
+            !d.meaning.contains("execution evidence"),
+            "InventoryApplicationFile lists files that never ran (ANSSI); headline must not claim execution"
+        );
+        assert!(d.meaning.to_lowercase().contains("inventory"));
+        assert!(d.meaning.contains("not by itself execution"));
+    }
+
+    #[test]
+    fn amcache_app_file_cites_anssi_and_denies_user_attribution() {
+        let d = CATALOG.by_id("amcache_app_file").unwrap();
+        assert!(
+            d.sources
+                .iter()
+                .any(|s| s.contains("cyber.gouv.fr") && s.contains("amcache")),
+            "must cite the ANSSI AmCache analysis"
+        );
+        let body = d.evidence_caveats.join(" ");
+        assert!(
+            body.contains("per-user"),
+            "system-wide hive: must say there is no per-user attribution"
+        );
+        assert!(
+            body.contains("Program Files") && body.contains("Desktop"),
+            "must record the Compatibility Appraiser's scanned folders (ANSSI)"
+        );
+    }
+
+    fn ewf_sigs(id: &str) -> Vec<&'static crate::catalog::ContainerSignature> {
+        all_container_signatures()
+            .iter()
+            .filter(|s| s.container_id == id)
+            .collect()
+    }
+
+    #[test]
+    fn ewf_physical_signatures_cover_ewf1_and_ewf2() {
+        let sigs = ewf_sigs("ewf_image");
+        assert!(sigs
+            .iter()
+            .any(|s| s.header_magic == b"EVF\x09\x0d\x0a\xff\x00"));
+        assert!(
+            sigs.iter()
+                .any(|s| s.header_magic == b"EVF2\x0d\x0a\x81\x00"),
+            "Ex01 signature (libewf ewf2_evf_file_signature) must be registered"
+        );
+    }
+
+    #[test]
+    fn ewf_logical_container_registers_lvf_and_lef2() {
+        let p = container_profile("ewf_logical_evidence")
+            .expect("L01/Lx01 logical-evidence container profile missing");
+        assert!(p.summary.contains("unallocated"));
+        let sigs = ewf_sigs("ewf_logical_evidence");
+        assert!(
+            sigs.iter()
+                .any(|s| s.header_magic == b"LVF\x09\x0d\x0a\xff\x00"),
+            "EWF1 L01 begins LVF\\x09\\x0d\\x0a\\xff\\x00 (libewf_segment_file.c:70)"
+        );
+        assert!(
+            sigs.iter()
+                .any(|s| s.header_magic == b"LEF2\x0d\x0a\x81\x00"),
+            "Lx01 signature (libewf ewf2_lef_file_signature) must be registered"
+        );
+    }
+
+    #[test]
+    fn ewf_hints_and_invariants_name_every_signature_and_rollover() {
+        let p = container_profile("ewf_image").unwrap();
+        let hints = p.parser_hints.join(" ");
+        assert!(hints.contains("LVF"), "variant hint must include EWF1 L01");
+        assert!(
+            hints.contains(".EAA"),
+            "must state the .E99 -> .EAA rollover"
+        );
+        let sig = all_container_signatures()
+            .iter()
+            .find(|s| s.container_id == "ewf_image")
+            .unwrap();
+        assert!(
+            !sig.invariants.join(" ").contains("EVF/EVF2/LEF2"),
+            "the invariant that omitted LVF must be replaced"
+        );
+        assert!(
+            !p.name.contains("L01"),
+            "logical L01/Lx01 now has its own container profile"
+        );
+    }
+
+    #[test]
+    fn ad1_logical_image_profile_states_logical_scope() {
+        let p = container_profile("ad1_logical_image").expect("AD1 container profile missing");
+        assert!(p.summary.contains("Custom Content Image"));
+        assert!(p.summary.contains("geometry"));
+    }
+}
