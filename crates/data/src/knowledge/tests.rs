@@ -11,7 +11,7 @@ use super::*;
 /// The exact number of registered tool behaviours — the single place the
 /// count is written down. Adding an entry updates this constant and nothing
 /// else; every other test asserts presence or invariants, not size.
-const EXPECTED_TOOL_BEHAVIOUR_LEN: usize = 20;
+const EXPECTED_TOOL_BEHAVIOUR_LEN: usize = 26;
 
 #[test]
 fn no_duplicate_ids() {
@@ -792,7 +792,7 @@ fn tsk_fat_deleted_first_char_is_recorded() {
 
 /// The exact number of registered examination profiles — the single place the
 /// count is written down, mirroring [`EXPECTED_TOOL_BEHAVIOUR_LEN`].
-const EXPECTED_EXAMINATION_PROFILE_LEN: usize = 4;
+const EXPECTED_EXAMINATION_PROFILE_LEN: usize = 5;
 
 #[test]
 fn examination_len_matches_expected() {
@@ -1477,4 +1477,217 @@ fn windows_user_attribution_profile_is_present_and_caveated() {
             .unwrap_or_else(|| panic!("windows_user_attribution must include {id}"));
         assert_eq!(m.category, cat, "{id} is in the wrong category");
     }
+}
+
+/// The macos_full loginwindow member's rationale (last logged-in user,
+/// auto-login) describes the SYSTEM file /Library/Preferences/
+/// com.apple.loginwindow.plist, so the member must point at that descriptor,
+/// not the per-user ~/Library/Preferences/loginwindow.plist.
+#[test]
+fn macos_full_loginwindow_member_points_at_the_system_plist() {
+    let full = EXAMINATION_PROFILES
+        .iter()
+        .find(|p| p.id == "macos_full")
+        .expect("macos_full missing");
+    assert!(
+        !full
+            .members
+            .iter()
+            .any(|m| m.artifact_id == "fa_file_preferences_loginwindow_plist"),
+        "the per-user loginwindow.plist does not hold lastUserName/autoLoginUser"
+    );
+    let m = full
+        .members
+        .iter()
+        .find(|m| m.artifact_id == "fa_file_preferences_com_apple_loginwindow_plist")
+        .expect("macos_full must reference the system loginwindow plist");
+    assert!(m.rationale.contains("lastUserName") && m.rationale.contains("autoLoginUser"));
+    let d = crate::catalog::CATALOG.by_id(m.artifact_id).unwrap();
+    assert_eq!(
+        d.file_path,
+        Some("/Library/Preferences/com.apple.loginwindow.plist")
+    );
+}
+
+/// SSIDs come from userland unified-log entries (configd IPConfiguration and
+/// others), not the ARPT: driver lines, which carry BSSIDs only.
+#[test]
+fn wifi_presence_timeline_takes_ssids_from_userland_entries() {
+    let t = INVESTIGATIVE_TECHNIQUES
+        .iter()
+        .find(|t| t.id == "wifi_presence_timeline")
+        .expect("wifi_presence_timeline missing");
+    assert!(t.artifacts_used.contains(&"macos_wifi_ssid_unified_log"));
+    assert!(
+        !t.steps
+            .iter()
+            .any(|s| s.action.contains("driver entries naming the SSID")),
+        "driver entries carry BSSIDs only"
+    );
+    assert!(t
+        .steps
+        .iter()
+        .any(|s| s.artifact_id == Some("macos_wifi_ssid_unified_log")
+            && s.action.contains("com.apple.IPConfiguration")));
+    let full = EXAMINATION_PROFILES
+        .iter()
+        .find(|p| p.id == "macos_full")
+        .expect("macos_full missing");
+    assert!(full
+        .members
+        .iter()
+        .any(|m| m.artifact_id == "macos_wifi_ssid_unified_log"));
+}
+
+/// macOS image-handling and log/Spotlight tool behaviours: each one where a
+/// wrong conclusion (no APFS container, no log events, a spurious hit, a
+/// missing Spotlight record, an unreadable volume) follows from the tool's
+/// default behaviour.
+#[test]
+fn macos_tool_behaviour_batch_is_present_and_shaped() {
+    let by_id = |id: &str| {
+        TOOL_BEHAVIOURS
+            .iter()
+            .find(|b| b.id == id)
+            .unwrap_or_else(|| panic!("missing tool behaviour: {id}"))
+    };
+    for (id, kind, artifact) in [
+        (
+            "hdiutil_headerless_raw_requires_craw_image_class",
+            ToolBehaviourKind::RequiresFlag,
+            "apfs_container",
+        ),
+        (
+            "hdiutil_truncated_raw_hides_apfs_container",
+            ToolBehaviourKind::SilentlyIncomplete,
+            "apfs_container",
+        ),
+        (
+            "log_show_zero_events_on_copied_archive",
+            ToolBehaviourKind::SilentlyIncomplete,
+            "macos_unified_log",
+        ),
+        (
+            "unifiedlog_iterator_evidence_field_false_hits",
+            ToolBehaviourKind::FalsePositiveProne,
+            "macos_unified_log",
+        ),
+        (
+            "spotlight_parser_one_store_per_run",
+            ToolBehaviourKind::SilentlyIncomplete,
+            "macos_spotlight_store",
+        ),
+        (
+            "tsk_apfs_plain_offset_without_pool_options",
+            ToolBehaviourKind::RequiresFlag,
+            "apfs_container",
+        ),
+    ] {
+        let b = by_id(id);
+        assert_eq!(b.kind, kind, "{id}");
+        assert_eq!(b.artifact_id, Some(artifact), "{id}");
+    }
+    assert!(by_id("hdiutil_headerless_raw_requires_craw_image_class")
+        .mitigation
+        .contains("diskimage-class=CRawDiskImage"));
+    assert!(by_id("unifiedlog_iterator_evidence_field_false_hits")
+        .detail
+        .contains("evidence"));
+    assert!(by_id("spotlight_parser_one_store_per_run")
+        .detail
+        .contains(".store.db"));
+    let tsk = by_id("tsk_apfs_plain_offset_without_pool_options");
+    assert!(tsk.mitigation.contains("-B"));
+    assert!(
+        tsk.detail.contains("not tried") || tsk.consequence.contains("not tried"),
+        "the pool options were never tried on the observed image: hedge"
+    );
+    let trunc = by_id("hdiutil_truncated_raw_hides_apfs_container");
+    assert_eq!(trunc.evidence_tier, EvidenceTier::SearchedNotFound);
+    assert!(trunc.detail.contains("Searched"), "name where searched");
+    let log = by_id("log_show_zero_events_on_copied_archive");
+    assert!(
+        log.detail.contains("Info.plist") && log.detail.contains("OSArchiveVersion"),
+        "a copied archive lacks the Info.plist that log collect writes (mac4n6, padawan-4n6)"
+    );
+}
+
+/// The macOS user-attribution profile: the macOS counterpart of
+/// windows_user_attribution. One account is not one person, so every member
+/// must say in its own rationale that the artefact attributes to an account,
+/// device or the machine, not a person.
+#[test]
+fn macos_user_attribution_profile_is_present_and_caveated() {
+    let p = EXAMINATION_PROFILES
+        .iter()
+        .find(|p| p.id == "macos_user_attribution")
+        .expect("macos_user_attribution profile missing");
+    assert_eq!(p.platform, Platform::MacOS);
+    assert_eq!(p.kind, ProfileKind::Focused);
+    assert_eq!(p.focus, ExaminationFocus::UserAttribution);
+    assert!(p.description.contains("One account is not one person"));
+    for m in p.members {
+        assert!(
+            m.rationale.contains("not a person") || m.rationale.contains("not the person"),
+            "{}: rationale must state the artefact does not identify a person",
+            m.artifact_id
+        );
+    }
+    for (id, cat) in [
+        ("macos_dslocal_users", InvestigativeCategory::AccountUse),
+        ("macos_openbsm_audit", InvestigativeCategory::AccountUse),
+        (
+            "fa_file_preferences_com_apple_loginwindow_plist",
+            InvestigativeCategory::AccountUse,
+        ),
+        ("macos_knowledgec", InvestigativeCategory::ApplicationUse),
+        (
+            "macos_install_history",
+            InvestigativeCategory::ApplicationUse,
+        ),
+        (
+            "macos_sfl2_recent_items",
+            InvestigativeCategory::FileActivity,
+        ),
+        (
+            "macos_wifi_known_networks",
+            InvestigativeCategory::Connections,
+        ),
+        ("macos_sms_db", InvestigativeCategory::Communications),
+        ("macos_safari_history", InvestigativeCategory::WebActivity),
+        (
+            "ooxml_core_properties",
+            InvestigativeCategory::DocumentAuthorship,
+        ),
+    ] {
+        let m = p
+            .members
+            .iter()
+            .find(|m| m.artifact_id == id)
+            .unwrap_or_else(|| panic!("macos_user_attribution must include {id}"));
+        assert_eq!(m.category, cat, "{id} is in the wrong category");
+    }
+}
+
+/// An InstallHistory.plist entry can record an installer being DOWNLOADED,
+/// not an OS being installed; the installed version is SystemVersion.plist's.
+#[test]
+fn install_history_warns_that_an_entry_can_be_a_download() {
+    let d = crate::catalog::CATALOG
+        .by_id("macos_install_history")
+        .expect("macos_install_history missing");
+    let body = d.evidence_caveats.join(" ");
+    assert!(body.contains("download"), "an entry can record a download");
+    assert!(body.contains("SystemVersion.plist"));
+    assert!(d
+        .related_artifacts
+        .contains(&"fa_file_coreservices_systemversion_plist"));
+    assert!(
+        !d.sources.iter().any(|s| s.contains("forensicmike1.com")),
+        "the forensicmike1 URL returns 404"
+    );
+    assert!(d
+        .sources
+        .iter()
+        .any(|s| s.contains("mac_apt") && s.contains("installhistory.py")));
 }

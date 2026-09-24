@@ -16,7 +16,7 @@ pub(crate) static VELOCIRAPTOR_FILE_JOURNAL: ArtifactDescriptor = ArtifactDescri
     value_name: None,
     file_path: Some("/{run,var}/log/journal/*/*.journal{,~}"),
     scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
+    os_scope: OsScope::Linux,
     decoder: Decoder::Identity,
     meaning: "Lists the fields and field values recorded in the systemd journal.
 
@@ -246,7 +246,7 @@ pub(crate) static VELOCIRAPTOR_FILE_APT_LISTS: ArtifactDescriptor = ArtifactDesc
     value_name: None,
     file_path: Some("/var/lib/apt/lists/"),
     scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
+    os_scope: OsScope::Linux,
     decoder: Decoder::Identity,
     meaning: "Extracts package repository configuration from Debian-based systems
 by parsing apt sources.
@@ -657,7 +657,7 @@ pub(crate) static VELOCIRAPTOR_FILE_DPKG_STATUS: ArtifactDescriptor = ArtifactDe
     value_name: None,
     file_path: Some("/var/lib/dpkg/status"),
     scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
+    os_scope: OsScope::Linux,
     decoder: Decoder::Identity,
     meaning: "Queries `dpkg` and `snapd` to list installed deb and snap packages.
 
@@ -718,7 +718,7 @@ pub(crate) static VELOCIRAPTOR_FILE_RUN_SNAPD_SOCKET: ArtifactDescriptor = Artif
     value_name: None,
     file_path: Some("/run/snapd.socket"),
     scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
+    os_scope: OsScope::Linux,
     decoder: Decoder::Identity,
     meaning: "Queries `dpkg` and `snapd` to list installed deb and snap packages.
 
@@ -865,7 +865,7 @@ pub(crate) static VELOCIRAPTOR_FILE_HOME: ArtifactDescriptor = ArtifactDescripto
     value_name: None,
     file_path: Some("/home/*"),
     scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
+    os_scope: OsScope::Linux,
     decoder: Decoder::Identity,
     meaning: "Searches for files by path glob, inspects file content via YARA, and
 provides file hash and upload options..
@@ -917,7 +917,7 @@ pub(crate) static VELOCIRAPTOR_FILE_USERS: ArtifactDescriptor = ArtifactDescript
     value_name: None,
     file_path: Some("/Users/*"),
     scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
+    os_scope: OsScope::MacOS,
     decoder: Decoder::Identity,
     meaning: "Searches for files by path glob, inspects file content via YARA, and
 provides file hash and upload options.
@@ -1014,7 +1014,7 @@ pub(crate) static VELOCIRAPTOR_FILE_DOWNLOADS_ZIP: ArtifactDescriptor = Artifact
     value_name: None,
     file_path: Some("/Users/*/Downloads/*.zip"),
     scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
+    os_scope: OsScope::MacOS,
     decoder: Decoder::Identity,
     meaning: "Searches for zip files containing download URLs inadvertently
 included in the zip contents.
@@ -1609,7 +1609,7 @@ pub(crate) static VELOCIRAPTOR_FILE_SBIN_NFT: ArtifactDescriptor = ArtifactDescr
     value_name: None,
     file_path: Some("/usr/sbin/nft"),
     scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
+    os_scope: OsScope::Linux,
     decoder: Decoder::Identity,
     meaning: "Applies network quarantine to a Linux system using nftables.
 
@@ -2102,7 +2102,7 @@ pub(crate) static VELOCIRAPTOR_FILE_MANIFEST_JSON: ArtifactDescriptor = Artifact
     value_name: None,
     file_path: Some("/.config/google-chrome/*/Extensions/*/*/manifest.json"),
     scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
+    os_scope: OsScope::Linux,
     decoder: Decoder::Identity,
     meaning: "Enumerates installed Chrome extensions by locating and parsing
 `manifest.json` files for all users.
@@ -2458,7 +2458,7 @@ pub(crate) static VELOCIRAPTOR_FILE_PREFERENCES_COM_APPLE_DOCK_PLIST: ArtifactDe
         value_name: None,
         file_path: Some("/Users/*/Library/Preferences/com.apple.dock.plist"),
         scope: DataScope::Mixed,
-        os_scope: OsScope::Win7Plus,
+        os_scope: OsScope::MacOS,
         decoder: Decoder::Identity,
         meaning: "Lists docked applications and their metadata from each user's Dock
 plist.
@@ -2492,7 +2492,7 @@ pub(crate) static VELOCIRAPTOR_FILE_LOG: ArtifactDescriptor = ArtifactDescriptor
     value_name: None,
     file_path: Some("/var/log/**"),
     scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
+    os_scope: OsScope::Linux,
     decoder: Decoder::Identity,
     meaning: "Provides grep-like search capabilities for Linux, MacOS and Windows
 logs.
@@ -2598,7 +2598,7 @@ pub(crate) static VELOCIRAPTOR_FILE_COM_APPLE_TCC_TCC_DB: ArtifactDescriptor = A
     value_name: None,
     file_path: Some("/Library/Application Support/com.apple.TCC/TCC.db,/Users/*/Library/Application Support/com.apple.TCC/TCC.db"),
     scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
+    os_scope: OsScope::MacOS,
     decoder: Decoder::Identity,
     meaning: "Queries the TCC (Transparency, Consent, and Control) database, which
 can help reveal when access to system services has been added or
@@ -2667,7 +2667,7 @@ pub(crate) static VELOCIRAPTOR_FILE_SSH_AUTHORIZED_KEYS: ArtifactDescriptor = Ar
     value_name: None,
     file_path: Some("/home/*/.ssh/authorized_keys*"),
     scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
+    os_scope: OsScope::Linux,
     decoder: Decoder::Identity,
     meaning: "Finds and parses SSH authorized keys files.
 
@@ -2700,7 +2700,7 @@ pub(crate) static VELOCIRAPTOR_FILE_HISTORY: ArtifactDescriptor = ArtifactDescri
     value_name: None,
     file_path: Some("/{root,home/*}/.*_history"),
     scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
+    os_scope: OsScope::Linux,
     decoder: Decoder::Identity,
     meaning: "Provides grep-like searching of Bash and alternate shell history log
 files.
@@ -3050,7 +3050,7 @@ pub(crate) static VELOCIRAPTOR_FILE_PREFERENCES_PLIST: ArtifactDescriptor = Arti
     value_name: None,
     file_path: Some("/Library/Preferences/*.plist"),
     scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
+    os_scope: OsScope::MacOS,
     decoder: Decoder::Identity,
     meaning: "Parses and optionally uploads macOS `.plist` files. 
 
@@ -3141,7 +3141,7 @@ pub(crate) static VELOCIRAPTOR_FILE_TMP: ArtifactDescriptor = ArtifactDescriptor
     value_name: None,
     file_path: Some("/home/**,tmp/**"),
     scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
+    os_scope: OsScope::Linux,
     decoder: Decoder::Identity,
     meaning: "Detects anomalous files in a Linux filesystem.
 
@@ -3177,7 +3177,7 @@ pub(crate) static VELOCIRAPTOR_FILE_SYSTEMCONFIGURATION_COM_APPLE_AIRPORT_PREF: 
             "/Library/Preferences/SystemConfiguration/com.apple.airport.preferences.plist",
         ),
         scope: DataScope::Mixed,
-        os_scope: OsScope::Win7Plus,
+        os_scope: OsScope::MacOS,
         decoder: Decoder::Identity,
         meaning: "Parses the macOS airport preferences to enumerate previously joined
 WiFi networks.
@@ -3209,7 +3209,7 @@ pub(crate) static VELOCIRAPTOR_FILE_SBIN_AUDITCTL: ArtifactDescriptor = Artifact
     value_name: None,
     file_path: Some("/sbin/auditctl"),
     scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
+    os_scope: OsScope::Linux,
     decoder: Decoder::Identity,
     meaning: "Collects process execution logs from the Linux kernel.
 
@@ -3271,7 +3271,7 @@ pub(crate) static VELOCIRAPTOR_FILE_COM_APPLE_XPC_LAUNCHD_DISABLED_PLIST: Artifa
         value_name: None,
         file_path: Some("/var/db/com.apple.xpc.launchd/disabled.*.plist"),
         scope: DataScope::Mixed,
-        os_scope: OsScope::Win7Plus,
+        os_scope: OsScope::MacOS,
         decoder: Decoder::Identity,
         meaning: "Gathers evidence of macOS autoruns by searching common persistence
 locations and uploading found files.
@@ -3300,7 +3300,7 @@ pub(crate) static VELOCIRAPTOR_FILE_TABS: ArtifactDescriptor = ArtifactDescripto
     value_name: None,
     file_path: Some("/private/var/at//tabs/*"),
     scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
+    os_scope: OsScope::MacOS,
     decoder: Decoder::Identity,
     meaning: "Gathers evidence of macOS autoruns by searching common persistence
 locations and uploading found files.
@@ -3359,7 +3359,7 @@ pub(crate) static VELOCIRAPTOR_FILE_EXTENSIONS: ArtifactDescriptor = ArtifactDes
     value_name: None,
     file_path: Some("/.config/google-chrome/*/Extensions/**"),
     scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
+    os_scope: OsScope::Linux,
     decoder: Decoder::Identity,
     meaning: "Uploads the Chrome extension files from each user's home directory.
 
@@ -3497,7 +3497,7 @@ pub(crate) static VELOCIRAPTOR_FILE_PROC_STAT: ArtifactDescriptor = ArtifactDesc
     value_name: None,
     file_path: Some("/proc/stat"),
     scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
+    os_scope: OsScope::Linux,
     decoder: Decoder::Identity,
     meaning: "Displays information from the `/proc/stat` file about the time the
 CPU cores spent in different parts of the system.",
@@ -3524,7 +3524,7 @@ pub(crate) static VELOCIRAPTOR_FILE_PREFERENCES_COM_APPLE_LAUNCHSERVICES_QUARA: 
         value_name: None,
         file_path: Some("/Users/*/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2"),
         scope: DataScope::Mixed,
-        os_scope: OsScope::Win7Plus,
+        os_scope: OsScope::MacOS,
         decoder: Decoder::Identity,
         meaning: "Parses the QuarantineEventsV2 database, which provides information
 on when a file was downloaded from the internet.",
@@ -3550,7 +3550,7 @@ pub(crate) static VELOCIRAPTOR_FILE_RUN_DOCKER_SOCK: ArtifactDescriptor = Artifa
     value_name: None,
     file_path: Some("/var/run/docker.sock"),
     scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
+    os_scope: OsScope::Linux,
     decoder: Decoder::Identity,
     meaning: "Connects to the Docker socket and retrieves daemon information
 including containers, images, and driver settings.",
@@ -3576,7 +3576,7 @@ pub(crate) static VELOCIRAPTOR_FILE_USERS_PLIST: ArtifactDescriptor = ArtifactDe
     value_name: None,
     file_path: Some("/private/var/db/dslocal/nodes/Default/users/*.plist"),
     scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
+    os_scope: OsScope::MacOS,
     decoder: Decoder::Identity,
     meaning: "Collects information about the local users on the system.
 
@@ -3659,7 +3659,7 @@ pub(crate) static VELOCIRAPTOR_FILE_PREFERENCES_COM_APPLE_TIMEMACHINE_PLIST: Art
         value_name: None,
         file_path: Some("/Library/Preferences/com.apple.TimeMachine.plist"),
         scope: DataScope::Mixed,
-        os_scope: OsScope::Win7Plus,
+        os_scope: OsScope::MacOS,
         decoder: Decoder::Identity,
         meaning: "Collects Time Machine backup settings including volume, auto-backup
 status, and destinations.",
@@ -3743,7 +3743,7 @@ pub(crate) static VELOCIRAPTOR_FILE_PREFERENCES_COM_APPLE_FINDER_PLIST: Artifact
         value_name: None,
         file_path: Some("/Users/*/Library/Preferences/com.apple.finder.plist"),
         scope: DataScope::Mixed,
-        os_scope: OsScope::Win7Plus,
+        os_scope: OsScope::MacOS,
         decoder: Decoder::Identity,
         meaning: "Parses Finder's `FXRecentFolders` plist entries to extract recently
 accessed items.",
@@ -3769,7 +3769,7 @@ pub(crate) static VELOCIRAPTOR_FILE_PROC_MODULES: ArtifactDescriptor = ArtifactD
     value_name: None,
     file_path: Some("/proc/modules"),
     scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
+    os_scope: OsScope::Linux,
     decoder: Decoder::Identity,
     meaning: "Parses `/proc/modules` to enumerate loaded kernel modules with their
 details.",
@@ -3873,7 +3873,7 @@ pub(crate) static VELOCIRAPTOR_FILE_ACPI_TABLES: ArtifactDescriptor = ArtifactDe
     value_name: None,
     file_path: Some("/sys/firmware/acpi/tables"),
     scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
+    os_scope: OsScope::Linux,
     decoder: Decoder::Identity,
     meaning: "Lists ACPI firmware tables with their sizes and cryptographic
 hashes.",
@@ -3899,7 +3899,7 @@ pub(crate) static VELOCIRAPTOR_FILE_LOG_WTMP: ArtifactDescriptor = ArtifactDescr
     value_name: None,
     file_path: Some("/var/log/wtmp*"),
     scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
+    os_scope: OsScope::Linux,
     decoder: Decoder::Identity,
     meaning: "Parses system WTMP files. These indicate when users last logged in.",
     mitre_techniques: &[],
@@ -3924,7 +3924,7 @@ pub(crate) static VELOCIRAPTOR_FILE_ETC_GROUP: ArtifactDescriptor = ArtifactDesc
     value_name: None,
     file_path: Some("/etc/group"),
     scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
+    os_scope: OsScope::Linux,
     decoder: Decoder::Identity,
     meaning: "Lists system group IDs, names and memberships from `/etc/group`.",
     mitre_techniques: &[],
@@ -3952,7 +3952,7 @@ pub(crate) static VELOCIRAPTOR_FILE_LOG_AUTH_LOG_SECURE: ArtifactDescriptor = Ar
     value_name: None,
     file_path: Some("/var/log/{auth.log,secure}*"),
     scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
+    os_scope: OsScope::Linux,
     decoder: Decoder::Identity,
     meaning: "Parses the auth logs to identify all SSH login attempts.",
     mitre_techniques: &[],
@@ -3977,7 +3977,7 @@ pub(crate) static VELOCIRAPTOR_FILE_PROC_MOUNTS: ArtifactDescriptor = ArtifactDe
     value_name: None,
     file_path: Some("/proc/mounts"),
     scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
+    os_scope: OsScope::Linux,
     decoder: Decoder::Identity,
     meaning: "Lists mounted filesystems by reading `/proc/mounts`.",
     mitre_techniques: &[],
@@ -4005,7 +4005,7 @@ pub(crate) static VELOCIRAPTOR_FILE_BIN_SYNC: ArtifactDescriptor = ArtifactDescr
     value_name: None,
     file_path: Some("/usr/sbin/nologin,/bin/false,/sbin/nologin,/bin/sync"),
     scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
+    os_scope: OsScope::Linux,
     decoder: Decoder::Identity,
     meaning: "Gets the interactive users from a Linux host.",
     mitre_techniques: &[],
@@ -4030,7 +4030,7 @@ pub(crate) static VELOCIRAPTOR_FILE_CRON_WEEKLY: ArtifactDescriptor = ArtifactDe
     value_name: None,
     file_path: Some("/etc/cron.daily/*,/etc/cron.hourly/*,/etc/cron.monthly/*,/etc/cron.weekly/*"),
     scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
+    os_scope: OsScope::Linux,
     decoder: Decoder::Identity,
     meaning: "Displays parsed information from crontab.",
     mitre_techniques: &[],
@@ -4055,7 +4055,7 @@ pub(crate) static VELOCIRAPTOR_FILE_CRONTABS: ArtifactDescriptor = ArtifactDescr
     value_name: None,
     file_path: Some("/etc/crontab,/etc/cron.d/**,/var/at/tabs/**,/var/spool/cron/**,/var/spool/cron/crontabs/**"),
     scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
+    os_scope: OsScope::Linux,
     decoder: Decoder::Identity,
     meaning: "Displays parsed information from crontab.",
     mitre_techniques: &[],
@@ -4080,7 +4080,7 @@ pub(crate) static VELOCIRAPTOR_FILE_NET_ARP: ArtifactDescriptor = ArtifactDescri
     value_name: None,
     file_path: Some("/proc/net/arp"),
     scope: DataScope::Mixed,
-    os_scope: OsScope::Win7Plus,
+    os_scope: OsScope::Linux,
     decoder: Decoder::Identity,
     meaning: "Parses the ARP table from /proc/net/arp.",
     mitre_techniques: &[],

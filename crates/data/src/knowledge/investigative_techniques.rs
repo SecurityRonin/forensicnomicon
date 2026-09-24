@@ -663,7 +663,7 @@ pub static NETWORK_NEIGHBOUR_ENUMERATION: InvestigativeTechnique = Investigative
     sources: &[
         "https://github.com/bolodev/osxripper/blob/master/plugins/osx/BluetoothPlist.py",
         "https://kieczkowska.wordpress.com/2020/06/29/airdrop-forensics-2/",
-        "https://www.mac4n6.com/blog/2016/6/21/introduction-to-sfl-and-sfl2-files",
+        "https://www.mac4n6.com/blog/2017/10/17/script-update-for-macmrupy-v13-new-1013-sfl2-mru-files",
         "https://eclecticlight.co/2017/08/10/recent-items-launch-services-and-sharedfilelists/",
     ],
 };
@@ -683,6 +683,9 @@ pub static NETWORK_NEIGHBOUR_ENUMERATION: InvestigativeTechnique = Investigative
 ///   the link where they originate"), RFC 8011 section 5.3.7 (job-state 9 is
 ///   'completed'), RFC 9562 section 5.1 (a UUIDv1 node field is an IEEE 802
 ///   MAC address).
+/// - Apple bootp `IPConfiguration.bproj/ipconfigd.c` (code-read): the
+///   `"%@: SSID %@ BSSID %@ Security %s"` log line that names the network
+///   the driver's BSSIDs belong to (see `macos_wifi_ssid_unified_log`).
 /// - An Apple Community post (Sierra) showing the `RSNSupplicant: Releasing
 ///   authenticator for` wifi.log line, and a 2016 blog listing daily
 ///   `wifi.log.N.bz2` archives.
@@ -707,16 +710,26 @@ pub static WIFI_PRESENCE_TIMELINE: InvestigativeTechnique = InvestigativeTechniq
             action: "Export /private/var/db/diagnostics/ and /private/var/db/uuidtext/ into one \
                      logarchive directory, parse it with Mandiant's unifiedlog_iterator \
                      -m log-archive, and keep process /kernel entries prefixed ARPT: \
-                     (SetCryptoKey ea[<BSSID>], 'Roamed or switched channel ... bssid <BSSID>') \
-                     plus driver entries naming the SSID. Normalise every BSSID octet to two hex \
-                     digits. Run the control first: the Mac's own Wi-Fi MAC \
+                     (SetCryptoKey ea[<BSSID>], 'Roamed or switched channel ... bssid <BSSID>'); \
+                     these carry BSSIDs only. Normalise every BSSID octet to two hex digits. Run the control first: the Mac's own Wi-Fi MAC \
                      (macos_network_interfaces) must appear in plain text.",
             artifact_id: Some("macos_wifi_driver_log"),
-            yields: "Timestamped BSSIDs and SSIDs from the driver, verified unredacted on this \
-                     image.",
+            yields: "Timestamped BSSIDs from the driver, verified unredacted on this image.",
         },
         TechniqueStep {
             order: 2,
+            action: "From the same export, keep the userland entries naming the network: \
+                     /usr/libexec/configd subsystem com.apple.IPConfiguration ('<if>: SSID <name> \
+                     BSSID <bssid> Security ...', which pairs name and access point), configd \
+                     subsystem com.apple.captive, and sharingd/rapportd subsystem \
+                     com.apple.CoreUtils ('SysMon: WiFi join started: SSID \"<name>\"'). Check \
+                     for <redacted>, which later IPConfiguration writes by default.",
+            artifact_id: Some("macos_wifi_ssid_unified_log"),
+            yields: "Timestamped network names, and SSID-to-BSSID pairs that name the driver's \
+                     access points.",
+        },
+        TechniqueStep {
+            order: 3,
             action: "Aggregate per day: the set of BSSIDs and SSIDs seen each day, with first \
                      and last entry times.",
             artifact_id: None,
@@ -724,7 +737,7 @@ pub static WIFI_PRESENCE_TIMELINE: InvestigativeTechnique = InvestigativeTechniq
                      associated with, over the unified log's retention window.",
         },
         TechniqueStep {
-            order: 3,
+            order: 4,
             action: "Add /private/var/log/wifi.log and its wifi.log.N.bz2 archives: \
                      'RSNSupplicant: Releasing authenticator for <BSSID>' lines mark the end of \
                      an association with that AP, and driver (re)initialisation lines \
@@ -735,7 +748,7 @@ pub static WIFI_PRESENCE_TIMELINE: InvestigativeTechnique = InvestigativeTechniq
                      corroboration.",
         },
         TechniqueStep {
-            order: 4,
+            order: 5,
             action: "Name the networks and extend the window: map BSSIDs to SSIDs through the \
                      remembered-network store (BSSIDList, undated) and DHCP leases, read \
                      ChannelHistory and join times for earlier periods, and geolocate the \
@@ -745,7 +758,7 @@ pub static WIFI_PRESENCE_TIMELINE: InvestigativeTechnique = InvestigativeTechniq
                      knows it, where that access point is.",
         },
         TechniqueStep {
-            order: 5,
+            order: 6,
             action: "Bridge networks through printers: read each dnssd://....local./?uuid= \
                      queue in printers.conf, then the spool control files' job-printer-uri, \
                      job-state (9 = completed), time-at-creation and time-at-completed. A \
@@ -759,6 +772,7 @@ pub static WIFI_PRESENCE_TIMELINE: InvestigativeTechnique = InvestigativeTechniq
     ],
     artifacts_used: &[
         "macos_wifi_driver_log",
+        "macos_wifi_ssid_unified_log",
         "macos_unified_log",
         "fa_file__7",
         "macos_wifi_log",
@@ -804,6 +818,7 @@ pub static WIFI_PRESENCE_TIMELINE: InvestigativeTechnique = InvestigativeTechniq
     sources: &[
         "https://developer.apple.com/documentation/os/generating-log-messages-from-your-code",
         "https://github.com/mandiant/macos-UnifiedLogs/blob/main/examples/unifiedlog_iterator/src/main.rs",
+        "https://github.com/apple-oss-distributions/bootp/blob/bootp-413.80.1/IPConfiguration.bproj/ipconfigd.c",
         "https://discussions.apple.com/thread/7957554",
         "https://blog.frd.mn/disable-wifi-debug-logging/",
         "https://www.rfc-editor.org/rfc/rfc6762#section-3",

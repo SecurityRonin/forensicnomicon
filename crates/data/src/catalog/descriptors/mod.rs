@@ -9598,7 +9598,7 @@ pub static MACOS_KNOWLEDGEC: ArtifactDescriptor = ArtifactDescriptor {
     value_name: None,
     file_path: Some("~/Library/Application Support/Knowledge/knowledgeC.db"),
     scope: DataScope::User,
-    os_scope: OsScope::MacOS12Plus,
+    os_scope: OsScope::MacOS,
     decoder: Decoder::Identity,
     meaning: "SQLite database maintained by the Duet Activity Scheduler. Records application usage, device lock/unlock events, browser activity, and screen time. Rich timeline source for user activity reconstruction.",
     mitre_techniques: &["T1083"],
@@ -9607,12 +9607,14 @@ pub static MACOS_KNOWLEDGEC: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::High,
     related_artifacts: &["macos_unified_log"],
     sources: &[
-        "https://www.mac4n6.com/blog/2018/8/5/knowledge-is-power-using-the-knowledgecdb-database-on-macos-ios-to-determine-precise-user-and-application-usage",
+        "https://www.mac4n6.com/blog/2018/8/5/knowledge-is-power-using-the-knowledgecdb-database-on-macos-and-ios-to-determine-precise-user-and-application-usage",
         "https://github.com/mac4n6/APOLLO",
     ],
     evidence_strength: None,
     evidence_tier: None,
-    evidence_caveats: &[],
+    evidence_caveats: &[
+        "Documented at this per-user path (and a system-context copy in /private/var/db/CoreDuet/Knowledge/) on macOS 10.13 (mac4n6, 2018) and present on one macOS Big Sur 11.7 image; the schema differs between releases",
+    ],
     volatility: None,
     volatility_rationale: "",
 };
@@ -9668,13 +9670,16 @@ pub static MACOS_INSTALL_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
     fields: &[],
     retention: Some("Persistent; accumulates over system lifetime"),
     triage_priority: TriagePriority::Medium,
-    related_artifacts: &["macos_launch_daemons"],
+    related_artifacts: &["macos_launch_daemons", "fa_file_coreservices_systemversion_plist"],
     sources: &[
-        "https://www.forensicmike1.com/2019/12/17/macos-forensic-artifacts-install-history/",
+        "https://github.com/ydkhatri/mac_apt/blob/master/plugins/installhistory.py",
     ],
     evidence_strength: None,
     evidence_tier: None,
-    evidence_caveats: &[],
+    evidence_caveats: &[
+        "An entry can record an installer being downloaded rather than installed: on one macOS Big Sur 11.7 image an entry named a later macOS release whose installer was present but never run, while /System/Library/CoreServices/SystemVersion.plist gave the installed OS as Big Sur 11.7. Read the running version from SystemVersion.plist, and treat an OS-named entry as an install only when SystemVersion.plist or the OS's own receipts agree",
+        "processName names the process that recorded the step, not who asked for it; entries attribute to the machine, not a person",
+    ],
     volatility: None,
     volatility_rationale: "",
 };
@@ -18535,6 +18540,7 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     macos_ext::MACOS_WIFI_KNOWN_NETWORKS,
     macos_ext::MACOS_WIFI_PLIST_BACKUP,
     macos_ext::MACOS_WIFI_DRIVER_LOG,
+    macos_ext::MACOS_WIFI_SSID_UNIFIED_LOG,
     macos_ext::MACOS_WIFI_LOG,
     macos_ext::MACOS_BLUETOOTH_DEVICES,
     macos_ext::MACOS_SMB_SERVER_IDENTITY,

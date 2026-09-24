@@ -15,7 +15,7 @@ use crate::catalog::*;
 /// `catalog_integrity::catalog_len_matches_expected_catalog_len` asserts against
 /// it; every `catalog_*` test belonging to a batch asserts that batch's
 /// artifacts are *present*, which is the invariant those tests are named for.
-const EXPECTED_CATALOG_LEN: usize = 6885;
+const EXPECTED_CATALOG_LEN: usize = 6886;
 
 #[cfg(test)]
 mod catalog_integrity {
@@ -14646,5 +14646,271 @@ mod tests_windows_attribution_caveats {
             .evidence_caveats
             .iter()
             .any(|c| c.contains("does not identify") && c.contains("user")));
+    }
+}
+
+// ── macOS contradictions: DHCP lease files, AirDrop history, APFS offsets ──
+// Three descriptors asserted things their own sources, or Apple's, contradict.
+// DHCP: Apple's IPConfiguration names the lease file two ways across bootp
+// releases, and the newer code never removes the older file, so a pre-upgrade
+// lease can survive. AirDrop: QuarantineEventsV2 keeps a persistent row per
+// AirDropped file (agent sharingd, LSQuarantineSenderName). APFS: the offset
+// multiplier is the disk's logical sector size from the partition table, not
+// APFS's 4096-byte block size.
+#[cfg(test)]
+mod tests_macos_contradictions {
+    use super::*;
+
+    #[test]
+    fn dhcp_leases_names_both_bootp_filename_formats() {
+        let d = CATALOG.by_id("macos_dhcp_leases").unwrap();
+        assert!(
+            d.meaning.contains("<ifname>.plist") && d.meaning.contains("<ifname>-<client-id>"),
+            "must name both lease-file formats (DHCPCLIENT_LEASE_FILE_FMT across bootp releases)"
+        );
+        assert!(
+            d.sources
+                .iter()
+                .any(|s| s.contains("apple-oss-distributions/bootp") && s.contains("359.50.1")),
+            "must cite Apple's bootp DHCPLease.c for the old format"
+        );
+        assert!(
+            d.sources
+                .iter()
+                .any(|s| s.contains("apple-oss-distributions/bootp") && s.contains("534.120.2")),
+            "must cite Apple's bootp DHCPLease.c for the current format"
+        );
+    }
+
+    #[test]
+    fn dhcp_leases_no_longer_claims_history_is_always_overwritten() {
+        let d = CATALOG.by_id("macos_dhcp_leases").unwrap();
+        let body = d.evidence_caveats.join(" ");
+        assert!(
+            !body.contains("historical leases are overwritten"),
+            "an old-format lease file can survive an OS upgrade holding a pre-upgrade lease"
+        );
+        assert!(
+            body.contains("survive") && body.contains("upgrade"),
+            "must record that the old-format file can survive an OS upgrade"
+        );
+        assert!(
+            !d.retention.unwrap_or("").contains("overwritten on renewal"),
+            "retention must describe expiry deletion and the orphaned old-format file"
+        );
+    }
+
+    #[test]
+    fn airdrop_sharingd_points_at_the_persistent_quarantine_store() {
+        let d = CATALOG.by_id("macos_airdrop_sharingd").unwrap();
+        let text = format!("{} {}", d.meaning, d.evidence_caveats.join(" "));
+        assert!(
+            !text.contains("No persistent transfer-history store"),
+            "QuarantineEventsV2 holds persistent AirDrop rows"
+        );
+        assert!(
+            !text.contains("survives only in the unified log"),
+            "QuarantineEventsV2 holds persistent AirDrop rows"
+        );
+        assert!(text.contains("QuarantineEventsV2"));
+        assert!(text.contains("LSQuarantineSenderName"));
+        assert!(d.related_artifacts.contains(&"macos_quarantine_events"));
+        assert!(
+            d.sources
+                .iter()
+                .any(|s| s.contains("kieczkowska.wordpress.com")),
+            "must cite the QuarantineEventsV2 AirDrop analysis"
+        );
+    }
+
+    #[test]
+    fn apfs_container_offset_uses_disk_sector_size_not_apfs_block_size() {
+        let d = CATALOG.by_id("apfs_container").unwrap();
+        assert!(
+            !d.meaning.contains("typically 4096"),
+            "the multiplier is the disk's sector size from the partition table"
+        );
+        let bps = d
+            .fields
+            .iter()
+            .find(|f| f.name == "bytes_per_sector")
+            .expect("bytes_per_sector field");
+        assert!(
+            !bps.description.contains("typically 4096 for APFS"),
+            "4096 is APFS's block size, not the disk's sector size"
+        );
+        assert!(bps.description.contains("512"));
+        assert!(
+            d.meaning.contains("nx_block_size") && d.meaning.contains("512"),
+            "must separate APFS's block size from the disk's sector size"
+        );
+        assert!(
+            d.sources
+                .iter()
+                .any(|s| s.contains("Apple-File-System-Reference.pdf")),
+            "must cite the Apple File System Reference for nx_block_size"
+        );
+    }
+}
+
+// ── Generated Velociraptor scope ─────────────────────────────────────────
+// The Velociraptor ingest source hard-coded OsScope::Win7Plus for every
+// record, so MacOS.* and Linux.* artifacts (e.g. MacOS.System.TimeMachine at
+// /Library/Preferences/com.apple.TimeMachine.plist) were scoped to Windows.
+#[cfg(test)]
+mod tests_velociraptor_generated_scope {
+    use super::*;
+
+    #[test]
+    fn timemachine_plist_is_macos_scoped() {
+        let d = CATALOG
+            .by_id("velociraptor_file_preferences_com_apple_timemachine_plist")
+            .expect("velociraptor TimeMachine descriptor missing");
+        assert_eq!(d.os_scope, OsScope::MacOS);
+    }
+
+    #[test]
+    fn every_velociraptor_entry_scope_matches_its_name_prefix() {
+        let mut checked = 0;
+        for d in CATALOG
+            .list()
+            .iter()
+            .filter(|d| d.id.starts_with("velociraptor_"))
+        {
+            if d.name.starts_with("MacOS.") {
+                assert_eq!(d.os_scope, OsScope::MacOS, "{}", d.id);
+                checked += 1;
+            } else if d.name.starts_with("Linux.") {
+                assert_eq!(d.os_scope, OsScope::Linux, "{}", d.id);
+                checked += 1;
+            }
+        }
+        assert!(checked > 0, "selector matched no MacOS./Linux. entries");
+    }
+}
+
+// ── Wi-Fi SSIDs in the unified log come from userland, not the driver ──────
+// The Broadcom driver's ARPT: entries carry BSSIDs only. SSIDs are written by
+// configd's IPConfiguration ("<if>: SSID <name> BSSID <bssid> Security ...",
+// the format string in Apple's bootp ipconfigd.c), configd's captive
+// subsystem, and sharingd/rapportd (com.apple.CoreUtils "SysMon: WiFi join
+// started"). The IPConfiguration line pairs SSID with BSSID.
+#[cfg(test)]
+mod tests_macos_wifi_ssid_unified_log {
+    use super::*;
+
+    #[test]
+    fn driver_log_no_longer_attributes_ssids_to_the_driver() {
+        let d = CATALOG.by_id("macos_wifi_driver_log").unwrap();
+        assert!(
+            !d.meaning.contains("other driver entries carry the SSID"),
+            "ARPT driver entries carry BSSIDs only"
+        );
+        assert!(
+            !d.fields.iter().any(|f| f.name == "ssid"),
+            "the driver entries have no SSID field"
+        );
+        assert!(d.related_artifacts.contains(&"macos_wifi_ssid_unified_log"));
+    }
+
+    #[test]
+    fn ssid_descriptor_names_the_userland_sources() {
+        let d = CATALOG
+            .by_id("macos_wifi_ssid_unified_log")
+            .expect("macos_wifi_ssid_unified_log missing");
+        assert_eq!(d.file_path, Some("/var/db/diagnostics/"));
+        for s in [
+            "/usr/libexec/configd",
+            "com.apple.IPConfiguration",
+            "com.apple.captive",
+            "/usr/libexec/sharingd",
+            "/usr/libexec/rapportd",
+            "com.apple.CoreUtils",
+            "SSID %@ BSSID",
+        ] {
+            assert!(d.meaning.contains(s), "meaning must name {s}");
+        }
+        assert!(d
+            .sources
+            .iter()
+            .any(|s| s.contains("apple-oss-distributions/bootp") && s.contains("ipconfigd.c")));
+        assert!(
+            d.evidence_caveats
+                .iter()
+                .any(|c| c.contains("hide_wifi_string") && c.contains("494.140.4")),
+            "must record that later bootp redacts SSID/BSSID by default"
+        );
+        assert!(d.related_artifacts.contains(&"macos_wifi_driver_log"));
+    }
+}
+
+// ── macOS OS scope: MacOS12Plus on artifacts that predate Monterey ────────
+// knowledgeC.db, the SFL2 recent-items and recent-servers lists, and the
+// system TCC.db were scoped "macOS 12 Monterey and later", but each is
+// documented on earlier releases (mac4n6 2017/2018, Jamf 2018) and three were
+// present on one Big Sur 11.7 image. Screen Time was also mis-pathed: its
+// store lives in the per-user DARWIN_USER_DIR (mac_apt screentime.py), and
+// Screen Time reached the Mac in Catalina (Apple Newsroom).
+#[cfg(test)]
+mod tests_macos_os_scope_predates_monterey {
+    use super::*;
+
+    const DEAD: &[&str] = &[
+        "mac4n6.com/blog/2016/6/21/introduction-to-sfl-and-sfl2-files",
+        "mac4n6.com/blog/2019/6/20/screen-time-in-ios-12-macos-mojave",
+        "knowledgecdb-database-on-macos-ios-to-determine",
+    ];
+
+    fn check(id: &str, release: &str) {
+        let d = CATALOG.by_id(id).unwrap_or_else(|| panic!("{id} missing"));
+        assert_eq!(d.os_scope, OsScope::MacOS, "{id}: predates Monterey");
+        assert!(
+            d.evidence_caveats.iter().any(|c| c.contains(release)),
+            "{id}: a caveat must name the earliest release confirmed ({release})"
+        );
+        for s in d.sources {
+            assert!(
+                !DEAD.iter().any(|x| s.contains(x)),
+                "{id}: source returns 404: {s}"
+            );
+        }
+    }
+
+    #[test]
+    fn knowledgec_is_not_monterey_only() {
+        check("macos_knowledgec", "10.13");
+    }
+
+    #[test]
+    fn sfl2_recent_items_is_not_monterey_only() {
+        check("macos_sfl2_recent_items", "10.13");
+        let d = CATALOG.by_id("macos_sfl2_recent_items").unwrap();
+        assert!(!d.meaning.contains("10.12+"), "sfl2 is new with 10.13");
+    }
+
+    #[test]
+    fn sfl2_recent_servers_is_not_monterey_only() {
+        check("macos_sfl2_recent_servers", "10.13");
+    }
+
+    #[test]
+    fn tcc_system_db_is_not_monterey_only() {
+        check("macos_tcc_system_db", "High Sierra");
+    }
+
+    #[test]
+    fn screen_time_db_path_and_scope() {
+        check("macos_screen_time_db", "10.15");
+        let d = CATALOG.by_id("macos_screen_time_db").unwrap();
+        let p = d.file_path.unwrap_or("");
+        assert!(p.starts_with("/private/var/folders/"), "{p}");
+        assert!(
+            p.ends_with("/0/com.apple.ScreenTimeAgent/Store/RMAdminStore-Local.sqlite"),
+            "{p}"
+        );
+        assert!(d
+            .sources
+            .iter()
+            .any(|s| s.contains("mac_apt") && s.contains("screentime.py")));
     }
 }

@@ -76,6 +76,19 @@ pub fn parse_velociraptor_yaml(content: &str) -> Vec<IngestRecord> {
     records
 }
 
+/// `OsScope` variant for a Velociraptor artifact, from the platform its name
+/// starts with (`MacOS.System.TimeMachine`, `Linux.Forensics.Journal`,
+/// `Windows.Registry.AppCompatCache`). Names with no single-OS prefix
+/// (`Generic.`, `Server.`, `Elastic.`) keep the historical `Win7Plus`: the
+/// catalog has no cross-platform scope to give them.
+fn os_scope_for(artifact_name: &str) -> &'static str {
+    match artifact_name.split('.').next() {
+        Some("MacOS") => "MacOS",
+        Some("Linux") => "Linux",
+        _ => "Win7Plus",
+    }
+}
+
 fn try_parse_as_registry(
     value: &str,
     artifact_name: &str,
@@ -162,7 +175,7 @@ fn try_parse_as_file(
         hive: None,
         key_path: String::new(),
         value_name: None,
-        os_scope: "Win7Plus".to_string(),
+        os_scope: os_scope_for(artifact_name).to_string(),
         file_path: Some(value.to_string()),
         meaning: description.to_string(),
         mitre_techniques: Vec::new(),
@@ -306,6 +319,39 @@ parameters:
             "shimcache should be High/Critical, got: {}",
             rec.triage_priority
         );
+    }
+
+    const SAMPLE_MACOS_YAML: &str = r#"
+name: MacOS.System.TimeMachine
+description: Time Machine settings.
+parameters:
+  - name: TimeMachinePlist
+    default: /Library/Preferences/com.apple.TimeMachine.plist
+"#;
+
+    const SAMPLE_LINUX_YAML: &str = r#"
+name: Linux.Forensics.Journal
+description: systemd journal.
+parameters:
+  - name: JournalGlob
+    default: /var/log/journal/*/*.journal
+"#;
+
+    /// Velociraptor names every artifact with its platform as the first
+    /// dotted component; a macOS or Linux path must not be scoped to Windows.
+    #[test]
+    fn os_scope_follows_the_artifact_name_platform_prefix() {
+        let mac = parse_velociraptor_yaml(SAMPLE_MACOS_YAML);
+        assert!(!mac.is_empty());
+        assert!(mac.iter().all(|r| r.os_scope == "MacOS"), "{mac:?}");
+
+        let linux = parse_velociraptor_yaml(SAMPLE_LINUX_YAML);
+        assert!(!linux.is_empty());
+        assert!(linux.iter().all(|r| r.os_scope == "Linux"), "{linux:?}");
+
+        let win = parse_velociraptor_yaml(SAMPLE_FILE_YAML);
+        assert!(!win.is_empty());
+        assert!(win.iter().all(|r| r.os_scope == "Win7Plus"), "{win:?}");
     }
 
     #[test]
