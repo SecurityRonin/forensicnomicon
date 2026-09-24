@@ -1030,6 +1030,220 @@ pub static TSK_FLS_FAT_DELETED_NAME_FIRST_CHAR: ToolBehaviour = ToolBehaviour {
     ],
 };
 
+// ── macOS image handling, unified log and Spotlight ─────────────────────────
+
+/// hdiutil does not recognise a headerless raw (dd) image unless told its
+/// class.
+///
+/// # Sources
+/// - hdiutil(1), EXAMPLES, mirrored at <https://ss64.com/mac/hdiutil.html>:
+///   "Forcing a known image to attach: hdiutil attach -imagekey
+///   diskimage-class=CRawDiskImage myBlob.bar".
+/// - <https://www.forensicfocus.com/forums/general/mount-raw-dd-mac-image-on-another-mac/>
+///   — a segmented raw set still returns "Image not recognized" with the
+///   flag; hdiutil takes a monolithic image only.
+/// - Observed on one macOS Big Sur 11.7 host: attach of a single-file raw
+///   failed "image not recognized" without the flag.
+pub static HDIUTIL_HEADERLESS_RAW_REQUIRES_CRAW_IMAGE_CLASS: ToolBehaviour = ToolBehaviour {
+    id: "hdiutil_headerless_raw_requires_craw_image_class",
+    tool: "hdiutil attach (macOS)",
+    version_range: Some("macOS Big Sur 11.7 host (observed); the man-page example is unversioned"),
+    artifact_id: Some("apfs_container"),
+    kind: ToolBehaviourKind::RequiresFlag,
+    detail: "A raw (dd) disk image has no header naming its format. hdiutil attach infers the \
+             class from the file and, for a raw image with an unfamiliar extension, fails \
+             with 'hdiutil: attach failed - image not recognized'. The man page's own example \
+             for this case forces the class: -imagekey diskimage-class=CRawDiskImage. A raw \
+             image split into segments is not accepted even then.",
+    consequence: "The image is taken for corrupt or unsupported, or the examiner converts it \
+                  with a third-party tool and adds an unneeded processing step to the chain \
+                  of custody.",
+    mitigation: "Attach read-only without mounting: hdiutil attach -readonly -nomount \
+                 -imagekey diskimage-class=CRawDiskImage <image>, then diskutil list / \
+                 diskutil apfs list. Join a segmented raw set into one file (or expose it \
+                 through a mounting layer such as ewfmount/xmount) first.",
+    evidence_tier: EvidenceTier::SingleSecondary,
+    sources: &[
+        "https://ss64.com/mac/hdiutil.html",
+        "https://www.forensicfocus.com/forums/general/mount-raw-dd-mac-image-on-another-mac/",
+    ],
+};
+
+/// A truncated raw image attaches without its APFS container.
+///
+/// Observed only; see `detail` for where a source was sought.
+pub static HDIUTIL_TRUNCATED_RAW_HIDES_APFS_CONTAINER: ToolBehaviour = ToolBehaviour {
+    id: "hdiutil_truncated_raw_hides_apfs_container",
+    tool: "hdiutil attach / diskutil (macOS)",
+    version_range: Some("macOS Big Sur 11.7 host (observed)"),
+    artifact_id: Some("apfs_container"),
+    kind: ToolBehaviourKind::SilentlyIncomplete,
+    detail: "UNVERIFIED (observed once, no public source). A raw image shorter than the disk its partition table describes (an acquisition \
+             that stopped early, or a partial copy) attached on one Big Sur 11.7 host without \
+             presenting the APFS container, so no APFS volumes appeared to list or mount; the \
+             complete image of the same disk presented it. Searched (2026-09) the web for \
+             truncated dd images with hdiutil, APFS containers missing and partitions \
+             extending beyond the end of an image: no public description was found.",
+    consequence: "The Mac is taken to have no APFS volume, or an encrypted or wiped one, when \
+                  the image is simply incomplete.",
+    mitigation: "Before interpreting a missing container, compare the image size with the \
+                 partition table: the APFS partition's last sector times the disk's sector \
+                 size (and the GPT backup header at the disk's last LBA) must fall inside the \
+                 file. A shortfall is an acquisition defect to fix or report, not a finding \
+                 about the disk.",
+    evidence_tier: EvidenceTier::SearchedNotFound,
+    sources: &["https://developer.apple.com/support/downloads/Apple-File-System-Reference.pdf"],
+};
+
+/// `log show --archive` on a logarchive assembled by copying files from an
+/// image.
+///
+/// # Sources
+/// - <https://www.mac4n6.com/blog/2020/4/20/analysis-of-apple-unified-log-quarantine-edition-entry-1-converting-log-archive-files-on-1015-catalina>
+///   — OSArchiveVersion in the archive's Info.plist (3 on 10.13, 4 on 10.14
+///   and 10.15); "Doing a recursive copy from a dead image does not create
+///   this Info.plist"; adding one with the wrong version gives wrong
+///   timestamps.
+/// - <https://padawan-4n6.hatenablog.com/entry/2020/03/15/052607> — a
+///   copied diagnostics+uuidtext .logarchive that worked on Mojave is
+///   refused by Catalina's log; an Info.plist with OSArchiveVersion makes it
+///   readable, with "partial or missing metadata" warnings.
+/// - log(1), mirrored at <https://ss64.com/mac/log.html>: the archive "must
+///   be a valid log archive bundle with the suffix .logarchive".
+/// - Observed on one Big Sur 11.7 export: zero events rather than an error.
+pub static LOG_SHOW_ZERO_EVENTS_ON_COPIED_ARCHIVE: ToolBehaviour = ToolBehaviour {
+    id: "log_show_zero_events_on_copied_archive",
+    tool: "log show --archive (macOS)",
+    version_range: Some("macOS 10.15 and later hosts (sources); a Big Sur 11.7 export (observed)"),
+    artifact_id: Some("macos_unified_log"),
+    kind: ToolBehaviourKind::SilentlyIncomplete,
+    detail: "A .logarchive assembled by copying /private/var/db/diagnostics/ and \
+             /private/var/db/uuidtext/ out of an image lacks the Info.plist, carrying \
+             OSArchiveVersion, that log collect writes. Since Catalina the log command \
+             refuses such a bundle or, as observed on one Big Sur 11.7 export, returns zero \
+             events rather than an error; an Info.plist with the wrong version makes it \
+             parse with shifted timestamps.",
+    consequence: "Zero events is read as an empty or cleared unified log, or a predicate that \
+                  matched nothing is read as the event not having happened.",
+    mitigation: "Parse the copied directory with a parser that does not need the bundle \
+                 metadata (Mandiant's unifiedlog_iterator -m log-archive), and run a control \
+                 first: a query that must match (the boot or the Mac's own hostname) has to \
+                 return entries before any empty result counts.",
+    evidence_tier: EvidenceTier::SourceOrMultiImpl,
+    sources: &[
+        "https://www.mac4n6.com/blog/2020/4/20/analysis-of-apple-unified-log-quarantine-edition-entry-1-converting-log-archive-files-on-1015-catalina",
+        "https://padawan-4n6.hatenablog.com/entry/2020/03/15/052607",
+        "https://ss64.com/mac/log.html",
+    ],
+};
+
+/// Every unifiedlog_iterator record carries the source file path in its
+/// `evidence` field.
+///
+/// # Sources
+/// - `src/unified_log.rs` at commit 09e6e6e4 (code-read): `LogData` has
+///   `pub evidence: String`, copied onto every record from the parsed file.
+/// - `examples/unifiedlog_iterator/src/main.rs` at the same commit:
+///   `UnifiedLogIterator { ..., evidence: path }` for each tracev3 file, and
+///   each record is written out whole (JSONL default, or CSV).
+pub static UNIFIEDLOG_ITERATOR_EVIDENCE_FIELD_FALSE_HITS: ToolBehaviour = ToolBehaviour {
+    id: "unifiedlog_iterator_evidence_field_false_hits",
+    tool: "Mandiant macos-UnifiedLogs unifiedlog_iterator",
+    version_range: Some("main at 09e6e6e43098a71d48250af552d732f630929208 (read 2026-09-24)"),
+    artifact_id: Some("macos_unified_log"),
+    kind: ToolBehaviourKind::FalsePositiveProne,
+    detail: "Each output record includes an `evidence` field holding the path of the tracev3 \
+             file it came from (for example .../Persist/<hex>.tracev3 or \
+             .../Special/<hex>.tracev3), beside the message fields. A text search run over \
+             whole output lines (grep over the JSONL or CSV) therefore also matches the path: \
+             any term that occurs in the export directory name, a folder like Persist, \
+             Special or Signpost, or a hex file name, hits every record from that file.",
+    consequence: "Thousands of spurious hits are counted as log events mentioning the term, or \
+                  a term is reported present in the log when it occurs only in a file path.",
+    mitigation: "Search the message fields (message, subsystem, process, category) rather than \
+                 whole lines, e.g. with jq on the JSONL; control by searching for a term known \
+                 to occur only in the path and confirming it returns nothing.",
+    evidence_tier: EvidenceTier::SourceOrMultiImpl,
+    sources: &[
+        "https://github.com/mandiant/macos-UnifiedLogs/blob/09e6e6e43098a71d48250af552d732f630929208/src/unified_log.rs",
+        "https://github.com/mandiant/macos-UnifiedLogs/blob/09e6e6e43098a71d48250af552d732f630929208/examples/unifiedlog_iterator/src/main.rs",
+    ],
+};
+
+/// spotlight_parser parses the one database file it is given.
+///
+/// # Sources
+/// - <https://github.com/ydkhatri/spotlight_parser> README: processes
+///   "individual Spotlight database files which are always named `store.db`
+///   and `.store.db`"; stores are "under each volume at location
+///   /.Spotlight-V100/Store-V2/<UUID>", and per-user CoreSpotlight stores
+///   exist since 10.13.
+/// - <https://github.com/ydkhatri/mac_apt/blob/master/plugins/spotlight.py> —
+///   mac_apt processes both store.db and .store.db in every Store-V2/<UUID>
+///   and writes only the items of .store.db absent from store.db.
+pub static SPOTLIGHT_PARSER_ONE_STORE_PER_RUN: ToolBehaviour = ToolBehaviour {
+    id: "spotlight_parser_one_store_per_run",
+    tool: "spotlight_parser (ydkhatri)",
+    version_range: Some("1.0.4 (README as read 2026-09-24)"),
+    artifact_id: Some("macos_spotlight_store"),
+    kind: ToolBehaviourKind::SilentlyIncomplete,
+    detail: "spotlight_parser takes one database file per run. Each \
+             /.Spotlight-V100/Store-V2/<UUID>/ holds two, store.db and the hidden .store.db, \
+             which carries items not yet merged into store.db; every volume has its own \
+             /.Spotlight-V100, so on a Mac with separate system and data volumes there is more \
+             than one store; and per-user CoreSpotlight stores live under \
+             ~/Library/Metadata/CoreSpotlight/. Parsing only the visible store.db of one volume \
+             reports a complete-looking listing that omits the rest.",
+    consequence: "A file indexed only in .store.db, or only in another volume's store, is \
+                  reported as never indexed, and its metadata as absent.",
+    mitigation: "Enumerate every .Spotlight-V100/Store-V2/<UUID>/ on every volume and the \
+                 per-user CoreSpotlight stores, and parse both store.db and .store.db in each \
+                 (mac_apt's SPOTLIGHT plugin does this); record which stores were parsed.",
+    evidence_tier: EvidenceTier::SourceOrMultiImpl,
+    sources: &[
+        "https://github.com/ydkhatri/spotlight_parser",
+        "https://github.com/ydkhatri/mac_apt/blob/master/plugins/spotlight.py",
+    ],
+};
+
+/// The Sleuth Kit reaches APFS volumes through its pool layer, not at the
+/// container's offset.
+///
+/// # Sources
+/// - `tools/fstools/fls.cpp` (develop, read 2026-09-24): with no `-B
+///   pool_volume_block`, fls opens a file system directly at the `-o`
+///   offset; with `-B` it opens the pool (`tsk_pool_open_img_sing`, type
+///   from `-P`) and then the volume inside it.
+/// - `NEWS.txt`: 4.8.0 "Pool layer was added to support APFS"; 4.9.0
+///   "Ensure all command line tools support new pool command line
+///   arguments".
+pub static TSK_APFS_PLAIN_OFFSET_WITHOUT_POOL_OPTIONS: ToolBehaviour = ToolBehaviour {
+    id: "tsk_apfs_plain_offset_without_pool_options",
+    tool: "The Sleuth Kit (fls, fsstat, icat and other fstools)",
+    version_range: Some(
+        "sleuthkit 4.8.0 and later (pool layer); fls.cpp read at develop 2026-09-24",
+    ),
+    artifact_id: Some("apfs_container"),
+    kind: ToolBehaviourKind::RequiresFlag,
+    detail: "An APFS partition holds a container (a pool), and the volumes are inside it. Given \
+             only -o <partition offset>, fls and the other fstools try to open a file system \
+             at that offset and fail. The source shows the pool path is taken only when \
+             -B <volume superblock block> is given (with -P apfs naming the pool type); pstat \
+             lists the pool's volumes and their blocks. On the observed image TSK failed at \
+             the plain offset; the pool options were not tried there, so this records what the \
+             source requires, not a tested failure of TSK's APFS support.",
+    consequence: "TSK is concluded unable to read the image, or the APFS volume is taken for \
+                  encrypted or damaged, when the pool options were simply not supplied.",
+    mitigation: "Run pstat -o <offset> <image> to list the APFS volumes, then fls -o <offset> \
+                 -P apfs -B <volume block> <image>. If that also fails, report the failure \
+                 with the exact command.",
+    evidence_tier: EvidenceTier::SourceOrMultiImpl,
+    sources: &[
+        "https://github.com/sleuthkit/sleuthkit/blob/develop/tools/fstools/fls.cpp",
+        "https://github.com/sleuthkit/sleuthkit/blob/develop/NEWS.txt",
+    ],
+};
+
 /// Every registered tool behaviour. Lookup and iteration read this slice;
 /// a static not referenced here is invisible to every consumer.
 pub static TOOL_BEHAVIOURS: &[ToolBehaviour] = &[
@@ -1053,4 +1267,10 @@ pub static TOOL_BEHAVIOURS: &[ToolBehaviour] = &[
     LIBEWF_DAMAGED_SEGMENT_ERROR_SEMANTICS,
     FTK_IMAGER_VERIFY_UNSTORED_HASH_MISMATCH,
     TSK_FLS_FAT_DELETED_NAME_FIRST_CHAR,
+    HDIUTIL_HEADERLESS_RAW_REQUIRES_CRAW_IMAGE_CLASS,
+    HDIUTIL_TRUNCATED_RAW_HIDES_APFS_CONTAINER,
+    LOG_SHOW_ZERO_EVENTS_ON_COPIED_ARCHIVE,
+    UNIFIEDLOG_ITERATOR_EVIDENCE_FIELD_FALSE_HITS,
+    SPOTLIGHT_PARSER_ONE_STORE_PER_RUN,
+    TSK_APFS_PLAIN_OFFSET_WITHOUT_POOL_OPTIONS,
 ];
