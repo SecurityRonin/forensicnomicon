@@ -4613,7 +4613,7 @@ pub(crate) static OOXML_CORE_PROPERTIES: ArtifactDescriptor = ArtifactDescriptor
         application), AppVersion and Company. These values travel with the file through \
         copying, email and download, so they record where and by whom, in the application's \
         terms, a document was written and saved, independently of the file-system times on \
-        this Mac. Comparing dcterms:created and dcterms:modified with file-system dates, and \
+        the machine where it is found. Comparing dcterms:created and dcterms:modified with file-system dates, and \
         creator with lastModifiedBy, shows whether a document was authored here or arrived \
         from elsewhere.",
     mitre_techniques: &[],
@@ -4642,10 +4642,10 @@ pub(crate) static OOXML_CORE_PROPERTIES: ArtifactDescriptor = ArtifactDescriptor
     evidence_tier: Some(crate::evidence::EvidenceTier::VendorDocumented),
     evidence_caveats: &[
         "creator and lastModifiedBy are the user-name setting of the application that wrote them, not the person at the keyboard; Microsoft documents that Office sets Author from its User name setting and that the value can be edited per document",
-        "A document downloaded or copied to this Mac carries the metadata of the machine that authored it elsewhere; its presence here says nothing about authorship on this Mac",
+        "A document downloaded or copied to the machine under examination carries the metadata of the machine that authored it elsewhere; its presence says nothing about authorship on the machine where it is found",
         "The docProps/ part names are the convention Office writes; the package relationships (_rels/.rels) are authoritative for where the core and extended properties live",
         "Times are written by the saving application from its own clock and can be edited or stripped without trace",
-        "The format is platform-independent; it is catalogued under macOS because the catalogue's OsScope has no cross-platform value",
+        "The format is platform-independent and applies equally to documents found on Windows, removable media or any other system; it is catalogued under macOS only because the catalogue's OsScope has no cross-platform value",
     ],
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "Stored inside the document itself",
@@ -4712,10 +4712,10 @@ pub(crate) static OLE2_SUMMARY_INFORMATION: ArtifactDescriptor = ArtifactDescrip
     evidence_tier: Some(crate::evidence::EvidenceTier::VendorDocumented),
     evidence_caveats: &[
         "PIDSI_AUTHOR and PIDSI_LASTAUTHOR are the user-name setting of the application that wrote them, not the person at the keyboard; the value can be edited per document",
-        "A document downloaded or copied to this Mac carries the metadata of the machine that authored it elsewhere; its presence here says nothing about authorship on this Mac",
+        "A document downloaded or copied to the machine under examination carries the metadata of the machine that authored it elsewhere; its presence says nothing about authorship on the machine where it is found",
         "All properties are optional and writable by any tool; absent or blank values are not evidence of tampering by themselves",
         "Decode 8-bit strings with the set's CODEPAGE, not the examiner's locale, or names in non-Latin scripts are mis-rendered",
-        "The format is platform-independent; it is catalogued under macOS because the catalogue's OsScope has no cross-platform value",
+        "The format is platform-independent and applies equally to documents found on Windows, removable media or any other system; it is catalogued under macOS only because the catalogue's OsScope has no cross-platform value",
     ],
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "Stored inside the document itself",

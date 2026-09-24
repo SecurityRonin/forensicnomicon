@@ -415,6 +415,207 @@ pub static MALFIND_BENIGN_PROCESS_NAMES: ToolBehaviour = ToolBehaviour {
     ],
 };
 
+/// libewf: the whole open of a real EnCase L01 aborts at a strict
+/// short-name size check.
+///
+/// # Verification
+///
+/// - `libewf/libewf_lef_file_entry.c:982-983` (tag 20231119), in
+///   `libewf_lef_file_entry_read_short_name`: the ltree short-name value is
+///   split into a declared size and a string, and the function fails with
+///   "invalid short name size value out of bounds" unless the declared size
+///   equals the string's size. The error propagates up, so the handle open
+///   fails for the entire container, not for the one entry. The same check
+///   is present on `main` as fetched 2026-09-24.
+/// - Observed on a real EnCase-produced L01: `ewfinfo` and `ewfexport`
+///   (libewf 20231119, including `ewfexport -f files`, which exported 0
+///   files) and pyewf built from libewf 20240506 all failed with that
+///   message, while an independent LEF reader enumerated the same file and
+///   verified its ltree against the stored MD5 with no parse warnings.
+///   Which property of the real file breaks the equality was not
+///   established; no upstream issue was found (libyal/libewf issue search
+///   for "short name", 2026-09-24).
+///
+/// Kind: the taxonomy has no "rejects valid evidence" variant.
+/// `MisreadsStructure` ("with the wrong semantics") is the nearest: the
+/// parser imposes a reading of the short-name size field that EnCase's own
+/// output does not satisfy. The failure is loud, which is why it is not
+/// `SilentlyIncomplete`.
+pub static LIBEWF_LEF_SHORT_NAME_OPEN_FAILURE: ToolBehaviour = ToolBehaviour {
+    id: "libewf_lef_short_name_open_failure",
+    tool: "libewf (ewfinfo, ewfexport, ewfverify, pyewf and tools built on it)",
+    version_range: Some(
+        "libewf 20231119 (check read from source; ewfinfo/ewfexport observed) and pyewf from \
+         libewf 20240506 (observed); the check is still present on main as of 2026-09-24",
+    ),
+    artifact_id: None,
+    kind: ToolBehaviourKind::MisreadsStructure,
+    detail: "When reading an L01 (EnCase logical evidence file), libewf parses each ltree file \
+             entry's short (DOS 8.3) name as a declared size followed by a string and requires \
+             the two to agree exactly (libewf_lef_file_entry.c:982-983). A real EnCase L01 \
+             failed this check: the open aborts with \
+             'libewf_lef_file_entry_read_short_name: invalid short name size value out of \
+             bounds', and because the error propagates, the whole container is unreadable - \
+             ewfinfo, ewfexport (including the files export mode, which exported 0 files) and \
+             pyewf all fail on it. An independent LEF reader enumerated the same file and \
+             verified its ltree against the stored MD5.",
+    consequence: "The failure is loud, but it reads as a corrupt or non-standard L01, and an \
+                  examiner whose toolchain is libewf-based (ewfinfo, ewfexport, pyewf, and \
+                  anything built on them) may report the evidence as unreadable or damaged when \
+                  the container is intact, or conclude it cannot be examined at all.",
+    mitigation: "Before calling the L01 damaged, open it with an independent LEF reader \
+                 (EnCase, X-Ways, Magnet AXIOM, or an open reader) and verify the ltree against \
+                 its stored MD5. Record the reader and version used. Do not patch the check out \
+                 of libewf to produce evidential output without authorisation, a recorded diff \
+                 and disclosure; a patched build is for triage only.",
+    evidence_tier: EvidenceTier::SourceOrMultiImpl,
+    sources: &[
+        "https://github.com/libyal/libewf/blob/20231119/libewf/libewf_lef_file_entry.c",
+        "https://raw.githubusercontent.com/libyal/libewf/main/libewf/libewf_lef_file_entry.c",
+        "https://github.com/libyal/libewf/tree/main/documentation",
+    ],
+};
+
+/// libewf: the errors for a damaged or incomplete EWF set do not say which
+/// segment is at fault.
+///
+/// # Verification
+///
+/// - `ewftools/export_handle.c:5404` (tag 20231119): the export loop raises
+///   "unexpected end of data" when a read returns 0 bytes while the export
+///   has not yet reached the media size declared in the header - the
+///   segment data ran out early. The message carries no segment number.
+/// - `libewf/libewf_segment_file.c:957`: a segment whose first 8 bytes match
+///   none of the EVF/LVF/EVF2/LEF2 signatures fails with "unsupported file
+///   header signature"; the caller in `libewf_handle.c:3665` adds only
+///   "unable to read segment file header", again with no segment number.
+/// - Observed: a set in which one segment had been zero-filled by a faulty
+///   copy (its mtime years after acquisition, the rest on the acquisition
+///   day) produced the signature error; a copy missing mid-set data
+///   produced "unexpected end of data" near 99% of an export.
+pub static LIBEWF_DAMAGED_SEGMENT_ERROR_SEMANTICS: ToolBehaviour = ToolBehaviour {
+    id: "libewf_damaged_segment_error_semantics",
+    tool: "libewf ewftools (ewfexport, ewfinfo, ewfverify, ewfmount)",
+    version_range: Some("libewf 20231119 (messages read from source and observed)"),
+    artifact_id: None,
+    kind: ToolBehaviourKind::OutputHidesDetail,
+    detail: "Two messages cover a damaged EWF set. 'export_handle_export_input: unexpected end \
+             of data' (export_handle.c) means a read returned no data before the media size \
+             declared in the header was reached: a segment in this copy is truncated or \
+             missing. 'libewf_segment_file_read_file_header_file_io_pool: unsupported file \
+             header signature' (libewf_segment_file.c) means a segment's first 8 bytes are none \
+             of the EWF signatures, as when a segment has been zero-filled by a faulty copy. \
+             Neither message names the segment file concerned.",
+    consequence: "Neither error says which segment is defective, so the examiner is left to \
+                  guess: the damage is readily assumed to be at the tail (it can be mid-set, \
+                  for example .EFM, segment 242), the method is blamed and swapped (ewfmount \
+                  reads the same short data), or a zero-filled copy is mistaken for tampering \
+                  with the evidence rather than a copying fault. Padding the short output to the \
+                  declared size lets it attach but leaves the missing region reading as zeros.",
+    mitigation: "Check the 8-byte signature of every segment file; compare per-segment sizes \
+                 and modification times across the set (a lone later mtime marks a re-written \
+                 copy); compare ewfinfo's media size with the size actually exported; re-copy \
+                 the defective segment from the original and run ewfverify over the full set; \
+                 check the working drive's health if copies keep failing.",
+    evidence_tier: EvidenceTier::SourceOrMultiImpl,
+    sources: &[
+        "https://github.com/libyal/libewf/blob/20231119/ewftools/export_handle.c",
+        "https://github.com/libyal/libewf/blob/20231119/libewf/libewf_segment_file.c",
+        "https://github.com/libyal/libewf/blob/20231119/libewf/libewf_handle.c",
+        "https://github.com/libyal/libewf/blob/main/manuals/ewfverify.1",
+    ],
+};
+
+/// FTK Imager Verify: a zero-filled stored SHA-1 reads as "Mismatch".
+///
+/// # Verification
+///
+/// - FTK Imager 4.7.1 User Guide, "Verifying Drives and Images": for an
+///   image that contains its own hash (".S01 (SMART) or .E01 (EnCase)") the
+///   results show the stored hash and "whether the hash value stored in the
+///   image matches the hash value computed". That mechanism is documented.
+/// - Observed on two real E01 exhibits whose acquisition stored only an
+///   MD5: the stored SHA-1 field was all zeros, Verify reported a SHA-1
+///   "Mismatch", and the MD5 matched.
+/// - Searched, 2026-09-24, for any vendor statement of what Verify shows
+///   when a hash was never stored: the 4.7.1 User Guide (silent on it) and a
+///   web search of forums and vendor pages; nothing found. Hence
+///   SearchedNotFound for the zero-filled behaviour itself.
+pub static FTK_IMAGER_VERIFY_UNSTORED_HASH_MISMATCH: ToolBehaviour = ToolBehaviour {
+    id: "ftk_imager_verify_unstored_hash_mismatch",
+    tool: "AccessData/Exterro FTK Imager (Verify Drive/Image)",
+    version_range: Some("Observed on FTK Imager Verify output; exact versions not recorded"),
+    artifact_id: None,
+    kind: ToolBehaviourKind::FalsePositiveProne,
+    detail: "UNVERIFIED as vendor-documented behaviour; observed on two real exhibits. Verify \
+             recomputes the image's MD5 and SHA-1 and compares each with the hash stored in the \
+             image at acquisition (documented in the User Guide). When only an MD5 was stored, \
+             the stored SHA-1 field reads as all zeros and Verify reports 'SHA1 Verify result: \
+             Mismatch' while the MD5 matches. Searched: the FTK Imager 4.7.1 User Guide, which \
+             documents the comparison but not the never-stored case, and a web search of \
+             forums and vendor pages, which found nothing.",
+    consequence: "A reader takes a sound image for an altered one because of a 'Mismatch' that \
+                  only reflects a hash never stored - or, reading an expert report that passes \
+                  over the 'Mismatch' silently, cannot tell whether it was checked. Separately, \
+                  a genuine match is over-read: it proves the image equals itself since \
+                  acquisition, not that it equals the source device at seizure.",
+    mitigation: "Before reading 'Mismatch' as a defect, check whether the stored value is all \
+                 zeros (ewfinfo lists the stored hashes) and rely on the algorithm that was \
+                 actually stored. Report the zero-filled SHA-1 explicitly as 'not stored at \
+                 acquisition'. State what a match proves: integrity since acquisition, which says \
+                 nothing about the interval between seizure and imaging.",
+    evidence_tier: EvidenceTier::SearchedNotFound,
+    sources: &[
+        "https://d1kpmuwb7gvu1i.cloudfront.net/Imager/4_7_1/FTKImager_UserGuide.pdf",
+        "https://github.com/libyal/libewf/blob/main/manuals/ewfinfo.1",
+    ],
+};
+
+/// The Sleuth Kit: a deleted FAT short name's lost first byte is shown as
+/// '_'.
+///
+/// # Verification
+///
+/// - Microsoft FAT32 File System Specification (fatgen103): "If
+///   DIR_Name[0] == 0xE5, then the directory entry is free", so the first
+///   character of a deleted entry's short name is overwritten.
+/// - `tsk/fs/fatxxfs_dent.c:293-294` (tags sleuthkit-4.14.0 and 4.15.0, and
+///   develop as fetched 2026-09-24): when the first short-name byte is the
+///   deleted marker, TSK writes '_' in its place. The substituted short name
+///   becomes the displayed name only when no long-name entry survives;
+///   otherwise the long name is shown and the 8.3 name goes to the
+///   short-name slot.
+/// - Observed: fls listed a deleted '_ROTHER' directory beside a live
+///   'BROTHER'.
+///
+/// Design, not a bug: the byte is gone from the volume, and TSK marks the
+/// loss rather than guessing.
+pub static TSK_FLS_FAT_DELETED_NAME_FIRST_CHAR: ToolBehaviour = ToolBehaviour {
+    id: "tsk_fls_fat_deleted_name_first_char",
+    tool: "The Sleuth Kit (fls, and tools built on its FAT directory parser)",
+    version_range: Some("sleuthkit-4.14.0 and 4.15.0 (read from source); develop as of 2026-09-24"),
+    artifact_id: Some("fat_exfat_directory_entry"),
+    kind: ToolBehaviourKind::OutputHidesDetail,
+    detail: "FAT marks a deleted directory entry by overwriting the first byte of its short \
+             name with 0xE5, so the original first character is lost on the volume. TSK's FAT \
+             parser (fatxxfs_dent.c) writes '_' in that position. Where a long-name entry \
+             survives, fls shows the long name; where none does, the deleted file or folder is \
+             listed as '_' plus the rest of the 8.3 name (for example '_ROTHER' for a deleted \
+             'BROTHER').",
+    consequence: "A search for the original name misses the deleted entry, and a '_'-prefixed \
+                  name can be read as the real name, or two entries that differ only in the \
+                  first character can be taken for different files.",
+    mitigation: "Search deleted entries (fls -d) by the rest of the name rather than the whole \
+                 name, and prefer surviving long-name entries, which keep the full name; state \
+                 in any report that the first character of a recovered short name is unknown.",
+    evidence_tier: EvidenceTier::SourceOrMultiImpl,
+    sources: &[
+        "https://github.com/sleuthkit/sleuthkit/blob/sleuthkit-4.15.0/tsk/fs/fatxxfs_dent.c",
+        "https://download.microsoft.com/download/1/6/1/161ba512-40e2-4cc9-843a-923143f3456c/fatgen103.doc",
+        "https://www.sleuthkit.org/sleuthkit/man/fls.html",
+    ],
+};
+
 /// Every registered tool behaviour. Lookup and iteration read this slice;
 /// a static not referenced here is invisible to every consumer.
 pub static TOOL_BEHAVIOURS: &[ToolBehaviour] = &[
@@ -426,4 +627,8 @@ pub static TOOL_BEHAVIOURS: &[ToolBehaviour] = &[
     VOL3_MALFIND_FP_PROFILE,
     COREUTILS_STAT_EXT4_BIRTH_BLANK,
     MALFIND_BENIGN_PROCESS_NAMES,
+    LIBEWF_LEF_SHORT_NAME_OPEN_FAILURE,
+    LIBEWF_DAMAGED_SEGMENT_ERROR_SEMANTICS,
+    FTK_IMAGER_VERIFY_UNSTORED_HASH_MISMATCH,
+    TSK_FLS_FAT_DELETED_NAME_FIRST_CHAR,
 ];

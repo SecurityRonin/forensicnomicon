@@ -11,7 +11,7 @@ use super::*;
 /// The exact number of registered tool behaviours — the single place the
 /// count is written down. Adding an entry updates this constant and nothing
 /// else; every other test asserts presence or invariants, not size.
-const EXPECTED_TOOL_BEHAVIOUR_LEN: usize = 8;
+const EXPECTED_TOOL_BEHAVIOUR_LEN: usize = 12;
 
 #[test]
 fn no_duplicate_ids() {
@@ -195,7 +195,7 @@ fn every_correlation_entry_is_verifiable() {
 
 /// The exact number of registered investigative techniques — the single place
 /// the count is written down, mirroring [`EXPECTED_TOOL_BEHAVIOUR_LEN`].
-const EXPECTED_INVESTIGATIVE_TECHNIQUE_LEN: usize = 7;
+const EXPECTED_INVESTIGATIVE_TECHNIQUE_LEN: usize = 15;
 
 #[test]
 fn investigative_len_matches_expected() {
@@ -356,6 +356,101 @@ fn every_investigative_entry_is_verifiable() {
     }
 }
 
+/// The evidence-handling and Windows attribution batch: eight techniques an
+/// examiner needs when the evidence arrives as EWF/L01/AD1 containers and the
+/// question is who used a Windows machine or a removable device.
+#[test]
+fn evidence_handling_and_windows_attribution_techniques_are_present() {
+    let t = |id: &str| {
+        INVESTIGATIVE_TECHNIQUES
+            .iter()
+            .find(|t| t.id == id)
+            .unwrap_or_else(|| panic!("missing investigative technique: {id}"))
+    };
+    let fm = |id: &str| t(id).failure_modes.join(" ");
+
+    let prov = t("acquisition_provenance_from_evidence");
+    assert!(prov
+        .steps
+        .iter()
+        .any(|s| s.action.contains("ewfinfo") && s.action.contains("sector")));
+    assert!(prov.steps.iter().any(|s| s.action.contains(".txt")));
+
+    assert!(fm("evidence_hash_scope").contains("seizure"));
+    assert!(t("evidence_hash_scope")
+        .sources
+        .iter()
+        .any(|s| s.contains("800-86")));
+
+    assert!(fm("logical_export_selection_rule").contains("whitelist"));
+    let scope = t("container_scope_reproducibility_check");
+    assert!(scope
+        .steps
+        .iter()
+        .any(|s| s.action.contains("positive control")));
+    for id in [
+        "sam_user_f_record",
+        "windows_install_date",
+        "wechat_windows_files",
+    ] {
+        assert!(
+            scope.artifacts_used.contains(&id),
+            "scope check must consume {id}"
+        );
+    }
+
+    let wc = t("working_copy_integrity_before_findings");
+    assert!(wc.steps.iter().any(|s| s.action.contains("ewfverify")));
+    assert!(fm("working_copy_integrity_before_findings").contains("padding"));
+
+    let usb = t("usb_exhibit_host_correlation");
+    for id in [
+        "usb_stor_enum",
+        "mountpoints2",
+        "evtx_partition_diagnostic_1006",
+        "emdmgmt_readyboost",
+        "fat_exfat_directory_entry",
+        "macos_usb_mass_storage_log",
+    ] {
+        assert!(
+            usb.artifacts_used.contains(&id),
+            "USB correlation must consume {id}"
+        );
+    }
+    assert!(fm("usb_exhibit_host_correlation").contains("reformat"));
+
+    let os = t("removable_volume_host_os_residue");
+    assert!(os.artifacts_used.contains(&"macos_trash"));
+    assert!(
+        fm("removable_volume_host_os_residue").contains("System Volume Information")
+            && fm("removable_volume_host_os_residue").contains("searched"),
+        "SVI on removable FAT must be recorded as searched and unsourced"
+    );
+
+    let acct = t("windows_deleted_account_reconstruction");
+    for id in [
+        "sam_user_f_record",
+        "profile_list_users",
+        "evtx_security_account_management",
+        "ntfs_secure_sds",
+        "vss_snapshot_analysis",
+    ] {
+        assert!(
+            acct.artifacts_used.contains(&id),
+            "account reconstruction must consume {id}"
+        );
+    }
+    let acct_fm = fm("windows_deleted_account_reconstruction");
+    assert!(
+        acct_fm.contains("1002"),
+        "RID gaps are weak on OEM installs"
+    );
+    assert!(
+        acct_fm.contains("Amcache"),
+        "Amcache evidences programs, not accounts"
+    );
+}
+
 // ── Tool behaviours ──────────────────────────────────────────────────────────
 
 /// A tool that under-reports and a tool that over-reports mislead in opposite
@@ -510,11 +605,78 @@ fn unsourced_tool_behaviours_announce_themselves_in_the_text() {
     }
 }
 
+/// The evidence-container batch: how libewf and FTK Imager present EWF
+/// evidence. Each entry must carry the exact message an examiner sees, since
+/// the message is the only handle an examiner has to find the entry.
+#[test]
+fn evidence_container_tool_batch_is_present() {
+    let by_id = |id: &str| {
+        TOOL_BEHAVIOURS
+            .iter()
+            .find(|b| b.id == id)
+            .unwrap_or_else(|| panic!("missing tool behaviour: {id}"))
+    };
+
+    let lef = by_id("libewf_lef_short_name_open_failure");
+    assert_eq!(lef.kind, ToolBehaviourKind::MisreadsStructure);
+    assert!(lef
+        .detail
+        .contains("invalid short name size value out of bounds"));
+    assert!(lef.detail.contains("libewf_lef_file_entry.c"));
+    assert!(lef
+        .sources
+        .iter()
+        .any(|s| s.contains("20231119/libewf/libewf_lef_file_entry.c")));
+    assert!(
+        lef.mitigation.contains("ltree"),
+        "mitigation must name the independent check: the ltree MD5"
+    );
+
+    let seg = by_id("libewf_damaged_segment_error_semantics");
+    assert_eq!(seg.kind, ToolBehaviourKind::OutputHidesDetail);
+    assert!(seg.detail.contains("unexpected end of data"));
+    assert!(seg.detail.contains("unsupported file header signature"));
+    assert!(
+        seg.consequence.contains("segment"),
+        "consequence must say the error does not name the defective segment"
+    );
+
+    let ftk = by_id("ftk_imager_verify_unstored_hash_mismatch");
+    assert_eq!(ftk.kind, ToolBehaviourKind::FalsePositiveProne);
+    assert_eq!(ftk.evidence_tier, EvidenceTier::SearchedNotFound);
+    assert!(ftk.detail.contains("Mismatch"));
+    assert!(
+        ftk.mitigation.contains("zeros") || ftk.mitigation.contains("zero-filled"),
+        "mitigation must say to check the stored value for zeros first"
+    );
+    assert!(
+        ftk.consequence.contains("seizure"),
+        "a match proves image = itself since acquisition, not = source at seizure"
+    );
+}
+
+/// Sleuth Kit renders a deleted FAT short name's lost first byte as '_'
+/// (fatxxfs_dent.c), so a name search for the original misses it.
+#[test]
+fn tsk_fat_deleted_first_char_is_recorded() {
+    let b = TOOL_BEHAVIOURS
+        .iter()
+        .find(|b| b.id == "tsk_fls_fat_deleted_name_first_char")
+        .expect("tsk_fls_fat_deleted_name_first_char missing");
+    assert_eq!(b.kind, ToolBehaviourKind::OutputHidesDetail);
+    assert!(b.detail.contains("0xE5") && b.detail.contains("'_'"));
+    assert!(b.sources.iter().any(|s| s.contains("fatxxfs_dent.c")));
+    assert!(
+        b.mitigation.contains("long"),
+        "surviving long-name entries keep the full name"
+    );
+}
+
 // ── Examination profiles ─────────────────────────────────────────────────────
 
 /// The exact number of registered examination profiles — the single place the
 /// count is written down, mirroring [`EXPECTED_TOOL_BEHAVIOUR_LEN`].
-const EXPECTED_EXAMINATION_PROFILE_LEN: usize = 3;
+const EXPECTED_EXAMINATION_PROFILE_LEN: usize = 4;
 
 #[test]
 fn examination_len_matches_expected() {
@@ -1012,4 +1174,61 @@ fn profiles_use_curated_not_mis_scoped_safari_cookies() {
         crate::catalog::OsScope::MacOS,
         "the curated Safari cookie descriptor must be macOS-scoped"
     );
+}
+
+/// The Windows user-attribution profile: shared versus exclusive use of a
+/// Windows computer. Every member must say, in its own rationale, that the
+/// artefact attributes to an account, SID, device or system and not to a
+/// person, because that is the error this examination most often makes.
+#[test]
+fn windows_user_attribution_profile_is_present_and_caveated() {
+    let p = EXAMINATION_PROFILES
+        .iter()
+        .find(|p| p.id == "windows_user_attribution")
+        .expect("windows_user_attribution profile missing");
+    assert_eq!(p.platform, Platform::Windows);
+    assert_eq!(p.kind, ProfileKind::Focused);
+    assert_eq!(p.focus, ExaminationFocus::UserAttribution);
+    assert!(p.description.contains("one SID"));
+
+    for m in p.members {
+        assert!(
+            m.rationale.contains("not a person") || m.rationale.contains("not the person"),
+            "{}: rationale must state the artefact does not identify a person",
+            m.artifact_id
+        );
+    }
+
+    for (id, cat) in [
+        ("sam_user_f_record", InvestigativeCategory::AccountUse),
+        ("profile_list_users", InvestigativeCategory::AccountUse),
+        ("evtx_security", InvestigativeCategory::AccountUse),
+        ("bam_user", InvestigativeCategory::ApplicationUse),
+        ("amcache_app_file", InvestigativeCategory::ApplicationUse),
+        ("prefetch_file", InvestigativeCategory::ApplicationUse),
+        ("shellbags_user", InvestigativeCategory::FileActivity),
+        ("ntfs_secure_sds", InvestigativeCategory::FileActivity),
+        ("mountpoints2", InvestigativeCategory::Connections),
+        (
+            "evtx_partition_diagnostic_1006",
+            InvestigativeCategory::Connections,
+        ),
+        (
+            "wechat_windows_files",
+            InvestigativeCategory::Communications,
+        ),
+        (
+            "ooxml_core_properties",
+            InvestigativeCategory::DocumentAuthorship,
+        ),
+        ("chrome_login_data", InvestigativeCategory::WebActivity),
+        ("onedrive_metadata", InvestigativeCategory::CloudStorage),
+    ] {
+        let m = p
+            .members
+            .iter()
+            .find(|m| m.artifact_id == id)
+            .unwrap_or_else(|| panic!("windows_user_attribution must include {id}"));
+        assert_eq!(m.category, cat, "{id} is in the wrong category");
+    }
 }

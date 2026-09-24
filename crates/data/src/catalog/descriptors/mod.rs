@@ -14,6 +14,7 @@ mod linux_ext;
 mod macos_ext;
 mod vehicle_ext;
 mod windows_ad_ext;
+mod windows_attribution_ext;
 mod windows_evtx_ext;
 mod windows_evtx_format;
 mod windows_files_ext;
@@ -1046,7 +1047,14 @@ pub(crate) static AMCACHE_FIELDS: &[FieldSchema] = &[
     },
 ];
 
-/// Amcache InventoryApplicationFile — program execution evidence with hashes.
+/// Amcache InventoryApplicationFile — inventory of executables present on or
+/// registered with the system, with hashes. Presence, not by itself execution.
+///
+/// Per ANSSI (Blanche Lagny, "Analysis of the AmCache v2", 2019, §8) the key
+/// lists three categories of PE: executed shimmed EXEs with a GUI, EXE/SYS
+/// files installed with a program, and EXEs found in the folders the
+/// Compatibility Appraiser scans (Program Files, Program Files (x86),
+/// Desktop). Only the first category proves execution.
 pub static AMCACHE_APP_FILE: ArtifactDescriptor = ArtifactDescriptor {
     id: "amcache_app_file",
     name: "Amcache InventoryApplicationFile",
@@ -1058,7 +1066,7 @@ pub static AMCACHE_APP_FILE: ArtifactDescriptor = ArtifactDescriptor {
     scope: DataScope::System,
     os_scope: OsScope::Win8Plus,
     decoder: Decoder::Identity,
-    meaning: "Program execution evidence with file hash; persists after binary deletion",
+    meaning: "Inventory of executable files present on or registered with the system (SHA-1, PE metadata, path); presence and inventory, not by itself execution. Persists after binary deletion",
     mitre_techniques: &["T1218", "T1204.002"],
     fields: AMCACHE_FIELDS,
     retention: None,
@@ -1079,11 +1087,17 @@ pub static AMCACHE_APP_FILE: ArtifactDescriptor = ArtifactDescriptor {
         // established the 31,457,280-byte (30 MiB) input threshold and the
         // truncated-input behaviour above it
         "https://blog.nviso.eu/2022/03/07/amcache-contains-sha-1-hash-it-depends/",
+        // Source: ANSSI (Blanche Lagny), "Analysis of the AmCache v2", 2019 —
+        // §8: InventoryApplicationFile lists three PE categories; execution is
+        // ascertainable only for executed shimmed GUI EXEs
+        "https://cyber.gouv.fr/documents/634/anssi-coriin_2019-analysis_amcache.pdf",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
     evidence_tier: None,
     evidence_caveats: &[
         "Presence proves file was on disk and touched by Windows; not always execution",
+        "ANSSI finds the key lists three categories: executed shimmed EXEs with a GUI, EXE/SYS files installed with a program, and EXEs present in folders the Compatibility Appraiser scans (Program Files, Program Files (x86), Desktop). Only the first proves execution; the others are inventory of files that may never have run",
+        "Amcache.hve is a system-wide hive: an entry carries no user SID, so it gives no per-user attribution of presence or execution",
         "Can be populated by antivirus scans",
         "The FileId SHA-1 covers only the first 31,457,280 bytes (30 MiB). Above that size the value is a prefix hash, not a file hash — it is present and well-formed and will never match a full-file SHA-1, so a hash-set miss on a large binary is an artefact of the threshold and not evidence the file differs. Read the stored Size before comparing",
         "AmCache last write time is NOT a reliable first-execution indicator on modern systems — the hive is updated by multiple mechanisms beyond the Compatibility Appraiser scheduled task (which is often disabled), including normal app launches and PCA activity",
@@ -1396,7 +1410,7 @@ pub(crate) static BAM_FIELDS: &[FieldSchema] = &[FieldSchema {
     is_uid_component: false,
 }];
 
-/// Background Activity Moderator — per-user background process execution times.
+/// Background Activity Moderator — per-SID last-execution times of locally run executables.
 ///
 /// Each value under a SID sub-key is the executable path; value data is an
 /// 8-byte FILETIME of the last execution. Win10 1709+.
@@ -1411,7 +1425,7 @@ pub static BAM_USER: ArtifactDescriptor = ArtifactDescriptor {
     scope: DataScope::Mixed,
     os_scope: OsScope::Win10Plus,
     decoder: Decoder::FiletimeAt { offset: 0 },
-    meaning: "Last execution time of background/UWP processes per-user SID",
+    meaning: "Last execution time (FILETIME) of locally run executables, one value per executable path under each user SID sub-key",
     mitre_techniques: &["T1059", "T1204"],
     fields: BAM_FIELDS,
     retention: Some("~7 days rolling window"),
@@ -1426,7 +1440,12 @@ pub static BAM_USER: ArtifactDescriptor = ArtifactDescriptor {
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
     evidence_tier: None,
-    evidence_caveats: &["Granularity is per-day; precise execution time not available"],
+    evidence_caveats: &[
+        "Each value's data begins with an 8-byte FILETIME of the executable's last run under that SID (100 ns resolution, UTC), so the last-run time is precise to the event, not rounded to a day",
+        "Entries older than about 7 days are removed when Windows boots, and an entry is removed when its executable is removed from its original location, so absence is weak evidence of non-execution",
+        "Only locally run executables are recorded: programs launched from network shares or removable media, and console applications, do not generate entries (forensafe)",
+        "The SID sub-key names an account context, not a person: several people sharing one account produce one SID",
+    ],
     volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
     volatility_rationale: "Rotated by OS on background activity manager flush",
 };
@@ -1497,7 +1516,7 @@ pub static SAM_USERS: ArtifactDescriptor = ArtifactDescriptor {
     fields: SAM_FIELDS,
     retention: None,
     triage_priority: TriagePriority::Critical,
-    related_artifacts: &["lsa_secrets", "dcc2_cache"],
+    related_artifacts: &["lsa_secrets", "dcc2_cache", "sam_user_f_record", "profile_list_users"],
     sources: &[
         "https://www.sans.org/blog/windows-credential-storage-for-penetration-testers/",
         "https://windowsir.blogspot.com/2010/11/recovering-passwords.html",
@@ -1506,8 +1525,9 @@ pub static SAM_USERS: ArtifactDescriptor = ArtifactDescriptor {
     evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
     evidence_tier: None,
     evidence_caveats: &[
-        "Contains local account NTLM hashes; requires SYSTEM privilege to read",
+        "Contains local account NTLM hashes; on a live system reading it requires SYSTEM privilege, while an offline hive from an image needs none",
         "Must be used with SYSTEM hive to decrypt",
+        "Lists accounts, not people: several people sharing one account appear as one entry; for last logon, logon count, flags and RID semantics (including why a first owner at RID 1002 is ordinary on OEM installs) see sam_user_f_record",
     ],
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "SAM registry hive; persists until account deleted",
@@ -3251,6 +3271,7 @@ pub static USNJRNL: ArtifactDescriptor = ArtifactDescriptor {
         "Journal is a rolling window (~32 MB default); older entries are overwritten",
         "Journal can be cleared by an attacker with sufficient privileges",
         "$J alternate data stream requires raw NTFS access — not visible via Win32 APIs",
+        "A record carries the change Reason and the file's SecurityId (its security descriptor), not the user or process that made the change; attribute the change from other sources",
     ],
     volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
     volatility_rationale: "$UsnJrnl:$J is a rolling window (~32 MB); oldest records are overwritten as the journal grows",
@@ -3787,7 +3808,7 @@ pub static RECYCLE_BIN: ArtifactDescriptor = ArtifactDescriptor {
     fields: RECYCLE_BIN_FIELDS,
     retention: None,
     triage_priority: TriagePriority::High,
-    related_artifacts: &["sam_users", "mft_file", "usnjrnl", "lnk_files"],
+    related_artifacts: &["sam_users", "mft_file", "usnjrnl", "lnk_files", "zone_identifier"],
     sources: &[
         "https://www.sans.org/blog/digital-forensics-recycle-bin-forensics/",
         "https://windowsir.blogspot.com/2010/02/more-on-recycle-bin.html",
@@ -3799,7 +3820,12 @@ pub static RECYCLE_BIN: ArtifactDescriptor = ArtifactDescriptor {
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
     evidence_tier: None,
-    evidence_caveats: &["File name and deletion time available; original content may be overwritten"],
+    evidence_caveats: &[
+        "File name and deletion time available; original content may be overwritten",
+        "Map the SID folder's RID to an account on this machine's own SAM before treating it as a separate user; a SID that looks foreign is often the sole user's own",
+        "A $I/$R pair shows what was deleted under that profile, not which person deleted it: several people sharing one account produce one SID folder",
+        "Sending a file to the Recycle Bin renames it on the same NTFS volume, so a recovered $R file can keep its alternate data streams, including Zone.Identifier with the download URL",
+    ],
     volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
     volatility_rationale: "Deleted on permanent delete; survives recycle until purge",
 };
@@ -7365,6 +7391,7 @@ pub static PREFETCH_FILE: ArtifactDescriptor = ArtifactDescriptor {
         "Several .pf files for one executable NAME is expected for binaries launched with /prefetch:N — svchost.exe, dllhost.exe, rundll32.exe, backgroundtaskhost.exe — because the switch value is added into the path hash. Do not read the multiplicity as the same binary having run from several directories, and do not attempt to verify those hashes from the path alone",
         "The .pf file's own NTFS timestamps carry what the embedded array cannot: creation ~= first execution + ~10 s (the prefetcher writes the trace only after its ~10-second window) and last-modified ~= most recent execution + ~10 s. Past eight runs the array has wrapped and the creation time is the only remaining witness of the first execution. The ~10 s offset applies to the filesystem times only, never to the embedded FILETIMEs",
         "A .pf is produced for an execution ATTEMPT — the trace begins at process start — so its existence does not establish that the program initialised successfully or ran to completion",
+        "Prefetch is system-wide and does not identify the user or account that ran the program; pair it with per-SID sources (UserAssist, BAM, SRUM) for that",
     ],
     volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
     volatility_rationale: "Directory-level FIFO eviction: 128 .pf files on Windows 7 and earlier, 1024 from Windows 8 onward",
@@ -9225,6 +9252,7 @@ pub static MOUNTPOINTS2: ArtifactDescriptor = ArtifactDescriptor {
         "The per-SUBKEY LastWrite dates the mount, not the parent key's LastWrite; read each resource subkey's own time",
         "Entries are retained after a device is removed or a mapped drive is disconnected, so presence does not imply the resource is still mounted",
         "LastWrite-as-last-mount is the accepted convention but carries no explicit event record — corroborate with USBSTOR/MountedDevices/setupapi.dev.log for the connection timeline",
+        "Attributes to the Windows profile (SID) under whose NTUSER.DAT the subkey sits, not a person: several people sharing one account produce one SID",
     ],
     volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
     volatility_rationale: "Subkeys are written when the user mounts a resource; persist in NTUSER.DAT after disconnection",
@@ -18512,6 +18540,12 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     macos_ext::MACOS_SMB_SERVER_IDENTITY,
     macos_ext::MACOS_CONNECT_TO_SERVER_HISTORY,
     windows_files_ext::ONEDRIVE_ODL_LOGS,
+    // ── Windows user attribution (SAM F record, WeChat, Partition/Diagnostic
+    //    1006, FAT/exFAT directory entries) ──
+    windows_attribution_ext::SAM_USER_F_RECORD,
+    windows_attribution_ext::WECHAT_WINDOWS_FILES,
+    windows_attribution_ext::EVTX_PARTITION_DIAGNOSTIC_1006,
+    windows_attribution_ext::FAT_EXFAT_DIRECTORY_ENTRY,
     // ── Android ─────────────────────────────────────────────────────────────
     android_ext::SAMSUNG_GALLERY3D_TRASH,
     android_ext::SAMSUNG_GALLERY3D_LOG,

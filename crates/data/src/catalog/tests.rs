@@ -15,7 +15,7 @@ use crate::catalog::*;
 /// `catalog_integrity::catalog_len_matches_expected_catalog_len` asserts against
 /// it; every `catalog_*` test belonging to a batch asserts that batch's
 /// artifacts are *present*, which is the invariant those tests are named for.
-const EXPECTED_CATALOG_LEN: usize = 6881;
+const EXPECTED_CATALOG_LEN: usize = 6885;
 
 #[cfg(test)]
 mod catalog_integrity {
@@ -14335,5 +14335,316 @@ mod tests_macos_quarantine_events_airdrop_sender {
             d.related_artifacts.contains(&"macos_airdrop_sharingd"),
             "the AirDrop-sender angle must cross-reference the unified-log AirDrop artifact"
         );
+    }
+}
+
+// ── Windows contradictions: BAM granularity, Amcache headline, EWF logical ──
+// Three descriptors contradicted their own decoders or sources. BAM said
+// "per-day" over a FILETIME decoder; amcache_app_file headlined "execution"
+// while ANSSI shows InventoryApplicationFile lists files never run; the EWF
+// container named L01 but registered only the EVF signature, so an EWF1 L01
+// ("LVF\x09\x0d\x0a\xff\x00", libewf_segment_file.c:70) matched nothing.
+#[cfg(test)]
+mod tests_windows_contradictions {
+    use super::*;
+
+    #[test]
+    fn bam_caveats_state_filetime_not_per_day() {
+        let d = CATALOG.by_id("bam_user").expect("bam_user missing");
+        let body = d.evidence_caveats.join(" ");
+        assert!(
+            !body.contains("per-day"),
+            "BAM value data is a FILETIME (decoder FiletimeAt); 'per-day' contradicts it"
+        );
+        assert!(body.contains("FILETIME"), "caveat must name the FILETIME");
+        assert!(
+            body.to_lowercase().contains("7 days"),
+            "must record the boot-time pruning of entries older than 7 days"
+        );
+        assert!(
+            body.contains("not a person") || body.contains("not the person"),
+            "the SID is an account context, not a person"
+        );
+    }
+
+    #[test]
+    fn amcache_app_file_headline_is_inventory_not_execution() {
+        let d = CATALOG
+            .by_id("amcache_app_file")
+            .expect("amcache_app_file missing");
+        assert!(
+            !d.meaning.contains("execution evidence"),
+            "InventoryApplicationFile lists files that never ran (ANSSI); headline must not claim execution"
+        );
+        assert!(d.meaning.to_lowercase().contains("inventory"));
+        assert!(d.meaning.contains("not by itself execution"));
+    }
+
+    #[test]
+    fn amcache_app_file_cites_anssi_and_denies_user_attribution() {
+        let d = CATALOG.by_id("amcache_app_file").unwrap();
+        assert!(
+            d.sources
+                .iter()
+                .any(|s| s.contains("cyber.gouv.fr") && s.contains("amcache")),
+            "must cite the ANSSI AmCache analysis"
+        );
+        let body = d.evidence_caveats.join(" ");
+        assert!(
+            body.contains("per-user"),
+            "system-wide hive: must say there is no per-user attribution"
+        );
+        assert!(
+            body.contains("Program Files") && body.contains("Desktop"),
+            "must record the Compatibility Appraiser's scanned folders (ANSSI)"
+        );
+    }
+
+    fn ewf_sigs(id: &str) -> Vec<&'static crate::catalog::ContainerSignature> {
+        all_container_signatures()
+            .iter()
+            .filter(|s| s.container_id == id)
+            .collect()
+    }
+
+    #[test]
+    fn ewf_physical_signatures_cover_ewf1_and_ewf2() {
+        let sigs = ewf_sigs("ewf_image");
+        assert!(sigs
+            .iter()
+            .any(|s| s.header_magic == b"EVF\x09\x0d\x0a\xff\x00"));
+        assert!(
+            sigs.iter()
+                .any(|s| s.header_magic == b"EVF2\x0d\x0a\x81\x00"),
+            "Ex01 signature (libewf ewf2_evf_file_signature) must be registered"
+        );
+    }
+
+    #[test]
+    fn ewf_logical_container_registers_lvf_and_lef2() {
+        let p = container_profile("ewf_logical_evidence")
+            .expect("L01/Lx01 logical-evidence container profile missing");
+        assert!(p.summary.contains("unallocated"));
+        let sigs = ewf_sigs("ewf_logical_evidence");
+        assert!(
+            sigs.iter()
+                .any(|s| s.header_magic == b"LVF\x09\x0d\x0a\xff\x00"),
+            "EWF1 L01 begins LVF\\x09\\x0d\\x0a\\xff\\x00 (libewf_segment_file.c:70)"
+        );
+        assert!(
+            sigs.iter()
+                .any(|s| s.header_magic == b"LEF2\x0d\x0a\x81\x00"),
+            "Lx01 signature (libewf ewf2_lef_file_signature) must be registered"
+        );
+    }
+
+    #[test]
+    fn ewf_hints_and_invariants_name_every_signature_and_rollover() {
+        let p = container_profile("ewf_image").unwrap();
+        let hints = p.parser_hints.join(" ");
+        assert!(hints.contains("LVF"), "variant hint must include EWF1 L01");
+        assert!(
+            hints.contains(".EAA"),
+            "must state the .E99 -> .EAA rollover"
+        );
+        let sig = all_container_signatures()
+            .iter()
+            .find(|s| s.container_id == "ewf_image")
+            .unwrap();
+        assert!(
+            !sig.invariants.join(" ").contains("EVF/EVF2/LEF2"),
+            "the invariant that omitted LVF must be replaced"
+        );
+        assert!(
+            !p.name.contains("L01"),
+            "logical L01/Lx01 now has its own container profile"
+        );
+    }
+
+    #[test]
+    fn ad1_logical_image_profile_states_logical_scope() {
+        let p = container_profile("ad1_logical_image").expect("AD1 container profile missing");
+        assert!(p.summary.contains("Custom Content Image"));
+        assert!(p.summary.contains("geometry"));
+    }
+}
+
+// ── Windows user attribution: accounts, removable media, messenger ──────────
+// Descriptors the windows_user_attribution profile needs, and attribution
+// caveats on existing ones: every artefact below identifies an account or
+// SID, never the person at the keyboard.
+#[cfg(test)]
+mod tests_windows_user_attribution_descriptors {
+    use super::*;
+    use crate::evidence::EvidenceTier;
+
+    #[test]
+    fn sam_user_f_record_decodes_the_f_value() {
+        let d = CATALOG
+            .by_id("sam_user_f_record")
+            .expect("sam_user_f_record missing");
+        assert_eq!(d.value_name, Some("F"));
+        assert!(d.key_path.contains(r"SAM\Domains\Account\Users"));
+        for f in [
+            "last_logon",
+            "password_last_set",
+            "last_failed_logon",
+            "rid",
+            "account_control_flags",
+            "logon_count",
+        ] {
+            assert!(d.fields.iter().any(|x| x.name == f), "field {f} missing");
+        }
+        assert!(d
+            .sources
+            .iter()
+            .any(|s| s.contains("libyal/winreg-kb") && s.contains("Domains.md")));
+    }
+
+    #[test]
+    fn sam_user_f_record_carries_rid_semantics() {
+        let d = CATALOG.by_id("sam_user_f_record").unwrap();
+        let body = d.evidence_caveats.join(" ");
+        for needle in [
+            "500",
+            "501",
+            "503",
+            "504",
+            "never reused",
+            "1002",
+            "defaultuser0",
+        ] {
+            assert!(body.contains(needle), "RID caveats must mention {needle}");
+        }
+        assert!(
+            body.contains("WDAGUtilityAccount") && body.contains("not 1001"),
+            "must reject the false claim that WDAGUtilityAccount burns RID 1001"
+        );
+        assert!(body.contains("not a person") || body.contains("not the person"));
+        assert_eq!(d.evidence_tier, Some(EvidenceTier::SourceOrMultiImpl));
+        assert!(d
+            .sources
+            .iter()
+            .any(|s| s.contains("understand-security-identifiers")));
+        assert!(d.sources.iter().any(|s| s.contains("local-accounts")));
+    }
+
+    #[test]
+    fn sam_users_drops_live_only_framing_and_links_rid_detail() {
+        let d = CATALOG.by_id("sam_users").unwrap();
+        assert!(d.evidence_caveats.join(" ").contains("offline"));
+        for id in ["sam_user_f_record", "profile_list_users"] {
+            assert!(d.related_artifacts.contains(&id), "must relate {id}");
+        }
+    }
+
+    #[test]
+    fn wechat_windows_files_records_layout_and_operator_limit() {
+        let d = CATALOG
+            .by_id("wechat_windows_files")
+            .expect("wechat_windows_files missing");
+        assert!(d.file_path.unwrap().contains("WeChat Files"));
+        assert!(d.meaning.contains("xwechat_files"), "WeChat 4.x layout");
+        let body = d.evidence_caveats.join(" ");
+        assert!(body.contains("QR"));
+        assert!(body.contains("not who"));
+        assert!(body.contains("whitelist") || body.contains("selected file"));
+        assert!(d.sources.iter().any(|s| s.contains("help.wechat.com")));
+    }
+
+    #[test]
+    fn partition_diagnostic_1006_is_curated() {
+        let d = CATALOG
+            .by_id("evtx_partition_diagnostic_1006")
+            .expect("evtx_partition_diagnostic_1006 missing");
+        assert!(d.file_path.unwrap().contains("Partition%4Diagnostic.evtx"));
+        for s in ["1006", "SerialNumber", "Capacity", "Vbr0"] {
+            assert!(d.meaning.contains(s), "meaning must name {s}");
+        }
+        assert!(d.related_artifacts.contains(&"usb_stor_enum"));
+        let usb = CATALOG.by_id("usb_stor_enum").unwrap();
+        assert!(usb
+            .related_artifacts
+            .contains(&"evtx_partition_diagnostic_1006"));
+    }
+
+    #[test]
+    fn fat_exfat_directory_entry_states_no_ownership() {
+        let d = CATALOG
+            .by_id("fat_exfat_directory_entry")
+            .expect("fat_exfat_directory_entry missing");
+        assert!(d.meaning.contains("0xE5"));
+        let body = d.evidence_caveats.join(" ");
+        assert!(body.contains("no owner"));
+        assert!(body.contains("date only") || body.contains("only a date"));
+        assert!(d.sources.iter().any(|s| s.contains("fatgen103")));
+        assert!(d.sources.iter().any(|s| s.contains("exfat-specification")));
+    }
+
+    #[test]
+    fn mountpoints2_attributes_to_a_profile_not_a_person() {
+        let d = CATALOG.by_id("mountpoints2").unwrap();
+        let body = d.evidence_caveats.join(" ");
+        assert!(body.contains("SID"));
+        assert!(body.contains("not a person"));
+    }
+
+    #[test]
+    fn owner_sid_is_not_authorship() {
+        let d = CATALOG.by_id("ntfs_secure_sds").unwrap();
+        assert!(d.evidence_caveats.join(" ").contains("not authorship"));
+        assert!(d.sources.iter().any(|s| s.contains("robocopy")));
+    }
+
+    #[test]
+    fn usn_journal_records_reason_not_actor() {
+        let d = CATALOG.by_id("usnjrnl").unwrap();
+        assert!(d.evidence_caveats.join(" ").contains("SecurityId"));
+        assert!(d.sources.iter().any(|s| s.contains("usn_record_v2")));
+    }
+
+    #[test]
+    fn office_authorship_descriptors_are_platform_neutral_in_wording() {
+        for id in ["ooxml_core_properties", "ole2_summary_information"] {
+            let d = CATALOG.by_id(id).unwrap();
+            let body = format!("{} {}", d.meaning, d.evidence_caveats.join(" "));
+            assert!(
+                !body.contains("this Mac"),
+                "{id}: the format is platform-independent; wording must not assume a Mac"
+            );
+        }
+    }
+}
+
+// ── Windows attribution caveats on existing descriptors ────────────────────
+#[cfg(test)]
+mod tests_windows_attribution_caveats {
+    use super::*;
+
+    #[test]
+    fn install_date_scopes_what_install_time_artefacts_can_reach() {
+        let d = CATALOG.by_id("windows_install_date").unwrap();
+        let body = d.evidence_caveats.join(" ");
+        assert!(body.contains("cannot reach"));
+        assert!(body.contains("older than"));
+    }
+
+    #[test]
+    fn recycle_bin_sid_folder_is_an_account_not_a_person() {
+        let d = CATALOG.by_id("recycle_bin").unwrap();
+        let body = d.evidence_caveats.join(" ");
+        assert!(body.contains("SAM"), "map the SID on the native SAM first");
+        assert!(body.contains("not which person"));
+        assert!(body.contains("Zone.Identifier"));
+        assert!(d.related_artifacts.contains(&"zone_identifier"));
+    }
+
+    #[test]
+    fn prefetch_does_not_identify_the_user() {
+        let d = CATALOG.by_id("prefetch_file").unwrap();
+        assert!(d
+            .evidence_caveats
+            .iter()
+            .any(|c| c.contains("does not identify") && c.contains("user")));
     }
 }

@@ -769,7 +769,391 @@ pub static MACOS_MALWARE: ExaminationProfile = ExaminationProfile {
     ],
 };
 
+/// Focused Windows user-attribution examination: shared versus exclusive use
+/// of a Windows computer. Accounts and sessions, per-profile execution and
+/// file activity, removable media and remote access, messenger and web
+/// identities, cloud identity and document authorship.
+///
+/// Every member attributes to an account, a SID, a device or the machine, and
+/// each rationale says so: several people sharing one account produce one
+/// SID, so none of these artefacts on its own places a person at the
+/// keyboard. System-wide artefacts (Prefetch, Amcache, ShimCache) carry no
+/// user at all. `hiberfil_sys` and `pagefile_sys` are left out: their residue
+/// is not attributable to a profile without further analysis.
+pub static WINDOWS_USER_ATTRIBUTION: ExaminationProfile = ExaminationProfile {
+    id: "windows_user_attribution",
+    name: "Windows user attribution (shared vs exclusive use)",
+    platform: Platform::Windows,
+    kind: ProfileKind::Focused,
+    focus: ExaminationFocus::UserAttribution,
+    description: "Shared versus exclusive use of a Windows computer: accounts, sessions, \
+                  per-profile activity, execution, removable media, remote access, identities, \
+                  ownership and timeline. Every member attributes to an account or security \
+                  context, a device or the machine, never to a human: several people on one \
+                  account produce one SID, and a remote operator acts under a local account.",
+    members: &[
+        ProfileMember {
+            artifact_id: "sam_users",
+            category: Cat::AccountUse,
+            rationale: "Local account inventory, the starting list of accounts to attribute against. Each entry identifies the account (SID), not the person at the keyboard.",
+        },
+        ProfileMember {
+            artifact_id: "sam_user_f_record",
+            category: Cat::AccountUse,
+            rationale: "Last logon, logon count, flags and RID per account; RID semantics keep a first owner at RID 1002 on an OEM install from being read as deleted users. Each record identifies the account (SID), not the person at the keyboard.",
+        },
+        ProfileMember {
+            artifact_id: "profile_list_users",
+            category: Cat::AccountUse,
+            rationale: "Every SID that has had a profile, including accounts deleted since (orphaned subkeys), mapped to a profile path. Each subkey identifies the account (SID), not the person at the keyboard.",
+        },
+        ProfileMember {
+            artifact_id: "user_account_sid",
+            category: Cat::AccountUse,
+            rationale: "Resolves SIDs seen across hives, logs and $SDS to account names; the SID identifies the account (SID), not the person at the keyboard.",
+        },
+        ProfileMember {
+            artifact_id: "evtx_security",
+            category: Cat::AccountUse,
+            rationale: "Logon sessions by logon type (interactive, network, unlock, remote, cached) with 4634/4647/4648 and 1102; a logon event identifies the account (SID), not the person at the keyboard.",
+        },
+        ProfileMember {
+            artifact_id: "evtx_security_account_management",
+            category: Cat::AccountUse,
+            rationale: "Account creation, deletion and change (4720/4726/4738): the lifecycle of each account, dated. The event identifies the account (SID), not the person at the keyboard.",
+        },
+        ProfileMember {
+            artifact_id: "evtx_security_session_reconnect",
+            category: Cat::AccountUse,
+            rationale: "Session reconnect and disconnect (4778/4779), including the client name and address of a remote reconnect; the session identifies the account (SID), not the person at the keyboard.",
+        },
+        ProfileMember {
+            artifact_id: "evtx_system",
+            category: Cat::AccountUse,
+            rationale: "Boot and shutdown times bound when any account could have been active; they record the machine, not the person.",
+        },
+        ProfileMember {
+            artifact_id: "windows_install_date",
+            category: Cat::AccountUse,
+            rationale: "Install date, reset by feature updates: bounds what install-time artefacts can reach, since files can predate it while logs and Prefetch cannot. It describes the installation, not the person.",
+        },
+        ProfileMember {
+            artifact_id: "system_timezone",
+            category: Cat::AccountUse,
+            rationale: "The time zone every local-time comparison needs; it describes the machine, not the person.",
+        },
+        ProfileMember {
+            artifact_id: "userassist_exe",
+            category: Cat::ApplicationUse,
+            rationale: "Per-profile GUI program launches with run counts and last-run times; the entry identifies the account (SID), not the person at the keyboard.",
+        },
+        ProfileMember {
+            artifact_id: "bam_user",
+            category: Cat::ApplicationUse,
+            rationale: "Per-SID last-run FILETIME of locally run executables, pruned after about a week; the SID sub-key identifies the account (SID), not the person at the keyboard.",
+        },
+        ProfileMember {
+            artifact_id: "dam_user",
+            category: Cat::ApplicationUse,
+            rationale: "Desktop Activity Moderator per-SID execution times, the companion to BAM; the SID identifies the account (SID), not the person at the keyboard.",
+        },
+        ProfileMember {
+            artifact_id: "srum_app_timeline",
+            category: Cat::ApplicationUse,
+            rationale: "SRUM per-application activity by user SID, about a week in this table; the user SID identifies the account (SID), not the person at the keyboard.",
+        },
+        ProfileMember {
+            artifact_id: "srum_app_resource",
+            category: Cat::ApplicationUse,
+            rationale: "SRUM per-application resource use by user SID; the user SID identifies the account (SID), not the person at the keyboard.",
+        },
+        ProfileMember {
+            artifact_id: "prefetch_file",
+            category: Cat::ApplicationUse,
+            rationale: "Execution with run times, but system-wide, with no user SID; it identifies the machine, not a person.",
+        },
+        ProfileMember {
+            artifact_id: "amcache_app_file",
+            category: Cat::ApplicationUse,
+            rationale: "Inventory of executables present or installed, not by itself execution (ANSSI); system-wide, with no user SID; it identifies the machine, not a person.",
+        },
+        ProfileMember {
+            artifact_id: "amcache_program",
+            category: Cat::ApplicationUse,
+            rationale: "Installed programs and install times; system-wide, with no user SID; it identifies the machine, not a person.",
+        },
+        ProfileMember {
+            artifact_id: "shimcache",
+            category: Cat::ApplicationUse,
+            rationale: "Files the compatibility cache saw, with their modification time rather than an execution time; system-wide, with no user SID; it identifies the machine, not a person.",
+        },
+        ProfileMember {
+            artifact_id: "muicache",
+            category: Cat::ApplicationUse,
+            rationale: "Per-profile record of executables whose display name was resolved; the entry identifies the account (SID), not the person at the keyboard.",
+        },
+        ProfileMember {
+            artifact_id: "powershell_history",
+            category: Cat::ApplicationUse,
+            rationale: "Per-profile PowerShell command history; it identifies the account (SID), not the person at the keyboard.",
+        },
+        ProfileMember {
+            artifact_id: "scheduled_tasks_dir",
+            category: Cat::ApplicationUse,
+            rationale: "Scheduled tasks name the account a task runs as and the author recorded at registration; that identifies the account (SID), not the person at the keyboard.",
+        },
+        ProfileMember {
+            artifact_id: "jump_list_auto",
+            category: Cat::FileActivity,
+            rationale: "Per-profile files opened per application, with volume serial and drive type; the list identifies the account (SID), not the person at the keyboard.",
+        },
+        ProfileMember {
+            artifact_id: "jump_list_custom",
+            category: Cat::FileActivity,
+            rationale: "Per-profile pinned and frequent items; the list identifies the account (SID), not the person at the keyboard.",
+        },
+        ProfileMember {
+            artifact_id: "lnk_files",
+            category: Cat::FileActivity,
+            rationale: "Per-profile shortcuts to opened files, carrying target times, volume serial and drive type; the shortcut identifies the account (SID), not the person at the keyboard.",
+        },
+        ProfileMember {
+            artifact_id: "shellbags_user",
+            category: Cat::FileActivity,
+            rationale: "Folders rendered in Explorer for this profile, not files opened; the record identifies the account (SID), not the person at the keyboard.",
+        },
+        ProfileMember {
+            artifact_id: "mru_recent_docs",
+            category: Cat::FileActivity,
+            rationale: "Per-profile recently opened documents by extension; the list identifies the account (SID), not the person at the keyboard.",
+        },
+        ProfileMember {
+            artifact_id: "opensave_mru",
+            category: Cat::FileActivity,
+            rationale: "Per-profile files chosen in common Open/Save dialogs; the list identifies the account (SID), not the person at the keyboard.",
+        },
+        ProfileMember {
+            artifact_id: "lastvisited_mru",
+            category: Cat::FileActivity,
+            rationale: "Per-profile application and folder last used in a common dialog; the list identifies the account (SID), not the person at the keyboard.",
+        },
+        ProfileMember {
+            artifact_id: "run_mru",
+            category: Cat::FileActivity,
+            rationale: "Per-profile commands typed in the Run dialog; the list identifies the account (SID), not the person at the keyboard.",
+        },
+        ProfileMember {
+            artifact_id: "typed_paths",
+            category: Cat::FileActivity,
+            rationale: "Per-profile paths typed into the Explorer address bar; the list identifies the account (SID), not the person at the keyboard.",
+        },
+        ProfileMember {
+            artifact_id: "wordwheel_query",
+            category: Cat::FileActivity,
+            rationale: "Per-profile Explorer search terms; the list identifies the account (SID), not the person at the keyboard.",
+        },
+        ProfileMember {
+            artifact_id: "ms_office_trusted_docs",
+            category: Cat::FileActivity,
+            rationale: "Per-profile Office documents whose active content was enabled, with times; the record identifies the account (SID), not the person at the keyboard.",
+        },
+        ProfileMember {
+            artifact_id: "windows_timeline",
+            category: Cat::FileActivity,
+            rationale: "Per-profile activity history of applications and documents; the record identifies the account (SID), not the person at the keyboard.",
+        },
+        ProfileMember {
+            artifact_id: "windows_search_edb",
+            category: Cat::FileActivity,
+            rationale: "The search index lists files and their metadata across profiles; an entry records a file, not the person.",
+        },
+        ProfileMember {
+            artifact_id: "copilot_recall_ukg",
+            category: Cat::FileActivity,
+            rationale: "Recall snapshots and their text for the profile; the capture identifies the account (SID), not the person at the keyboard.",
+        },
+        ProfileMember {
+            artifact_id: "recycle_bin",
+            category: Cat::FileActivity,
+            rationale: "Deletions per SID folder: map the SID to an account on this SAM before treating it as a separate user. The folder identifies the account (SID), not the person at the keyboard.",
+        },
+        ProfileMember {
+            artifact_id: "zone_identifier",
+            category: Cat::FileActivity,
+            rationale: "Download provenance (zone, host and referrer URL) of a file, including recovered Recycle Bin files; it records where the file came from, not the person.",
+        },
+        ProfileMember {
+            artifact_id: "mft_file",
+            category: Cat::FileActivity,
+            rationale: "File creation and change times and the $SI security identifier joining to the owner SID; a file record identifies a file, not the person.",
+        },
+        ProfileMember {
+            artifact_id: "ntfs_secure_sds",
+            category: Cat::FileActivity,
+            rationale: "Owner SIDs of files: different owners show multiple user contexts to corroborate, not authorship. The owner SID identifies the account (SID), not the person at the keyboard.",
+        },
+        ProfileMember {
+            artifact_id: "usnjrnl",
+            category: Cat::FileActivity,
+            rationale: "File changes with reasons, recording the file and change, not the actor: it identifies no account and not the person.",
+        },
+        ProfileMember {
+            artifact_id: "logfile_ntfs",
+            category: Cat::FileActivity,
+            rationale: "Recent metadata transactions from the circular $LogFile; it records operations, not the person.",
+        },
+        ProfileMember {
+            artifact_id: "vss_snapshot_analysis",
+            category: Cat::FileActivity,
+            rationale: "Earlier states of hives, profiles and files, where snapshots exist; they record the machine's state, not the person.",
+        },
+        ProfileMember {
+            artifact_id: "fat_exfat_directory_entry",
+            category: Cat::FileActivity,
+            rationale: "Removable-volume file metadata, which holds no owner at all; it identifies a device or volume, not a person.",
+        },
+        ProfileMember {
+            artifact_id: "usb_stor_enum",
+            category: Cat::Connections,
+            rationale: "Removable storage by vendor, product and serial with first and last arrival; it identifies a device or volume, not a person.",
+        },
+        ProfileMember {
+            artifact_id: "usb_enum",
+            category: Cat::Connections,
+            rationale: "All USB devices by VID/PID and serial; it identifies a device or volume, not a person.",
+        },
+        ProfileMember {
+            artifact_id: "mounted_devices",
+            category: Cat::Connections,
+            rationale: "Joins a device serial to a drive letter and volume GUID; it identifies a device or volume, not a person.",
+        },
+        ProfileMember {
+            artifact_id: "mountpoints2",
+            category: Cat::Connections,
+            rationale: "Which profile mounted each volume GUID or share: the link from device to account. It identifies the account (SID), not the person at the keyboard.",
+        },
+        ProfileMember {
+            artifact_id: "setupapi_dev_log",
+            category: Cat::Connections,
+            rationale: "First install time of each device, in local time; it identifies a device or volume, not a person.",
+        },
+        ProfileMember {
+            artifact_id: "emdmgmt_readyboost",
+            category: Cat::Connections,
+            rationale: "Joins device serial to volume serial and label; it identifies a device or volume, not a person.",
+        },
+        ProfileMember {
+            artifact_id: "evtx_kernel_pnp",
+            category: Cat::Connections,
+            rationale: "Device configuration events with times; it identifies a device or volume, not a person.",
+        },
+        ProfileMember {
+            artifact_id: "evtx_driver_frameworks",
+            category: Cat::Connections,
+            rationale: "Per-connection device events where the channel is enabled; it identifies a device or volume, not a person.",
+        },
+        ProfileMember {
+            artifact_id: "portable_devices",
+            category: Cat::Connections,
+            rationale: "MTP and portable devices by friendly name; it identifies a device or volume, not a person.",
+        },
+        ProfileMember {
+            artifact_id: "evtx_partition_diagnostic_1006",
+            category: Cat::Connections,
+            rationale: "A record per disk arrival with serial, capacity and the Vbr0 boot record, giving the volume serial; it identifies a device or volume, not a person.",
+        },
+        ProfileMember {
+            artifact_id: "wifi_profiles",
+            category: Cat::Connections,
+            rationale: "Wireless networks this machine joined; a profile records the machine, not the person.",
+        },
+        ProfileMember {
+            artifact_id: "evtx_rdp_inbound",
+            category: Cat::Connections,
+            rationale: "Inbound RDP connection attempts with source address and account; the account named is not the person.",
+        },
+        ProfileMember {
+            artifact_id: "evtx_rdp_session",
+            category: Cat::Connections,
+            rationale: "RDP session logon, reconnect and logoff with source address; the session identifies the account (SID), not the person at the keyboard.",
+        },
+        ProfileMember {
+            artifact_id: "rdp_bitmap_cache",
+            category: Cat::Connections,
+            rationale: "Screen tiles cached by this profile's outbound RDP client; the cache identifies the account (SID), not the person at the keyboard.",
+        },
+        ProfileMember {
+            artifact_id: "anydesk_connection_trace",
+            category: Cat::Connections,
+            rationale: "Inbound AnyDesk sessions with remote ID and time: a remote operator may act under the local account, so it identifies the account (SID), not the person at the keyboard.",
+        },
+        ProfileMember {
+            artifact_id: "anydesk_file_transfer_log",
+            category: Cat::Connections,
+            rationale: "Files moved over AnyDesk sessions; the transfer identifies the account (SID), not the person at the keyboard.",
+        },
+        ProfileMember {
+            artifact_id: "teamviewer_connection_log",
+            category: Cat::Connections,
+            rationale: "TeamViewer sessions with partner ID and time; the session identifies the account (SID), not the person at the keyboard.",
+        },
+        ProfileMember {
+            artifact_id: "windows_notification_db",
+            category: Cat::Communications,
+            rationale: "Per-profile toast notifications, including message previews from messengers; the store identifies the account (SID), not the person at the keyboard.",
+        },
+        ProfileMember {
+            artifact_id: "wechat_windows_files",
+            category: Cat::Communications,
+            rationale: "One folder per WeChat account that logged in on the profile: account presence, not operator. It identifies the account (SID), not the person at the keyboard.",
+        },
+        ProfileMember {
+            artifact_id: "chrome_login_data",
+            category: Cat::WebActivity,
+            rationale: "Saved logins per browser profile: the web identities used from this profile. They identifies the account (SID), not the person at the keyboard.",
+        },
+        ProfileMember {
+            artifact_id: "chrome_web_data",
+            category: Cat::WebActivity,
+            rationale: "Autofill names, addresses and emails per browser profile; the data identifies the account (SID), not the person at the keyboard.",
+        },
+        ProfileMember {
+            artifact_id: "onedrive_metadata",
+            category: Cat::CloudStorage,
+            rationale: "The Microsoft account and synced files bound to the profile; the cloud identity identifies the account (SID), not the person at the keyboard.",
+        },
+        ProfileMember {
+            artifact_id: "windows_vault_user",
+            category: Cat::CloudStorage,
+            rationale: "Stored credentials for services the profile signs in to; they identifies the account (SID), not the person at the keyboard.",
+        },
+        ProfileMember {
+            artifact_id: "dpapi_masterkey_user",
+            category: Cat::CloudStorage,
+            rationale: "The profile's DPAPI master keys, needed to decrypt its stored secrets; they identifies the account (SID), not the person at the keyboard.",
+        },
+        ProfileMember {
+            artifact_id: "ooxml_core_properties",
+            category: Cat::DocumentAuthorship,
+            rationale: "Office creator and last-modified-by names: the application's user-name setting, provenance of the document, not the person at the keyboard.",
+        },
+        ProfileMember {
+            artifact_id: "ole2_summary_information",
+            category: Cat::DocumentAuthorship,
+            rationale: "Legacy Office author and last-saved-by names: the application's user-name setting, not the person at the keyboard.",
+        },
+    ],
+    sources: &[
+        "https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/manage/understand-security-identifiers",
+        "https://cyber.gouv.fr/documents/634/anssi-coriin_2019-analysis_amcache.pdf",
+    ],
+};
+
 /// Every registered examination profile. Lookup and iteration read this slice;
 /// a static not referenced here is invisible to every consumer.
-pub static EXAMINATION_PROFILES: &[ExaminationProfile] =
-    &[MACOS_FULL, MACOS_DATA_LEAKAGE, MACOS_MALWARE];
+pub static EXAMINATION_PROFILES: &[ExaminationProfile] = &[
+    MACOS_FULL,
+    MACOS_DATA_LEAKAGE,
+    MACOS_MALWARE,
+    WINDOWS_USER_ATTRIBUTION,
+];
