@@ -521,6 +521,13 @@ pub static WIFI_BSSID_GEOLOCATION: InvestigativeTechnique = InvestigativeTechniq
         "Trusting a single crowdsourced or dated hit. WiGLE coverage is uneven and ages; an AP \
          that moved — a replaced router, a mobile hotspot, transit Wi-Fi — resolves to a stale \
          or meaningless location, so a lone hit is a lead to corroborate, not a fix.",
+        "Dating an access point from the remembered-network store. A BSSIDList entry holds only \
+         LEAKY_AP_BSSID and an opaque LEAKY_AP_LEARNED_DATA blob, with no per-BSSID timestamp or \
+         channel (observed on a Big Sur 11.7 image), so the network's timestamps date the SSID, \
+         not a particular AP, and a BSSID listed under two SSIDs cannot be dated per SSID. And \
+         on a network migrated from the legacy airport store at the Big Sur upgrade, AddedAt can \
+         repeat the legacy last-join time rather than record a first join; use ChannelHistory \
+         and the legacy .backup record instead.",
     ],
     evidence_tier: EvidenceTier::SourceOrMultiImpl,
     mitre_techniques: &[],
@@ -634,6 +641,10 @@ pub static NETWORK_NEIGHBOUR_ENUMERATION: InvestigativeTechnique = Investigative
          bounds them) and can be extremely old; the quarantine timestamp is a Cocoa epoch needing \
          +978307200. Assigning a time from an undated store manufactures precision the source does \
          not carry.",
+        "Dating an access point from BSSIDList. Remembered-network BSSIDList entries hold only \
+         LEAKY_AP_BSSID and an opaque LEAKY_AP_LEARNED_DATA blob, with no per-BSSID timestamp or \
+         channel (observed on a Big Sur 11.7 image): when a given AP was used, or under which \
+         SSID when one BSSID sits under two networks, cannot be read from these stores.",
     ],
     evidence_tier: EvidenceTier::SourceOrMultiImpl,
     mitre_techniques: &["T1016"],

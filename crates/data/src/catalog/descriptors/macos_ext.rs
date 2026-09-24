@@ -230,7 +230,7 @@ pub(crate) static MACOS_WIFI_PLIST: ArtifactDescriptor = ArtifactDescriptor {
     scope: DataScope::System,
     os_scope: OsScope::MacOS,
     decoder: Decoder::Identity,
-    meaning: "Ordered list of all known Wi-Fi networks: SSIDs, security type, last join time, BSSID. Reveals historical network connections and geolocation context. Key for placing a device at a location or identifying rogue access points.",
+    meaning: "Ordered list of all known Wi-Fi networks: SSIDs, security type, last join time, BSSID. Reveals historical network connections and geolocation context. Key for placing a device at a location or identifying rogue access points. The store of macOS 10.15 and earlier; Big Sur (11) moved remembered networks to com.apple.wifi.known-networks.plist (macos_wifi_known_networks). On a Mac upgraded to Big Sur the legacy records can survive in com.apple.airport.preferences.plist.backup beside this file (macos_wifi_plist_backup); examine that file too.",
     mitre_techniques: &["T1016"],
     fields: &[
         FieldSchema { name: "ssid", value_type: ValueType::Text, description: "Wi-Fi network SSID", is_uid_component: true },
@@ -239,11 +239,17 @@ pub(crate) static MACOS_WIFI_PLIST: ArtifactDescriptor = ArtifactDescriptor {
     ],
     retention: Some("Persistent; manually cleared or limited by OS"),
     triage_priority: TriagePriority::High,
-    related_artifacts: &["macos_unified_log", "macos_wifi_intelligence"],
-    sources: &["https://www.mac4n6.com/blog/2016/6/3/ode-to-the-network"],
+    related_artifacts: &["macos_unified_log", "macos_wifi_intelligence", "macos_wifi_known_networks", "macos_wifi_plist_backup"],
+    sources: &[
+        "https://www.mac4n6.com/blog/2016/6/3/ode-to-the-network",
+        "https://www.alansiu.net/2021/01/27/known-networks-settings-moved-in-big-sur/",
+    ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
     evidence_tier: None,
-    evidence_caveats: &["User can manually remove networks from list"],
+    evidence_caveats: &[
+        "User can manually remove networks from list",
+        "After the upgrade to Big Sur this file can hold only Counter, DeviceUUID and Version, with no KnownNetworks; observed on one macOS Big Sur 11.7 image, where the full legacy store was in com.apple.airport.preferences.plist.backup. An empty live file is not evidence that no networks were ever joined",
+    ],
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "Plist persists known networks until explicit removal",
 };
@@ -5212,22 +5218,26 @@ pub(crate) static MACOS_WIFI_KNOWN_NETWORKS: ArtifactDescriptor = ArtifactDescri
         an access-point MAC that resolves to physical coordinates through a Wi-Fi positioning \
         system (see the wifi_bssid_geolocation technique). This supersedes the pre-Big Sur \
         com.apple.airport.preferences.plist (macos_wifi_plist), which held the same SSID/BSSID/ \
-        last-join data in the older airport format. On iOS the equivalent lives at \
-        /private/var/preferences/com.apple.wifi.known-networks.plist.",
+        last-join data in the older airport format; the upgrade to Big Sur populates this file by \
+        migrating that legacy store, and the legacy records can survive in \
+        com.apple.airport.preferences.plist.backup (macos_wifi_plist_backup). On iOS the \
+        equivalent lives at /private/var/preferences/com.apple.wifi.known-networks.plist.",
     mitre_techniques: &["T1016"],
     fields: &[
         FieldSchema { name: "ssid", value_type: ValueType::Text, description: "Network SSID (record key wifi.network.ssid.<name>)", is_uid_component: true },
         FieldSchema { name: "bssid", value_type: ValueType::Text, description: "Access-point MAC(s) the network was seen on (LEAKY_AP_BSSID) — the geolocation handle", is_uid_component: false },
-        FieldSchema { name: "added_at", value_type: ValueType::Timestamp, description: "AddedAt: when the network was first added", is_uid_component: false },
+        FieldSchema { name: "added_at", value_type: ValueType::Timestamp, description: "AddedAt: when the record was created; on a network migrated from the legacy airport store it can be the legacy last-join time, not a first-join date (see caveats)", is_uid_component: false },
         FieldSchema { name: "joined_by_user_at", value_type: ValueType::Timestamp, description: "JoinedByUserAt: last user-initiated join", is_uid_component: false },
         FieldSchema { name: "add_reason", value_type: ValueType::Text, description: "AddReason (e.g. \"Cloud Sync\") — how the entry was created", is_uid_component: false },
         FieldSchema { name: "channel_history", value_type: ValueType::Text, description: "__OSSpecific__ ChannelHistory: Channel + Timestamp of observations", is_uid_component: false },
     ],
     retention: Some("Persists until the network is forgotten; entries accrete across the device's life"),
     triage_priority: TriagePriority::High,
-    related_artifacts: &["macos_wifi_plist", "macos_dhcp_leases", "macos_airdrop_sharingd"],
+    related_artifacts: &["macos_wifi_plist", "macos_wifi_plist_backup", "macos_dhcp_leases", "macos_airdrop_sharingd"],
     sources: &[
         "https://forensafe.com/blogs/AppleKnownWifi.html",
+        "https://github.com/ydkhatri/mac_apt/blob/master/plugins/airport_preferences.py",
+        "https://www.alansiu.net/2021/01/27/known-networks-settings-moved-in-big-sur/",
         "https://forge-work.com/dfir/knowledge/artifacts/ios-wifi-known-networks",
         "https://medium.com/@piyushkkr12/task-5account-activity-e30497e89266",
     ],
@@ -5237,9 +5247,57 @@ pub(crate) static MACOS_WIFI_KNOWN_NETWORKS: ArtifactDescriptor = ArtifactDescri
         "An entry with AddReason \"Cloud Sync\" was synced from another Apple device, not joined on this Mac, and often carries no BSSID — presence is not proof this device was at the location",
         "Client MAC randomization (macOS/iOS 14+) changes the device's own association MAC, not the AP BSSID recorded here, so the BSSID remains a valid location handle",
         "A shared SSID (e.g. a chain's guest Wi-Fi) spans many locations; only the BSSID ties a record to a specific access point",
+        "AddedAt is not a first-join date for a network migrated from the legacy airport store at the upgrade to Big Sur: where the legacy record had no AddedAt, the migrated AddedAt (and JoinedBySystemAt) repeats the legacy last-join time (LastConnected, or LastAutoJoinAt); a legacy record that had AddedAt keeps it. Per-network __OSSpecific__ ChannelHistory timestamps, which can predate AddedAt by years, are better evidence of when the network was in use, and the legacy record in com.apple.airport.preferences.plist.backup should be compared. Observed on one macOS Big Sur 11.7 image (three networks agree); no public source found documenting it (searched mac_apt source, Alan Siu, Forensafe, forensicfocus)",
+        "Each BSSIDList entry holds only LEAKY_AP_BSSID and an opaque LEAKY_AP_LEARNED_DATA blob (sometimes empty): no per-BSSID timestamp or channel. When a particular access point was used, or under which SSID when one BSSID is listed under two networks, cannot be read from BSSIDList; observed on one macOS Big Sur 11.7 image, consistent with mac_apt reading only LEAKY_AP_BSSID from it. mac_apt also parses a per-network BSSList (BSSID, LastAssociatedAt, Location) that was absent on that image; where present it does date an access point, so check for it",
     ],
     volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
     volatility_rationale: "Updated as networks are joined, roamed and synced; entries removed only on forget",
+};
+
+pub(crate) static MACOS_WIFI_PLIST_BACKUP: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_wifi_plist_backup",
+    name: "Known Wi-Fi Networks, legacy backup (com.apple.airport.preferences.plist.backup)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/Library/Preferences/SystemConfiguration/com.apple.airport.preferences.plist.backup"),
+    scope: DataScope::System,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "A copy of the legacy airport preferences store beside the live \
+        com.apple.airport.preferences.plist (macos_wifi_plist). On a Mac upgraded to Big Sur (11), \
+        where remembered networks moved to com.apple.wifi.known-networks.plist \
+        (macos_wifi_known_networks), it can be the only place the pre-upgrade records survive: the \
+        live airport plist is reduced to Counter/DeviceUUID/Version. Top-level keys Counter, \
+        DeviceUUID, KnownNetworks, PreferredOrder and Version; KnownNetworks is keyed \
+        `wifi.ssid.<hex SSID>`, each record holding SSIDString, SecurityType, LastConnected / \
+        LastAutoJoinAt / LastManualJoinAt / AddedAt, ChannelHistory and a BSSIDList of \
+        access-point BSSIDs. These are the original legacy values, so they are the check on the \
+        AddedAt that the migration writes into the current store.",
+    mitre_techniques: &["T1016"],
+    fields: &[
+        FieldSchema { name: "ssid", value_type: ValueType::Text, description: "SSIDString (record key wifi.ssid.<hex SSID>)", is_uid_component: true },
+        FieldSchema { name: "bssid", value_type: ValueType::Text, description: "BSSIDList LEAKY_AP_BSSID values: access-point MACs, undated", is_uid_component: false },
+        FieldSchema { name: "last_connected", value_type: ValueType::Timestamp, description: "LastConnected: legacy last-join time", is_uid_component: false },
+        FieldSchema { name: "added_at", value_type: ValueType::Timestamp, description: "AddedAt, where the legacy record has one", is_uid_component: false },
+        FieldSchema { name: "channel_history", value_type: ValueType::Text, description: "ChannelHistory: Channel + Timestamp entries", is_uid_component: false },
+    ],
+    retention: Some("Not rewritten as networks are joined; persists until deleted (e.g. by a Wi-Fi preferences reset)"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["macos_wifi_plist", "macos_wifi_known_networks", "macos_dhcp_leases"],
+    sources: &[
+        "https://github.com/ydkhatri/mac_apt/blob/master/plugins/airport_preferences.py",
+        "https://www.alansiu.net/2021/01/27/known-networks-settings-moved-in-big-sur/",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
+    evidence_caveats: &[
+        "That the Big Sur migration leaves the full legacy store here while the live plist is reduced to Counter/DeviceUUID/Version is observed on one macOS Big Sur 11.7 image, not vendor-documented; mac_apt reads this path as a second airport store but does not describe how or when it is created, so compare its contents with the live plist rather than infer a migration from its presence",
+        "BSSIDList entries hold only LEAKY_AP_BSSID and an opaque LEAKY_AP_LEARNED_DATA blob (sometimes empty), with no per-BSSID timestamp or channel (observed on one macOS Big Sur 11.7 image); mac_apt's source notes that plist Version 1900 carried a BSSIDHistory with timestamps, so check the Version",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "A static copy; not updated by later joins",
 };
 
 // ── macOS network-neighbour / peer-device discovery layer ──────────────────

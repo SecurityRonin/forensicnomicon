@@ -264,6 +264,13 @@ pub static MACOS_FULL: ExaminationProfile = ExaminationProfile {
                         preferences format).",
         },
         ProfileMember {
+            artifact_id: "macos_wifi_plist_backup",
+            category: Cat::Connections,
+            rationale: "com.apple.airport.preferences.plist.backup: after the Big Sur upgrade the \
+                        pre-upgrade known-network records can survive only here, with their \
+                        original AddedAt / LastConnected values.",
+        },
+        ProfileMember {
             artifact_id: "macos_wifi_known_networks",
             category: Cat::Connections,
             rationale: "com.apple.wifi.known-networks.plist (Big Sur+): remembered Wi-Fi networks \

@@ -18504,6 +18504,7 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     macos_ext::MACOS_NETWORK_INTERFACES,
     macos_ext::MACOS_NETWORK_PREFERENCES,
     macos_ext::MACOS_WIFI_KNOWN_NETWORKS,
+    macos_ext::MACOS_WIFI_PLIST_BACKUP,
     macos_ext::MACOS_BLUETOOTH_DEVICES,
     macos_ext::MACOS_SMB_SERVER_IDENTITY,
     macos_ext::MACOS_CONNECT_TO_SERVER_HISTORY,
