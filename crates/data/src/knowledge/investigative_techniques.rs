@@ -663,7 +663,7 @@ pub static NETWORK_NEIGHBOUR_ENUMERATION: InvestigativeTechnique = Investigative
     sources: &[
         "https://github.com/bolodev/osxripper/blob/master/plugins/osx/BluetoothPlist.py",
         "https://kieczkowska.wordpress.com/2020/06/29/airdrop-forensics-2/",
-        "https://www.mac4n6.com/blog/2016/6/21/introduction-to-sfl-and-sfl2-files",
+        "https://www.mac4n6.com/blog/2017/10/17/script-update-for-macmrupy-v13-new-1013-sfl2-mru-files",
         "https://eclecticlight.co/2017/08/10/recent-items-launch-services-and-sharedfilelists/",
     ],
 };
