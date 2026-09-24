@@ -11,7 +11,7 @@ use super::*;
 /// The exact number of registered tool behaviours — the single place the
 /// count is written down. Adding an entry updates this constant and nothing
 /// else; every other test asserts presence or invariants, not size.
-const EXPECTED_TOOL_BEHAVIOUR_LEN: usize = 8;
+const EXPECTED_TOOL_BEHAVIOUR_LEN: usize = 11;
 
 #[test]
 fn no_duplicate_ids() {
@@ -508,6 +508,56 @@ fn unsourced_tool_behaviours_announce_themselves_in_the_text() {
             b.id
         );
     }
+}
+
+/// The evidence-container batch: how libewf and FTK Imager present EWF
+/// evidence. Each entry must carry the exact message an examiner sees, since
+/// the message is the only handle an examiner has to find the entry.
+#[test]
+fn evidence_container_tool_batch_is_present() {
+    let by_id = |id: &str| {
+        TOOL_BEHAVIOURS
+            .iter()
+            .find(|b| b.id == id)
+            .unwrap_or_else(|| panic!("missing tool behaviour: {id}"))
+    };
+
+    let lef = by_id("libewf_lef_short_name_open_failure");
+    assert_eq!(lef.kind, ToolBehaviourKind::MisreadsStructure);
+    assert!(lef
+        .detail
+        .contains("invalid short name size value out of bounds"));
+    assert!(lef.detail.contains("libewf_lef_file_entry.c"));
+    assert!(lef
+        .sources
+        .iter()
+        .any(|s| s.contains("20231119/libewf/libewf_lef_file_entry.c")));
+    assert!(
+        lef.mitigation.contains("ltree"),
+        "mitigation must name the independent check: the ltree MD5"
+    );
+
+    let seg = by_id("libewf_damaged_segment_error_semantics");
+    assert_eq!(seg.kind, ToolBehaviourKind::OutputHidesDetail);
+    assert!(seg.detail.contains("unexpected end of data"));
+    assert!(seg.detail.contains("unsupported file header signature"));
+    assert!(
+        seg.consequence.contains("segment"),
+        "consequence must say the error does not name the defective segment"
+    );
+
+    let ftk = by_id("ftk_imager_verify_unstored_hash_mismatch");
+    assert_eq!(ftk.kind, ToolBehaviourKind::FalsePositiveProne);
+    assert_eq!(ftk.evidence_tier, EvidenceTier::SearchedNotFound);
+    assert!(ftk.detail.contains("Mismatch"));
+    assert!(
+        ftk.mitigation.contains("zeros") || ftk.mitigation.contains("zero-filled"),
+        "mitigation must say to check the stored value for zeros first"
+    );
+    assert!(
+        ftk.consequence.contains("seizure"),
+        "a match proves image = itself since acquisition, not = source at seizure"
+    );
 }
 
 // ── Examination profiles ─────────────────────────────────────────────────────
