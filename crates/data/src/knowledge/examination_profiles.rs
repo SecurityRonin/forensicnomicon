@@ -1159,6 +1159,138 @@ pub static WINDOWS_USER_ATTRIBUTION: ExaminationProfile = ExaminationProfile {
     ],
 };
 
+/// Focused macOS user attribution: shared versus exclusive use of a Mac, the
+/// macOS counterpart of [`WINDOWS_USER_ATTRIBUTION`]. Every member attributes
+/// to an account, an Apple ID, a device or the machine; none identifies the
+/// person at the keyboard.
+pub static MACOS_USER_ATTRIBUTION: ExaminationProfile = ExaminationProfile {
+    id: "macos_user_attribution",
+    name: "macOS user attribution (shared vs exclusive use)",
+    platform: Platform::MacOS,
+    kind: ProfileKind::Focused,
+    focus: ExaminationFocus::UserAttribution,
+    description: "Shared versus exclusive use of a Mac: accounts, logins, per-account activity, \
+                  networks, communications, browsing, cloud identity and authorship. One \
+                  account is not one person: several people can use one macOS account (or an \
+                  auto-login account nobody signs in to), and an Apple ID synced from other \
+                  devices brings activity that happened elsewhere. Every member attributes to \
+                  an account, Apple ID, device or the machine, never to a human; attribution to \
+                  a person needs evidence from outside the Mac.",
+    members: &[
+        ProfileMember {
+            artifact_id: "macos_dslocal_users",
+            category: Cat::AccountUse,
+            rationale: "Local account inventory (uid, generateduid, realname, home): the accounts \
+                        to attribute against. Each record identifies an account, not a person.",
+        },
+        ProfileMember {
+            artifact_id: "fa_file_preferences_com_apple_loginwindow_plist",
+            category: Cat::AccountUse,
+            rationale: "lastUserName and autoLoginUser: which account last logged in and whether \
+                        one logs in with no password. An auto-login account shows the Mac was \
+                        used, not the person who used it.",
+        },
+        ProfileMember {
+            artifact_id: "macos_openbsm_audit",
+            category: Cat::AccountUse,
+            rationale: "Login, logout and account events by account and time, where auditing ran; \
+                        a login record identifies the account, not the person.",
+        },
+        ProfileMember {
+            artifact_id: "macos_keychain_user",
+            category: Cat::AccountUse,
+            rationale: "Per-account stored credentials and the services the account signs in to; \
+                        a credential identifies the account holding it, not the person.",
+        },
+        ProfileMember {
+            artifact_id: "fa_file_preferences_mobilemeaccounts_plist",
+            category: Cat::AccountUse,
+            rationale: "The Apple ID bound to the account; the Apple ID is an identity that can \
+                        be shared or used from other devices, not a person.",
+        },
+        ProfileMember {
+            artifact_id: "macos_knowledgec",
+            category: Cat::ApplicationUse,
+            rationale: "Per-account application focus and usage intervals, the pattern of use \
+                        to compare across periods; it records the account's session, not the \
+                        person.",
+        },
+        ProfileMember {
+            artifact_id: "macos_screen_time_db",
+            category: Cat::ApplicationUse,
+            rationale: "Per-account daily application and web usage, which can include usage \
+                        synced from the Apple ID's other devices; it records the account, not \
+                        the person.",
+        },
+        ProfileMember {
+            artifact_id: "macos_install_history",
+            category: Cat::ApplicationUse,
+            rationale: "What was installed and when; an entry can be an installer download, and \
+                        it records the machine, not the person.",
+        },
+        ProfileMember {
+            artifact_id: "macos_sfl2_recent_items",
+            category: Cat::FileActivity,
+            rationale: "The account's recently opened documents; the list belongs to the \
+                        account, not the person.",
+        },
+        ProfileMember {
+            artifact_id: "macos_fsevents",
+            category: Cat::FileActivity,
+            rationale: "Volume-wide file-system change records, placing activity in each \
+                        account's home folder in time; they record the machine, not the person.",
+        },
+        ProfileMember {
+            artifact_id: "macos_quarantine_events",
+            category: Cat::FileActivity,
+            rationale: "Per-account downloads and AirDrop receipts with sender device names; a \
+                        row identifies the account that received the file, not the person.",
+        },
+        ProfileMember {
+            artifact_id: "macos_wifi_known_networks",
+            category: Cat::Connections,
+            rationale: "Networks the Mac has joined: where the machine has been, which bounds \
+                        who could have had it. It records the device, not the person.",
+        },
+        ProfileMember {
+            artifact_id: "macos_sms_db",
+            category: Cat::Communications,
+            rationale: "Messages under the account's Apple ID, including ones synced from other \
+                        devices; the handle identifies the Apple ID, not the person.",
+        },
+        ProfileMember {
+            artifact_id: "macos_safari_history",
+            category: Cat::WebActivity,
+            rationale: "Per-account browsing, possibly merged from the Apple ID's other devices \
+                        through iCloud; it records the account, not the person.",
+        },
+        ProfileMember {
+            artifact_id: "macos_icloud_drive_db",
+            category: Cat::CloudStorage,
+            rationale: "Files synced under the Apple ID, some created on other devices; the \
+                        cloud identity identifies the account, not the person.",
+        },
+        ProfileMember {
+            artifact_id: "ooxml_core_properties",
+            category: Cat::DocumentAuthorship,
+            rationale: "Office creator and last-modified-by names: the application's user-name \
+                        setting, provenance of the document, not the person at the keyboard.",
+        },
+        ProfileMember {
+            artifact_id: "macos_tcc_db",
+            category: Cat::ExecutionControl,
+            rationale: "Per-account privacy grants with their times, showing when the account \
+                        approved an application; the grant identifies the account, not the \
+                        person.",
+        },
+    ],
+    sources: &[
+        "https://github.com/ydkhatri/mac_apt/blob/master/plugins/users.py",
+        "https://github.com/ydkhatri/mac_apt/blob/master/plugins/basicinfo.py",
+        "https://www.mac4n6.com/blog/2018/8/5/knowledge-is-power-using-the-knowledgecdb-database-on-macos-and-ios-to-determine-precise-user-and-application-usage",
+    ],
+};
+
 /// Every registered examination profile. Lookup and iteration read this slice;
 /// a static not referenced here is invisible to every consumer.
 pub static EXAMINATION_PROFILES: &[ExaminationProfile] = &[
@@ -1166,4 +1298,5 @@ pub static EXAMINATION_PROFILES: &[ExaminationProfile] = &[
     MACOS_DATA_LEAKAGE,
     MACOS_MALWARE,
     WINDOWS_USER_ATTRIBUTION,
+    MACOS_USER_ATTRIBUTION,
 ];

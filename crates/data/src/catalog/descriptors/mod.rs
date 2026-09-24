@@ -9670,13 +9670,16 @@ pub static MACOS_INSTALL_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
     fields: &[],
     retention: Some("Persistent; accumulates over system lifetime"),
     triage_priority: TriagePriority::Medium,
-    related_artifacts: &["macos_launch_daemons"],
+    related_artifacts: &["macos_launch_daemons", "fa_file_coreservices_systemversion_plist"],
     sources: &[
-        "https://www.forensicmike1.com/2019/12/17/macos-forensic-artifacts-install-history/",
+        "https://github.com/ydkhatri/mac_apt/blob/master/plugins/installhistory.py",
     ],
     evidence_strength: None,
     evidence_tier: None,
-    evidence_caveats: &[],
+    evidence_caveats: &[
+        "An entry can record an installer being downloaded rather than installed: on one macOS Big Sur 11.7 image an entry named a later macOS release whose installer was present but never run, while /System/Library/CoreServices/SystemVersion.plist gave the installed OS as Big Sur 11.7. Read the running version from SystemVersion.plist, and treat an OS-named entry as an install only when SystemVersion.plist or the OS's own receipts agree",
+        "processName names the process that recorded the step, not who asked for it; entries attribute to the machine, not a person",
+    ],
     volatility: None,
     volatility_rationale: "",
 };
