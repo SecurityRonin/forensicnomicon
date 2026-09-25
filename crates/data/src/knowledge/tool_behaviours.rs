@@ -10,6 +10,14 @@
 //! Each doc comment separates BUG from DESIGN LIMIT: a list-walking or
 //! pool-scanning plugin missing what its method cannot see is the documented
 //! consequence of the method, and filing it as a defect would mislead.
+//!
+//! Cross-platform examination-tool batch: the general-purpose readers an
+//! examiner reaches for on any platform (SQLite, qpdf, poppler, praudit, ZIP
+//! decoders, RIR whois). None of these is a forensic tool, and each one's
+//! default behaviour is correct for its ordinary users and wrong for evidence.
+//! Every entry was reproduced on the stated version with a positive control
+//! (the same run shown to return the data when it is read correctly), and the
+//! mechanism was read in the tool's own source or documentation.
 
 use super::{ToolBehaviour, ToolBehaviourKind};
 use forensicnomicon_core::evidence::EvidenceTier;
@@ -415,6 +423,827 @@ pub static MALFIND_BENIGN_PROCESS_NAMES: ToolBehaviour = ToolBehaviour {
     ],
 };
 
+/// SQLite `immutable=1`: the write-ahead log is never opened, so rows
+/// committed to the WAL but not yet checkpointed are invisible.
+///
+/// # Verification
+///
+/// - `src/pager.c`, `sqlite3PagerOpen()`: when the `immutable` URI boolean is
+///   set the pager jumps to `act_like_temp_file`, which sets `tempFile = 1`;
+///   `pagerOpenWalIfPresent()` begins `if( !pPager->tempFile )`, so the WAL
+///   existence check is never made for an immutable database.
+/// - sqlite.org/uri.html: `immutable=1` declares the file "held on read-only
+///   media and cannot be modified", and SQLite "skips all file locking and
+///   change detection". It says nothing about the WAL, which is why it reads
+///   as the safe evidence-reading option.
+/// - Reproduced (SQLite 3.50.4, Python 3.11): a copied db + `-wal` + `-shm`
+///   trio holding 5 WAL-only rows returned 0 rows under `immutable=1` and 5
+///   under `mode=ro` on the same copy (the positive control).
+/// - Field observation, reported by the examiner who ran it and not re-run
+///   for this entry: on one real macOS Big Sur image, 168 of 207 databases
+///   with a non-empty WAL gave different row counts with and without the WAL
+///   applied, including a Notes store (3 more note bodies with the WAL) and a
+///   keychain trusted-peer store (0 peers without, 5 with).
+///
+/// Design, not a bug: an immutable file is by definition one nobody is
+/// writing, and SQLite reads it as such. The error is using it on a database
+/// that was live when imaged. Supersedes an earlier note that recommended
+/// `immutable=1` as the safe read pattern with no stated limit.
+pub static SQLITE_IMMUTABLE_URI_IGNORES_WAL: ToolBehaviour = ToolBehaviour {
+    id: "sqlite_immutable_uri_ignores_wal",
+    tool: "SQLite (immutable=1 URI parameter; any binding: sqlite3 CLI, Python sqlite3)",
+    version_range: Some(
+        "Reproduced on SQLite 3.50.4; the WAL skip is in pager.c on master as of 2026-09. \
+         The immutable parameter was added in 3.8.5 (2014-06-04)",
+    ),
+    artifact_id: None,
+    kind: ToolBehaviourKind::SilentlyIncomplete,
+    detail: "Opening a database with the URI parameter immutable=1 makes the pager treat \
+             it like a temporary file (pager.c: immutable -> act_like_temp_file -> \
+             tempFile = 1), and pagerOpenWalIfPresent() only looks for a -wal file when \
+             tempFile is 0. The WAL is therefore never read: every transaction committed \
+             to the WAL but not yet checkpointed into the main file is invisible, and the \
+             query succeeds with no warning. On a copy of a live database this is common, \
+             not rare - WAL-mode stores checkpoint only at about 1000 pages or when the \
+             last connection closes, and a device imaged while running rarely got that \
+             close. SQLite's own documentation of immutable=1 speaks of read-only media \
+             and skipped locking, and does not mention the WAL.",
+    consequence: "Recent rows - the newest messages, notes, history entries, keychain \
+                  records - are reported as absent when they are sitting in the -wal file \
+                  beside the database. Because immutable=1 looks like the most \
+                  evidence-preserving option available, the loss is chosen deliberately \
+                  and then trusted: a negative ('no such record') and a count ('N rows') \
+                  are both understated with nothing on screen to say so.",
+    mitigation: "Copy the database together with its -wal and -shm files (same basename, \
+                 same directory) to scratch storage, and open the copy normally or with \
+                 mode=ro - never the original, because the last connection to close \
+                 checkpoints and deletes the WAL. Where the uncommitted state matters, \
+                 report both views: main-file-only and WAL-applied row counts, per table.",
+    evidence_tier: EvidenceTier::SourceOrMultiImpl,
+    sources: &[
+        "https://github.com/sqlite/sqlite/blob/master/src/pager.c",
+        "https://www.sqlite.org/uri.html",
+        "https://www.sqlite.org/wal.html",
+    ],
+};
+
+/// A SQLite database copied without its `-wal` (and `-shm`) is the
+/// checkpointed state only; the newest committed rows stay behind.
+///
+/// # Verification
+///
+/// - sqlite.org/wal.html: in WAL mode changes are appended to the separate
+///   WAL file and moved into the database only at a checkpoint (by default at
+///   about 1000 pages, or when the last connection closes); "When the last
+///   connection to a database closes, that connection does one last
+///   checkpoint and then deletes the WAL and its associated shared-memory
+///   file".
+/// - Reproduced (SQLite 3.50.4): the main file copied alone returned 0 of 5
+///   committed rows under `mode=ro`; the same main file copied with its
+///   `-wal` and `-shm` returned all 5 (the positive control).
+///
+/// Design, not a bug: the WAL is part of the database while the database is
+/// in WAL mode. The failure is in the collection step, which is why the
+/// consequence belongs to every tool that opens the copy.
+pub static SQLITE_MAIN_FILE_ONLY_COPY_DROPS_WAL: ToolBehaviour = ToolBehaviour {
+    id: "sqlite_main_file_only_copy_drops_wal",
+    tool: "SQLite (any reader of a copied main database file)",
+    version_range: Some("All WAL-capable versions (3.7.0 onward); reproduced on SQLite 3.50.4"),
+    artifact_id: None,
+    kind: ToolBehaviourKind::SilentlyIncomplete,
+    detail: "In WAL mode a commit is written to <db>-wal and reaches the main file only \
+             at a checkpoint. Copying or exporting only <db> - a file-by-file extraction \
+             that selects by name or extension, a manual cp of the .db/.sqlite file, an \
+             artifact collector that knows only the main path - produces a database that \
+             opens cleanly and contains only the last checkpointed state. SQLite has no \
+             way to know a WAL existed, so no reader can warn. Opening the ORIGINAL with \
+             write access to 'apply' the WAL is not a fix: the last connection to close \
+             runs a checkpoint and deletes the WAL and -shm, altering the evidence.",
+    consequence: "Rows committed after the last checkpoint are reported as never having \
+                  existed, and two examiners reading the 'same' database get different \
+                  counts depending on whether their extraction carried the sidecars. \
+                  Anyone who then opens the original to reconcile the difference may \
+                  checkpoint it and destroy the WAL they needed.",
+    mitigation: "Collect <db>, <db>-wal and <db>-shm together, hash all three, and open \
+                 only a scratch copy of the trio. Never open the original read-write: \
+                 closing it checkpoints and deletes the WAL. When given an extraction, \
+                 check whether the sidecars came with it before relying on any count or \
+                 negative, and state which state (checkpointed or WAL-applied) a finding \
+                 was read from.",
+    evidence_tier: EvidenceTier::VendorDocumented,
+    sources: &["https://www.sqlite.org/wal.html"],
+};
+
+/// Opening a SQLite path that does not exist creates an empty database, so a
+/// typo reads as "no such table" instead of "no such file".
+///
+/// # Verification
+///
+/// - sqlite.org/c3ref/open.html: the default flags for `sqlite3_open()` are
+///   `SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE`.
+/// - sqlite.org/uri.html: `mode=ro` opens read-only (`mode=rwc` is the
+///   create-if-missing mode).
+/// - Python `sqlite3` documentation: `mode=rw` on a missing file raises
+///   `OperationalError: unable to open database file` instead of creating it.
+/// - Reproduced (SQLite 3.50.4, Python 3.11): `sqlite3.connect("missing.db")`
+///   then `SELECT * FROM t` raised `no such table: t` and left a new empty file
+///   with 0 schema rows; `file:missing2.db?mode=ro` raised `unable to open
+///   database file` and created nothing.
+pub static SQLITE_OPEN_MISSING_PATH_CREATES_EMPTY_DB: ToolBehaviour = ToolBehaviour {
+    id: "sqlite_open_missing_path_creates_empty_db",
+    tool: "SQLite default open (sqlite3 CLI, Python sqlite3.connect and other bindings)",
+    version_range: Some(
+        "All versions using the default SQLITE_OPEN_READWRITE|SQLITE_OPEN_CREATE flags; \
+         reproduced on SQLite 3.50.4 via Python 3.11",
+    ),
+    artifact_id: None,
+    kind: ToolBehaviourKind::SilentlyIncomplete,
+    detail: "The default open mode is read-write-create. A path that does not exist - a \
+             mistyped mount point, a copy that failed with its error discarded, a \
+             database that is absent on this image - is created as a new, empty \
+             database, and the open succeeds. The first query then fails with 'no such \
+             table', or a query against sqlite_master returns zero rows, both of which \
+             read as facts about the evidence's schema. The stray empty file is also \
+             left behind, where a later run can find it.",
+    consequence: "A missing or mis-addressed database is reported as present-but-empty or \
+                  as a schema change between versions ('no such table' reads like an app \
+                  that never used that table), and a negative finding is written about \
+                  evidence that was never opened.",
+    mitigation: "Open evidence databases with a URI and mode=ro (for example \
+                 file:/path/db?mode=ro with uri=True), which refuses a missing file with \
+                 'unable to open database file'. Assert the path exists and is non-empty \
+                 before opening, and never discard the stderr of the copy step that \
+                 produced it.",
+    evidence_tier: EvidenceTier::VendorDocumented,
+    sources: &[
+        "https://www.sqlite.org/c3ref/open.html",
+        "https://www.sqlite.org/uri.html",
+        "https://docs.python.org/3/library/sqlite3.html",
+    ],
+};
+
+/// qpdf `--show-encryption` prints `User password = ` blank for a PDF whose
+/// open password it simply does not know.
+///
+/// # Verification
+///
+/// - `libqpdf/QPDFJob.cc`: on a password exception with `--show-encryption`
+///   set, `createQPDF()` logs "Incorrect password supplied" and still calls
+///   `showEncryption()`, which prints `"User password = " <<
+///   getTrimmedUserPassword()` - empty when nothing was recovered - and prints
+///   "Supplied password is user password" only when the supplied password
+///   matched.
+/// - qpdf manual (cli.html): `--show-encryption` "also shows the document's
+///   user password if the owner password is given"; `--requires-password`
+///   exits 0 when a password is required, 3 when encrypted but openable
+///   without one, 2 when not encrypted.
+/// - Reproduced (qpdf 12.4.1, pikepdf-made R=4 files): with a real user
+///   password, output began "Incorrect password supplied" then "User password
+///   = " (blank), exit 0, all on stdout; with an owner-only file the blank line
+///   was followed by "Supplied password is user password". `--requires-password`
+///   exited 0 and 3 respectively, and 2 on an unencrypted control.
+pub static QPDF_SHOW_ENCRYPTION_BLANK_USER_PASSWORD: ToolBehaviour = ToolBehaviour {
+    id: "qpdf_show_encryption_blank_user_password",
+    tool: "qpdf --show-encryption",
+    version_range: Some("Reproduced on qpdf 12.4.1; logic read in QPDFJob.cc on main, 2026-09"),
+    artifact_id: None,
+    kind: ToolBehaviourKind::OutputHidesDetail,
+    detail: "Run without a password on an encrypted PDF, qpdf --show-encryption prints \
+             the line 'User password = ' with an empty value in two different \
+             situations: when the file has NO open password (owner-password-only \
+             restrictions), and when it HAS one that qpdf does not know. In the second \
+             case the output is preceded by 'Incorrect password supplied'; in the first \
+             it is followed by 'Supplied password is user password'. The field shows the \
+             recovered value, not whether one exists, and the command exits 0 in both \
+             cases.",
+    consequence: "A file protected by a real open password is recorded as 'no user \
+                  password' from the blank field, so the examiner reports it as readable \
+                  (or its unreadability as a tool fault) instead of as locked evidence \
+                  needing a password or a recovery attempt.",
+    mitigation: "Read the discriminating line, not the field: 'Incorrect password \
+                 supplied' means an open password exists and is unknown. For scripts, use \
+                 qpdf --requires-password (exit 0 = password required, 3 = encrypted but \
+                 openable, 2 = not encrypted), and confirm by attempting \
+                 --password= --decrypt on a copy.",
+    evidence_tier: EvidenceTier::SourceOrMultiImpl,
+    sources: &[
+        "https://github.com/qpdf/qpdf/blob/main/libqpdf/QPDFJob.cc",
+        "https://qpdf.readthedocs.io/en/stable/cli.html",
+    ],
+};
+
+/// poppler `pdftotext` on a user-password PDF writes nothing to stdout and
+/// reports only on stderr and the exit status.
+///
+/// # Verification
+///
+/// - `utils/pdftotext.cc`: after `createPDFDoc(fileName, ownerPW, userPW)`,
+///   `if (!doc->isOk()) { return 1; }` - before any output is opened.
+/// - `utils/pdftotext.1`, EXIT CODES: "1 Error opening a PDF file".
+/// - Reproduced (poppler 26.09.0): on a pikepdf-made R=4 file with a user
+///   password, stdout was empty, stderr read "Command Line Error: Incorrect
+///   password", exit 1, and with an output path no .txt file was created. The
+///   same text in an unencrypted control and an owner-password-only file was
+///   extracted normally. `file` described the locked file only as "PDF
+///   document, version 1.6", with no mention of encryption.
+///
+/// The tool is loud; the silence is in any pipeline that reads only stdout,
+/// which is the ordinary way a bulk text sweep is written. That is why the
+/// kind is SilentlyIncomplete and not a tool bug.
+pub static POPPLER_PDFTOTEXT_ENCRYPTED_PDF_EMPTY_STDOUT: ToolBehaviour = ToolBehaviour {
+    id: "poppler_pdftotext_encrypted_pdf_empty_stdout",
+    tool: "poppler pdftotext",
+    version_range: Some("Reproduced on poppler 26.09.0; exit-code contract in pdftotext.1"),
+    artifact_id: None,
+    kind: ToolBehaviourKind::SilentlyIncomplete,
+    detail: "Given a PDF with an open (user) password and no -upw, pdftotext writes \
+             nothing to stdout, prints 'Command Line Error: Incorrect password' to \
+             stderr and exits 1; writing to a file, it creates no output file at all. \
+             A bulk sweep that captures stdout (or globs the .txt outputs) and discards \
+             stderr sees exactly what it would see for a PDF with no text layer: empty \
+             text. `file` does not flag the encryption, so nothing earlier in a typical \
+             pipeline distinguishes the two.",
+    consequence: "A password-protected document is recorded as blank or image-only and \
+                  drops out of every keyword search and review list, so the locked \
+                  documents - often the ones someone chose to protect - are the ones a \
+                  text sweep reports as containing nothing.",
+    mitigation: "Check pdftotext's exit status and stderr for every file and count \
+                 non-zero exits separately from empty text. Test encryption first with \
+                 qpdf --requires-password or pdfinfo, list locked files as their own \
+                 category, and only call a PDF blank when it opened cleanly and still \
+                 yielded no text.",
+    evidence_tier: EvidenceTier::SourceOrMultiImpl,
+    sources: &[
+        "https://gitlab.freedesktop.org/poppler/poppler/-/raw/master/utils/pdftotext.cc",
+        "https://gitlab.freedesktop.org/poppler/poppler/-/raw/master/utils/pdftotext.1",
+    ],
+};
+
+/// OpenBSM `praudit` prints audit-record user and group ids as names looked
+/// up on the machine running praudit, and times in that machine's zone.
+///
+/// # Verification
+///
+/// - `libbsm/bsm_io.c`, `print_user()`: unless `AU_OFLAG_RAW` or
+///   `AU_OFLAG_NORESOLVE` is set it calls `getpwuid(usr)` and prints the name
+///   found, falling back to the number only when the lookup fails; group ids
+///   are handled the same way. Timestamps go through `ctime_r()`, i.e. local
+///   time with no zone printed.
+/// - `bin/praudit/praudit.c`: `-n` sets `AU_OFLAG_NORESOLVE`. praudit(1): "-n
+///   Do not convert user and group IDs to their names but leave in their
+///   numeric forms."
+/// - Reproduced (macOS praudit, 2026-09): a synthetic trail with a subject
+///   token for uid 501 / gid 20 printed the analysis machine's own account and
+///   group names by default and "501,501,20,501,20" with -n; the header time
+///   rendered in the analysis host's zone, and as UTC under TZ=UTC.
+pub static PRAUDIT_RESOLVES_IDS_ON_ANALYSIS_HOST: ToolBehaviour = ToolBehaviour {
+    id: "praudit_resolves_ids_on_analysis_host",
+    tool: "OpenBSM praudit (macOS, FreeBSD)",
+    version_range: Some(
+        "OpenBSM praudit on master as of 2026-09; reproduced with macOS praudit (where the \
+         man page marks the tool deprecated)",
+    ),
+    artifact_id: Some("macos_openbsm_audit"),
+    kind: ToolBehaviourKind::RequiresFlag,
+    detail: "praudit renders the uid/gid fields of subject, process and attribute tokens \
+             by calling getpwuid()/getgrgid() on the machine running praudit, printing \
+             the name found there. For an audit trail copied off another system, uid 501 \
+             is printed as whichever account holds 501 on the examiner's workstation, \
+             and a number is printed only when the workstation has no such id. Record \
+             times are printed through ctime_r() in the workstation's time zone with no \
+             zone marker. Only -n (or -r) keeps the ids numeric.",
+    consequence: "Audit events are attributed to account names that belong to the \
+                  examiner's own machine - on macOS, where the first user is uid 501 on \
+                  almost every system, the examiner's own username appears as the actor \
+                  in someone else's audit trail - and event times silently shift by the \
+                  offset between the analysis host and the evidence.",
+    mitigation: "Always run praudit -n (for machine parsing, praudit -xn) under TZ=UTC, \
+                 then resolve uids and gids against the EVIDENCE system's own account \
+                 database (for macOS, the dslocal user records on the image) rather than \
+                 the analysis host's.",
+    evidence_tier: EvidenceTier::SourceOrMultiImpl,
+    sources: &[
+        "https://github.com/openbsm/openbsm/blob/master/libbsm/bsm_io.c",
+        "https://github.com/openbsm/openbsm/blob/master/bin/praudit/praudit.c",
+        "https://man.freebsd.org/cgi/man.cgi?query=praudit&sektion=1",
+    ],
+};
+
+/// ZIP member names written in a legacy code page (GBK, Shift-JIS, ...)
+/// without the UTF-8 flag decode as CP437 mojibake - differently in each tool.
+///
+/// # Verification
+///
+/// - PKWARE APPNOTE 6.3.10 §4.4.4: general-purpose bit 11 (EFS) set means the
+///   file name "MUST be encoded using UTF-8"; Appendix D: without it the name
+///   is in the original IBM PC code page (CP437).
+/// - CPython `Lib/zipfile/__init__.py`: `filename.decode(self.metadata_encoding
+///   or 'cp437')` when bit 11 is clear; the zipfile documentation adds the
+///   `metadata_encoding` parameter in 3.11.
+/// - Reproduced: a zip whose single member name was GBK-encoded with bit 11
+///   clear listed under Python 3.11 zipfile as CP437 mojibake (a search for
+///   the original characters returned no match), and as two further, different
+///   garblings under macOS unzip and bsdtar; ZipFile(..., metadata_encoding=
+///   "gbk") recovered the name. A Python-written zip with the same name set
+///   bit 11 (0x800).
+///
+/// Spec-conformant, not a bug: CP437 is the specified default. The archiver
+/// that wrote a local code page without saying so is the source; every reader
+/// is then guessing.
+pub static ZIP_LEGACY_CODEPAGE_MEMBER_NAMES_MISDECODED: ToolBehaviour = ToolBehaviour {
+    id: "zip_legacy_codepage_member_names_misdecoded",
+    tool: "ZIP readers (Python zipfile, Info-ZIP unzip, bsdtar/libarchive)",
+    version_range: Some(
+        "Python zipfile all versions (metadata_encoding override from 3.11); reproduced on \
+         Python 3.11 and the macOS unzip/bsdtar of 2026-09",
+    ),
+    artifact_id: None,
+    kind: ToolBehaviourKind::MisreadsStructure,
+    detail: "A ZIP member name is UTF-8 only when general-purpose flag bit 11 (0x800) is \
+             set; otherwise the specification says CP437. Archives made by tools on \
+             systems with a legacy default code page (for example GBK or Shift-JIS \
+             Windows locales) store names in that code page without setting bit 11, so \
+             a conforming reader decodes them as CP437 and produces mojibake. Readers \
+             disagree on the fallback: the same GBK name came out as three different \
+             garblings in Python zipfile, unzip and bsdtar. The file content is intact; \
+             only the names are wrong.",
+    consequence: "A filename keyword search in the original script returns zero hits \
+                  against an archive that contains exactly that file, and listings from \
+                  two tools cannot be matched name-for-name, so a member looks missing \
+                  from one of them. Reported names in a listing are not the names the \
+                  user saw.",
+    mitigation: "Read each member's flag bits before trusting its name. Where bit 11 is \
+                 clear and names contain bytes >= 0x80, decode the raw name bytes with \
+                 the likely source code page (Python: ZipFile(path, \
+                 metadata_encoding='gbk'), or the -O option of Info-ZIP unzip builds that \
+                 support it), record the encoding chosen, and keep the raw name bytes in \
+                 the listing.",
+    evidence_tier: EvidenceTier::VendorDocumented,
+    sources: &[
+        "https://pkwaredownloads.blob.core.windows.net/pem/APPNOTE.txt",
+        "https://github.com/python/cpython/blob/main/Lib/zipfile/__init__.py",
+        "https://docs.python.org/3/library/zipfile.html",
+    ],
+};
+
+/// APNIC whois for an AS number returns the enclosing `as-block` and APNIC's
+/// own administrative objects first, so the first `country:` line is often
+/// not the ASN holder's.
+///
+/// # Verification
+///
+/// - APNIC whois object templates: `as-block` and `aut-num` both carry an
+///   optional `country:` attribute, so a response holding both objects holds
+///   two or more `country:` lines.
+/// - Observed live (whois.apnic.net, 2026-09-24): for six of seven
+///   Asia-Pacific ASNs queried, the response opened with the enclosing
+///   `as-block` ("APNIC ASN block") and its APNIC administrative objects, and
+///   the first `country:` line was AU; each `aut-num` object further down
+///   carried the holder's own country. The seventh returned the `aut-num`
+///   first. So the order depends on the record and cannot be assumed.
+/// - RIPEstat as-overview returns the holder name from the registry directly.
+pub static APNIC_WHOIS_FIRST_COUNTRY_IS_NOT_THE_ASN_HOLDER: ToolBehaviour = ToolBehaviour {
+    id: "apnic_whois_first_country_is_not_the_asn_holder",
+    tool: "whois (whois.apnic.net ASN queries)",
+    version_range: Some("APNIC whois responses as observed 2026-09-24; response layout may change"),
+    artifact_id: None,
+    kind: ToolBehaviourKind::OutputHidesDetail,
+    detail: "whois -h whois.apnic.net AS<n> often returns the enclosing as-block object \
+             ('APNIC ASN block', 'further assigned by APNIC to APNIC members') and \
+             APNIC's own contact objects before the aut-num object. Those carry APNIC's \
+             country (AU), so the first country: line in the response is the registry's, \
+             not the network holder's. Other responses start with the aut-num, so the \
+             position of the right line is not fixed.",
+    consequence: "A script or examiner taking the first country: line attributes an \
+                  Asia-Pacific network to Australia, and an IP-attribution or \
+                  jurisdiction finding is built on the registry's own address.",
+    mitigation: "Parse the aut-num object explicitly (the block beginning 'aut-num:') and \
+                 read its as-name, descr and country, or query RIPEstat as-overview for \
+                 the holder. Record the query time: registration data changes, and it \
+                 states who holds the number, not where traffic originated.",
+    evidence_tier: EvidenceTier::SourceOrMultiImpl,
+    sources: &[
+        "https://www.apnic.net/manage-ip/using-whois/guide/as-block/",
+        "https://www.apnic.net/manage-ip/using-whois/guide/aut-num/",
+        "https://stat.ripe.net/docs/data-api/api-endpoints/as-overview",
+    ],
+};
+
+/// libewf: the whole open of a real EnCase L01 aborts at a strict
+/// short-name size check.
+///
+/// # Verification
+///
+/// - `libewf/libewf_lef_file_entry.c:982-983` (tag 20231119), in
+///   `libewf_lef_file_entry_read_short_name`: the ltree short-name value is
+///   split into a declared size and a string, and the function fails with
+///   "invalid short name size value out of bounds" unless the declared size
+///   equals the string's size. The error propagates up, so the handle open
+///   fails for the entire container, not for the one entry. The same check
+///   is present on `main` as fetched 2026-09-24.
+/// - Observed on a real EnCase-produced L01: `ewfinfo` and `ewfexport`
+///   (libewf 20231119, including `ewfexport -f files`, which exported 0
+///   files) and pyewf built from libewf 20240506 all failed with that
+///   message, while an independent LEF reader enumerated the same file and
+///   verified its ltree against the stored MD5 with no parse warnings.
+///   Which property of the real file breaks the equality was not
+///   established; no upstream issue was found (libyal/libewf issue search
+///   for "short name", 2026-09-24).
+///
+/// Kind: the taxonomy has no "rejects valid evidence" variant.
+/// `MisreadsStructure` ("with the wrong semantics") is the nearest: the
+/// parser imposes a reading of the short-name size field that EnCase's own
+/// output does not satisfy. The failure is loud, which is why it is not
+/// `SilentlyIncomplete`.
+pub static LIBEWF_LEF_SHORT_NAME_OPEN_FAILURE: ToolBehaviour = ToolBehaviour {
+    id: "libewf_lef_short_name_open_failure",
+    tool: "libewf (ewfinfo, ewfexport, ewfverify, pyewf and tools built on it)",
+    version_range: Some(
+        "libewf 20231119 (check read from source; ewfinfo/ewfexport observed) and pyewf from \
+         libewf 20240506 (observed); the check is still present on main as of 2026-09-24",
+    ),
+    artifact_id: None,
+    kind: ToolBehaviourKind::MisreadsStructure,
+    detail: "When reading an L01 (EnCase logical evidence file), libewf parses each ltree file \
+             entry's short (DOS 8.3) name as a declared size followed by a string and requires \
+             the two to agree exactly (libewf_lef_file_entry.c:982-983). A real EnCase L01 \
+             failed this check: the open aborts with \
+             'libewf_lef_file_entry_read_short_name: invalid short name size value out of \
+             bounds', and because the error propagates, the whole container is unreadable - \
+             ewfinfo, ewfexport (including the files export mode, which exported 0 files) and \
+             pyewf all fail on it. An independent LEF reader enumerated the same file and \
+             verified its ltree against the stored MD5.",
+    consequence: "The failure is loud, but it reads as a corrupt or non-standard L01, and an \
+                  examiner whose toolchain is libewf-based (ewfinfo, ewfexport, pyewf, and \
+                  anything built on them) may report the evidence as unreadable or damaged when \
+                  the container is intact, or conclude it cannot be examined at all.",
+    mitigation: "Before calling the L01 damaged, open it with an independent LEF reader \
+                 (EnCase, X-Ways, Magnet AXIOM, or an open reader) and verify the ltree against \
+                 its stored MD5. Record the reader and version used. Do not patch the check out \
+                 of libewf to produce evidential output without authorisation, a recorded diff \
+                 and disclosure; a patched build is for triage only.",
+    evidence_tier: EvidenceTier::SourceOrMultiImpl,
+    sources: &[
+        "https://github.com/libyal/libewf/blob/20231119/libewf/libewf_lef_file_entry.c",
+        "https://raw.githubusercontent.com/libyal/libewf/main/libewf/libewf_lef_file_entry.c",
+        "https://github.com/libyal/libewf/tree/main/documentation",
+    ],
+};
+
+/// libewf: the errors for a damaged or incomplete EWF set do not say which
+/// segment is at fault.
+///
+/// # Verification
+///
+/// - `ewftools/export_handle.c:5404` (tag 20231119): the export loop raises
+///   "unexpected end of data" when a read returns 0 bytes while the export
+///   has not yet reached the media size declared in the header - the
+///   segment data ran out early. The message carries no segment number.
+/// - `libewf/libewf_segment_file.c:957`: a segment whose first 8 bytes match
+///   none of the EVF/LVF/EVF2/LEF2 signatures fails with "unsupported file
+///   header signature"; the caller in `libewf_handle.c:3665` adds only
+///   "unable to read segment file header", again with no segment number.
+/// - Observed: a set in which one segment had been zero-filled by a faulty
+///   copy (its mtime years after acquisition, the rest on the acquisition
+///   day) produced the signature error; a copy missing mid-set data
+///   produced "unexpected end of data" near 99% of an export.
+pub static LIBEWF_DAMAGED_SEGMENT_ERROR_SEMANTICS: ToolBehaviour = ToolBehaviour {
+    id: "libewf_damaged_segment_error_semantics",
+    tool: "libewf ewftools (ewfexport, ewfinfo, ewfverify, ewfmount)",
+    version_range: Some("libewf 20231119 (messages read from source and observed)"),
+    artifact_id: None,
+    kind: ToolBehaviourKind::OutputHidesDetail,
+    detail: "Two messages cover a damaged EWF set. 'export_handle_export_input: unexpected end \
+             of data' (export_handle.c) means a read returned no data before the media size \
+             declared in the header was reached: a segment in this copy is truncated or \
+             missing. 'libewf_segment_file_read_file_header_file_io_pool: unsupported file \
+             header signature' (libewf_segment_file.c) means a segment's first 8 bytes are none \
+             of the EWF signatures, as when a segment has been zero-filled by a faulty copy. \
+             Neither message names the segment file concerned.",
+    consequence: "Neither error says which segment is defective, so the examiner is left to \
+                  guess: the damage is readily assumed to be at the tail (it can be mid-set, \
+                  for example .EFM, segment 242), the method is blamed and swapped (ewfmount \
+                  reads the same short data), or a zero-filled copy is mistaken for tampering \
+                  with the evidence rather than a copying fault. Padding the short output to the \
+                  declared size lets it attach but leaves the missing region reading as zeros.",
+    mitigation: "Check the 8-byte signature of every segment file; compare per-segment sizes \
+                 and modification times across the set (a lone later mtime marks a re-written \
+                 copy); compare ewfinfo's media size with the size actually exported; re-copy \
+                 the defective segment from the original and run ewfverify over the full set; \
+                 check the working drive's health if copies keep failing.",
+    evidence_tier: EvidenceTier::SourceOrMultiImpl,
+    sources: &[
+        "https://github.com/libyal/libewf/blob/20231119/ewftools/export_handle.c",
+        "https://github.com/libyal/libewf/blob/20231119/libewf/libewf_segment_file.c",
+        "https://github.com/libyal/libewf/blob/20231119/libewf/libewf_handle.c",
+        "https://github.com/libyal/libewf/blob/main/manuals/ewfverify.1",
+    ],
+};
+
+/// FTK Imager Verify: a zero-filled stored SHA-1 reads as "Mismatch".
+///
+/// # Verification
+///
+/// - FTK Imager 4.7.1 User Guide, "Verifying Drives and Images": for an
+///   image that contains its own hash (".S01 (SMART) or .E01 (EnCase)") the
+///   results show the stored hash and "whether the hash value stored in the
+///   image matches the hash value computed". That mechanism is documented.
+/// - Observed on two real E01 exhibits whose acquisition stored only an
+///   MD5: the stored SHA-1 field was all zeros, Verify reported a SHA-1
+///   "Mismatch", and the MD5 matched.
+/// - Searched, 2026-09-24, for any vendor statement of what Verify shows
+///   when a hash was never stored: the 4.7.1 User Guide (silent on it) and a
+///   web search of forums and vendor pages; nothing found. Hence
+///   SearchedNotFound for the zero-filled behaviour itself.
+pub static FTK_IMAGER_VERIFY_UNSTORED_HASH_MISMATCH: ToolBehaviour = ToolBehaviour {
+    id: "ftk_imager_verify_unstored_hash_mismatch",
+    tool: "AccessData/Exterro FTK Imager (Verify Drive/Image)",
+    version_range: Some("Observed on FTK Imager Verify output; exact versions not recorded"),
+    artifact_id: None,
+    kind: ToolBehaviourKind::FalsePositiveProne,
+    detail: "UNVERIFIED as vendor-documented behaviour; observed on two real exhibits. Verify \
+             recomputes the image's MD5 and SHA-1 and compares each with the hash stored in the \
+             image at acquisition (documented in the User Guide). When only an MD5 was stored, \
+             the stored SHA-1 field reads as all zeros and Verify reports 'SHA1 Verify result: \
+             Mismatch' while the MD5 matches. Searched: the FTK Imager 4.7.1 User Guide, which \
+             documents the comparison but not the never-stored case, and a web search of \
+             forums and vendor pages, which found nothing.",
+    consequence: "A reader takes a sound image for an altered one because of a 'Mismatch' that \
+                  only reflects a hash never stored - or, reading an expert report that passes \
+                  over the 'Mismatch' silently, cannot tell whether it was checked. Separately, \
+                  a genuine match is over-read: it proves the image equals itself since \
+                  acquisition, not that it equals the source device at seizure.",
+    mitigation: "Before reading 'Mismatch' as a defect, check whether the stored value is all \
+                 zeros (ewfinfo lists the stored hashes) and rely on the algorithm that was \
+                 actually stored. Report the zero-filled SHA-1 explicitly as 'not stored at \
+                 acquisition'. State what a match proves: integrity since acquisition, which says \
+                 nothing about the interval between seizure and imaging.",
+    evidence_tier: EvidenceTier::SearchedNotFound,
+    sources: &[
+        "https://d1kpmuwb7gvu1i.cloudfront.net/Imager/4_7_1/FTKImager_UserGuide.pdf",
+        "https://github.com/libyal/libewf/blob/main/manuals/ewfinfo.1",
+    ],
+};
+
+/// The Sleuth Kit: a deleted FAT short name's lost first byte is shown as
+/// '_'.
+///
+/// # Verification
+///
+/// - Microsoft FAT32 File System Specification (fatgen103): "If
+///   DIR_Name[0] == 0xE5, then the directory entry is free", so the first
+///   character of a deleted entry's short name is overwritten.
+/// - `tsk/fs/fatxxfs_dent.c:293-294` (tags sleuthkit-4.14.0 and 4.15.0, and
+///   develop as fetched 2026-09-24): when the first short-name byte is the
+///   deleted marker, TSK writes '_' in its place. The substituted short name
+///   becomes the displayed name only when no long-name entry survives;
+///   otherwise the long name is shown and the 8.3 name goes to the
+///   short-name slot.
+/// - Observed: fls listed a deleted '_ROTHER' directory beside a live
+///   'BROTHER'.
+///
+/// Design, not a bug: the byte is gone from the volume, and TSK marks the
+/// loss rather than guessing.
+pub static TSK_FLS_FAT_DELETED_NAME_FIRST_CHAR: ToolBehaviour = ToolBehaviour {
+    id: "tsk_fls_fat_deleted_name_first_char",
+    tool: "The Sleuth Kit (fls, and tools built on its FAT directory parser)",
+    version_range: Some("sleuthkit-4.14.0 and 4.15.0 (read from source); develop as of 2026-09-24"),
+    artifact_id: Some("fat_exfat_directory_entry"),
+    kind: ToolBehaviourKind::OutputHidesDetail,
+    detail: "FAT marks a deleted directory entry by overwriting the first byte of its short \
+             name with 0xE5, so the original first character is lost on the volume. TSK's FAT \
+             parser (fatxxfs_dent.c) writes '_' in that position. Where a long-name entry \
+             survives, fls shows the long name; where none does, the deleted file or folder is \
+             listed as '_' plus the rest of the 8.3 name (for example '_ROTHER' for a deleted \
+             'BROTHER').",
+    consequence: "A search for the original name misses the deleted entry, and a '_'-prefixed \
+                  name can be read as the real name, or two entries that differ only in the \
+                  first character can be taken for different files.",
+    mitigation: "Search deleted entries (fls -d) by the rest of the name rather than the whole \
+                 name, and prefer surviving long-name entries, which keep the full name; state \
+                 in any report that the first character of a recovered short name is unknown.",
+    evidence_tier: EvidenceTier::SourceOrMultiImpl,
+    sources: &[
+        "https://github.com/sleuthkit/sleuthkit/blob/sleuthkit-4.15.0/tsk/fs/fatxxfs_dent.c",
+        "https://download.microsoft.com/download/1/6/1/161ba512-40e2-4cc9-843a-923143f3456c/fatgen103.doc",
+        "https://www.sleuthkit.org/sleuthkit/man/fls.html",
+    ],
+};
+
+// ── macOS image handling, unified log and Spotlight ─────────────────────────
+
+/// hdiutil does not recognise a headerless raw (dd) image unless told its
+/// class.
+///
+/// # Sources
+/// - hdiutil(1), EXAMPLES, mirrored at <https://ss64.com/mac/hdiutil.html>:
+///   "Forcing a known image to attach: hdiutil attach -imagekey
+///   diskimage-class=CRawDiskImage myBlob.bar".
+/// - <https://www.forensicfocus.com/forums/general/mount-raw-dd-mac-image-on-another-mac/>
+///   — a segmented raw set still returns "Image not recognized" with the
+///   flag; hdiutil takes a monolithic image only.
+/// - Observed on one macOS Big Sur 11.7 host: attach of a single-file raw
+///   failed "image not recognized" without the flag.
+pub static HDIUTIL_HEADERLESS_RAW_REQUIRES_CRAW_IMAGE_CLASS: ToolBehaviour = ToolBehaviour {
+    id: "hdiutil_headerless_raw_requires_craw_image_class",
+    tool: "hdiutil attach (macOS)",
+    version_range: Some("macOS Big Sur 11.7 host (observed); the man-page example is unversioned"),
+    artifact_id: Some("apfs_container"),
+    kind: ToolBehaviourKind::RequiresFlag,
+    detail: "A raw (dd) disk image has no header naming its format. hdiutil attach infers the \
+             class from the file and, for a raw image with an unfamiliar extension, fails \
+             with 'hdiutil: attach failed - image not recognized'. The man page's own example \
+             for this case forces the class: -imagekey diskimage-class=CRawDiskImage. A raw \
+             image split into segments is not accepted even then.",
+    consequence: "The image is taken for corrupt or unsupported, or the examiner converts it \
+                  with a third-party tool and adds an unneeded processing step to the chain \
+                  of custody.",
+    mitigation: "Attach read-only without mounting: hdiutil attach -readonly -nomount \
+                 -imagekey diskimage-class=CRawDiskImage <image>, then diskutil list / \
+                 diskutil apfs list. Join a segmented raw set into one file (or expose it \
+                 through a mounting layer such as ewfmount/xmount) first.",
+    evidence_tier: EvidenceTier::SingleSecondary,
+    sources: &[
+        "https://ss64.com/mac/hdiutil.html",
+        "https://www.forensicfocus.com/forums/general/mount-raw-dd-mac-image-on-another-mac/",
+    ],
+};
+
+/// A truncated raw image attaches without its APFS container.
+///
+/// Observed only; see `detail` for where a source was sought.
+pub static HDIUTIL_TRUNCATED_RAW_HIDES_APFS_CONTAINER: ToolBehaviour = ToolBehaviour {
+    id: "hdiutil_truncated_raw_hides_apfs_container",
+    tool: "hdiutil attach / diskutil (macOS)",
+    version_range: Some("macOS Big Sur 11.7 host (observed)"),
+    artifact_id: Some("apfs_container"),
+    kind: ToolBehaviourKind::SilentlyIncomplete,
+    detail: "UNVERIFIED (observed once, no public source). A raw image shorter than the disk its partition table describes (an acquisition \
+             that stopped early, or a partial copy) attached on one Big Sur 11.7 host without \
+             presenting the APFS container, so no APFS volumes appeared to list or mount; the \
+             complete image of the same disk presented it. Searched (2026-09) the web for \
+             truncated dd images with hdiutil, APFS containers missing and partitions \
+             extending beyond the end of an image: no public description was found.",
+    consequence: "The Mac is taken to have no APFS volume, or an encrypted or wiped one, when \
+                  the image is simply incomplete.",
+    mitigation: "Before interpreting a missing container, compare the image size with the \
+                 partition table: the APFS partition's last sector times the disk's sector \
+                 size (and the GPT backup header at the disk's last LBA) must fall inside the \
+                 file. A shortfall is an acquisition defect to fix or report, not a finding \
+                 about the disk.",
+    evidence_tier: EvidenceTier::SearchedNotFound,
+    sources: &["https://developer.apple.com/support/downloads/Apple-File-System-Reference.pdf"],
+};
+
+/// `log show --archive` on a logarchive assembled by copying files from an
+/// image.
+///
+/// # Sources
+/// - <https://www.mac4n6.com/blog/2020/4/20/analysis-of-apple-unified-log-quarantine-edition-entry-1-converting-log-archive-files-on-1015-catalina>
+///   — OSArchiveVersion in the archive's Info.plist (3 on 10.13, 4 on 10.14
+///   and 10.15); "Doing a recursive copy from a dead image does not create
+///   this Info.plist"; adding one with the wrong version gives wrong
+///   timestamps.
+/// - <https://padawan-4n6.hatenablog.com/entry/2020/03/15/052607> — a
+///   copied diagnostics+uuidtext .logarchive that worked on Mojave is
+///   refused by Catalina's log; an Info.plist with OSArchiveVersion makes it
+///   readable, with "partial or missing metadata" warnings.
+/// - log(1), mirrored at <https://ss64.com/mac/log.html>: the archive "must
+///   be a valid log archive bundle with the suffix .logarchive".
+/// - Observed on one Big Sur 11.7 export: zero events rather than an error.
+pub static LOG_SHOW_ZERO_EVENTS_ON_COPIED_ARCHIVE: ToolBehaviour = ToolBehaviour {
+    id: "log_show_zero_events_on_copied_archive",
+    tool: "log show --archive (macOS)",
+    version_range: Some("macOS 10.15 and later hosts (sources); a Big Sur 11.7 export (observed)"),
+    artifact_id: Some("macos_unified_log"),
+    kind: ToolBehaviourKind::SilentlyIncomplete,
+    detail: "A .logarchive assembled by copying /private/var/db/diagnostics/ and \
+             /private/var/db/uuidtext/ out of an image lacks the Info.plist, carrying \
+             OSArchiveVersion, that log collect writes. Since Catalina the log command \
+             refuses such a bundle or, as observed on one Big Sur 11.7 export, returns zero \
+             events rather than an error; an Info.plist with the wrong version makes it \
+             parse with shifted timestamps.",
+    consequence: "Zero events is read as an empty or cleared unified log, or a predicate that \
+                  matched nothing is read as the event not having happened.",
+    mitigation: "Parse the copied directory with a parser that does not need the bundle \
+                 metadata (Mandiant's unifiedlog_iterator -m log-archive), and run a control \
+                 first: a query that must match (the boot or the Mac's own hostname) has to \
+                 return entries before any empty result counts.",
+    evidence_tier: EvidenceTier::SourceOrMultiImpl,
+    sources: &[
+        "https://www.mac4n6.com/blog/2020/4/20/analysis-of-apple-unified-log-quarantine-edition-entry-1-converting-log-archive-files-on-1015-catalina",
+        "https://padawan-4n6.hatenablog.com/entry/2020/03/15/052607",
+        "https://ss64.com/mac/log.html",
+    ],
+};
+
+/// Every unifiedlog_iterator record carries the source file path in its
+/// `evidence` field.
+///
+/// # Sources
+/// - `src/unified_log.rs` at commit 09e6e6e4 (code-read): `LogData` has
+///   `pub evidence: String`, copied onto every record from the parsed file.
+/// - `examples/unifiedlog_iterator/src/main.rs` at the same commit:
+///   `UnifiedLogIterator { ..., evidence: path }` for each tracev3 file, and
+///   each record is written out whole (JSONL default, or CSV).
+pub static UNIFIEDLOG_ITERATOR_EVIDENCE_FIELD_FALSE_HITS: ToolBehaviour = ToolBehaviour {
+    id: "unifiedlog_iterator_evidence_field_false_hits",
+    tool: "Mandiant macos-UnifiedLogs unifiedlog_iterator",
+    version_range: Some("main at 09e6e6e43098a71d48250af552d732f630929208 (read 2026-09-24)"),
+    artifact_id: Some("macos_unified_log"),
+    kind: ToolBehaviourKind::FalsePositiveProne,
+    detail: "Each output record includes an `evidence` field holding the path of the tracev3 \
+             file it came from (for example .../Persist/<hex>.tracev3 or \
+             .../Special/<hex>.tracev3), beside the message fields. A text search run over \
+             whole output lines (grep over the JSONL or CSV) therefore also matches the path: \
+             any term that occurs in the export directory name, a folder like Persist, \
+             Special or Signpost, or a hex file name, hits every record from that file.",
+    consequence: "Thousands of spurious hits are counted as log events mentioning the term, or \
+                  a term is reported present in the log when it occurs only in a file path.",
+    mitigation: "Search the message fields (message, subsystem, process, category) rather than \
+                 whole lines, e.g. with jq on the JSONL; control by searching for a term known \
+                 to occur only in the path and confirming it returns nothing.",
+    evidence_tier: EvidenceTier::SourceOrMultiImpl,
+    sources: &[
+        "https://github.com/mandiant/macos-UnifiedLogs/blob/09e6e6e43098a71d48250af552d732f630929208/src/unified_log.rs",
+        "https://github.com/mandiant/macos-UnifiedLogs/blob/09e6e6e43098a71d48250af552d732f630929208/examples/unifiedlog_iterator/src/main.rs",
+    ],
+};
+
+/// spotlight_parser parses the one database file it is given.
+///
+/// # Sources
+/// - <https://github.com/ydkhatri/spotlight_parser> README: processes
+///   "individual Spotlight database files which are always named `store.db`
+///   and `.store.db`"; stores are "under each volume at location
+///   /.Spotlight-V100/Store-V2/<UUID>", and per-user CoreSpotlight stores
+///   exist since 10.13.
+/// - <https://github.com/ydkhatri/mac_apt/blob/master/plugins/spotlight.py> —
+///   mac_apt processes both store.db and .store.db in every Store-V2/<UUID>
+///   and writes only the items of .store.db absent from store.db.
+pub static SPOTLIGHT_PARSER_ONE_STORE_PER_RUN: ToolBehaviour = ToolBehaviour {
+    id: "spotlight_parser_one_store_per_run",
+    tool: "spotlight_parser (ydkhatri)",
+    version_range: Some("1.0.4 (README as read 2026-09-24)"),
+    artifact_id: Some("macos_spotlight_store"),
+    kind: ToolBehaviourKind::SilentlyIncomplete,
+    detail: "spotlight_parser takes one database file per run. Each \
+             /.Spotlight-V100/Store-V2/<UUID>/ holds two, store.db and the hidden .store.db, \
+             which carries items not yet merged into store.db; every volume has its own \
+             /.Spotlight-V100, so on a Mac with separate system and data volumes there is more \
+             than one store; and per-user CoreSpotlight stores live under \
+             ~/Library/Metadata/CoreSpotlight/. Parsing only the visible store.db of one volume \
+             reports a complete-looking listing that omits the rest.",
+    consequence: "A file indexed only in .store.db, or only in another volume's store, is \
+                  reported as never indexed, and its metadata as absent.",
+    mitigation: "Enumerate every .Spotlight-V100/Store-V2/<UUID>/ on every volume and the \
+                 per-user CoreSpotlight stores, and parse both store.db and .store.db in each \
+                 (mac_apt's SPOTLIGHT plugin does this); record which stores were parsed.",
+    evidence_tier: EvidenceTier::SourceOrMultiImpl,
+    sources: &[
+        "https://github.com/ydkhatri/spotlight_parser",
+        "https://github.com/ydkhatri/mac_apt/blob/master/plugins/spotlight.py",
+    ],
+};
+
+/// The Sleuth Kit reaches APFS volumes through its pool layer, not at the
+/// container's offset.
+///
+/// # Sources
+/// - `tools/fstools/fls.cpp` (develop, read 2026-09-24): with no `-B
+///   pool_volume_block`, fls opens a file system directly at the `-o`
+///   offset; with `-B` it opens the pool (`tsk_pool_open_img_sing`, type
+///   from `-P`) and then the volume inside it.
+/// - `NEWS.txt`: 4.8.0 "Pool layer was added to support APFS"; 4.9.0
+///   "Ensure all command line tools support new pool command line
+///   arguments".
+pub static TSK_APFS_PLAIN_OFFSET_WITHOUT_POOL_OPTIONS: ToolBehaviour = ToolBehaviour {
+    id: "tsk_apfs_plain_offset_without_pool_options",
+    tool: "The Sleuth Kit (fls, fsstat, icat and other fstools)",
+    version_range: Some(
+        "sleuthkit 4.8.0 and later (pool layer); fls.cpp read at develop 2026-09-24",
+    ),
+    artifact_id: Some("apfs_container"),
+    kind: ToolBehaviourKind::RequiresFlag,
+    detail: "An APFS partition holds a container (a pool), and the volumes are inside it. Given \
+             only -o <partition offset>, fls and the other fstools try to open a file system \
+             at that offset and fail. The source shows the pool path is taken only when \
+             -B <volume superblock block> is given (with -P apfs naming the pool type); pstat \
+             lists the pool's volumes and their blocks. On the observed image TSK failed at \
+             the plain offset; the pool options were not tried there, so this records what the \
+             source requires, not a tested failure of TSK's APFS support.",
+    consequence: "TSK is concluded unable to read the image, or the APFS volume is taken for \
+                  encrypted or damaged, when the pool options were simply not supplied.",
+    mitigation: "Run pstat -o <offset> <image> to list the APFS volumes, then fls -o <offset> \
+                 -P apfs -B <volume block> <image>. If that also fails, report the failure \
+                 with the exact command.",
+    evidence_tier: EvidenceTier::SourceOrMultiImpl,
+    sources: &[
+        "https://github.com/sleuthkit/sleuthkit/blob/develop/tools/fstools/fls.cpp",
+        "https://github.com/sleuthkit/sleuthkit/blob/develop/NEWS.txt",
+    ],
+};
+
 /// Every registered tool behaviour. Lookup and iteration read this slice;
 /// a static not referenced here is invisible to every consumer.
 pub static TOOL_BEHAVIOURS: &[ToolBehaviour] = &[
@@ -426,4 +1255,22 @@ pub static TOOL_BEHAVIOURS: &[ToolBehaviour] = &[
     VOL3_MALFIND_FP_PROFILE,
     COREUTILS_STAT_EXT4_BIRTH_BLANK,
     MALFIND_BENIGN_PROCESS_NAMES,
+    SQLITE_IMMUTABLE_URI_IGNORES_WAL,
+    SQLITE_MAIN_FILE_ONLY_COPY_DROPS_WAL,
+    SQLITE_OPEN_MISSING_PATH_CREATES_EMPTY_DB,
+    QPDF_SHOW_ENCRYPTION_BLANK_USER_PASSWORD,
+    POPPLER_PDFTOTEXT_ENCRYPTED_PDF_EMPTY_STDOUT,
+    PRAUDIT_RESOLVES_IDS_ON_ANALYSIS_HOST,
+    ZIP_LEGACY_CODEPAGE_MEMBER_NAMES_MISDECODED,
+    APNIC_WHOIS_FIRST_COUNTRY_IS_NOT_THE_ASN_HOLDER,
+    LIBEWF_LEF_SHORT_NAME_OPEN_FAILURE,
+    LIBEWF_DAMAGED_SEGMENT_ERROR_SEMANTICS,
+    FTK_IMAGER_VERIFY_UNSTORED_HASH_MISMATCH,
+    TSK_FLS_FAT_DELETED_NAME_FIRST_CHAR,
+    HDIUTIL_HEADERLESS_RAW_REQUIRES_CRAW_IMAGE_CLASS,
+    HDIUTIL_TRUNCATED_RAW_HIDES_APFS_CONTAINER,
+    LOG_SHOW_ZERO_EVENTS_ON_COPIED_ARCHIVE,
+    UNIFIEDLOG_ITERATOR_EVIDENCE_FIELD_FALSE_HITS,
+    SPOTLIGHT_PARSER_ONE_STORE_PER_RUN,
+    TSK_APFS_PLAIN_OFFSET_WITHOUT_POOL_OPTIONS,
 ];

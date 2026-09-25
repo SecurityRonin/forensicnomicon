@@ -150,13 +150,32 @@ const QCOW2_INVARIANTS: &[&str] = &[
 ];
 
 const EWF_HINTS: &[&str] = &[
-    "Identify the variant by the 8-byte signature: 'EVF\\x09\\x0d\\x0a\\xff\\x00' = EWF1 (.E01), 'EVF2..' = Ex01, 'LEF2..' = Lx01 logical evidence.",
-    "Walk the section chain (header, volume/disk, table/sectors, ... done) and collect every segment file (.E01, .E02, ...) — the acquisition spans all of them.",
+    "Identify the variant by the 8-byte signature (libewf libewf_segment_file.c): 'EVF\\x09\\x0d\\x0a\\xff\\x00' = EWF1 physical (.E01), 'LVF\\x09\\x0d\\x0a\\xff\\x00' = EWF1 logical (.L01), 'EVF2\\x0d\\x0a\\x81\\x00' = EWF2 physical (.Ex01), 'LEF2\\x0d\\x0a\\x81\\x00' = EWF2 logical (.Lx01). The logical variants are a separate container (ewf_logical_evidence).",
+    "Walk the section chain (header, volume/disk, table/sectors, ... done) and collect every segment file — the acquisition spans all of them. Extensions run .E01 to .E99, then roll over to .EAA ... .EZZ, then .FAA ... up to .ZZZ (L01 sets likewise .L99 -> .LAA); no extension in the set is a metadata sidecar, so .EFM is simply segment 242.",
+    "Check the 8-byte signature of EVERY segment, not just the first: a segment whose header fails (for example one zeroed by a faulty copy) localises the damage, which libewf's own errors do not name.",
+    "A set missing or truncating a mid-set segment exports short of the declared media size; padding the output to size does not repair it — re-copy the segment and re-verify.",
     "Verify the stored MD5/SHA-1 hash and per-chunk Adler-32 to confirm integrity before relying on the evidence.",
 ];
 const EWF_INVARIANTS: &[&str] = &[
-    "Begins with one of the 8-byte EVF/EVF2/LEF2 signatures at offset 0.",
+    "Physical EWF begins with the EWF1 'EVF\\x09\\x0d\\x0a\\xff\\x00' or EWF2 'EVF2\\x0d\\x0a\\x81\\x00' signature at offset 0; an EWF1 file header is 13 bytes (signature, 0x01, 2-byte segment number, 0x0000).",
     "Data is stored as compressed or raw chunks indexed by 'table' sections; the high bit of each EWF1 table offset flags a compressed chunk.",
+];
+
+const EWF_LOGICAL_HINTS: &[&str] = &[
+    "A logical evidence file holds only the files and folders that were selected, with their metadata and per-file hashes in the single-files (ltree) section; it contains no unallocated space, slack, Volume Shadow Copies or file-system metadata ($MFT, $UsnJrnl) unless those were themselves selected.",
+    "Folder names in the tree (Windows, System32, Users) do not imply their contents were captured: under a selective export a folder appears only if it held a selected file.",
+    "Enumerate it, do not mount it: there is no partition table or file system, so a file-system tool (for example Sleuth Kit fls) reports that it cannot determine the file-system type.",
+    "Verify the ltree MD5 before trusting the enumeration, and record the tool and version that read it: libewf 20231119 aborts the whole open of some real EnCase L01s at a short-name size check (libewf_lef_file_entry.c:982).",
+];
+const EWF_LOGICAL_INVARIANTS: &[&str] = &[
+    "Begins with the EWF1 logical signature 'LVF\\x09\\x0d\\x0a\\xff\\x00' (.L01) or the EWF2 logical signature 'LEF2\\x0d\\x0a\\x81\\x00' (.Lx01) at offset 0.",
+    "The file tree lives in the ltree (single files) section; the volume section's media type is 0x0e (logical evidence).",
+];
+
+const AD1_HINTS: &[&str] = &[
+    "A Custom Content Image or exported logical image holds selected files and folders with full file structure but no drive geometry or other physical-drive data, so it can be mounted only logically (FTK Imager User Guide).",
+    "Read the '<image>.ad1.txt' Evidence Item Information sidecar (case number, evidence number, description, examiner, notes) and any '<image>.ad1.csv' directory listing written beside it before drawing conclusions about the source.",
+    "Absence of hives, event logs or $MFT in an AD1 reflects what was selected, not what the source device held.",
 ];
 
 const AFF4_HINTS: &[&str] = &[
@@ -289,11 +308,32 @@ static CONTAINER_PROFILES: &[ContainerProfile] = &[
     },
     ContainerProfile {
         id: "ewf_image",
-        name: "Expert Witness Format (E01/Ex01/L01)",
-        summary: "Dominant professional forensic acquisition container: chunked, compressed, hashed evidence segments (EWF1 .E01, EWF2 Ex01, logical Lx01).",
+        name: "Expert Witness Format (E01/Ex01)",
+        summary: "Dominant professional forensic acquisition container: chunked, compressed, hashed evidence segments of a whole device (EWF1 .E01, EWF2 .Ex01). Logical L01/Lx01 files share the format family but are catalogued as ewf_logical_evidence.",
         parser_hints: EWF_HINTS,
         sources: &[
             "https://github.com/libyal/libewf/tree/main/documentation",
+            "https://github.com/libyal/libewf/blob/20231119/libewf/libewf_segment_file.c",
+        ],
+    },
+    ContainerProfile {
+        id: "ewf_logical_evidence",
+        name: "EnCase Logical Evidence File (L01/Lx01)",
+        summary: "Logical collection of selected files with their metadata and per-file hashes (ltree); contains no unallocated space, slack, VSS or file-system metadata unless explicitly selected; folder names in the tree do not imply their contents were captured; enumerate it, do not mount it.",
+        parser_hints: EWF_LOGICAL_HINTS,
+        sources: &[
+            "https://github.com/libyal/libewf/tree/main/documentation",
+            "https://github.com/libyal/libewf/blob/20231119/libewf/libewf_segment_file.c",
+            "https://github.com/libyal/libewf/blob/20231119/libewf/libewf_lef_file_entry.c",
+        ],
+    },
+    ContainerProfile {
+        id: "ad1_logical_image",
+        name: "AccessData AD1 Logical Image (FTK Imager Custom Content Image)",
+        summary: "FTK Imager Custom Content Image or exported logical image: selected files and folders with full file structure but no drive geometry or other physical-drive data, so it holds no unallocated space, slack or unselected system files and mounts only logically.",
+        parser_hints: AD1_HINTS,
+        sources: &[
+            "https://d1kpmuwb7gvu1i.cloudfront.net/Imager/4_7_1/FTKImager_UserGuide.pdf",
         ],
     },
     ContainerProfile {
@@ -324,6 +364,9 @@ static VHDX_MAGIC_BYTES: &[u8] = b"vhdxfile";
 static VHD_FOOTER_COOKIE: &[u8] = b"conectix";
 static QCOW2_MAGIC_BYTES: &[u8] = &[0x51, 0x46, 0x49, 0xFB]; // big-endian "QFI\xfb"
 static EVF1_MAGIC_BYTES: &[u8] = &[0x45, 0x56, 0x46, 0x09, 0x0D, 0x0A, 0xFF, 0x00]; // EWF1 .E01
+static EVF2_MAGIC_BYTES: &[u8] = &[0x45, 0x56, 0x46, 0x32, 0x0D, 0x0A, 0x81, 0x00]; // EWF2 .Ex01
+static LVF_MAGIC_BYTES: &[u8] = &[0x4C, 0x56, 0x46, 0x09, 0x0D, 0x0A, 0xFF, 0x00]; // EWF1 logical .L01
+static LEF2_MAGIC_BYTES: &[u8] = &[0x4C, 0x45, 0x46, 0x32, 0x0D, 0x0A, 0x81, 0x00]; // EWF2 logical .Lx01
 static AFF4_ZIP_MAGIC_BYTES: &[u8] = b"PK\x03\x04"; // ZIP local file header
 static DMG_KOLY_COOKIE: &[u8] = b"koly"; // 512-byte trailer at end-of-file
 static SQLITE_MAGIC: &[u8] = b"SQLite format 3\0";
@@ -500,6 +543,53 @@ static CONTAINER_SIGNATURES: &[ContainerSignature] = &[
         alignment: None,
         invariants: EWF_INVARIANTS,
         sources: &["https://github.com/libyal/libewf/tree/main/documentation"],
+    },
+    ContainerSignature {
+        container_id: "ewf_image",
+        name: "EWF2 EVF2 Signature",
+        header_magic: EVF2_MAGIC_BYTES,
+        footer_magic: &[],
+        header_offset: 0,
+        min_size: Some(32),
+        alignment: None,
+        invariants: EWF_INVARIANTS,
+        // Source: ewf2_evf_file_signature, libewf_segment_file.c:71; the EWF2
+        // file header is 32 bytes (signature, version, compression, segment
+        // number, set GUID) per the libewf EWF2 documentation
+        sources: &[
+            "https://github.com/libyal/libewf/blob/20231119/libewf/libewf_segment_file.c",
+            "https://github.com/libyal/libewf/tree/main/documentation",
+        ],
+    },
+    ContainerSignature {
+        container_id: "ewf_logical_evidence",
+        name: "EWF1 LVF Signature (L01)",
+        header_magic: LVF_MAGIC_BYTES,
+        footer_magic: &[],
+        header_offset: 0,
+        min_size: Some(13),
+        alignment: None,
+        invariants: EWF_LOGICAL_INVARIANTS,
+        // Source: ewf1_lvf_file_signature, libewf_segment_file.c:70
+        sources: &[
+            "https://github.com/libyal/libewf/blob/20231119/libewf/libewf_segment_file.c",
+            "https://github.com/libyal/libewf/tree/main/documentation",
+        ],
+    },
+    ContainerSignature {
+        container_id: "ewf_logical_evidence",
+        name: "EWF2 LEF2 Signature (Lx01)",
+        header_magic: LEF2_MAGIC_BYTES,
+        footer_magic: &[],
+        header_offset: 0,
+        min_size: Some(32),
+        alignment: None,
+        invariants: EWF_LOGICAL_INVARIANTS,
+        // Source: ewf2_lef_file_signature, libewf_segment_file.c:72
+        sources: &[
+            "https://github.com/libyal/libewf/blob/20231119/libewf/libewf_segment_file.c",
+            "https://github.com/libyal/libewf/tree/main/documentation",
+        ],
     },
     ContainerSignature {
         container_id: "aff4_image",

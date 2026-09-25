@@ -840,7 +840,7 @@ pub(crate) static USB_STOR_ENUM: ArtifactDescriptor = ArtifactDescriptor {
     ],
     retention: Some("Persists until device entry is manually deleted"),
     triage_priority: TriagePriority::Critical,
-    related_artifacts: &["usb_enum", "portable_devices", "setupapi_dev_log", "mountpoints2", "mounted_devices"],
+    related_artifacts: &["usb_enum", "portable_devices", "setupapi_dev_log", "mountpoints2", "mounted_devices", "evtx_partition_diagnostic_1006"],
     sources: &[
         "https://github.com/EricZimmerman/RECmd/blob/master/BatchExamples/Kroll_Batch.reb",
         // Microsoft Windows 10 SDK devpkey.h — GUID {83da6326-...} + property IDs 0x64-0x67 = DEVPROP_TYPE_FILETIME:

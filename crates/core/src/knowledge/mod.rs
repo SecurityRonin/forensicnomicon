@@ -25,9 +25,19 @@
 //! [`crate::evidence::EvidenceTier`] so a reader can tell a vendor-documented
 //! claim from one recovered by reading source.
 //!
+//! [`ExaminationProfile`] is a fifth, differently-shaped type. It is not a
+//! negative-knowledge record but a reusable checklist: a named, curated set of
+//! catalog artifacts to examine for one examination goal on one platform, each
+//! member referencing a descriptor by id and carrying its own rationale. It
+//! answers the question the descriptor cannot — *"which artifacts do I pull for
+//! THIS kind of examination, and why each one?"* — and its load-bearing
+//! correctness property is referential integrity: every member id must resolve
+//! to a real descriptor, enforced by test.
+//!
 //! Kept in one module while the data volume is small; split per-type when it
 //! grows, as `catalog/` did.
 
+use crate::catalog::Platform;
 use crate::evidence::EvidenceTier;
 
 // ── Investigative technique ──────────────────────────────────────────────────
@@ -217,5 +227,119 @@ pub struct AntiForensicMethod {
     /// MITRE ATT&CK technique IDs.
     pub mitre_techniques: &'static [&'static str],
     /// Authoritative references.
+    pub sources: &'static [&'static str],
+}
+
+// ── Examination profile ────────────────────────────────────────────────────
+
+/// Whether a profile aims for breadth or a single investigative question.
+///
+/// A closed binary — a profile is comprehensive or it is focused — so this is
+/// deliberately NOT `#[non_exhaustive]`; the focus (which IS open-ended) is
+/// carried separately by [`ExaminationFocus`].
+#[cfg_attr(feature = "serde", derive(serde::Serialize))]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+pub enum ProfileKind {
+    /// Comprehensive: everything relevant to a platform for a broad examination.
+    Full,
+    /// Narrower: a set curated for one examination goal.
+    Focused,
+}
+
+/// The examination goal a profile is curated for.
+///
+/// `#[non_exhaustive]` on purpose: new goals (ransomware triage, insider
+/// threat, …) extend this enum without breaking downstream `match`es.
+#[non_exhaustive]
+#[cfg_attr(feature = "serde", derive(serde::Serialize))]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum ExaminationFocus {
+    /// Comprehensive examination spanning every investigative category.
+    FullExamination,
+    /// Attributing observed activity to a specific user or identity.
+    UserAttribution,
+    /// Egress of data to removable media, cloud sync, print, or the network.
+    DataLeakage,
+    /// Malware presence, persistence, and defence evasion.
+    Malware,
+}
+
+/// The investigative category a member serves, so a profile reads as a grouped
+/// checklist rather than a flat id list. `#[non_exhaustive]`: the set of
+/// categories is expected to grow.
+#[non_exhaustive]
+#[cfg_attr(feature = "serde", derive(serde::Serialize))]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+pub enum InvestigativeCategory {
+    /// Local, cloud, and online accounts; login and device identity.
+    AccountUse,
+    /// Which applications ran, when, and how often.
+    ApplicationUse,
+    /// Files created, opened, moved, or deleted, and their provenance.
+    FileActivity,
+    /// Networks, servers, and paired devices connected to.
+    Connections,
+    /// Messages, mail, calendar, and notifications.
+    Communications,
+    /// Web browsing, downloads, and cached web content.
+    WebActivity,
+    /// Cloud-storage sync clients and their local containers.
+    CloudStorage,
+    /// Printing: spooled jobs, configured printers, and print logs.
+    Printing,
+    /// Document authorship and embedded editing metadata.
+    DocumentAuthorship,
+    /// Autostart and persistence mechanisms.
+    Persistence,
+    /// Code-execution control: quarantine, Gatekeeper, XProtect, TCC.
+    ExecutionControl,
+}
+
+/// One artifact in an [`ExaminationProfile`]: a reference to a catalog
+/// descriptor by id, plus why it belongs in this profile.
+#[cfg_attr(feature = "serde", derive(serde::Serialize))]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct ProfileMember {
+    /// The [`crate::catalog::ArtifactDescriptor::id`] this member references.
+    /// A profile is invalid if this does not resolve in the catalog — the
+    /// referential-integrity property the profile type exists to guarantee.
+    pub artifact_id: &'static str,
+    /// The investigative category this artifact serves in this profile.
+    pub category: InvestigativeCategory,
+    /// Why this artifact is in this profile — the analyst-facing justification,
+    /// not a restatement of what the artifact is.
+    pub rationale: &'static str,
+}
+
+/// A reusable examination checklist: a named, curated set of catalog artifacts
+/// to examine for a stated examination goal on one platform.
+///
+/// An [`crate::catalog::ArtifactDescriptor`] answers *"what is this artifact and
+/// what does it prove?"*. A profile answers the prior question an examiner asks
+/// when scoping a collection: *"which artifacts do I pull for THIS kind of
+/// examination, and why each one?"*. Members reference descriptors by id
+/// ([`ProfileMember::artifact_id`]); every member id resolving to a real
+/// descriptor is the load-bearing correctness property, enforced by test.
+///
+/// Mirrors the other knowledge types: `const`-constructible so it lives in a
+/// `static`, and cross-referenced to the catalog by id.
+#[cfg_attr(feature = "serde", derive(serde::Serialize))]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct ExaminationProfile {
+    /// Short machine-readable identifier.
+    pub id: &'static str,
+    /// Human-readable display name.
+    pub name: &'static str,
+    /// Platform the profile targets.
+    pub platform: Platform,
+    /// Whether the profile is comprehensive or focused.
+    pub kind: ProfileKind,
+    /// The examination goal the profile is curated for.
+    pub focus: ExaminationFocus,
+    /// What the profile covers and the examination it supports.
+    pub description: &'static str,
+    /// The curated members, each referencing a catalog artifact by id.
+    pub members: &'static [ProfileMember],
+    /// Authoritative references for this examination methodology.
     pub sources: &'static [&'static str],
 }

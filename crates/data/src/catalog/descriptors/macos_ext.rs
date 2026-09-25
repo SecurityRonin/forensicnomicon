@@ -173,9 +173,9 @@ pub(crate) static MACOS_SFL2_RECENT_ITEMS: ArtifactDescriptor = ArtifactDescript
     key_path: "",
     value_name: None,    file_path: Some("/Users/*/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.RecentDocuments.sfl2"),
     scope: DataScope::User,
-    os_scope: OsScope::MacOS12Plus,
+    os_scope: OsScope::MacOS,
     decoder: Decoder::Identity,
-    meaning: "SFL2 (Shared File List v2, macOS 10.12+) binary plist tracking recently opened documents system-wide. Reveals user document activity even for files since deleted. Supersedes com.apple.recentitems.plist on modern systems.",
+    meaning: "SFL2 (Shared File List v2, new with macOS 10.13 High Sierra; 10.11 and 10.12 wrote .sfl) binary plist tracking recently opened documents system-wide. Reveals user document activity even for files since deleted. Supersedes com.apple.recentitems.plist on modern systems.",
     mitre_techniques: &["T1217"],
     fields: &[
         FieldSchema { name: "file_path", value_type: ValueType::Text, description: "Bookmark-resolved path of recent document", is_uid_component: true },
@@ -183,10 +183,11 @@ pub(crate) static MACOS_SFL2_RECENT_ITEMS: ArtifactDescriptor = ArtifactDescript
     retention: Some("Capped list, rotated by system"),
     triage_priority: TriagePriority::High,
     related_artifacts: &["macos_dock_plist", "macos_knowledgec"],
-    sources: &["https://www.mac4n6.com/blog/2016/6/21/introduction-to-sfl-and-sfl2-files"],
+    sources: &["https://www.mac4n6.com/blog/2017/10/17/script-update-for-macmrupy-v13-new-1013-sfl2-mru-files"],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
     evidence_tier: None,
     evidence_caveats: &[
+        "The .sfl2 format is new with macOS 10.13 High Sierra (mac4n6); earlier releases wrote .sfl. Present on one macOS Big Sur 11.7 image",
         "User can clear recent items via menu",
         "Some apps maintain their own recent lists outside SFL2",
     ],
@@ -202,7 +203,7 @@ pub(crate) static MACOS_SFL2_RECENT_SERVERS: ArtifactDescriptor = ArtifactDescri
     key_path: "",
     value_name: None,    file_path: Some("/Users/*/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.RecentServers.sfl2"),
     scope: DataScope::User,
-    os_scope: OsScope::MacOS12Plus,
+    os_scope: OsScope::MacOS,
     decoder: Decoder::Identity,
     meaning: "Tracks recently connected network servers (SMB, AFP, NFS, WebDAV). Critical for lateral movement and data exfiltration investigations — shows remote file server connections with server URLs.",
     mitre_techniques: &["T1021.002"],
@@ -212,10 +213,16 @@ pub(crate) static MACOS_SFL2_RECENT_SERVERS: ArtifactDescriptor = ArtifactDescri
     retention: Some("Capped recent list"),
     triage_priority: TriagePriority::High,
     related_artifacts: &["macos_sfl2_recent_items"],
-    sources: &["https://www.mac4n6.com/blog/2016/6/21/introduction-to-sfl-and-sfl2-files"],
+    sources: &[
+        "https://www.mac4n6.com/blog/2017/10/17/script-update-for-macmrupy-v13-new-1013-sfl2-mru-files",
+        "https://jsac.jpcert.or.jp/archive/2022/pdf/JSAC2022_workshop_macOS-forensic_en.pdf",
+    ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
     evidence_tier: None,
-    evidence_caveats: &["Only records mounted servers, not connection attempts"],
+    evidence_caveats: &[
+        "The .sfl2 format is new with macOS 10.13 High Sierra (mac4n6), and JPCERT's workshop lists com.apple.LSSharedFileList.RecentServers as .sfl or .sfl2; on earlier releases look for the .sfl file. The file is written only once the user has connected to a server, so its absence says nothing about the release",
+        "Only records mounted servers, not connection attempts",
+    ],
     volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
     volatility_rationale: "Updated per server connection; older entries evicted as new ones added",
 };
@@ -230,7 +237,7 @@ pub(crate) static MACOS_WIFI_PLIST: ArtifactDescriptor = ArtifactDescriptor {
     scope: DataScope::System,
     os_scope: OsScope::MacOS,
     decoder: Decoder::Identity,
-    meaning: "Ordered list of all known Wi-Fi networks: SSIDs, security type, last join time, BSSID. Reveals historical network connections and geolocation context. Key for placing a device at a location or identifying rogue access points.",
+    meaning: "Ordered list of all known Wi-Fi networks: SSIDs, security type, last join time, BSSID. Reveals historical network connections and geolocation context. Key for placing a device at a location or identifying rogue access points. The store of macOS 10.15 and earlier; Big Sur (11) moved remembered networks to com.apple.wifi.known-networks.plist (macos_wifi_known_networks). On a Mac upgraded to Big Sur the legacy records can survive in com.apple.airport.preferences.plist.backup beside this file (macos_wifi_plist_backup); examine that file too.",
     mitre_techniques: &["T1016"],
     fields: &[
         FieldSchema { name: "ssid", value_type: ValueType::Text, description: "Wi-Fi network SSID", is_uid_component: true },
@@ -239,11 +246,17 @@ pub(crate) static MACOS_WIFI_PLIST: ArtifactDescriptor = ArtifactDescriptor {
     ],
     retention: Some("Persistent; manually cleared or limited by OS"),
     triage_priority: TriagePriority::High,
-    related_artifacts: &["macos_unified_log", "macos_wifi_intelligence"],
-    sources: &["https://www.mac4n6.com/blog/2016/6/3/ode-to-the-network"],
+    related_artifacts: &["macos_unified_log", "macos_wifi_intelligence", "macos_wifi_known_networks", "macos_wifi_plist_backup"],
+    sources: &[
+        "https://www.mac4n6.com/blog/2016/6/3/ode-to-the-network",
+        "https://www.alansiu.net/2021/01/27/known-networks-settings-moved-in-big-sur/",
+    ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
     evidence_tier: None,
-    evidence_caveats: &["User can manually remove networks from list"],
+    evidence_caveats: &[
+        "User can manually remove networks from list",
+        "After the upgrade to Big Sur this file can hold only Counter, DeviceUUID and Version, with no KnownNetworks; observed on one macOS Big Sur 11.7 image, where the full legacy store was in com.apple.airport.preferences.plist.backup. An empty live file is not evidence that no networks were ever joined",
+    ],
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "Plist persists known networks until explicit removal",
 };
@@ -254,11 +267,11 @@ pub(crate) static MACOS_SCREEN_TIME_DB: ArtifactDescriptor = ArtifactDescriptor 
     artifact_type: ArtifactLocation::File,
     hive: None,
     key_path: "",
-    value_name: None,    file_path: Some("/Users/*/Library/Application Support/com.apple.ScreenTime/RMAdminStore-Local.sqlite"),
+    value_name: None,    file_path: Some("/private/var/folders/*/*/0/com.apple.ScreenTimeAgent/Store/RMAdminStore-Local.sqlite"),
     scope: DataScope::User,
-    os_scope: OsScope::MacOS12Plus,
+    os_scope: OsScope::MacOS,
     decoder: Decoder::Identity,
-    meaning: "Screen Time SQLite database recording per-app and per-domain usage durations by day. Provides a granular timeline of application and web activity even when browser history is cleared — a secondary execution evidence source.",
+    meaning: "Screen Time SQLite database recording per-app and per-domain usage durations by day, in the user's DARWIN_USER_DIR (/private/var/folders/<a>/<b>/0/), beside its -wal and -shm files and RMAdminStore-Cloud.sqlite. Provides a granular timeline of application and web activity even when browser history is cleared — a secondary execution evidence source.",
     mitre_techniques: &["T1217"],
     fields: &[
         FieldSchema { name: "bundle_id", value_type: ValueType::Text, description: "Application bundle ID", is_uid_component: true },
@@ -267,11 +280,16 @@ pub(crate) static MACOS_SCREEN_TIME_DB: ArtifactDescriptor = ArtifactDescriptor 
     retention: Some("Rolling 30-day window"),
     triage_priority: TriagePriority::High,
     related_artifacts: &["macos_knowledgec", "macos_dock_plist"],
-    sources: &["https://www.mac4n6.com/blog/2019/6/20/screen-time-in-ios-12-macos-mojave"],
+    sources: &[
+        "https://github.com/ydkhatri/mac_apt/blob/master/plugins/screentime.py",
+        "https://www.apple.com/newsroom/2019/10/macos-catalina-is-available-today/",
+    ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
     evidence_tier: None,
     evidence_caveats: &[
-        "Requires Screen Time enabled (default on macOS 12+)",
+        "Screen Time came to the Mac with macOS 10.15 Catalina (Apple Newsroom); present at this path, with -wal and -shm, on one macOS Big Sur 11.7 image. mac_apt reads it from each user's DARWIN_USER_DIR; ~/Library/Application Support/com.apple.ScreenTime/ held nothing on that image",
+        "Copy the -wal file with the database: recent usage can sit in the WAL until checkpoint",
+        "Requires Screen Time enabled",
         "Data retention bounded by Screen Time settings (typically ~30 days)",
     ],
     volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
@@ -286,7 +304,7 @@ pub(crate) static MACOS_TCC_SYSTEM_DB: ArtifactDescriptor = ArtifactDescriptor {
     key_path: "",
     value_name: None,    file_path: Some("/Library/Application Support/com.apple.TCC/TCC.db"),
     scope: DataScope::System,
-    os_scope: OsScope::MacOS12Plus,
+    os_scope: OsScope::MacOS,
     decoder: Decoder::Identity,
     meaning: "System-level TCC (Transparency Consent Control) database covering FDA, accessibility, camera, microphone, screen recording, and contacts permissions for system services and admin-granted access. Complements the per-user TCC.db — malware targeting root-level TCC can grant itself full-disk access.",
     mitre_techniques: &["T1548"],
@@ -300,10 +318,15 @@ pub(crate) static MACOS_TCC_SYSTEM_DB: ArtifactDescriptor = ArtifactDescriptor {
     related_artifacts: &["macos_tcc_db"],
     sources: &[
         "https://www.rainforestqa.com/blog/macos-tcc-db-deep-dive",
+        "https://www.jamf.com/blog/synthetic-reality/",
+        "https://jsac.jpcert.or.jp/archive/2022/pdf/JSAC2022_workshop_macOS-forensic_en.pdf",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
     evidence_tier: None,
-    evidence_caveats: &["System-wide privacy permissions; requires SIP bypass to tamper"],
+    evidence_caveats: &[
+        "Documented on macOS 10.13 High Sierra (Jamf, 2018: the SIP-protected /Library/Application Support/com.apple.TCC/TCC.db) and present, beside a per-user TCC.db, on one macOS Big Sur 11.7 image; the schema changes across releases",
+        "System-wide privacy permissions; requires SIP bypass to tamper",
+    ],
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "SQLite DB; persistent until reset",
 };
@@ -388,10 +411,13 @@ pub(crate) static MACOS_NOTES_DB: ArtifactDescriptor = ArtifactDescriptor {
         "http://www.swiftforensics.com/2018/02/reading-notes-database-on-macos.html",
         "https://ciofecaforensics.com/2020/01/10/apple-notes-revisited/",
         "https://github.com/threeplanetssoftware/apple_cloud_notes_parser",
+        // Source: Apple's absolute-time reference date, 1 Jan 2001 00:00:00 GMT
+        "https://developer.apple.com/documentation/corefoundation/cfabsolutetime",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
     evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
     evidence_caveats: &[
+        "Creation and modification times are Mac absolute times counted from 1 Jan 2001 00:00:00 UTC, so a converted value is a UTC instant: convert it to the examined location's local time before stating the calendar date, because near midnight the UTC date and the local date differ by a day",
         "Version scope: NoteStore.sqlite is documented from OS X El Capitan onward; Mountain Lion to High Sierra also used legacy NotesV1/V2/V4/V6/V7.storedata stores under /Users/*/Library/Containers/com.apple.Notes/Data/Library/Notes/ (attachments under .../CoreData/Attachments/<UUID>/), so older or upgraded Macs can hold both",
         "Body text is not plaintext in the database: ZICNOTEDATA.ZDATA must be gunzipped and protobuf-decoded; a string search of the raw file misses note text",
         "Collect NoteStore.sqlite-wal and -shm with the database; recent edits may exist only in the WAL",
@@ -611,6 +637,7 @@ pub(crate) static MACOS_PHOTOS_DB: ArtifactDescriptor = ArtifactDescriptor {
         FieldSchema { name: "gps_latitude", value_type: ValueType::Text, description: "GPS latitude from EXIF", is_uid_component: false },
         FieldSchema { name: "gps_longitude", value_type: ValueType::Text, description: "GPS longitude from EXIF", is_uid_component: false },
         FieldSchema { name: "capture_date", value_type: ValueType::Timestamp, description: "Photo capture timestamp", is_uid_component: false },
+        FieldSchema { name: "reverse_location_data", value_type: ValueType::Bytes, description: "ZADDITIONALASSETATTRIBUTES.ZREVERSELOCATIONDATA — binary plist of Apple's stored reverse-geocode (place names) for the asset's coordinates; ZREVERSELOCATIONDATAISVALID flags whether it has been populated", is_uid_component: false },
     ],
     retention: Some("Persistent; syncs to iCloud Photos"),
     triage_priority: TriagePriority::High,
@@ -620,6 +647,9 @@ pub(crate) static MACOS_PHOTOS_DB: ArtifactDescriptor = ArtifactDescriptor {
         // Source: user reports of localised bundle names (zh-Hant, fr)
         "https://www.vedfolnir.com/technology/software/apple-photos-library-notice/",
         "https://forums.macg.co/threads/phototheque-photoslibrary.1401945/",
+        // Source: ZREVERSELOCATIONDATA bplist of place data and its ZREVERSELOCATIONDATAISVALID flag (iOS testing)
+        "https://smarterforensics.com/2020/08/does-photos-sqlite-have-relations-with-cameramessagesapp-by-scott-koenig/",
+        "https://theforensicscooter.com/2022/05/02/photos-sqlite-query-documentation-notable-artifacts/",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
     evidence_tier: None,
@@ -627,6 +657,8 @@ pub(crate) static MACOS_PHOTOS_DB: ArtifactDescriptor = ArtifactDescriptor {
         "GPS metadata may be stripped if user disabled location for camera",
         "The library bundle name is localised and user-choosable, so match *.photoslibrary rather than the English \"Photos Library.photoslibrary\": a Traditional Chinese system was observed with 照片圖庫.photoslibrary on one macOS Big Sur 11.7 image, and user reports show the same name (vedfolnir.com) and French Photothèque.photoslibrary (forums.macg.co); no Apple document naming the localised bundle was found",
         "A library can live outside ~/Pictures (another folder or an external volume) and a user can have several; the glob covers only the default parent folder",
+        "Coordinates are in ZASSET.ZLATITUDE/ZLONGITUDE; ZADDITIONALASSETATTRIBUTES.ZREVERSELOCATIONDATA (join ZADDITIONALASSETATTRIBUTES.ZASSET = ZASSET.Z_PK) is Apple's own reverse-geocode of them, a binary plist (NSKeyedArchiver) whose $objects strings give the place hierarchy and a formatted address. It is empty until Photos has analysed the asset (ZREVERSELOCATIONDATAISVALID 0), per iOS testing by Koenig and The Forensic Scooter; on one macOS Big Sur 11 image examined in 2026 it decoded with plistlib and agreed with independent geocoders",
+        "A geotag places the device that captured the asset, not the Mac: a Mac library signed in to iCloud Photos holds synced records (and often only derivatives) of assets captured on the user's phone",
     ],
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "Photos library database persists until photo deletion",
@@ -1144,9 +1176,14 @@ pub(crate) static MACOS_WIFI_INTELLIGENCE: ArtifactDescriptor = ArtifactDescript
 /// Workflow: `ewfmount` (for E01) → `mmls` → `losetup -r -o <byte_offset>` →
 /// `apfs-fuse /dev/loop0 /mnt/apfs`.
 ///
-/// APFS uses 4096-byte sectors (not the legacy 512-byte HFS+ sectors), which
-/// affects offset calculations. The container superblock ("NXSB") is at the
-/// start of the APFS partition.
+/// The partition start is in units of the DISK's logical sector size, as the
+/// partition table reports it (mmls prints "Units are in N-byte sectors"):
+/// 512 bytes on many Macs (observed on one Intel iMac, where the 200 MiB EFI
+/// System Partition is 409,600 sectors), 4096 on 4K-sector disks such as the
+/// one in the az4n6 Linux post. APFS's own block size (nx_block_size, default
+/// 4096) is a separate quantity: Apple's reference says it can be an integer
+/// multiple of the device's block size, so it is never the offset multiplier.
+/// The container superblock ("NXSB") is at the start of the APFS partition.
 ///
 /// On Windows, Paragon's "APFS for Windows" driver can mount APFS volumes
 /// natively once the image is presented as a SCSI device via Arsenal Image
@@ -1160,6 +1197,13 @@ pub(crate) static MACOS_WIFI_INTELLIGENCE: ArtifactDescriptor = ArtifactDescript
 /// - <https://az4n6.blogspot.com/2018/01/mounting-apfs-image-in-linux.html> —
 ///   step-by-step APFS mounting on Linux with apfs-fuse, mmls offset calculation
 /// - <https://github.com/sgan81/apfs-fuse> — experimental Linux APFS driver
+/// - <https://developer.apple.com/support/downloads/Apple-File-System-Reference.pdf> —
+///   nx_block_size: "often the same as the block size used by the underlying
+///   storage device, but it can also be an integer multiple of the device's
+///   block size"; NX_DEFAULT_BLOCK_SIZE 4096
+/// - <https://www.mac4n6.com/blog/2017/11/26/mount-all-the-things-mounting-apfs-and-4k-disk-images-on-macos-1013>
+///   — Macs moved from 512-byte to 4k blocks; hdiutil `-blocksize 4096` for
+///   4k images
 // Source: https://developer.apple.com/documentation/foundation/file_system/about_apple_file_system
 pub(crate) static APFS_CONTAINER: ArtifactDescriptor = ArtifactDescriptor {
     id: "apfs_container",
@@ -1176,7 +1220,10 @@ pub(crate) static APFS_CONTAINER: ArtifactDescriptor = ArtifactDescriptor {
         10.13 (High Sierra) that holds one or more APFS volumes with space-sharing, \
         snapshots, clones, and optional per-volume encryption. Forensic acquisition \
         requires locating the APFS partition via GPT partition table analysis (mmls), \
-        calculating the byte offset (sector_offset * bytes_per_sector, typically 4096), \
+        calculating the byte offset (sector_offset * bytes_per_sector, where bytes_per_sector \
+        is the disk's logical sector size as the partition table reports it: 512 on many \
+        Macs, 4096 on 4K-sector disks; APFS's own block size, nx_block_size, default 4096, \
+        is a different quantity and is not the multiplier), \
         and mounting with apfs-fuse on Linux or hdiutil/diskutil on macOS. On Windows, \
         Arsenal Image Mounter can present the image as a SCSI device (sector size 4096) \
         so that Paragon APFS for Windows auto-detects and mounts the volume — but this \
@@ -1223,8 +1270,9 @@ pub(crate) static APFS_CONTAINER: ArtifactDescriptor = ArtifactDescriptor {
         FieldSchema {
             name: "bytes_per_sector",
             value_type: ValueType::UnsignedInt,
-            description: "Sector size in bytes (typically 4096 for APFS, not 512); \
-                critical for correct offset calculation during acquisition",
+            description: "The disk's logical sector size in bytes, from the partition \
+                table (512 or 4096 depending on the disk); not APFS's block size. \
+                Critical for correct offset calculation during acquisition",
             is_uid_component: false,
         },
     ],
@@ -1240,6 +1288,11 @@ pub(crate) static APFS_CONTAINER: ArtifactDescriptor = ArtifactDescriptor {
         "https://az4n6.blogspot.com/2018/01/mounting-apfs-image-in-linux.html",
         // Source: https://github.com/sgan81/apfs-fuse — experimental Linux APFS FUSE driver
         "https://github.com/sgan81/apfs-fuse",
+        // Source: Apple File System Reference — nx_block_size may be a multiple
+        // of the device block size
+        "https://developer.apple.com/support/downloads/Apple-File-System-Reference.pdf",
+        // Source: mac4n6 — 512-byte vs 4k-block Mac disk images
+        "https://www.mac4n6.com/blog/2017/11/26/mount-all-the-things-mounting-apfs-and-4k-disk-images-on-macos-1013",
         // Source: https://az4n6.blogspot.com/2016/09/mac-live-imaging-functionality-versus.html
         // — live imaging FileVault2 via dd + /dev/rdisk; speed comparison dd vs FTK Imager CLI
         "https://az4n6.blogspot.com/2016/09/mac-live-imaging-functionality-versus.html",
@@ -3137,6 +3190,7 @@ pub(crate) static MACOS_WHEREFROMS_XATTR: ArtifactDescriptor = ArtifactDescripto
     evidence_caveats: &[
         "Set only by cooperating applications — a file downloaded by curl or a custom tool carries neither attribute",
         "User-writable metadata: can be edited or stripped with xattr, so corroborate against QuarantineEventsV2 and browser history",
+        "The recorded URL is the full request URL, query string included, and can carry live credentials: on one macOS image examined in 2026 the Spotlight metadata record of an attachment downloaded in Safari from Outlook on the web held its download URL with a bearer token, an X-OWA-CANARY value and JWT-shaped strings. Treat kMDItemWhereFroms and quarantine URLs as secret-bearing and redact them before reproducing them in a report",
     ],
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "Extended attributes travel with the file until explicitly removed",
@@ -3633,6 +3687,22 @@ pub(crate) static MACOS_APPLIST_DAT: ArtifactDescriptor = ArtifactDescriptor {
 ///   parses /private/var/db/dhcpclient/leases/ plists extracting IPAddress,
 ///   LeaseLength, LeaseStartDate, RouterIPAddress, RouterHardwareAddress,
 ///   SSID and raw PacketData (code-read).
+/// - <https://github.com/apple-oss-distributions/bootp/blob/bootp-534.120.2/IPConfiguration.bproj/DHCPLease.c>
+///   — `DHCPCLIENT_LEASE_FILE_FMT` is `DHCPCLIENT_LEASES_DIR "/%s.plist"`
+///   (interface name only; also so at bootp-413.80.1); keys LeaseStartDate,
+///   RouterHardwareAddress, SSID and NetworkID (Wi-Fi only), ClientIdentifier;
+///   `DHCPLeaseListWrite` saves "the last (current) lease" and unlinks the
+///   file when `DHCPLeaseListRemoveStaleLeases` has dropped every lease
+///   (`current_time >= lease_start + lease_length`). The leases directory
+///   is referenced nowhere else in that tree, so nothing removes files in the
+///   older naming scheme (code-read).
+/// - <https://github.com/apple-oss-distributions/bootp/blob/bootp-359.50.1/IPConfiguration.bproj/DHCPLease.c>
+///   — `DHCPCLIENT_LEASE_FILE_FMT` is `DHCPCLIENT_LEASES_DIR "/%s-%s"`:
+///   interface name and client identifier, one file per pair (code-read).
+///
+/// Observed on one macOS Big Sur 11.7 image: both formats for one interface,
+/// the old-format file orphaned across the OS upgrade and holding a
+/// pre-upgrade lease.
 pub(crate) static MACOS_DHCP_LEASES: ArtifactDescriptor = ArtifactDescriptor {
     id: "macos_dhcp_leases",
     name: "DHCP Client Lease Plists",
@@ -3644,12 +3714,18 @@ pub(crate) static MACOS_DHCP_LEASES: ArtifactDescriptor = ArtifactDescriptor {
     scope: DataScope::System,
     os_scope: OsScope::MacOS,
     decoder: Decoder::Identity,
-    meaning: "Per-interface plists recording the machine's most recent DHCP lease: \
-        assigned IP address, lease start time and length, gateway IP and MAC, the SSID \
-        for Wi-Fi interfaces, and the raw DHCP packet. Places the machine on a named \
-        network with a specific address at a specific time — the local half of a \
-        network-correlation with router/DHCP-server logs, and corroboration for Wi-Fi \
-        join history. Filenames encode the interface (and often the interface MAC).",
+    meaning: "Plists written by IPConfiguration recording a DHCP lease: assigned IP address, \
+        lease start time (LeaseStartDate) and length, gateway IP and MAC \
+        (RouterHardwareAddress), the SSID and NetworkID for Wi-Fi interfaces, the \
+        ClientIdentifier, and the raw DHCP packet. Places the machine on a named network with \
+        a specific address at a specific time — the local half of a network-correlation with \
+        router/DHCP-server logs, and corroboration for Wi-Fi join history. Apple's bootp \
+        source names the file two ways: `<ifname>.plist` (bootp-413.80.1 and later) and \
+        `<ifname>-<client-id>` (bootp-359.50.1 and earlier, e.g. en1-1,<client MAC>). Each \
+        file holds one lease, the last one written for it, and is deleted when that lease \
+        has expired at the next write. The newer code never touches old-format files, so a \
+        Mac upgraded across the change can hold both for one interface, the old one orphaned \
+        with the last lease from before the upgrade.",
     mitre_techniques: &["T1016"],
     fields: &[
         FieldSchema {
@@ -3683,14 +3759,19 @@ pub(crate) static MACOS_DHCP_LEASES: ArtifactDescriptor = ArtifactDescriptor {
             is_uid_component: true,
         },
     ],
-    retention: Some("One current lease per interface; overwritten on renewal"),
+    retention: Some("One lease per file, replaced whenever IPConfiguration saves a lease and deleted once expired; an orphaned old-format file is left untouched"),
     triage_priority: TriagePriority::Medium,
     related_artifacts: &["macos_wifi_plist", "macos_wifi_intelligence"],
-    sources: &["https://github.com/ydkhatri/mac_apt/blob/master/plugins/networking.py"],
+    sources: &[
+        "https://github.com/ydkhatri/mac_apt/blob/master/plugins/networking.py",
+        "https://github.com/apple-oss-distributions/bootp/blob/bootp-534.120.2/IPConfiguration.bproj/DHCPLease.c",
+        "https://github.com/apple-oss-distributions/bootp/blob/bootp-359.50.1/IPConfiguration.bproj/DHCPLease.c",
+    ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
     evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
     evidence_caveats: &[
-        "Holds only the most recent lease per interface — historical leases are overwritten",
+        "Each file holds only the last lease written to it, so earlier leases on the same interface are gone; but an old-format `<ifname>-<client-id>` file can survive an OS upgrade holding a lease from before the upgrade (observed on one Big Sur 11.7 image). List the whole directory, and date the old file from its LeaseStartDate, not from the OS in use",
+        "A file is deleted once its lease has expired at the next write, so a missing file does not mean the interface never held a lease",
         "Static-IP configurations leave no lease plist",
     ],
     volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
@@ -4207,7 +4288,13 @@ pub(crate) static MACOS_CUPS_SPOOL_JOBS: ArtifactDescriptor = ArtifactDescriptor
         PreserveJobFiles is 86400 seconds, keeping them for one day after printing. A data file \
         still present long after its job's time-at-completed therefore usually belongs to a job \
         that never completed (held, stopped, cancelled or failed) or to a non-default \
-        configuration, and it may be the only surviving copy of the printed document.",
+        configuration, and it may be the only surviving copy of the printed document. \
+        job-state 9 is completed (RFC 8011 section 5.3.7; 3 pending, 4 pending-held, 5 \
+        processing, 6 processing-stopped, 7 canceled, 8 aborted). A completed job to a network printer means the printer was \
+        reachable from the Mac at time-at-completed; a job created in one period and completed \
+        much later shows when the printer became reachable again, which for a dnssd .local. \
+        queue (macos_cups_printers_conf) is when the Mac was back on the printer's local \
+        network.",
     mitre_techniques: &[],
     fields: &[
         FieldSchema { name: "job_id", value_type: ValueType::UnsignedInt, description: "job-id; also the number in the c#####/d#####-### file names", is_uid_component: true },
@@ -4224,7 +4311,7 @@ pub(crate) static MACOS_CUPS_SPOOL_JOBS: ArtifactDescriptor = ArtifactDescriptor
     ],
     retention: Some("Control files kept until MaxJobs (default 500) under the default PreserveJobHistory Yes; data files kept one day after printing under the default PreserveJobFiles 86400"),
     triage_priority: TriagePriority::Medium,
-    related_artifacts: &["fa_file_cache_job_cache_2", "macos_cups_printers_conf", "macos_cups_logs"],
+    related_artifacts: &["fa_file_cache_job_cache_2", "macos_cups_printers_conf", "macos_cups_logs", "macos_wifi_driver_log"],
     sources: &[
         "https://www.cups.org/doc/spec-design.html",
         "https://www.cups.org/doc/man-cupsd.conf.html",
@@ -4232,6 +4319,7 @@ pub(crate) static MACOS_CUPS_SPOOL_JOBS: ArtifactDescriptor = ArtifactDescriptor
         "https://digitalbitbybit.blogspot.com/2012/11/mac-osx-printer-forensics.html",
         "https://papers.put.as/papers/macosx/2015/RHUL-MA-2015-8.pdf",
         "https://github.com/log2timeline/plaso/blob/main/plaso/parsers/cups_ipp.py",
+        "https://www.rfc-editor.org/rfc/rfc8011#section-5.3.7",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
     evidence_tier: Some(crate::evidence::EvidenceTier::VendorDocumented),
@@ -4241,6 +4329,7 @@ pub(crate) static MACOS_CUPS_SPOOL_JOBS: ArtifactDescriptor = ArtifactDescriptor
         "job-originating-user-name names the account that submitted the job, not the person at the keyboard; a job-originating-host-name other than localhost means the job came from another machine through printer sharing and is not activity on this Mac",
         "Apple com.apple.print.* attribute names come from decoded examples in secondary sources (2012-2015), not from Apple documentation; confirm they are present on the image",
         "job-name is whatever title the application supplied; it is not the document's path and may not match its file name",
+        "A completed job shows the printer was reachable from the Mac, not who was at the keyboard; printing to a network printer does not identify the operator, and a job held until the network returned completes without anyone present",
     ],
     volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
     volatility_rationale: "Oldest control files are purged once MaxJobs is reached; data files expire after PreserveJobFiles",
@@ -4279,7 +4368,14 @@ pub(crate) static MACOS_CUPS_PRINTERS_CONF: ArtifactDescriptor = ArtifactDescrip
         socket:// URIs carry a host name or address instead. Together with printer-uri \
         in the spool control files this ties a print job to a specific device, and the set of \
         queues shows which printers, and so which networks, the Mac was set up to use. \
-        /Library/Preferences/org.cups.printers.plist stores similar information.",
+        /Library/Preferences/org.cups.printers.plist stores similar information. A .local. \
+        name is link-local under Multicast DNS (RFC 6762): it resolves only on the link where it \
+        originates, so a job that reached a dnssd://....local. queue shows the printer was on \
+        the Mac's local network at that time. The uuid is often a version-1 UUID, whose node \
+        field is an IEEE 802 MAC address (RFC 9562), so it can carry the printer's MAC. The same \
+        uuid reached while the Mac was on two different Wi-Fi networks ties the printer, and \
+        plausibly the premises, to both networks, which links a network that cannot be \
+        geolocated to one that can.",
     mitre_techniques: &[],
     fields: &[
         FieldSchema { name: "printer_name", value_type: ValueType::Text, description: "Queue name; matches the /printers/<name> part of printer-uri in spool control files", is_uid_component: true },
@@ -4287,12 +4383,14 @@ pub(crate) static MACOS_CUPS_PRINTERS_CONF: ArtifactDescriptor = ArtifactDescrip
     ],
     retention: Some("Queues persist until removed in Printers & Scanners"),
     triage_priority: TriagePriority::Low,
-    related_artifacts: &["macos_cups_spool_jobs", "macos_cups_logs"],
+    related_artifacts: &["macos_cups_spool_jobs", "macos_cups_logs", "macos_wifi_driver_log", "macos_wifi_log"],
     sources: &[
         "https://www.cups.org/doc/man-printers.conf.html",
         "https://www.cups.org/doc/man-cups-files.conf.html",
         "https://www.cups.org/doc/network.html",
         "https://www.magnetforensics.com/blog/cups-artifact-support-for-macos/",
+        "https://www.rfc-editor.org/rfc/rfc6762#section-3",
+        "https://www.rfc-editor.org/rfc/rfc9562#section-5.1",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
     evidence_tier: Some(crate::evidence::EvidenceTier::VendorDocumented),
@@ -4300,6 +4398,9 @@ pub(crate) static MACOS_CUPS_PRINTERS_CONF: ArtifactDescriptor = ArtifactDescrip
         "CUPS documents the file's format as an implementation detail that can change between releases; parse it defensively",
         "A configured queue shows the printer was added, not that anything was printed on it; use the spool control files and logs for jobs",
         "DeviceURI values can contain credentials (CUPS masks the file to root for that reason); redact before reporting",
+        "Only a version-1 uuid (third group starting 1) has a MAC node field, and RFC 9562 allows a randomly derived node instead; check the value against the IEEE OUI registry and any MAC fragment in the service name before reading it as the printer's MAC. A printer with wired and Wi-Fi interfaces may embed only one of their MACs",
+        "Co-presence is of the printer, not of a place: a printer can be moved between premises, so the same uuid on two networks links the networks only for the period the printer stayed put",
+        "An mDNS reflector or Bonjour gateway (common on enterprise Wi-Fi controllers) extends .local. discovery across subnets, so 'same local network' means the same mDNS domain, not necessarily the same link",
     ],
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "Configuration file rewritten when queues change",
@@ -4587,7 +4688,7 @@ pub(crate) static OOXML_CORE_PROPERTIES: ArtifactDescriptor = ArtifactDescriptor
         application), AppVersion and Company. These values travel with the file through \
         copying, email and download, so they record where and by whom, in the application's \
         terms, a document was written and saved, independently of the file-system times on \
-        this Mac. Comparing dcterms:created and dcterms:modified with file-system dates, and \
+        the machine where it is found. Comparing dcterms:created and dcterms:modified with file-system dates, and \
         creator with lastModifiedBy, shows whether a document was authored here or arrived \
         from elsewhere.",
     mitre_techniques: &[],
@@ -4616,10 +4717,10 @@ pub(crate) static OOXML_CORE_PROPERTIES: ArtifactDescriptor = ArtifactDescriptor
     evidence_tier: Some(crate::evidence::EvidenceTier::VendorDocumented),
     evidence_caveats: &[
         "creator and lastModifiedBy are the user-name setting of the application that wrote them, not the person at the keyboard; Microsoft documents that Office sets Author from its User name setting and that the value can be edited per document",
-        "A document downloaded or copied to this Mac carries the metadata of the machine that authored it elsewhere; its presence here says nothing about authorship on this Mac",
+        "A document downloaded or copied to the machine under examination carries the metadata of the machine that authored it elsewhere; its presence says nothing about authorship on the machine where it is found",
         "The docProps/ part names are the convention Office writes; the package relationships (_rels/.rels) are authoritative for where the core and extended properties live",
         "Times are written by the saving application from its own clock and can be edited or stripped without trace",
-        "The format is platform-independent; it is catalogued under macOS because the catalogue's OsScope has no cross-platform value",
+        "The format is platform-independent and applies equally to documents found on Windows, removable media or any other system; it is catalogued under macOS only because the catalogue's OsScope has no cross-platform value",
     ],
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "Stored inside the document itself",
@@ -4686,10 +4787,10 @@ pub(crate) static OLE2_SUMMARY_INFORMATION: ArtifactDescriptor = ArtifactDescrip
     evidence_tier: Some(crate::evidence::EvidenceTier::VendorDocumented),
     evidence_caveats: &[
         "PIDSI_AUTHOR and PIDSI_LASTAUTHOR are the user-name setting of the application that wrote them, not the person at the keyboard; the value can be edited per document",
-        "A document downloaded or copied to this Mac carries the metadata of the machine that authored it elsewhere; its presence here says nothing about authorship on this Mac",
+        "A document downloaded or copied to the machine under examination carries the metadata of the machine that authored it elsewhere; its presence says nothing about authorship on the machine where it is found",
         "All properties are optional and writable by any tool; absent or blank values are not evidence of tampering by themselves",
         "Decode 8-bit strings with the set's CODEPAGE, not the examiner's locale, or names in non-Latin scripts are mis-rendered",
-        "The format is platform-independent; it is catalogued under macOS because the catalogue's OsScope has no cross-platform value",
+        "The format is platform-independent and applies equally to documents found on Windows, removable media or any other system; it is catalogued under macOS only because the catalogue's OsScope has no cross-platform value",
     ],
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "Stored inside the document itself",
@@ -4752,4 +4853,1031 @@ pub(crate) static MACOS_ICLOUD_DRIVE_CONTAINERS: ArtifactDescriptor = ArtifactDe
     ],
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "Account session state; not rewritten by ordinary use",
+};
+
+// ── OpenBSM audit trail ──────────────────────────────────────────────────
+//
+// Curated for the examination-profile account-use gap: the artifact used to
+// establish account creation, login/logout and boot history on a Mac.
+
+pub(crate) static MACOS_OPENBSM_AUDIT: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_openbsm_audit",
+    name: "OpenBSM Audit Trail (/var/audit)",
+    artifact_type: ArtifactLocation::Directory,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/private/var/audit/"),
+    scope: DataScope::System,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "OpenBSM (Basic Security Module) audit trail — macOS's kernel-level security \
+        event log, the McAfee-authored OpenBSM implementation Apple ships. Trail files sit in \
+        /private/var/audit named StartTime.EndTime in UTC (YYYYMMDDHHMMSS.YYYYMMDDHHMMSS); the \
+        `current` symlink points at the active trail, and a still-open trail on an unclean \
+        shutdown is renamed with a .crash_recovery suffix. Records are BSM token streams read \
+        with praudit(1) (and reduced with auditreduce(1)); which events are captured is set by \
+        the audit classes in /etc/security/audit_control. It records user login and logout \
+        (login_logout class, including SSH, credential authentication and failed logins), \
+        creation and removal of user accounts and other administrative actions (administrative \
+        class), process exec, file and network events, and audit-subsystem start at boot — which \
+        is why it is the artifact used to establish account creation and boot/login history on a \
+        Mac. Deprecated since macOS Big Sur (11), disabled by default in Sonoma (14), and slated \
+        for removal, so it may be absent or empty on newer systems; Apple's replacement is the \
+        Endpoint Security framework.",
+    mitre_techniques: &["T1136.001", "T1078.003", "T1070"],
+    fields: &[
+        FieldSchema { name: "event_time", value_type: ValueType::Timestamp, description: "Timestamp of the audited event (from the header token)", is_uid_component: true },
+        FieldSchema { name: "event_type", value_type: ValueType::Text, description: "Audit event type (AUE_* event, e.g. AUE_lw_login, AUE_audit_startup)", is_uid_component: true },
+        FieldSchema { name: "event_class", value_type: ValueType::Text, description: "Audit class the event belongs to (lo=login_logout, ad=administrative, pc=process, ...)", is_uid_component: false },
+        FieldSchema { name: "auid", value_type: ValueType::UnsignedInt, description: "Audit user ID — the login identity, preserved across setuid, from the subject token", is_uid_component: false },
+        FieldSchema { name: "uid", value_type: ValueType::UnsignedInt, description: "Effective user ID of the subject", is_uid_component: false },
+        FieldSchema { name: "return_status", value_type: ValueType::Text, description: "Return token: success or failure of the operation", is_uid_component: false },
+        FieldSchema { name: "subject", value_type: ValueType::Text, description: "Subject token: acting process, terminal and session", is_uid_component: false },
+        FieldSchema { name: "text", value_type: ValueType::Text, description: "Text token: event-specific free text (e.g. the account name for a login)", is_uid_component: false },
+    ],
+    retention: Some("Finite: trails are rotated by auditd when the file fills or free space drops below audit_control minfree; only the retained trail files survive"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["macos_unified_log", "macos_dslocal_users"],
+    sources: &[
+        "https://crucialsecurity.wordpress.com/2012/05/17/reading-mac-bsm-audit-logs-2/",
+        "https://github.com/openbsm/openbsm",
+        "https://leancrew.com/all-this/man/man4/audit.html",
+        "https://theevilbit.github.io/beyond/beyond_0031/",
+        "https://boberito.medium.com/auditd-the-logs-we-need-not-the-logs-we-deserve-cf1d8c83d15d",
+        "https://www.sans.org/cyber-security-courses/mac-and-ios-forensic-analysis-and-incident-response/",
+        // Source: /etc/passwd entry _mbsetupuser:*:248:248:Setup User:/var/setup and its use when
+        // installing macOS (Apple Community thread; community answer, not Apple documentation)
+        "https://discussions.apple.com/thread/253097317",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: Some(crate::evidence::EvidenceTier::VendorDocumented),
+    evidence_caveats: &[
+        "Deprecated since macOS Big Sur and disabled by default in Sonoma 14 — absent or empty on many modern systems, so absence is not proof of no login or account creation",
+        "What is captured depends on the audit_control flags; an event class not selected leaves no record",
+        "Trails are rotated and can be deleted or cleared, so the trail on the image is not necessarily the full history",
+        "_mbsetupuser (UID 248, 'Setup User', home /var/setup) is the system account macOS installation and Setup Assistant run under, not a person: exclude its logins from user counts. On one macOS Big Sur 11 image examined in 2026 its membership of admin and _lpadmin was added and removed around updates",
+        "Overnight software-update restarts leave a recognisable pattern: a logout in the small hours, a start-up within about 40 seconds and an automatic login of the user account, with _lpadmin membership writes at the same times (seen on five dates on one macOS Big Sur 11 image examined in 2026). Such a login need not have been made by a person; the meaningful last login is the last one outside that pattern",
+        "A boot with no recorded shutdown is common (32 of 63 boots on that image), so a missing shutdown record does not by itself show an unclean stop at a particular time",
+        "An event 'Set values for record type Groups com.apple.access_screensharing' records a change to who may connect by Screen Sharing; it does not show that sharing stayed enabled or was ever used",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Audit trails are rotated by auditd as they fill or as free space drops",
+};
+
+// ── dslocal local-account store ──────────────────────────────────────────
+//
+// Curated for the examination-profile account-use gap: the authoritative
+// inventory of local user accounts on a Mac.
+
+pub(crate) static MACOS_DSLOCAL_USERS: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_dslocal_users",
+    name: "dslocal Local User Accounts",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/private/var/db/dslocal/nodes/Default/users/*.plist"),
+    scope: DataScope::System,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "Open Directory local (\"Default\") node account store: one binary plist per local \
+        account under /private/var/db/dslocal/nodes/Default/users/, the authoritative inventory of \
+        local users on the Mac (dscl and Directory Utility read the same records live). Each plist \
+        holds the short name, uid, primary gid, realname (full name / GECOS), home directory, login \
+        shell, and generateduid — the account's GUID that ties it to ACLs, keychains and group \
+        membership across the system — plus the ShadowHashData blob holding the password hash \
+        (SALTED-SHA512-PBKDF2). There is no explicit account-creation timestamp field: creation is \
+        inferred from the plist's file-system birth/modification time or corroborated with the \
+        OpenBSM audit trail. Establishes which accounts exist, admin vs standard, and their identity \
+        attributes.",
+    mitre_techniques: &["T1087.001", "T1136.001"],
+    fields: &[
+        FieldSchema { name: "name", value_type: ValueType::Text, description: "Account short name (record name)", is_uid_component: true },
+        FieldSchema { name: "uid", value_type: ValueType::UnsignedInt, description: "Numeric user ID", is_uid_component: true },
+        FieldSchema { name: "gid", value_type: ValueType::UnsignedInt, description: "Primary group ID", is_uid_component: false },
+        FieldSchema { name: "realname", value_type: ValueType::Text, description: "Full name / GECOS", is_uid_component: false },
+        FieldSchema { name: "home", value_type: ValueType::Text, description: "Home directory path", is_uid_component: false },
+        FieldSchema { name: "shell", value_type: ValueType::Text, description: "Login shell", is_uid_component: false },
+        FieldSchema { name: "generateduid", value_type: ValueType::Guid, description: "Account GUID (generateduid) used across ACLs, groups and keychains", is_uid_component: false },
+        FieldSchema { name: "shadowhash_present", value_type: ValueType::Bool, description: "Whether a ShadowHashData password hash is stored for the account", is_uid_component: false },
+    ],
+    retention: Some("Persists for the life of the account; removed when the account is deleted"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["macos_openbsm_audit", "macos_keychain_user"],
+    sources: &[
+        "https://hacktricks.wiki/en/macos-hardening/macos-security-and-privilege-escalation/macos-files-folders-and-binaries/macos-sensitive-locations.html",
+        "https://medium.com/@piyushkkr12/task-5account-activity-e30497e89266",
+        "https://www.sans.org/cyber-security-courses/mac-and-ios-forensic-analysis-and-incident-response/",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
+    evidence_caveats: &[
+        "No stored account-creation timestamp — creation time is inferred from the plist file's birth/modification time, which mounting or imaging tools can perturb",
+        "A UID freed by a deleted account can be reused, so uid alone is not a durable identity — prefer generateduid",
+        "ShadowHashData is a password hash, not an activity record; it says nothing about when the account was last used",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Account records change only when accounts are created, edited or deleted",
+};
+
+// ── AirDrop / sharingd activity ──────────────────────────────────────────
+//
+// Curated for the examination-profile gap. The unified log holds the
+// transfer detail; the persistent per-file record of a RECEIVED AirDrop is
+// the row sharingd leaves in QuarantineEventsV2 (macos_quarantine_events).
+// Source: https://kieczkowska.wordpress.com/2020/06/29/airdrop-forensics-2/
+// — LSQuarantineAgentName is sharingd for an AirDropped file and
+// LSQuarantineSenderName names the sending device; persistent rows of that
+// shape observed on one macOS Big Sur 11.7 image.
+
+pub(crate) static MACOS_AIRDROP_SHARINGD: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_airdrop_sharingd",
+    name: "AirDrop / sharingd Activity (Unified Log)",
+    artifact_type: ArtifactLocation::Directory,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/var/db/diagnostics/"),
+    scope: DataScope::System,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "AirDrop transfer detail on macOS is in the unified log (/var/db/diagnostics/), \
+        attributed to the `sharingd` process, alongside the wirelessproxd, bluetoothd and AWDL (Apple Wireless Direct \
+        Link) activity AirDrop rides on. The log records peer discovery, connections to a named \
+        peer device / AirDrop ID, and file send/receive; query it with `log show --info --predicate \
+        'process == \"sharingd\"'` (the --info/--debug levels are usually needed on macOS). The \
+        per-user ~/Library/Preferences/com.apple.sharingd.plist holds the current AirDrop ID and \
+        sharing configuration, but the AirDrop ID rotates and can be blank after inactivity, so it \
+        is state, not history. A received file also leaves a persistent record that outlasts \
+        log rotation: a row in the per-user QuarantineEventsV2 database \
+        (~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2, table \
+        LSQuarantineEvent) with LSQuarantineAgentName = 'sharingd' and LSQuarantineSenderName \
+        naming the sending device (macos_quarantine_events), and the com.apple.quarantine and \
+        kMDItemWhereFroms extended attributes on the saved file.",
+    mitre_techniques: &["T1011"],
+    fields: &[
+        FieldSchema { name: "event_time", value_type: ValueType::Timestamp, description: "Unified-log timestamp of the sharingd event", is_uid_component: true },
+        FieldSchema { name: "process", value_type: ValueType::Text, description: "Emitting process (sharingd)", is_uid_component: false },
+        FieldSchema { name: "airdrop_id", value_type: ValueType::Text, description: "AirDrop ID of the local or peer device (rotates over time)", is_uid_component: false },
+        FieldSchema { name: "peer_device_name", value_type: ValueType::Text, description: "Advertised name of the peer device in the transfer", is_uid_component: false },
+        FieldSchema { name: "event_message", value_type: ValueType::Text, description: "Full unified-log event message", is_uid_component: false },
+    ],
+    retention: Some("Unified-log rotation window (typically days to a few weeks) for the transfer detail; QuarantineEventsV2 rows for received files persist until cleared; the sharingd.plist keeps configuration, not transfer history"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["macos_unified_log", "macos_quarantine_events", "macos_quarantine_xattr", "macos_wherefroms_xattr"],
+    sources: &[
+        "https://www.mac4n6.com/blog/2018/12/3/airdrop-analysis-of-the-udp-unsolicited-dick-pic",
+        "http://www.mac4n6.com/blog/2020/6/5/analysis-of-apple-unified-logs-quarantine-edition-entry-11-airdropping-some-knowledge",
+        "https://www.jamf.com/blog/stop-potential-airdrop-transfer-data-leaks-with-jamf-protect/",
+        "https://kieczkowska.wordpress.com/2020/06/29/airdrop-forensics-2/",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
+    evidence_caveats: &[
+        "The unified-log detail ages out on rotation; for received files check QuarantineEventsV2 (sharingd rows with LSQuarantineSenderName), which persists. Quarantine marks incoming files, so a file SENT from this Mac appears only in the unified log; absence in either store never proves a transfer did not happen",
+        "The --info/--debug log levels needed for detail are not always retained",
+        "The AirDrop ID rotates and can be blank; the com.apple.sharingd.plist path given is macOS per-user (iOS uses /private/var/mobile/Library/Preferences/)",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Backed by the unified log, which rotates on a rolling window",
+};
+
+// ── USB mass-storage device history ──────────────────────────────────────
+//
+// Curated for the examination-profile gap: the honest macOS removable-media
+// story — there is no USBSTOR-equivalent persistent registry.
+
+pub(crate) static MACOS_USB_MASS_STORAGE_LOG: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_usb_mass_storage_log",
+    name: "USB Mass-Storage Device History (Unified Log)",
+    artifact_type: ArtifactLocation::Directory,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/var/db/diagnostics/"),
+    scope: DataScope::System,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "macOS has no USBSTOR-equivalent persistent registry of attached removable devices, so \
+        per-device attach history is far weaker and shorter-lived than on Windows. The strongest \
+        per-device record is the unified log (/var/db/diagnostics/): when a USB Mass Storage Class \
+        device is inserted, entries containing the keyword `USBMSC` record a non-unique identifier \
+        (usually, but not guaranteed to be, the device serial number), the vendor ID, product ID and \
+        version — query with `log show --predicate \"eventMessage contains 'USBMSC'\"`. Because this \
+        lives in the unified log it only covers the log's rotation window. Complementary evidence of \
+        removable/external volume use: fseventsd mount and write records under /Volumes \
+        (macos_fsevents), and recently connected network shares (macos_sfl2_recent_servers).",
+    mitre_techniques: &["T1052.001", "T1091"],
+    fields: &[
+        FieldSchema { name: "event_time", value_type: ValueType::Timestamp, description: "Unified-log timestamp of the USBMSC attach event", is_uid_component: true },
+        FieldSchema { name: "serial_number", value_type: ValueType::Text, description: "Device non-unique identifier — usually the serial number (Apple notes it may not be unique)", is_uid_component: false },
+        FieldSchema { name: "vendor_id", value_type: ValueType::Text, description: "USB vendor ID", is_uid_component: false },
+        FieldSchema { name: "product_id", value_type: ValueType::Text, description: "USB product ID", is_uid_component: false },
+        FieldSchema { name: "version", value_type: ValueType::Text, description: "Device version reported in the USBMSC entry", is_uid_component: false },
+    ],
+    retention: Some("Unified-log rotation window only (typically days to a few weeks)"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["macos_fsevents", "macos_unified_log", "macos_sfl2_recent_servers"],
+    sources: &[
+        "http://www.mac4n6.com/blog/2020/5/4/analysis-of-apple-unified-logs-quarantine-edition-entry-7-exploring-usbmsc-devices-with-style",
+        "https://kieczkowska.wordpress.com/2020/05/11/usb-forensics/",
+        "https://www.sans.org/cyber-security-courses/mac-and-ios-forensic-analysis-and-incident-response/",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
+    evidence_caveats: &[
+        "No persistent USBSTOR-equivalent registry on macOS — absence in the log is not proof a device was never attached, and history is limited to the unified-log rotation window",
+        "The USBMSC identifier is explicitly non-unique per Apple; do not treat it as a guaranteed serial",
+        "MTP/PTP devices (phones, cameras) do not present as USB Mass Storage and will not appear under USBMSC",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Backed by the unified log, which rotates on a rolling window",
+};
+
+// ── Safari cookies (macOS) ───────────────────────────────────────────────
+//
+// Curated to supersede the auto-generated `browsers_safari_cookies`, which is
+// mis-scoped OsScope::Win7Plus in the generated catalog (fa/browsers). Safari
+// is macOS/iOS; the generated file must not be hand-edited, so the correction
+// lives here and the profile references this id.
+
+pub(crate) static MACOS_SAFARI_COOKIES: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_safari_cookies",
+    name: "Safari Cookies (macOS)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/Users/*/Library/Containers/com.apple.Safari/Data/Library/Cookies/Cookies.binarycookies"),
+    scope: DataScope::User,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "Safari's cookie jar in the proprietary Cookies.binarycookies binary format: per-site \
+        cookies with name, value, domain, path and creation/expiry timestamps, and may include live \
+        session tokens. Since Safari was sandboxed (Safari 13, macOS Catalina) the file lives inside \
+        the app container at ~/Library/Containers/com.apple.Safari/Data/Library/Cookies/; on Safari \
+        12 and earlier it was at the legacy ~/Library/Cookies/Cookies.binarycookies. This curated \
+        descriptor supersedes the auto-generated `browsers_safari_cookies`, which is mis-scoped \
+        OsScope::Win7Plus in the generated catalog — Safari cookies are macOS/iOS, never Windows. On \
+        iOS the equivalent lives in the MobileSafari/WebKit container.",
+    mitre_techniques: &["T1539"],
+    fields: &[
+        FieldSchema { name: "domain", value_type: ValueType::Text, description: "Cookie domain / host", is_uid_component: true },
+        FieldSchema { name: "name", value_type: ValueType::Text, description: "Cookie name", is_uid_component: true },
+        FieldSchema { name: "value", value_type: ValueType::Text, description: "Cookie value (may be a session token)", is_uid_component: false },
+        FieldSchema { name: "path", value_type: ValueType::Text, description: "Cookie path scope", is_uid_component: false },
+        FieldSchema { name: "creation_time", value_type: ValueType::Timestamp, description: "Cookie creation time", is_uid_component: false },
+        FieldSchema { name: "expiry_time", value_type: ValueType::Timestamp, description: "Cookie expiry time", is_uid_component: false },
+    ],
+    retention: Some("Until cookie expiry or user/site clearing"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["macos_safari_history", "macos_safari_localstorage"],
+    sources: &[
+        "https://www.foxtonforensics.com/browser-history-examiner/safari-history-location",
+        "https://lapcatsoftware.com/articles/containers.html",
+        "https://github.com/mdegrazia/Safari-Binary-Cookie-Parser",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
+    evidence_caveats: &[
+        "Path moved into the sandbox container with Safari 13 / macOS Catalina; on Safari 12 and earlier it is at the legacy ~/Library/Cookies/Cookies.binarycookies",
+        "Cookies.binarycookies is a proprietary, undocumented binary format — parse defensively",
+        "The generated browsers_safari_cookies descriptor for the same file is mis-scoped OsScope::Win7Plus; this descriptor is the macOS-correct one",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Rewritten as the user browses and as cookies are set, updated and expired",
+};
+
+// ── HEIC image (macOS) ───────────────────────────────────────────────────
+//
+// Curated companion to `heic_image_file` (OsScope::IOS). OsScope is a single
+// value per descriptor and the HEIC container bytes are identical on iOS and
+// macOS, so rather than drop iOS from the format descriptor, this adds the
+// macOS-applicable image with the macOS paths and cross-references the format.
+
+pub(crate) static MACOS_HEIC_IMAGE: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_heic_image",
+    name: "HEIC Image (macOS Photos / saved)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/Users/*/Pictures/*.photoslibrary/originals/**/*.heic"),
+    scope: DataScope::User,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "HEIF/HEIC images on macOS. macOS High Sierra (10.13) and later can view, edit and \
+        store HEIC — the same ISO Base Media File Format container Apple captures on iPhones (see \
+        heic_image_file for the ftyp/meta/iloc box structure and EXIF/GPS extraction; the bytes are \
+        identical). On a Mac these land chiefly in the Photos library originals folder \
+        (~/Pictures/<library>.photoslibrary/originals/) — imported from an iOS device via iCloud \
+        Photos or Continuity Camera, or captured — and anywhere the user saves or exports HEIC. \
+        macOS screenshots are PNG by default, not HEIC. Embedded EXIF including GPS, camera model \
+        and original capture time is preserved and extractable (ExifTool; sips or ffmpeg to \
+        transcode to JPEG for legacy tools).",
+    mitre_techniques: &["T1005"],
+    fields: &[
+        FieldSchema { name: "major_brand", value_type: ValueType::Text, description: "ftyp box major brand (typically 'heic')", is_uid_component: false },
+        FieldSchema { name: "handler_type", value_type: ValueType::Text, description: "hdlr box handler type ('pict' for still image)", is_uid_component: false },
+        FieldSchema { name: "exif_gps_latitude", value_type: ValueType::Text, description: "GPS latitude from embedded EXIF, when present", is_uid_component: false },
+        FieldSchema { name: "exif_gps_longitude", value_type: ValueType::Text, description: "GPS longitude from embedded EXIF, when present", is_uid_component: false },
+        FieldSchema { name: "exif_datetime_original", value_type: ValueType::Timestamp, description: "Original capture time from EXIF DateTimeOriginal", is_uid_component: false },
+        FieldSchema { name: "exif_camera_model", value_type: ValueType::Text, description: "Camera model from EXIF Model tag", is_uid_component: false },
+    ],
+    retention: Some("Persistent until user deletion; syncs via iCloud Photos"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["heic_image_file", "macos_photos_db", "macos_photos_derivatives"],
+    sources: &[
+        "https://support.apple.com/en-us/HT207022",
+        "https://cheeky4n6monkey.blogspot.com/2017/10/monkey-takes-heic.html",
+        "https://eshop.macsales.com/blog/45124-quick-tip-how-to-access-master-image-files-in-macos-photos-app/",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
+    evidence_caveats: &[
+        "HEIC on a Mac is predominantly synced or imported from iOS rather than natively captured, so presence is not proof of capture on this device",
+        "EXIF (including GPS) can be stripped on export or by messaging apps",
+        "The container bytes are identical to iOS HEIC (heic_image_file); some legacy forensic tools do not parse HEIC",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Image file persists on storage until explicit deletion",
+};
+
+// ── Network configuration: interfaces, services, known Wi-Fi ──────────────
+//
+// Curated for the examination-profile Connections layer: which physical
+// interfaces the Mac has and their MACs (NetworkInterfaces.plist), how the
+// uplink is configured and which service is primary (preferences.plist), and
+// the remembered Wi-Fi networks whose access-point BSSIDs are the geolocation
+// handle (com.apple.wifi.known-networks.plist, Big Sur+). The DHCP lease store
+// (MACOS_DHCP_LEASES) and the legacy airport preferences (MACOS_WIFI_PLIST)
+// already exist; these complete the layer.
+
+pub(crate) static MACOS_NETWORK_INTERFACES: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_network_interfaces",
+    name: "Network Interfaces (NetworkInterfaces.plist)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/Library/Preferences/SystemConfiguration/NetworkInterfaces.plist"),
+    scope: DataScope::System,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "SystemConfiguration store mapping each BSD interface name (enN, and bridge/utun \
+        interfaces) to the underlying hardware. Per interface it records the IOMACAddress (the \
+        interface's own hardware MAC, as a data blob), the SCNetworkInterfaceType (IEEE80211 for \
+        Wi-Fi, Ethernet, Bluetooth PAN, Thunderbolt/bridge), the SCNetworkInterfaceInfo \
+        UserDefinedName (\"Wi-Fi\", \"Ethernet\", ...), the Active flag, and the IOPathMatch \
+        hardware path. Establishes which physical interfaces the Mac has and their MAC addresses \
+        — the anchor for tying a captured MAC or a DHCP/router record to a specific interface. \
+        The enN-to-hardware mapping is per-machine and must be read from SCNetworkInterfaceType / \
+        IOMACAddress rather than assumed: en0 is the built-in Ethernet on Intel Macs but is often \
+        Wi-Fi (IEEE80211) on Apple Silicon, where the wired port is a Thunderbolt/USB adapter.",
+    mitre_techniques: &["T1016"],
+    fields: &[
+        FieldSchema { name: "bsd_name", value_type: ValueType::Text, description: "BSD interface name (en0, en1, ...)", is_uid_component: true },
+        FieldSchema { name: "interface_type", value_type: ValueType::Text, description: "SCNetworkInterfaceType (IEEE80211=Wi-Fi, Ethernet, Bluetooth PAN, ...)", is_uid_component: false },
+        FieldSchema { name: "mac_address", value_type: ValueType::Text, description: "IOMACAddress — the interface's own hardware MAC", is_uid_component: false },
+        FieldSchema { name: "user_defined_name", value_type: ValueType::Text, description: "SCNetworkInterfaceInfo UserDefinedName (\"Wi-Fi\", \"Ethernet\")", is_uid_component: false },
+        FieldSchema { name: "active", value_type: ValueType::Bool, description: "Whether the interface is marked Active", is_uid_component: false },
+    ],
+    retention: Some("Persists until the interface set is reconfigured; historical interfaces linger"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["macos_network_preferences", "macos_dhcp_leases", "macos_wifi_known_networks"],
+    sources: &[
+        "https://github.com/ydkhatri/mac_apt/blob/master/plugins/networking.py",
+        "https://medium.com/@piyushkkr12/task-5account-activity-e30497e89266",
+        "https://www.sans.org/cyber-security-courses/mac-and-ios-forensic-analysis-and-incident-response/",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
+    evidence_caveats: &[
+        "The enN-to-hardware mapping is not fixed across models — read SCNetworkInterfaceType/IOMACAddress, never assume en0=Ethernet",
+        "IOMACAddress is the interface hardware MAC; it is not the randomized per-network client MAC used for Wi-Fi association",
+        "Retired interfaces can remain listed, so presence is not proof the interface is currently installed",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Rewritten only when network interfaces are added, removed or reconfigured",
+};
+
+pub(crate) static MACOS_NETWORK_PREFERENCES: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_network_preferences",
+    name: "Network Preferences (preferences.plist)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/Library/Preferences/SystemConfiguration/preferences.plist"),
+    scope: DataScope::System,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "SystemConfiguration store of configured network services and their priority. Under \
+        NetworkServices, one entry per service keyed by UUID carries the bound Interface \
+        (DeviceName such as en0, Hardware, Type, UserDefinedName), the per-service IPv4 and IPv6 \
+        ConfigMethod (DHCP, Manual, BOOTP, INFORM), any statically configured addresses and \
+        router when the method is Manual, DNS servers and Proxies. The active Set's ServiceOrder \
+        array ranks the services, which determines the PrimaryInterface — the uplink actually \
+        used for default traffic. Establishes how each interface obtains its address and which \
+        service the Mac routed through, complementing the DHCP lease record and the interface \
+        hardware map.",
+    mitre_techniques: &["T1016"],
+    fields: &[
+        FieldSchema { name: "service_uuid", value_type: ValueType::Guid, description: "NetworkServices entry UUID", is_uid_component: true },
+        FieldSchema { name: "service_name", value_type: ValueType::Text, description: "Service UserDefinedName", is_uid_component: false },
+        FieldSchema { name: "device_name", value_type: ValueType::Text, description: "Bound BSD interface (Interface.DeviceName, e.g. en0)", is_uid_component: false },
+        FieldSchema { name: "ipv4_config_method", value_type: ValueType::Text, description: "IPv4 ConfigMethod (DHCP / Manual / BOOTP / INFORM)", is_uid_component: false },
+        FieldSchema { name: "manual_address", value_type: ValueType::Text, description: "Statically configured IPv4 address, when ConfigMethod is Manual", is_uid_component: false },
+    ],
+    retention: Some("Persists until the network configuration is changed"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["macos_network_interfaces", "macos_dhcp_leases", "macos_wifi_known_networks"],
+    sources: &[
+        "https://github.com/ydkhatri/mac_apt/blob/master/plugins/networking.py",
+        "https://medium.com/@piyushkkr12/task-5account-activity-e30497e89266",
+        "https://www.sans.org/cyber-security-courses/mac-and-ios-forensic-analysis-and-incident-response/",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
+    evidence_caveats: &[
+        "Records the CONFIGURED state, not a per-connection history — the current ConfigMethod, not every address ever held",
+        "A DHCP ConfigMethod leaves the assigned address in the lease plist, not here; a Manual method records the static address here",
+        "ServiceOrder sets priority, but link availability at runtime determines the interface actually used",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Rewritten only when the user or MDM changes the network configuration",
+};
+
+pub(crate) static MACOS_WIFI_KNOWN_NETWORKS: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_wifi_known_networks",
+    name: "Known Wi-Fi Networks (com.apple.wifi.known-networks.plist)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/Library/Preferences/com.apple.wifi.known-networks.plist"),
+    scope: DataScope::System,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "The Big Sur (11) and later store of remembered Wi-Fi networks, one dict per network \
+        keyed `wifi.network.ssid.<name>`: the SSID, SupportedSecurityTypes, AddedAt with an \
+        AddReason (e.g. \"Cloud Sync\"), JoinedByUserAt and JoinedBySystemAtWeek join timestamps, \
+        UpdatedAt, and an `__OSSpecific__` sub-dict holding ChannelHistory (Channel + Timestamp \
+        pairs), CollocatedGroup and RoamingProfileType. The per-network access-point BSSID list — \
+        stored under the internal `LEAKY_AP_BSSID` key — is the geolocation handle: each BSSID is \
+        an access-point MAC that resolves to physical coordinates through a Wi-Fi positioning \
+        system (see the wifi_bssid_geolocation technique). This supersedes the pre-Big Sur \
+        com.apple.airport.preferences.plist (macos_wifi_plist), which held the same SSID/BSSID/ \
+        last-join data in the older airport format; the upgrade to Big Sur populates this file by \
+        migrating that legacy store, and the legacy records can survive in \
+        com.apple.airport.preferences.plist.backup (macos_wifi_plist_backup). On iOS the \
+        equivalent lives at /private/var/preferences/com.apple.wifi.known-networks.plist.",
+    mitre_techniques: &["T1016"],
+    fields: &[
+        FieldSchema { name: "ssid", value_type: ValueType::Text, description: "Network SSID (record key wifi.network.ssid.<name>)", is_uid_component: true },
+        FieldSchema { name: "bssid", value_type: ValueType::Text, description: "Access-point MAC(s) the network was seen on (LEAKY_AP_BSSID) — the geolocation handle", is_uid_component: false },
+        FieldSchema { name: "added_at", value_type: ValueType::Timestamp, description: "AddedAt: when the record was created; on a network migrated from the legacy airport store it can be the legacy last-join time, not a first-join date (see caveats)", is_uid_component: false },
+        FieldSchema { name: "joined_by_user_at", value_type: ValueType::Timestamp, description: "JoinedByUserAt: last user-initiated join", is_uid_component: false },
+        FieldSchema { name: "add_reason", value_type: ValueType::Text, description: "AddReason (e.g. \"Cloud Sync\") — how the entry was created", is_uid_component: false },
+        FieldSchema { name: "channel_history", value_type: ValueType::Text, description: "__OSSpecific__ ChannelHistory: Channel + Timestamp of observations", is_uid_component: false },
+    ],
+    retention: Some("Persists until the network is forgotten; entries accrete across the device's life"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["macos_wifi_plist", "macos_wifi_plist_backup", "macos_dhcp_leases", "macos_airdrop_sharingd"],
+    sources: &[
+        "https://forensafe.com/blogs/AppleKnownWifi.html",
+        "https://github.com/ydkhatri/mac_apt/blob/master/plugins/airport_preferences.py",
+        "https://www.alansiu.net/2021/01/27/known-networks-settings-moved-in-big-sur/",
+        "https://forge-work.com/dfir/knowledge/artifacts/ios-wifi-known-networks",
+        "https://medium.com/@piyushkkr12/task-5account-activity-e30497e89266",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
+    evidence_caveats: &[
+        "An entry with AddReason \"Cloud Sync\" was synced from another Apple device, not joined on this Mac, and often carries no BSSID — presence is not proof this device was at the location",
+        "Client MAC randomization (macOS/iOS 14+) changes the device's own association MAC, not the AP BSSID recorded here, so the BSSID remains a valid location handle",
+        "A shared SSID (e.g. a chain's guest Wi-Fi) spans many locations; only the BSSID ties a record to a specific access point",
+        "AddedAt is not a first-join date for a network migrated from the legacy airport store at the upgrade to Big Sur: where the legacy record had no AddedAt, the migrated AddedAt (and JoinedBySystemAt) repeats the legacy last-join time (LastConnected, or LastAutoJoinAt); a legacy record that had AddedAt keeps it. Per-network __OSSpecific__ ChannelHistory timestamps, which can predate AddedAt by years, are better evidence of when the network was in use, and the legacy record in com.apple.airport.preferences.plist.backup should be compared. Observed on one macOS Big Sur 11.7 image (three networks agree); no public source found documenting it (searched mac_apt source, Alan Siu, Forensafe, forensicfocus)",
+        "Each BSSIDList entry holds only LEAKY_AP_BSSID and an opaque LEAKY_AP_LEARNED_DATA blob (sometimes empty): no per-BSSID timestamp or channel. When a particular access point was used, or under which SSID when one BSSID is listed under two networks, cannot be read from BSSIDList; observed on one macOS Big Sur 11.7 image, consistent with mac_apt reading only LEAKY_AP_BSSID from it. mac_apt also parses a per-network BSSList (BSSID, LastAssociatedAt, Location) that was absent on that image; where present it does date an access point, so check for it",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Updated as networks are joined, roamed and synced; entries removed only on forget",
+};
+
+pub(crate) static MACOS_WIFI_PLIST_BACKUP: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_wifi_plist_backup",
+    name: "Known Wi-Fi Networks, legacy backup (com.apple.airport.preferences.plist.backup)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/Library/Preferences/SystemConfiguration/com.apple.airport.preferences.plist.backup"),
+    scope: DataScope::System,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "A copy of the legacy airport preferences store beside the live \
+        com.apple.airport.preferences.plist (macos_wifi_plist). On a Mac upgraded to Big Sur (11), \
+        where remembered networks moved to com.apple.wifi.known-networks.plist \
+        (macos_wifi_known_networks), it can be the only place the pre-upgrade records survive: the \
+        live airport plist is reduced to Counter/DeviceUUID/Version. Top-level keys Counter, \
+        DeviceUUID, KnownNetworks, PreferredOrder and Version; KnownNetworks is keyed \
+        `wifi.ssid.<hex SSID>`, each record holding SSIDString, SecurityType, LastConnected / \
+        LastAutoJoinAt / LastManualJoinAt / AddedAt, ChannelHistory and a BSSIDList of \
+        access-point BSSIDs. These are the original legacy values, so they are the check on the \
+        AddedAt that the migration writes into the current store.",
+    mitre_techniques: &["T1016"],
+    fields: &[
+        FieldSchema { name: "ssid", value_type: ValueType::Text, description: "SSIDString (record key wifi.ssid.<hex SSID>)", is_uid_component: true },
+        FieldSchema { name: "bssid", value_type: ValueType::Text, description: "BSSIDList LEAKY_AP_BSSID values: access-point MACs, undated", is_uid_component: false },
+        FieldSchema { name: "last_connected", value_type: ValueType::Timestamp, description: "LastConnected: legacy last-join time", is_uid_component: false },
+        FieldSchema { name: "added_at", value_type: ValueType::Timestamp, description: "AddedAt, where the legacy record has one", is_uid_component: false },
+        FieldSchema { name: "channel_history", value_type: ValueType::Text, description: "ChannelHistory: Channel + Timestamp entries", is_uid_component: false },
+    ],
+    retention: Some("Not rewritten as networks are joined; persists until deleted (e.g. by a Wi-Fi preferences reset)"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["macos_wifi_plist", "macos_wifi_known_networks", "macos_dhcp_leases"],
+    sources: &[
+        "https://github.com/ydkhatri/mac_apt/blob/master/plugins/airport_preferences.py",
+        "https://www.alansiu.net/2021/01/27/known-networks-settings-moved-in-big-sur/",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
+    evidence_caveats: &[
+        "That the Big Sur migration leaves the full legacy store here while the live plist is reduced to Counter/DeviceUUID/Version is observed on one macOS Big Sur 11.7 image, not vendor-documented; mac_apt reads this path as a second airport store but does not describe how or when it is created, so compare its contents with the live plist rather than infer a migration from its presence",
+        "BSSIDList entries hold only LEAKY_AP_BSSID and an opaque LEAKY_AP_LEARNED_DATA blob (sometimes empty), with no per-BSSID timestamp or channel (observed on one macOS Big Sur 11.7 image); mac_apt's source notes that plist Version 1900 carried a BSSIDHistory with timestamps, so check the Version",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "A static copy; not updated by later joins",
+};
+
+// ── macOS Wi-Fi presence timeline layer ─────────────────────────────────────
+// The remembered-network stores above say which networks a Mac knows, and
+// barely when. These two say on which days it was actually associated, for as
+// long as each log is retained (see the wifi_presence_timeline technique).
+
+/// Broadcom Wi-Fi driver entries in the unified log.
+///
+/// # Sources
+/// - <https://developer.apple.com/documentation/os/generating-log-messages-from-your-code> —
+///   "By default, the system doesn't redact integer, floating-point and
+///   Boolean values, but it does redact the contents of dynamic strings and
+///   complex dynamic objects": the general `<private>` redaction these driver
+///   entries do not show.
+/// - <https://github.com/mandiant/macos-UnifiedLogs> and its
+///   `examples/unifiedlog_iterator/src/main.rs` — `Mode` is a clap
+///   `ValueEnum` of `Live`, `LogArchive`, `SingleFile`, so the export is read
+///   with `-m log-archive --input <dir>`.
+///
+/// The driver-message content itself (ARPT:, SetCryptoKey, "Roamed or
+/// switched channel", BSSIDs in plain text) is observed on one Big Sur 11.7
+/// image; no public source was found, hence `SearchedNotFound`.
+pub(crate) static MACOS_WIFI_DRIVER_LOG: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_wifi_driver_log",
+    name: "Wi-Fi Driver Association Entries (Unified Log)",
+    artifact_type: ArtifactLocation::Directory,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/var/db/diagnostics/"),
+    scope: DataScope::System,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "Entries written to the unified log by the Broadcom Wi-Fi kernel driver: messages \
+        prefixed ARPT: from the process /kernel. Two carry the access point's BSSID in plain text: \
+        `SetCryptoKey() bcmerr[0]: ea[<BSSID>] ...`, written when the pairwise key is installed \
+        on association or reassociation, and `wl0: Roamed or switched channel, reason #N, bssid \
+        <BSSID>, last RSSI -NN`, written on a roam or channel change. The driver entries carry \
+        BSSIDs only; network names (SSIDs) are written by userland processes \
+        (macos_wifi_ssid_unified_log). That the BSSIDs are in plain text is unlike most of the \
+        unified log, where Apple's logging API redacts dynamic strings as <private> by default, \
+        and it is why the common assumption that the unified log always hides Wi-Fi identifiers \
+        fails for these entries. Aggregated per day, the BSSIDs give a day-by-day record of which \
+        access points the Mac was associated with, for as long as the log is retained. \
+        To read them from a disk image, export /private/var/db/diagnostics/ together with \
+        /private/var/db/uuidtext/ (the format strings without which entries do not decode) into \
+        one logarchive directory, parse it with Mandiant's macos-UnifiedLogs \
+        `unifiedlog_iterator -m log-archive`, and filter for process /kernel and ARPT:.",
+    mitre_techniques: &["T1016"],
+    fields: &[
+        FieldSchema { name: "event_time", value_type: ValueType::Timestamp, description: "Unified-log timestamp of the driver entry", is_uid_component: true },
+        FieldSchema { name: "bssid", value_type: ValueType::Text, description: "Access-point BSSID from ea[...] or `bssid`; may be written with or without zero padding", is_uid_component: false },
+        FieldSchema { name: "rssi", value_type: ValueType::Text, description: "`last RSSI` on a roam entry", is_uid_component: false },
+        FieldSchema { name: "event_message", value_type: ValueType::Text, description: "Full driver message", is_uid_component: false },
+    ],
+    retention: Some("Unified-log rotation window only; weeks on the observed image"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["macos_unified_log", "fa_file__7", "macos_wifi_ssid_unified_log", "macos_wifi_log", "macos_wifi_known_networks", "macos_dhcp_leases", "macos_network_interfaces"],
+    sources: &[
+        "https://developer.apple.com/documentation/os/generating-log-messages-from-your-code",
+        "https://github.com/mandiant/macos-UnifiedLogs",
+        "https://github.com/mandiant/macos-UnifiedLogs/blob/main/examples/unifiedlog_iterator/src/main.rs",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SearchedNotFound),
+    evidence_caveats: &[
+        "The driver messages, and that they carry BSSIDs in plain text, are observed on one macOS Big Sur 11.7 image with a Broadcom Wi-Fi chip. Searched (2026-09) the web for ARPT and SetCryptoKey together with unified log, BSSID and forensics, the mandiant/macos-UnifiedLogs README, mac4n6 and the Mandiant/Google Cloud unified-log blog: no public description of these entries was found. Message text is driver-version-specific; other releases and non-Broadcom (Apple silicon) Wi-Fi may differ",
+        "Verify per image with a control before reading a missing BSSID as absence: the Mac's own Wi-Fi MAC (macos_network_interfaces) or a BSSID known from the remembered-network store should appear in plain text in these entries; if it appears only as <private>, the image redacts them",
+        "The same BSSID can be written zero-padded (0a:0b:...) and unpadded (a:b:...); normalise every octet to two hex digits before matching",
+        "Retention is the unified log's rotation window, weeks on the observed image; absence before the oldest retained entry says nothing about association",
+        "A BSSID locates the access point, not the Mac; association shows the Mac was in radio range of that AP at that time",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Backed by the unified log, which rotates on a rolling window",
+};
+
+/// Userland unified-log entries naming the joined Wi-Fi network (SSID).
+///
+/// # Sources
+/// - <https://github.com/apple-oss-distributions/bootp/blob/bootp-413.80.1/IPConfiguration.bproj/ipconfigd.c>
+///   — `my_log(LOG_NOTICE, "%@: SSID %@ BSSID %s Security %s", ...)` when
+///   the interface's Wi-Fi association is read (code-read).
+/// - <https://github.com/apple-oss-distributions/bootp/blob/bootp-534.120.2/IPConfiguration.bproj/ipconfigd.c>
+///   — `S_copy_wifi_info` logs `"%@: SSID %@ BSSID %@ Security %s
+///   ConnectionID %u"` with SSID and BSSID passed through `hide_wifi_string`,
+///   which on macOS substitutes `<redacted>` unless the HideWiFiInfo
+///   preference is set or the build is Apple-internal / verbose (code-read).
+///   `hide_wifi_string` is absent from ipconfigd.c at every tag checked
+///   through bootp-494.120.6 and present from bootp-494.140.4.
+///
+/// The captive (`com.apple.captive`) and CoreUtils (`SysMon: WiFi join
+/// started`) messages are closed-source; they are observed on one Big Sur
+/// 11.7 image, as are unredacted IPConfiguration lines.
+pub(crate) static MACOS_WIFI_SSID_UNIFIED_LOG: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_wifi_ssid_unified_log",
+    name: "Wi-Fi Network Name (SSID) Entries (Unified Log)",
+    artifact_type: ArtifactLocation::Directory,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/var/db/diagnostics/"),
+    scope: DataScope::System,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "Unified-log entries from userland processes that name the Wi-Fi network the Mac \
+        joined. The kernel driver's ARPT: entries (macos_wifi_driver_log) carry BSSIDs only; the \
+        SSIDs come from these: /usr/libexec/configd, subsystem com.apple.IPConfiguration, \
+        `<if>: SSID <name> BSSID <bssid> Security WPA2_PSK` (Apple's bootp source: format \
+        \"%@: SSID %@ BSSID %@ Security %s\" in ipconfigd.c), which pairs the network name with \
+        the access point and is the best single source; /usr/libexec/configd, subsystem \
+        com.apple.captive, `<if>: SSID '<name>' setting interface rank ...`; and \
+        /usr/libexec/sharingd and /usr/libexec/rapportd, subsystem com.apple.CoreUtils, \
+        `SysMon: WiFi join started: SSID \"<name>\"`. Joined with the driver's BSSIDs by time \
+        and BSSID, they name each dated access point. Export /private/var/db/diagnostics/ with \
+        /private/var/db/uuidtext/ into one logarchive directory and parse it with Mandiant's \
+        `unifiedlog_iterator -m log-archive`, filtering on process and subsystem.",
+    mitre_techniques: &["T1016"],
+    fields: &[
+        FieldSchema { name: "event_time", value_type: ValueType::Timestamp, description: "Unified-log timestamp of the entry", is_uid_component: true },
+        FieldSchema { name: "process", value_type: ValueType::Text, description: "Emitting process: /usr/libexec/configd, /usr/libexec/sharingd or /usr/libexec/rapportd", is_uid_component: false },
+        FieldSchema { name: "subsystem", value_type: ValueType::Text, description: "com.apple.IPConfiguration, com.apple.captive or com.apple.CoreUtils", is_uid_component: false },
+        FieldSchema { name: "ssid", value_type: ValueType::Text, description: "Network name as written in the entry", is_uid_component: false },
+        FieldSchema { name: "bssid", value_type: ValueType::Text, description: "Access-point BSSID (IPConfiguration entries only)", is_uid_component: false },
+        FieldSchema { name: "security", value_type: ValueType::Text, description: "Security type (IPConfiguration entries only), e.g. WPA2_PSK", is_uid_component: false },
+    ],
+    retention: Some("Unified-log rotation window only; weeks on the observed image"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["macos_wifi_driver_log", "macos_unified_log", "fa_file__7", "macos_wifi_known_networks", "macos_dhcp_leases"],
+    sources: &[
+        "https://github.com/apple-oss-distributions/bootp/blob/bootp-413.80.1/IPConfiguration.bproj/ipconfigd.c",
+        "https://github.com/apple-oss-distributions/bootp/blob/bootp-534.120.2/IPConfiguration.bproj/ipconfigd.c",
+        "https://github.com/mandiant/macos-UnifiedLogs/blob/main/examples/unifiedlog_iterator/src/main.rs",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
+    evidence_caveats: &[
+        "The IPConfiguration message format is read from Apple's bootp source; the captive and CoreUtils messages are closed-source and observed on one macOS Big Sur 11.7 image only. Message text can change between releases",
+        "Later IPConfiguration passes SSID and BSSID through hide_wifi_string, which logs <redacted> by default on macOS: absent through bootp-494.120.6, present from bootp-494.140.4. Which macOS release first ships that bootp is not established here; on a newer image expect <redacted> and check before reading a missing name as absence",
+        "An SSID names a network, not a place: many networks share common names. Pair it with the BSSID (the IPConfiguration line does) before geolocating",
+        "Retention is the unified log's rotation window; absence before the oldest retained entry says nothing about association",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Backed by the unified log, which rotates on a rolling window",
+};
+
+/// The text Wi-Fi log, `/private/var/log/wifi.log`, and its rotated archives.
+///
+/// # Sources
+/// - <https://discussions.apple.com/thread/7957554> — a macOS Sierra 10.12.3
+///   user's Wi-Fi log excerpt containing `RSNSupplicant: Releasing
+///   authenticator for <MAC>` (the line format).
+/// - <https://blog.frd.mn/disable-wifi-debug-logging/> — `ls` of
+///   /var/log/wifi.log beside wifi.log.0.bz2 ... wifi.log.10.bz2, each
+///   archive dated 00:30 on consecutive days (nightly rotation, pre-Big Sur).
+///
+/// Both are single secondary sources on earlier releases; the Big Sur
+/// content (BSSIDs unredacted, SSIDs redacted, `_bsdDriver_init` lines at
+/// boot) is observed on one Big Sur 11.7 image.
+pub(crate) static MACOS_WIFI_LOG: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_wifi_log",
+    name: "Wi-Fi Text Log (/private/var/log/wifi.log)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/private/var/log/wifi.log*"),
+    scope: DataScope::System,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "The Wi-Fi subsystem's plain-text log, the live wifi.log plus rotated archives \
+        wifi.log.N.bz2 (rotated about daily, with a limited number of archives kept). Lines \
+        `RSNSupplicant: Releasing authenticator for <BSSID>` are written when the WPA \
+        supplicant for that access point is torn down, on disconnection, sleep or rejoin, so \
+        they show the Mac was associated with that BSSID just before. Driver (re)initialisation \
+        lines such as `_bsdDriver_init` and `Usb Host Notification ... driver available` \
+        coincide with boots and can corroborate boot times from the audit trail \
+        (macos_openbsm_audit). On the observed Big Sur image the SSIDs in this log are \
+        redacted while BSSIDs are not, so it dates access points that the remembered-network \
+        store or the driver entries in the unified log tie to a network name.",
+    mitre_techniques: &["T1016"],
+    fields: &[
+        FieldSchema { name: "timestamp", value_type: ValueType::Text, description: "Local-time timestamp: weekday, month, day and time, with no year", is_uid_component: true },
+        FieldSchema { name: "bssid", value_type: ValueType::Text, description: "Access-point BSSID from `Releasing authenticator for`", is_uid_component: false },
+        FieldSchema { name: "message", value_type: ValueType::Text, description: "Full log line", is_uid_component: false },
+    ],
+    retention: Some("Rotated about daily into wifi.log.N.bz2; only weeks retained on the observed image"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["macos_wifi_driver_log", "macos_wifi_known_networks", "macos_openbsm_audit", "macos_dhcp_leases"],
+    sources: &[
+        "https://discussions.apple.com/thread/7957554",
+        "https://blog.frd.mn/disable-wifi-debug-logging/",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SingleSecondary),
+    evidence_caveats: &[
+        "Timestamps are local time with no year and no zone; take the year from the archive's position in the rotation sequence and the file times, and the zone from the image's configured time zone",
+        "SSIDs are redacted in this log on the observed Big Sur 11.7 image while BSSIDs are not; map a BSSID to its network through the remembered-network store or the unified-log driver entries",
+        "Retention is weeks: rotation keeps a limited number of wifi.log.N.bz2 archives, and older days are gone",
+        "A Releasing authenticator line marks the end of an association, not its start; its time bounds presence from above only",
+        "The line formats are sourced from single secondary sources on earlier macOS releases (Sierra; a 2016 blog) and observed on one Big Sur 11.7 image; confirm the lines on the image before relying on them",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
+    volatility_rationale: "Rotated about daily, with only a limited number of archives kept",
+};
+
+// ── macOS network-neighbour / peer-device discovery layer ──────────────────
+// The persisted traces of the Mac's immediate peer neighbourhood, complementing
+// the remembered-network and DHCP layer above with the peer-device side. The
+// Bluetooth store enumerates bonded and seen peripherals; the SMB identity is
+// the name the Mac advertised to file-sharing neighbours; the connect-to-server
+// history holds the remote hosts the user reached out to. All three are
+// dead-disk-recoverable; the live ARP/neighbour table and the mDNS/Bonjour
+// responder cache are in-memory and lost at power-off (see the
+// network_neighbour_enumeration technique).
+
+pub(crate) static MACOS_BLUETOOTH_DEVICES: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_bluetooth_devices",
+    name: "Bluetooth Paired & Cached Devices (com.apple.Bluetooth.plist)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/Library/Preferences/com.apple.Bluetooth.plist"),
+    scope: DataScope::System,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "System Bluetooth preferences. PairedDevices is an array of the hardware MAC \
+        addresses (dash-delimited, e.g. 00-1b-dc-06-cd-b8) of devices bonded to this Mac. \
+        DeviceCache is a dict keyed by that same MAC, each entry carrying a user-assigned Name \
+        and device attributes (VendorID, LMPVersion / LMPSubversion, page-scan parameters, and \
+        LastServicesUpdate / LastInquiryUpdate times) — covering devices paired OR merely seen \
+        nearby. Together they enumerate the peer devices in the Mac's immediate physical vicinity: \
+        phones, laptops, keyboards, mice, headsets and speakers, each by name and MAC. This is the \
+        peer-device layer of a network-neighbour reconstruction, placing named hardware beside the \
+        Mac. On newer macOS the Bluetooth-LE side is held separately in a CoreBluetoothCache keyed \
+        by an obscured device UUID rather than the MAC, and the DeviceCache key may be absent.",
+    mitre_techniques: &["T1016"],
+    fields: &[
+        FieldSchema { name: "device_mac", value_type: ValueType::Text, description: "Device hardware MAC — a PairedDevices array entry and the DeviceCache key (dash-delimited)", is_uid_component: true },
+        FieldSchema { name: "name", value_type: ValueType::Text, description: "DeviceCache Name — the user-assigned device label, not a verified owner", is_uid_component: false },
+        FieldSchema { name: "paired", value_type: ValueType::Bool, description: "Whether the MAC is in the PairedDevices (bonded) array, vs DeviceCache only (paired-or-seen)", is_uid_component: false },
+        FieldSchema { name: "last_seen", value_type: ValueType::Timestamp, description: "LastInquiryUpdate / LastServicesUpdate — when the device was last seen or its services read", is_uid_component: false },
+        // Source: https://github.com/log2timeline/plaso/blob/main/plaso/parsers/plist_plugins/bluetooth.py
+        FieldSchema { name: "last_name_update", value_type: ValueType::Timestamp, description: "LastNameUpdate — when the device's human name was set, usually only once at initial setup; not a last-seen time", is_uid_component: false },
+    ],
+    retention: Some("Persists until the device is removed; the cache accretes seen devices and is not pruned on unpair"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["macos_airdrop_sharingd", "macos_wifi_known_networks", "macos_network_interfaces"],
+    sources: &[
+        "https://github.com/bolodev/osxripper/blob/master/plugins/osx/BluetoothPlist.py",
+        "https://forge-work.com/dfir/knowledge/artifacts/macos-bluetooth",
+        // Source: plaso's plugin notes on LastInquiryUpdate / LastNameUpdate / LastServicesUpdate
+        "https://github.com/log2timeline/plaso/blob/main/plaso/parsers/plist_plugins/bluetooth.py",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
+    evidence_caveats: &[
+        "The Name is a user-assigned label on the peer device, not proof of who owns it or that it belongs to the Mac's user",
+        "DeviceCache holds devices merely SEEN nearby as well as bonded ones — presence there is not proof of pairing; the PairedDevices array is the bonded set",
+        "BLE MAC randomization inflates the cache with many entries for one physical device, and the BLE CoreBluetoothCache keys by an obscured UUID rather than the MAC",
+        "LastNameUpdate is when the device's human-readable name was set, usually once at initial setup (plaso), not when the device was last seen; LastInquiryUpdate is the discovery time. Any of these values was written by this Mac's Bluetooth stack, so it shows the Mac running with Bluetooth on at that moment (on one macOS Big Sur 11 image examined in 2026 a name update fell 50 seconds after an audit-log start-up, in a boot with no user login)",
+        "An entry named 'iPhone' (the factory default) cannot be tied to a particular AirDrop transfer or person: iPhones use rotating Bluetooth addresses for AirDrop discovery",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Rewritten as devices are paired, seen or removed; entries linger after unpairing",
+};
+
+pub(crate) static MACOS_SMB_SERVER_IDENTITY: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_smb_server_identity",
+    name: "SMB Server Identity (com.apple.smb.server.plist)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/Library/Preferences/SystemConfiguration/com.apple.smb.server.plist"),
+    scope: DataScope::System,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "The SMB / NetBIOS identity the Mac advertised to file-sharing neighbours. NetBIOSName \
+        is the short name the Mac announced on the SMB / NetBIOS network; ServerDescription is the \
+        human-readable label (usually derived from the computer name); DOSCodePage records the code \
+        page used for legacy SMB (e.g. 437). Establishes how the Mac would have appeared in another \
+        host's network browser or SMB connection log — the name to look for when correlating this \
+        Mac against a peer's share-access records. A LocalKerberosRealm (LKDC:SHA1...) value, when \
+        present, is a further semi-stable host identifier.",
+    mitre_techniques: &["T1016"],
+    fields: &[
+        FieldSchema { name: "netbios_name", value_type: ValueType::Text, description: "NetBIOSName — the SMB / NetBIOS short name the Mac advertised", is_uid_component: true },
+        FieldSchema { name: "server_description", value_type: ValueType::Text, description: "ServerDescription — human-readable server label", is_uid_component: false },
+        FieldSchema { name: "dos_code_page", value_type: ValueType::Text, description: "DOSCodePage — code page for legacy SMB (e.g. 437)", is_uid_component: false },
+    ],
+    retention: Some("Persists until the sharing name is changed; may be regenerated from the computer name"),
+    triage_priority: TriagePriority::Low,
+    related_artifacts: &["macos_network_preferences", "macos_connect_to_server_history", "macos_sfl2_recent_servers"],
+    sources: &[
+        "https://gist.github.com/algal/0dd167c196b4af3dc06c2b57d6f05245",
+        "https://github.com/ydkhatri/mac_apt/blob/master/plugins/networking.py",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
+    evidence_caveats: &[
+        "The value can be regenerated from the computer name and may revert after a reboot — cross-reference the SystemConfiguration preferences.plist rather than treating this plist as authoritative",
+        "NetBIOSName is not necessarily derived from the hostname or Bonjour LocalHostName, so it need not match the Mac's other names",
+        "Managed (MDM/Jamf) environments can reset these names on a schedule, which can explain an unexpected value or change time",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Rewritten only when the SMB sharing name is changed or regenerated",
+};
+
+pub(crate) static MACOS_CONNECT_TO_SERVER_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_connect_to_server_history",
+    name: "Connect-to-Server History & Favourite Volumes (sharedfilelist)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/Users/*/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.RecentHosts.sfl"),
+    scope: DataScope::User,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "The user's Finder \"Connect to Server\" neighbourhood, held as SharedFileList bookmarks \
+        under ~/Library/Application Support/com.apple.sharedfilelist/: RecentHosts.sfl is the list \
+        of hosts entered into the Connect-to-Server dialog, and FavoriteVolumes.sfl2 the pinned \
+        network volumes. Entries are NSKeyedArchiver bookmark blobs recording the smb://, afp:// or \
+        nfs:// hosts and shares the user reached out to — the remote peers this Mac treated as file \
+        servers. Complements the mounted-server list (macos_sfl2_recent_servers, RecentServers.sfl2): \
+        RecentServers records servers actually mounted, RecentHosts the hosts entered. An empty or \
+        absent archive is a meaningful negative — no Connect-to-Server neighbourhood was built.",
+    mitre_techniques: &["T1021.002"],
+    fields: &[
+        FieldSchema { name: "host_or_volume", value_type: ValueType::Text, description: "smb/afp/nfs host or share URL from a RecentHosts / FavoriteVolumes bookmark", is_uid_component: true },
+    ],
+    retention: Some("Capped, undated list maintained only while the owning process runs; can retain very old URLs"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["macos_sfl2_recent_servers", "macos_network_interfaces", "macos_dhcp_leases"],
+    sources: &[
+        "https://www.mac4n6.com/blog/2017/10/17/script-update-for-macmrupy-v13-new-1013-sfl2-mru-files",
+        "https://eclecticlight.co/2017/08/10/recent-items-launch-services-and-sharedfilelists/",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
+    evidence_caveats: &[
+        "SFL / SFL2 entries are undated — only the file's own modification time bounds when the list last changed",
+        "The list is maintained only while its owning process is open, so it can retain extremely old host URLs and is not a complete connection history",
+        "RecentHosts records hosts ENTERED in the dialog, not necessarily successfully mounted — the mounted-server record is RecentServers (macos_sfl2_recent_servers)",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
+    volatility_rationale: "Updated as the user connects to servers; entries evicted only as the capped list rolls",
+};
+
+/// iCloud Keychain trust store of the Security framework's TrustedPeersHelper
+/// (Octagon) service: `com.apple.security.keychain-defaultContext.TrustedPeersHelper.db`.
+///
+/// # Sources
+/// - <https://github.com/apple-oss-distributions/Security/blob/main/keychain/TrustedPeersHelper/TrustedPeersHelper.xcdatamodeld/TrustedPeersHelper_6.xcdatamodel/contents> —
+///   Apple's Core Data model: entities Peer (peerID, stableInfo, stableInfoSig),
+///   EscrowRecord, EscrowMetadata (serial) and EscrowClientMetadata (deviceName,
+///   deviceModel, deviceModelClass, deviceModelVersion,
+///   secureBackupMetadataTimestamp).
+/// - <https://github.com/apple-oss-distributions/Security/blob/main/keychain/TrustedPeersHelper/Container_EscrowRecords.swift> —
+///   `setEscrowRecord` caches each escrow record fetched from the escrow service
+///   into those entities (serial, secureBackupTimestamp, client-metadata device
+///   name and model).
+/// - <https://github.com/abrignoni/iLEAPP/blob/main/scripts/artifacts/trustedPeers.py> —
+///   iLEAPP joins ZESCROWCLIENTMETADATA to ZESCROWMETADATA for device name,
+///   model and serial; notes one database per trust-circle context and sample
+///   data whose rows sat only in the WAL.
+/// - <https://support.apple.com/guide/security/sec3e341e75d> — Apple Platform
+///   Security: escrow records guarded by HSM clusters for iCloud Keychain recovery.
+pub(crate) static MACOS_TRUSTEDPEERSHELPER_DB: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_trustedpeershelper_db",
+    name: "iCloud Keychain Trust Store (TrustedPeersHelper.db)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    // Path observed on one macOS Big Sur 11 image; iLEAPP globs **/*TrustedPeersHelper.db* on iOS.
+    file_path: Some("/Users/*/Library/Keychains/*/com.apple.security.keychain-defaultContext.TrustedPeersHelper.db"),
+    scope: DataScope::User,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "Core Data SQLite store of TrustedPeersHelper, the Security-framework service that \
+        manages iCloud Keychain trust (Octagon). Two parts matter. ZPEER holds the peers in the \
+        account's current trust circle, each with a ZSTABLEINFO blob describing the device. The \
+        escrow tables cache the account's iCloud Keychain escrow records, one per device that made \
+        an escrow backup: ZESCROWRECORD, ZESCROWMETADATA (device serial, secure-backup timestamp) \
+        and ZESCROWCLIENTMETADATA (device name, model identifier such as iPhone15,2 or MacBookPro18,1, \
+        model class and version, backup-metadata timestamp). The escrow tables therefore name the \
+        account's devices by name, model and serial, and reach further back than ZPEER, which \
+        lists only today's circle. Timestamps are Core Data absolute times (seconds since \
+        2001-01-01 UTC).",
+    mitre_techniques: &["T1005"],
+    fields: &[
+        FieldSchema { name: "device_name", value_type: ValueType::Text, description: "ZESCROWCLIENTMETADATA.ZDEVICENAME — the escrowing device's user-assigned name", is_uid_component: false },
+        FieldSchema { name: "device_model", value_type: ValueType::Text, description: "ZESCROWCLIENTMETADATA.ZDEVICEMODEL — model identifier (e.g. iPhone15,2)", is_uid_component: false },
+        FieldSchema { name: "serial", value_type: ValueType::Text, description: "ZESCROWMETADATA.ZSERIAL — the escrowing device's serial number", is_uid_component: true },
+        FieldSchema { name: "secure_backup_timestamp", value_type: ValueType::Timestamp, description: "ZESCROWCLIENTMETADATA.ZSECUREBACKUPMETADATATIMESTAMP — Core Data absolute time (UTC) of the escrow backup metadata", is_uid_component: false },
+        FieldSchema { name: "peer_stable_info", value_type: ValueType::Bytes, description: "ZPEER.ZSTABLEINFO — serialized protobuf describing a current trust-circle peer", is_uid_component: false },
+    ],
+    retention: Some("Refreshed from the escrow service; escrow rows can outlive the devices' membership of the trust circle"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["macos_keychain_user", "apple_dsid"],
+    sources: &[
+        "https://github.com/apple-oss-distributions/Security/blob/main/keychain/TrustedPeersHelper/TrustedPeersHelper.xcdatamodeld/TrustedPeersHelper_6.xcdatamodel/contents",
+        "https://github.com/apple-oss-distributions/Security/blob/main/keychain/TrustedPeersHelper/Container_EscrowRecords.swift",
+        "https://github.com/abrignoni/iLEAPP/blob/main/scripts/artifacts/trustedPeers.py",
+        "https://support.apple.com/guide/security/sec3e341e75d",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
+    evidence_caveats: &[
+        "The macOS location (a per-user ~/Library/Keychains/<UUID>/ folder) was observed on one macOS Big Sur 11 image examined in 2026; the schema is from Apple's source and iLEAPP's iOS parser. iLEAPP notes one database per trust-circle context, so read every *TrustedPeersHelper.db, not the first",
+        "Do not draw a negative from ZPEER alone: it lists only the current trust circle. On the examined image the escrow tables named devices, including by serial, that ZPEER did not, and went back years before the earliest peer",
+        "Read the database with its -wal: iLEAPP records sample data whose rows were present only in the WAL",
+        "ZPEER.ZSTABLEINFO is a serialized protobuf; decode it field by field. On the examined image the OS version string and the device serial were separate fields, and a regex over the raw blob appended the next field's tag byte to every serial it matched",
+        "Device names are user-assigned labels, commonly Apple's default '<first name>'s iPhone' form (localised, e.g. '<name>的 iPad'); a name can echo the account holder's first name but is not verified identity, and a factory-default 'iPhone' identifies nothing",
+        "The rows describe the Apple account's devices, which need never have touched this Mac; tie them to an account separately (on the examined image the container's ZACCOUNTDSID was empty, so attribution rested on the single iCloud account signed in on the Mac)",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "On-disk Core Data store, refreshed while the account stays signed in",
+};
+
+/// Screen Sharing viewer connection history: `connectionsStore` in
+/// `com.apple.ScreenSharing.plist` inside the app's container.
+///
+/// # Sources
+/// - <https://github.com/ydkhatri/mac_apt/blob/master/plugins/screensharing.py> —
+///   mac_apt SCREENSHARING plugin: reads
+///   `<home>/Library/Containers/com.apple.ScreenSharing/Data/Library/Preferences/com.apple.ScreenSharing.plist`,
+///   decodes the embedded `connectionsStore` plist (connectionDetails →
+///   connectionParameters.networkAddress address / username / displayName;
+///   sessionMetadatas → lastConnectedDate; connectionGroups → groupName, members)
+///   and logs "No Screen Sharing artifacts were found!" when it yields no rows.
+pub(crate) static MACOS_SCREENSHARING_CONNECTIONS: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_screensharing_connections",
+    name: "Screen Sharing Viewer Connection History (connectionsStore)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/Users/*/Library/Containers/com.apple.ScreenSharing/Data/Library/Preferences/com.apple.ScreenSharing.plist"),
+    scope: DataScope::User,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "Preferences of the Screen Sharing app, the VNC viewer a user runs to control another \
+        computer. Its connectionsStore value is an embedded plist: connectionDetails keys each \
+        remote host by UUID with its network address, display name and the username used to log in \
+        to it; sessionMetadatas gives each host's lastConnectedDate; connectionGroups names \
+        user-made groups and their member hosts. It is the history of connections made FROM this \
+        Mac to other machines.",
+    mitre_techniques: &["T1021.005"],
+    fields: &[
+        FieldSchema { name: "host_uuid", value_type: ValueType::Guid, description: "connectionDetails key identifying the remote host", is_uid_component: true },
+        FieldSchema { name: "address", value_type: ValueType::Text, description: "connectionParameters.networkAddress address — IP or host name connected to", is_uid_component: false },
+        FieldSchema { name: "login_username", value_type: ValueType::Text, description: "Username supplied for the remote host (an account there, not a local user)", is_uid_component: false },
+        FieldSchema { name: "last_connected", value_type: ValueType::Timestamp, description: "sessionMetadatas lastConnectedDate", is_uid_component: false },
+    ],
+    retention: Some("Persists until the user removes the host from the app"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["macos_unified_log"],
+    sources: &["https://github.com/ydkhatri/mac_apt/blob/master/plugins/screensharing.py"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
+    evidence_caveats: &[
+        "Outgoing history only: it records connections this Mac's user made to other hosts and says nothing about incoming Screen Sharing to this Mac being enabled, permitted or used. mac_apt's 'No Screen Sharing artifacts were found!' means this plist was absent or held no connection records, not that incoming sharing was off",
+        "The structure is taken from one parser's source (mac_apt, 2024); which macOS release introduced this containerised store is not documented there, and the file was absent on one macOS Big Sur 11 image examined in 2026",
+        "lastConnectedDate is the latest session per host, not a log of every session",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Preference file rewritten when the viewer connects or the host list changes",
 };

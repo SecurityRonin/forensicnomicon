@@ -1,14 +1,17 @@
 //! Integrity tests over [`TOOL_BEHAVIOURS`], [`ANTI_FORENSIC_METHODS`],
-//! [`INVESTIGATIVE_TECHNIQUES`] and the correlation-hint slice.
+//! [`INVESTIGATIVE_TECHNIQUES`], the correlation-hint slice, and
+//! [`EXAMINATION_PROFILES`].
 
 use forensicnomicon_core::evidence::EvidenceTier;
+
+use crate::catalog::Platform;
 
 use super::*;
 
 /// The exact number of registered tool behaviours — the single place the
 /// count is written down. Adding an entry updates this constant and nothing
 /// else; every other test asserts presence or invariants, not size.
-const EXPECTED_TOOL_BEHAVIOUR_LEN: usize = 8;
+const EXPECTED_TOOL_BEHAVIOUR_LEN: usize = 26;
 
 #[test]
 fn no_duplicate_ids() {
@@ -192,7 +195,7 @@ fn every_correlation_entry_is_verifiable() {
 
 /// The exact number of registered investigative techniques — the single place
 /// the count is written down, mirroring [`EXPECTED_TOOL_BEHAVIOUR_LEN`].
-const EXPECTED_INVESTIGATIVE_TECHNIQUE_LEN: usize = 4;
+const EXPECTED_INVESTIGATIVE_TECHNIQUE_LEN: usize = 23;
 
 #[test]
 fn investigative_len_matches_expected() {
@@ -228,6 +231,75 @@ fn analytic_frameworks_batch_is_present() {
             "missing investigative technique: {id}"
         );
     }
+}
+
+/// The Wi-Fi BSSID geolocation technique must be registered, and it must be
+/// wired to the network artifacts it consumes: the remembered-network store
+/// whose access-point BSSIDs are the geolocation handle, and the DHCP lease
+/// whose RouterHardwareAddress is a second BSSID source. A technique that
+/// names no artifact is analytic folklore with no catalog anchor.
+#[test]
+fn wifi_bssid_geolocation_is_present_and_wired_to_artifacts() {
+    let t = INVESTIGATIVE_TECHNIQUES
+        .iter()
+        .find(|t| t.id == "wifi_bssid_geolocation")
+        .expect("wifi_bssid_geolocation technique must be registered");
+    assert!(
+        t.artifacts_used.contains(&"macos_wifi_known_networks"),
+        "must consume the remembered-network store (BSSID source)"
+    );
+    assert!(
+        t.artifacts_used.contains(&"macos_dhcp_leases"),
+        "must consume the DHCP lease (RouterHardwareAddress BSSID source)"
+    );
+    let body = format!("{} {}", t.question, t.failure_modes.join(" "));
+    assert!(
+        body.contains("gs-loc.apple.com")
+            || t.steps
+                .iter()
+                .any(|s| s.action.contains("gs-loc.apple.com")),
+        "must name Apple's WPS endpoint, the unauthenticated BSSID -> location service"
+    );
+    assert!(
+        t.failure_modes.iter().any(|f| f.contains("-180")),
+        "must record the -180 sentinel Apple returns for an unknown BSSID"
+    );
+}
+
+/// The network-neighbour enumeration technique must be registered and wired to
+/// the peer-discovery artifacts it consumes: the Bluetooth device store, the
+/// SMB identity, the connect-to-server history, the remembered Wi-Fi networks
+/// and the DHCP lease. Its critical limit — a dead disk shows only persisted
+/// past interactions, while the live ARP/neighbour table and the mDNS/Bonjour
+/// responder cache are in-memory and lost at power-off — must be recorded as a
+/// failure mode, or the technique over-claims what a static image can prove.
+#[test]
+fn network_neighbour_enumeration_is_present_and_wired_to_artifacts() {
+    let t = INVESTIGATIVE_TECHNIQUES
+        .iter()
+        .find(|t| t.id == "network_neighbour_enumeration")
+        .expect("network_neighbour_enumeration technique must be registered");
+    for id in [
+        "macos_bluetooth_devices",
+        "macos_smb_server_identity",
+        "macos_connect_to_server_history",
+        "macos_wifi_known_networks",
+        "macos_dhcp_leases",
+    ] {
+        assert!(
+            t.artifacts_used.contains(&id),
+            "must consume the peer-discovery artifact: {id}"
+        );
+    }
+    let body = t.failure_modes.join(" ");
+    assert!(
+        body.contains("ARP") && (body.contains("mDNS") || body.contains("Bonjour")),
+        "must record that the live ARP/neighbour table and mDNS/Bonjour cache are lost at power-off"
+    );
+    assert!(
+        body.to_lowercase().contains("in-memory") || body.to_lowercase().contains("power-off"),
+        "must record that a dead disk shows only persisted past interactions"
+    );
 }
 
 /// Every entry must be independently verifiable, and must carry its
@@ -282,6 +354,101 @@ fn every_investigative_entry_is_verifiable() {
             );
         }
     }
+}
+
+/// The evidence-handling and Windows attribution batch: eight techniques an
+/// examiner needs when the evidence arrives as EWF/L01/AD1 containers and the
+/// question is who used a Windows machine or a removable device.
+#[test]
+fn evidence_handling_and_windows_attribution_techniques_are_present() {
+    let t = |id: &str| {
+        INVESTIGATIVE_TECHNIQUES
+            .iter()
+            .find(|t| t.id == id)
+            .unwrap_or_else(|| panic!("missing investigative technique: {id}"))
+    };
+    let fm = |id: &str| t(id).failure_modes.join(" ");
+
+    let prov = t("acquisition_provenance_from_evidence");
+    assert!(prov
+        .steps
+        .iter()
+        .any(|s| s.action.contains("ewfinfo") && s.action.contains("sector")));
+    assert!(prov.steps.iter().any(|s| s.action.contains(".txt")));
+
+    assert!(fm("evidence_hash_scope").contains("seizure"));
+    assert!(t("evidence_hash_scope")
+        .sources
+        .iter()
+        .any(|s| s.contains("800-86")));
+
+    assert!(fm("logical_export_selection_rule").contains("whitelist"));
+    let scope = t("container_scope_reproducibility_check");
+    assert!(scope
+        .steps
+        .iter()
+        .any(|s| s.action.contains("positive control")));
+    for id in [
+        "sam_user_f_record",
+        "windows_install_date",
+        "wechat_windows_files",
+    ] {
+        assert!(
+            scope.artifacts_used.contains(&id),
+            "scope check must consume {id}"
+        );
+    }
+
+    let wc = t("working_copy_integrity_before_findings");
+    assert!(wc.steps.iter().any(|s| s.action.contains("ewfverify")));
+    assert!(fm("working_copy_integrity_before_findings").contains("padding"));
+
+    let usb = t("usb_exhibit_host_correlation");
+    for id in [
+        "usb_stor_enum",
+        "mountpoints2",
+        "evtx_partition_diagnostic_1006",
+        "emdmgmt_readyboost",
+        "fat_exfat_directory_entry",
+        "macos_usb_mass_storage_log",
+    ] {
+        assert!(
+            usb.artifacts_used.contains(&id),
+            "USB correlation must consume {id}"
+        );
+    }
+    assert!(fm("usb_exhibit_host_correlation").contains("reformat"));
+
+    let os = t("removable_volume_host_os_residue");
+    assert!(os.artifacts_used.contains(&"macos_trash"));
+    assert!(
+        fm("removable_volume_host_os_residue").contains("System Volume Information")
+            && fm("removable_volume_host_os_residue").contains("searched"),
+        "SVI on removable FAT must be recorded as searched and unsourced"
+    );
+
+    let acct = t("windows_deleted_account_reconstruction");
+    for id in [
+        "sam_user_f_record",
+        "profile_list_users",
+        "evtx_security_account_management",
+        "ntfs_secure_sds",
+        "vss_snapshot_analysis",
+    ] {
+        assert!(
+            acct.artifacts_used.contains(&id),
+            "account reconstruction must consume {id}"
+        );
+    }
+    let acct_fm = fm("windows_deleted_account_reconstruction");
+    assert!(
+        acct_fm.contains("1002"),
+        "RID gaps are weak on OEM installs"
+    );
+    assert!(
+        acct_fm.contains("Amcache"),
+        "Amcache evidences programs, not accounts"
+    );
 }
 
 // ── Tool behaviours ──────────────────────────────────────────────────────────
@@ -436,4 +603,1091 @@ fn unsourced_tool_behaviours_announce_themselves_in_the_text() {
             b.id
         );
     }
+}
+
+fn tool_behaviour(id: &str) -> &'static ToolBehaviour {
+    TOOL_BEHAVIOURS
+        .iter()
+        .find(|b| b.id == id)
+        .unwrap_or_else(|| panic!("missing tool behaviour: {id}"))
+}
+
+/// The cross-platform examination-tool batch: SQLite readers, PDF tooling,
+/// OpenBSM's praudit, ZIP member-name decoding and RIR whois — each a tool
+/// whose output an examiner reads as the evidence when it is not.
+#[test]
+fn cross_platform_tool_batch_is_present() {
+    for id in [
+        "sqlite_immutable_uri_ignores_wal",
+        "sqlite_main_file_only_copy_drops_wal",
+        "sqlite_open_missing_path_creates_empty_db",
+        "qpdf_show_encryption_blank_user_password",
+        "poppler_pdftotext_encrypted_pdf_empty_stdout",
+        "praudit_resolves_ids_on_analysis_host",
+        "zip_legacy_codepage_member_names_misdecoded",
+        "apnic_whois_first_country_is_not_the_asn_holder",
+    ] {
+        tool_behaviour(id);
+    }
+}
+
+/// `immutable=1` was once recorded as THE safe way to read an evidence
+/// database. It is not: it skips the WAL, so committed-but-uncheckpointed rows
+/// vanish. The corrected rule must be present, graded on the SQLite source
+/// that proves it, and must hand the examiner the read that works.
+#[test]
+fn sqlite_immutable_is_recorded_as_lossy_not_safe() {
+    let b = tool_behaviour("sqlite_immutable_uri_ignores_wal");
+    assert_eq!(b.kind, ToolBehaviourKind::SilentlyIncomplete);
+    assert!(b.evidence_tier >= EvidenceTier::SourceOrMultiImpl);
+    assert!(
+        b.sources.iter().any(|s| s.contains("pager.c")),
+        "the WAL skip is in pager.c (immutable -> act_like_temp_file); cite it"
+    );
+    for needle in ["-wal", "-shm", "copy"] {
+        assert!(
+            b.mitigation.contains(needle),
+            "mitigation must name the db + -wal + -shm copy; missing {needle}"
+        );
+    }
+}
+
+/// Copying only the main file loses the same rows by a different route, and
+/// the safe read must never be run against the original: the last connection
+/// to close checkpoints and deletes the WAL.
+#[test]
+fn sqlite_main_file_copy_warns_against_opening_the_original() {
+    let b = tool_behaviour("sqlite_main_file_only_copy_drops_wal");
+    assert_eq!(b.kind, ToolBehaviourKind::SilentlyIncomplete);
+    assert!(b.mitigation.contains("original"));
+    assert!(format!("{} {}", b.detail, b.mitigation).contains("checkpoint"));
+}
+
+/// A mistyped path must not read as an empty or schema-less database.
+#[test]
+fn sqlite_missing_path_entry_names_mode_ro() {
+    let b = tool_behaviour("sqlite_open_missing_path_creates_empty_db");
+    assert!(b.mitigation.contains("mode=ro"));
+    assert!(b.consequence.contains("no such table"));
+}
+
+/// The blank `User password =` line is only safe to read with the line above
+/// it; the entry must name that discriminating line.
+#[test]
+fn qpdf_entry_names_the_discriminating_line() {
+    let b = tool_behaviour("qpdf_show_encryption_blank_user_password");
+    assert_eq!(b.kind, ToolBehaviourKind::OutputHidesDetail);
+    assert!(b.detail.contains("Incorrect password supplied"));
+    assert!(b.mitigation.contains("--requires-password"));
+}
+
+/// An encrypted PDF must not be recordable as "blank" by a pipeline that
+/// reads only stdout.
+#[test]
+fn pdftotext_entry_points_at_exit_status() {
+    let b = tool_behaviour("poppler_pdftotext_encrypted_pdf_empty_stdout");
+    assert!(b.detail.contains("Incorrect password"));
+    assert!(b.mitigation.contains("exit"));
+}
+
+/// praudit renders numeric ids through the ANALYSIS host's account database;
+/// the entry must be wired to the audit-trail descriptor and name `-n`.
+#[test]
+fn praudit_entry_is_wired_to_the_audit_trail() {
+    let b = tool_behaviour("praudit_resolves_ids_on_analysis_host");
+    assert_eq!(b.kind, ToolBehaviourKind::RequiresFlag);
+    assert_eq!(b.artifact_id, Some("macos_openbsm_audit"));
+    assert!(
+        crate::catalog::CATALOG
+            .by_id("macos_openbsm_audit")
+            .is_some(),
+        "artifact_id must resolve"
+    );
+    assert!(b.mitigation.contains("-n"));
+    assert!(b.mitigation.contains("TZ=UTC"));
+}
+
+/// Every artifact_id a tool behaviour names must resolve in the catalog.
+#[test]
+fn every_tool_behaviour_artifact_id_resolves() {
+    for b in TOOL_BEHAVIOURS {
+        if let Some(a) = b.artifact_id {
+            assert!(
+                crate::catalog::CATALOG.by_id(a).is_some(),
+                "{}: artifact_id not in catalog: {a}",
+                b.id
+            );
+        }
+    }
+}
+
+/// The evidence-container batch: how libewf and FTK Imager present EWF
+/// evidence. Each entry must carry the exact message an examiner sees, since
+/// the message is the only handle an examiner has to find the entry.
+#[test]
+fn evidence_container_tool_batch_is_present() {
+    let by_id = |id: &str| {
+        TOOL_BEHAVIOURS
+            .iter()
+            .find(|b| b.id == id)
+            .unwrap_or_else(|| panic!("missing tool behaviour: {id}"))
+    };
+
+    let lef = by_id("libewf_lef_short_name_open_failure");
+    assert_eq!(lef.kind, ToolBehaviourKind::MisreadsStructure);
+    assert!(lef
+        .detail
+        .contains("invalid short name size value out of bounds"));
+    assert!(lef.detail.contains("libewf_lef_file_entry.c"));
+    assert!(lef
+        .sources
+        .iter()
+        .any(|s| s.contains("20231119/libewf/libewf_lef_file_entry.c")));
+    assert!(
+        lef.mitigation.contains("ltree"),
+        "mitigation must name the independent check: the ltree MD5"
+    );
+
+    let seg = by_id("libewf_damaged_segment_error_semantics");
+    assert_eq!(seg.kind, ToolBehaviourKind::OutputHidesDetail);
+    assert!(seg.detail.contains("unexpected end of data"));
+    assert!(seg.detail.contains("unsupported file header signature"));
+    assert!(
+        seg.consequence.contains("segment"),
+        "consequence must say the error does not name the defective segment"
+    );
+
+    let ftk = by_id("ftk_imager_verify_unstored_hash_mismatch");
+    assert_eq!(ftk.kind, ToolBehaviourKind::FalsePositiveProne);
+    assert_eq!(ftk.evidence_tier, EvidenceTier::SearchedNotFound);
+    assert!(ftk.detail.contains("Mismatch"));
+    assert!(
+        ftk.mitigation.contains("zeros") || ftk.mitigation.contains("zero-filled"),
+        "mitigation must say to check the stored value for zeros first"
+    );
+    assert!(
+        ftk.consequence.contains("seizure"),
+        "a match proves image = itself since acquisition, not = source at seizure"
+    );
+}
+
+/// Sleuth Kit renders a deleted FAT short name's lost first byte as '_'
+/// (fatxxfs_dent.c), so a name search for the original misses it.
+#[test]
+fn tsk_fat_deleted_first_char_is_recorded() {
+    let b = TOOL_BEHAVIOURS
+        .iter()
+        .find(|b| b.id == "tsk_fls_fat_deleted_name_first_char")
+        .expect("tsk_fls_fat_deleted_name_first_char missing");
+    assert_eq!(b.kind, ToolBehaviourKind::OutputHidesDetail);
+    assert!(b.detail.contains("0xE5") && b.detail.contains("'_'"));
+    assert!(b.sources.iter().any(|s| s.contains("fatxxfs_dent.c")));
+    assert!(
+        b.mitigation.contains("long"),
+        "surviving long-name entries keep the full name"
+    );
+}
+
+// ── Examination profiles ─────────────────────────────────────────────────────
+
+/// The exact number of registered examination profiles — the single place the
+/// count is written down, mirroring [`EXPECTED_TOOL_BEHAVIOUR_LEN`].
+const EXPECTED_EXAMINATION_PROFILE_LEN: usize = 5;
+
+#[test]
+fn examination_len_matches_expected() {
+    assert_eq!(EXAMINATION_PROFILES.len(), EXPECTED_EXAMINATION_PROFILE_LEN);
+}
+
+#[test]
+fn examination_no_duplicate_ids() {
+    let mut seen = std::collections::HashSet::new();
+    for p in EXAMINATION_PROFILES {
+        assert!(
+            seen.insert(p.id),
+            "duplicate examination profile id: {}",
+            p.id
+        );
+    }
+}
+
+/// The macOS profile batch: the first profiles the type ever held, and their
+/// intended shape. A `Full` profile must carry `FullExamination`; a `Focused`
+/// profile must carry any focus other than `FullExamination`.
+#[test]
+fn macos_profiles_present_with_expected_shape() {
+    let by_id = |id: &str| {
+        EXAMINATION_PROFILES
+            .iter()
+            .find(|p| p.id == id)
+            .unwrap_or_else(|| panic!("missing examination profile: {id}"))
+    };
+
+    let full = by_id("macos_full");
+    assert_eq!(full.platform, Platform::MacOS);
+    assert_eq!(full.kind, ProfileKind::Full);
+    assert_eq!(full.focus, ExaminationFocus::FullExamination);
+
+    let leakage = by_id("macos_data_leakage");
+    assert_eq!(leakage.platform, Platform::MacOS);
+    assert_eq!(leakage.kind, ProfileKind::Focused);
+    assert_eq!(leakage.focus, ExaminationFocus::DataLeakage);
+
+    let malware = by_id("macos_malware");
+    assert_eq!(malware.platform, Platform::MacOS);
+    assert_eq!(malware.kind, ProfileKind::Focused);
+    assert_eq!(malware.focus, ExaminationFocus::Malware);
+}
+
+/// The load-bearing correctness property: every member of every profile
+/// references a catalog artifact id that actually resolves. A profile pointing
+/// at an id no descriptor defines is a dangling checklist entry — an artifact
+/// the examiner is told to pull that the catalog cannot describe.
+#[test]
+fn every_profile_member_resolves_in_catalog() {
+    for p in EXAMINATION_PROFILES {
+        for m in p.members {
+            assert!(
+                crate::catalog::CATALOG.by_id(m.artifact_id).is_some(),
+                "{}: member artifact id not in catalog: {}",
+                p.id,
+                m.artifact_id
+            );
+        }
+    }
+}
+
+/// Proves the referential-integrity gate can fail: the exact predicate the
+/// check above relies on must REJECT a profile whose member points at an id no
+/// descriptor defines. A check that has never been shown to fail is not known
+/// to work.
+#[test]
+fn an_unknown_member_id_is_rejected_by_the_integrity_predicate() {
+    let bogus = ExaminationProfile {
+        id: "test_only_bogus_profile",
+        name: "bogus",
+        platform: Platform::MacOS,
+        kind: ProfileKind::Focused,
+        focus: ExaminationFocus::Malware,
+        description: "fixture used only to prove the integrity check can fail",
+        members: &[ProfileMember {
+            artifact_id: "this_artifact_id_is_not_defined_by_any_descriptor",
+            category: InvestigativeCategory::Persistence,
+            rationale: "fixture",
+        }],
+        sources: &["https://example.invalid/"],
+    };
+
+    let all_resolve = bogus
+        .members
+        .iter()
+        .all(|m| crate::catalog::CATALOG.by_id(m.artifact_id).is_some());
+    assert!(
+        !all_resolve,
+        "the referential-integrity predicate must reject an unknown member id"
+    );
+}
+
+/// Every profile is well-formed: non-empty prose, at least one member, every
+/// member carries a rationale, sources are resolvable HTTPS references, and no
+/// artifact id is listed twice within a single profile.
+#[test]
+fn every_examination_profile_is_well_formed() {
+    for p in EXAMINATION_PROFILES {
+        assert!(!p.name.is_empty(), "{}: empty name", p.id);
+        assert!(!p.description.is_empty(), "{}: empty description", p.id);
+        assert!(!p.members.is_empty(), "{}: no members", p.id);
+        assert!(!p.sources.is_empty(), "{}: no sources", p.id);
+        for s in p.sources {
+            assert!(
+                s.starts_with("https://"),
+                "{}: source is not an https URL: {s}",
+                p.id
+            );
+        }
+
+        // Kind and focus must agree: a Full profile is the comprehensive
+        // FullExamination; a Focused profile is anything narrower.
+        match p.kind {
+            ProfileKind::Full => assert_eq!(
+                p.focus,
+                ExaminationFocus::FullExamination,
+                "{}: a Full profile must have FullExamination focus",
+                p.id
+            ),
+            ProfileKind::Focused => assert_ne!(
+                p.focus,
+                ExaminationFocus::FullExamination,
+                "{}: a Focused profile must not have FullExamination focus",
+                p.id
+            ),
+        }
+
+        let mut seen = std::collections::HashSet::new();
+        for m in p.members {
+            assert!(
+                !m.rationale.is_empty(),
+                "{}: member {} has no rationale",
+                p.id,
+                m.artifact_id
+            );
+            assert!(
+                seen.insert(m.artifact_id),
+                "{}: member artifact id listed twice: {}",
+                p.id,
+                m.artifact_id
+            );
+        }
+    }
+}
+
+/// A `Full` profile is comprehensive by construction: it must span several
+/// investigative categories and carry more members than any focused profile
+/// for the same platform, or "full" is a label with nothing behind it.
+#[test]
+fn full_profile_is_broader_than_focused_profiles() {
+    let full = EXAMINATION_PROFILES
+        .iter()
+        .find(|p| p.id == "macos_full")
+        .expect("macos_full missing");
+
+    let distinct_categories: std::collections::HashSet<_> =
+        full.members.iter().map(|m| m.category).collect();
+    assert!(
+        distinct_categories.len() >= 6,
+        "a full examination profile must span many investigative categories, found {}",
+        distinct_categories.len()
+    );
+
+    for focused in EXAMINATION_PROFILES
+        .iter()
+        .filter(|p| p.kind == ProfileKind::Focused && p.platform == full.platform)
+    {
+        assert!(
+            full.members.len() > focused.members.len(),
+            "full profile ({} members) must be broader than focused {} ({} members)",
+            full.members.len(),
+            focused.id,
+            focused.members.len()
+        );
+    }
+}
+
+/// The curated macOS gap-fill artifacts must now be wired into the full
+/// profile: the OpenBSM audit trail and dslocal account store (account use),
+/// USB mass-storage and AirDrop history (removable/peer transfer), and the
+/// correctly-scoped Safari cookie jar. Before the descriptors existed these
+/// areas were excluded from the profile; now that they resolve, the profile
+/// must reference them.
+#[test]
+fn macos_full_references_curated_gap_fill_artifacts() {
+    let full = EXAMINATION_PROFILES
+        .iter()
+        .find(|p| p.id == "macos_full")
+        .expect("macos_full missing");
+    let has = |id: &str| full.members.iter().any(|m| m.artifact_id == id);
+    for id in [
+        "macos_openbsm_audit",
+        "macos_dslocal_users",
+        "macos_usb_mass_storage_log",
+        "macos_airdrop_sharingd",
+        "macos_safari_cookies",
+    ] {
+        assert!(
+            has(id),
+            "macos_full must reference curated descriptor: {id}"
+        );
+    }
+}
+
+/// The data-leakage profile is where removable media, peer transfer and
+/// browser state matter most: it must reference USB mass-storage history,
+/// AirDrop/sharingd activity, and the Safari cookie jar.
+#[test]
+fn macos_data_leakage_references_removable_airdrop_and_cookies() {
+    let leakage = EXAMINATION_PROFILES
+        .iter()
+        .find(|p| p.id == "macos_data_leakage")
+        .expect("macos_data_leakage missing");
+    let has = |id: &str| leakage.members.iter().any(|m| m.artifact_id == id);
+    for id in [
+        "macos_usb_mass_storage_log",
+        "macos_airdrop_sharingd",
+        "macos_safari_cookies",
+    ] {
+        assert!(
+            has(id),
+            "macos_data_leakage must reference curated descriptor: {id}"
+        );
+    }
+}
+
+/// The full macOS profile must carry the complete network-configuration layer
+/// under Connections: the interface hardware map, the service configuration,
+/// the DHCP lease, and the remembered Wi-Fi networks. The lease was already a
+/// member; the interface map, service configuration and known-networks store
+/// are the network descriptors this batch added.
+#[test]
+fn macos_full_references_network_configuration_layer() {
+    let full = EXAMINATION_PROFILES
+        .iter()
+        .find(|p| p.id == "macos_full")
+        .expect("macos_full missing");
+    let member = |id: &str| full.members.iter().find(|m| m.artifact_id == id);
+    for id in [
+        "macos_network_interfaces",
+        "macos_network_preferences",
+        "macos_dhcp_leases",
+        "macos_wifi_known_networks",
+    ] {
+        let m = member(id)
+            .unwrap_or_else(|| panic!("macos_full must reference network descriptor: {id}"));
+        assert_eq!(
+            m.category,
+            InvestigativeCategory::Connections,
+            "network descriptor {id} belongs under Connections"
+        );
+    }
+}
+
+/// After the Big Sur migration the legacy known-network records survive only
+/// in the airport preferences `.backup`; the full profile must collect it.
+#[test]
+fn macos_full_references_legacy_wifi_backup() {
+    let full = EXAMINATION_PROFILES
+        .iter()
+        .find(|p| p.id == "macos_full")
+        .expect("macos_full missing");
+    let m = full
+        .members
+        .iter()
+        .find(|m| m.artifact_id == "macos_wifi_plist_backup")
+        .expect("macos_full must reference macos_wifi_plist_backup");
+    assert_eq!(m.category, InvestigativeCategory::Connections);
+}
+
+/// The remembered-network BSSIDList carries no per-BSSID timestamp, so an
+/// access point cannot be dated from it, nor attributed to one SSID when the
+/// same BSSID sits under two networks. Both techniques that read BSSIDs from
+/// that store must say so.
+#[test]
+fn bssid_techniques_record_that_bssid_list_is_undated() {
+    for id in ["wifi_bssid_geolocation", "network_neighbour_enumeration"] {
+        let t = INVESTIGATIVE_TECHNIQUES
+            .iter()
+            .find(|t| t.id == id)
+            .unwrap_or_else(|| panic!("{id} missing"));
+        let body = t.failure_modes.join(" ");
+        assert!(
+            body.contains("BSSIDList") && body.to_lowercase().contains("no per-bssid timestamp"),
+            "{id}: must record that BSSIDList entries are undated"
+        );
+    }
+}
+
+/// Step 3 of the geolocation technique corroborates against join/added
+/// timestamps; on a migrated network AddedAt is the legacy last-join time,
+/// not a first-join date.
+#[test]
+fn wifi_bssid_geolocation_warns_added_at_is_migrated() {
+    let t = INVESTIGATIVE_TECHNIQUES
+        .iter()
+        .find(|t| t.id == "wifi_bssid_geolocation")
+        .expect("wifi_bssid_geolocation missing");
+    assert!(t
+        .failure_modes
+        .iter()
+        .any(|f| f.contains("AddedAt") && f.to_lowercase().contains("migrat")));
+}
+
+/// A WPS position carries no date: the service does not say when the access
+/// point was observed at that position, so a router that has since moved
+/// geolocates to its new home.
+#[test]
+fn wifi_bssid_geolocation_warns_position_date_is_undisclosed() {
+    let t = INVESTIGATIVE_TECHNIQUES
+        .iter()
+        .find(|t| t.id == "wifi_bssid_geolocation")
+        .expect("wifi_bssid_geolocation missing");
+    assert!(t
+        .failure_modes
+        .iter()
+        .any(|f| f.to_lowercase().contains("undisclosed")));
+}
+
+/// The Wi-Fi presence timeline technique dates when the Mac was on a network:
+/// it must consume the driver entries, wifi.log, the remembered-network store
+/// and the CUPS printer/spool evidence that bridges networks.
+#[test]
+fn wifi_presence_timeline_is_present_and_wired_to_artifacts() {
+    let t = INVESTIGATIVE_TECHNIQUES
+        .iter()
+        .find(|t| t.id == "wifi_presence_timeline")
+        .expect("wifi_presence_timeline technique must be registered");
+    for id in [
+        "macos_wifi_driver_log",
+        "macos_wifi_log",
+        "macos_unified_log",
+        "macos_wifi_known_networks",
+        "macos_cups_printers_conf",
+        "macos_cups_spool_jobs",
+    ] {
+        assert!(t.artifacts_used.contains(&id), "must consume {id}");
+    }
+    assert!(
+        t.steps.iter().any(|s| s.action.contains("log-archive")),
+        "must name the unifiedlog_iterator export mode"
+    );
+}
+
+/// Each way the timeline yields a confident wrong answer must be recorded.
+#[test]
+fn wifi_presence_timeline_records_its_failure_modes() {
+    let t = INVESTIGATIVE_TECHNIQUES
+        .iter()
+        .find(|t| t.id == "wifi_presence_timeline")
+        .expect("wifi_presence_timeline missing");
+    let body = t.failure_modes.join(" ").to_lowercase();
+    for (needle, why) in [
+        ("weeks", "unified log and wifi.log keep only weeks"),
+        ("removed", "known-networks keeps only networks not removed"),
+        ("addedat", "migrated AddedAt is the legacy last-join time"),
+        ("undisclosed", "the WPS position date is undisclosed"),
+        ("move together", "router and device may move together"),
+        ("printer", "a .local. printer can be moved"),
+        (
+            "control",
+            "the plain-text driver entries need a per-image control",
+        ),
+    ] {
+        assert!(body.contains(needle), "failure modes must record: {why}");
+    }
+}
+
+/// The full profile must collect the Wi-Fi presence evidence, and the
+/// unified log's uuidtext store without which its entries cannot be decoded.
+#[test]
+fn macos_full_references_wifi_presence_evidence() {
+    let full = EXAMINATION_PROFILES
+        .iter()
+        .find(|p| p.id == "macos_full")
+        .expect("macos_full missing");
+    for (id, cat) in [
+        ("macos_wifi_driver_log", InvestigativeCategory::Connections),
+        ("macos_wifi_log", InvestigativeCategory::Connections),
+        ("fa_file__7", InvestigativeCategory::ApplicationUse),
+    ] {
+        let m = full
+            .members
+            .iter()
+            .find(|m| m.artifact_id == id)
+            .unwrap_or_else(|| panic!("macos_full must reference {id}"));
+        assert_eq!(m.category, cat, "{id}");
+    }
+}
+
+/// The data-leakage profile places the machine on a named network at a time
+/// for egress correlation; the driver entries and wifi.log do that per day.
+#[test]
+fn macos_data_leakage_references_wifi_presence_evidence() {
+    let p = EXAMINATION_PROFILES
+        .iter()
+        .find(|p| p.id == "macos_data_leakage")
+        .expect("macos_data_leakage missing");
+    for id in ["macos_wifi_driver_log", "macos_wifi_log"] {
+        let m = p
+            .members
+            .iter()
+            .find(|m| m.artifact_id == id)
+            .unwrap_or_else(|| panic!("macos_data_leakage must reference {id}"));
+        assert_eq!(m.category, InvestigativeCategory::Connections);
+    }
+}
+
+/// The data-leakage profile is where location exposure and network egress
+/// matter: it must reference the DHCP lease (internal IP / gateway / joined
+/// Wi-Fi and when) and the remembered Wi-Fi networks (the BSSID location
+/// handle), both under Connections.
+#[test]
+fn macos_data_leakage_references_dhcp_and_known_networks() {
+    let leakage = EXAMINATION_PROFILES
+        .iter()
+        .find(|p| p.id == "macos_data_leakage")
+        .expect("macos_data_leakage missing");
+    let has = |id: &str| leakage.members.iter().any(|m| m.artifact_id == id);
+    for id in ["macos_dhcp_leases", "macos_wifi_known_networks"] {
+        assert!(
+            has(id),
+            "macos_data_leakage must reference network descriptor: {id}"
+        );
+    }
+}
+
+/// The full macOS profile must carry the peer-device / network-neighbour layer
+/// under Connections: the Bluetooth device store, the advertised SMB identity,
+/// and the connect-to-server host history. These are the persisted traces of
+/// the Mac's immediate peer neighbourhood.
+#[test]
+fn macos_full_references_peer_discovery_layer() {
+    let full = EXAMINATION_PROFILES
+        .iter()
+        .find(|p| p.id == "macos_full")
+        .expect("macos_full missing");
+    let member = |id: &str| full.members.iter().find(|m| m.artifact_id == id);
+    for id in [
+        "macos_bluetooth_devices",
+        "macos_smb_server_identity",
+        "macos_connect_to_server_history",
+    ] {
+        let m = member(id)
+            .unwrap_or_else(|| panic!("macos_full must reference peer-discovery descriptor: {id}"));
+        assert_eq!(
+            m.category,
+            InvestigativeCategory::Connections,
+            "peer-discovery descriptor {id} belongs under Connections"
+        );
+    }
+}
+
+/// The data-leakage profile is where remote-share egress matters: it must
+/// reference the connect-to-server host history (a common exfiltration
+/// destination whose sibling mounted-server list is already carried).
+#[test]
+fn macos_data_leakage_references_connect_to_server_history() {
+    let leakage = EXAMINATION_PROFILES
+        .iter()
+        .find(|p| p.id == "macos_data_leakage")
+        .expect("macos_data_leakage missing");
+    assert!(
+        leakage
+            .members
+            .iter()
+            .any(|m| m.artifact_id == "macos_connect_to_server_history"),
+        "macos_data_leakage must reference macos_connect_to_server_history"
+    );
+}
+
+/// No profile may reference the mis-scoped generated `browsers_safari_cookies`
+/// (OsScope::Win7Plus) now that the correctly macOS-scoped `macos_safari_cookies`
+/// exists — the curated descriptor must be used in its place.
+#[test]
+fn profiles_use_curated_not_mis_scoped_safari_cookies() {
+    for p in EXAMINATION_PROFILES {
+        assert!(
+            p.members
+                .iter()
+                .all(|m| m.artifact_id != "browsers_safari_cookies"),
+            "{}: must reference the curated macos_safari_cookies, not the \
+             mis-scoped generated browsers_safari_cookies",
+            p.id
+        );
+    }
+    let cookies = crate::catalog::CATALOG
+        .by_id("macos_safari_cookies")
+        .expect("macos_safari_cookies must exist");
+    assert_eq!(
+        cookies.os_scope,
+        crate::catalog::OsScope::MacOS,
+        "the curated Safari cookie descriptor must be macOS-scoped"
+    );
+}
+
+// ── Examination-method techniques ────────────────────────────────────────────
+
+fn technique(id: &str) -> &'static InvestigativeTechnique {
+    INVESTIGATIVE_TECHNIQUES
+        .iter()
+        .find(|t| t.id == id)
+        .unwrap_or_else(|| panic!("missing investigative technique: {id}"))
+}
+
+/// Everything a technique says, in one string, for content assertions.
+fn technique_text(t: &InvestigativeTechnique) -> String {
+    let mut s = format!("{} {}", t.name, t.question);
+    for step in t.steps {
+        s.push(' ');
+        s.push_str(step.action);
+        s.push(' ');
+        s.push_str(step.yields);
+    }
+    for p in t.preconditions.iter().chain(t.failure_modes) {
+        s.push(' ');
+        s.push_str(p);
+    }
+    s
+}
+
+/// The examination-method batch: disk-image handling, validation controls,
+/// network/IP attribution and multi-user attribution - the technique classes
+/// the catalog had no entries for.
+#[test]
+fn examination_method_batch_is_present() {
+    for id in [
+        "whole_volume_signature_sweep",
+        "controlled_negative_search",
+        "acquisition_scope_verification",
+        "logical_export_selection_rule_inference",
+        "ip_address_subscriber_attribution",
+        "mobile_roaming_ip_interpretation",
+        "vpn_and_residential_proxy_egress_classification",
+        "shared_account_hypothesis_testing",
+    ] {
+        technique(id);
+    }
+}
+
+/// A sweep that stops at record-level labels ("attachment only",
+/// "encrypted") reports leads as findings; and a naive walk hangs on a FIFO.
+#[test]
+fn signature_sweep_treats_labels_as_leads_and_guards_special_files() {
+    let text = technique_text(technique("whole_volume_signature_sweep"));
+    for needle in ["attachment only", "FIFO", "magic"] {
+        assert!(text.contains(needle), "sweep must mention {needle}");
+    }
+}
+
+/// A negative search is only as good as the positive control run beside it.
+#[test]
+fn controlled_negative_search_requires_a_positive_control() {
+    let t = technique("controlled_negative_search");
+    let text = technique_text(t);
+    assert!(text.contains("positive control"));
+    assert!(text.contains("substring"));
+    assert!(
+        t.failure_modes.iter().any(|f| f.contains("separator")),
+        "the wrong-path-separator zero must be a recorded failure mode"
+    );
+}
+
+/// Container format and acquisition scope are two different questions.
+#[test]
+fn acquisition_scope_separates_format_from_scope() {
+    let text = technique_text(technique("acquisition_scope_verification"));
+    for needle in ["sector count", "HPA", "logical"] {
+        assert!(text.contains(needle), "scope check must mention {needle}");
+    }
+}
+
+/// Under CGN an IP and a time do not identify a subscriber; the port does.
+#[test]
+fn ip_attribution_requires_source_port_under_cgn() {
+    let t = technique("ip_address_subscriber_attribution");
+    let text = technique_text(t);
+    assert!(text.contains("source port"));
+    assert!(text.contains("CGN"));
+    assert!(t.sources.iter().any(|s| s.contains("rfc6269")));
+    assert!(
+        t.failure_modes
+            .iter()
+            .any(|f| f.contains("subscriber") && f.contains("person")),
+        "must record that the chain ends at a subscriber, not a person"
+    );
+}
+
+/// Roaming has three modes, not two.
+#[test]
+fn roaming_interpretation_names_all_three_modes() {
+    let text = technique_text(technique("mobile_roaming_ip_interpretation"));
+    for needle in ["home-routed", "local breakout", "IPX hub breakout"] {
+        assert!(text.contains(needle), "roaming must name {needle}");
+    }
+}
+
+/// A mobile-operator IP argues against a mainstream VPN; it does not
+/// exclude a residential or mobile proxy.
+#[test]
+fn vpn_classification_does_not_exclude_residential_proxies() {
+    let t = technique("vpn_and_residential_proxy_egress_classification");
+    assert!(
+        t.failure_modes.iter().any(|f| f.contains("residential")),
+        "the residential/mobile proxy exception must be a failure mode"
+    );
+}
+
+/// One account is not one person: at least three hypotheses, and absence of
+/// multi-use evidence never proves exclusive use.
+#[test]
+fn shared_account_testing_frames_three_hypotheses() {
+    let t = technique("shared_account_hypothesis_testing");
+    let text = technique_text(t);
+    for needle in ["H1", "H2", "H3", "excluded by acquisition scope"] {
+        assert!(
+            text.contains(needle),
+            "hypothesis frame must mention {needle}"
+        );
+    }
+    assert!(
+        t.failure_modes.iter().any(|f| f.contains("exclusive use")),
+        "absence of multi-use evidence must be recorded as not proving exclusive use"
+    );
+}
+
+/// The Windows user-attribution profile: shared versus exclusive use of a
+/// Windows computer. Every member must say, in its own rationale, that the
+/// artefact attributes to an account, SID, device or system and not to a
+/// person, because that is the error this examination most often makes.
+#[test]
+fn windows_user_attribution_profile_is_present_and_caveated() {
+    let p = EXAMINATION_PROFILES
+        .iter()
+        .find(|p| p.id == "windows_user_attribution")
+        .expect("windows_user_attribution profile missing");
+    assert_eq!(p.platform, Platform::Windows);
+    assert_eq!(p.kind, ProfileKind::Focused);
+    assert_eq!(p.focus, ExaminationFocus::UserAttribution);
+    assert!(p.description.contains("one SID"));
+
+    for m in p.members {
+        assert!(
+            m.rationale.contains("not a person") || m.rationale.contains("not the person"),
+            "{}: rationale must state the artefact does not identify a person",
+            m.artifact_id
+        );
+    }
+
+    for (id, cat) in [
+        ("sam_user_f_record", InvestigativeCategory::AccountUse),
+        ("profile_list_users", InvestigativeCategory::AccountUse),
+        ("evtx_security", InvestigativeCategory::AccountUse),
+        ("bam_user", InvestigativeCategory::ApplicationUse),
+        ("amcache_app_file", InvestigativeCategory::ApplicationUse),
+        ("prefetch_file", InvestigativeCategory::ApplicationUse),
+        ("shellbags_user", InvestigativeCategory::FileActivity),
+        ("ntfs_secure_sds", InvestigativeCategory::FileActivity),
+        ("mountpoints2", InvestigativeCategory::Connections),
+        (
+            "evtx_partition_diagnostic_1006",
+            InvestigativeCategory::Connections,
+        ),
+        (
+            "wechat_windows_files",
+            InvestigativeCategory::Communications,
+        ),
+        (
+            "ooxml_core_properties",
+            InvestigativeCategory::DocumentAuthorship,
+        ),
+        ("chrome_login_data", InvestigativeCategory::WebActivity),
+        ("onedrive_metadata", InvestigativeCategory::CloudStorage),
+    ] {
+        let m = p
+            .members
+            .iter()
+            .find(|m| m.artifact_id == id)
+            .unwrap_or_else(|| panic!("windows_user_attribution must include {id}"));
+        assert_eq!(m.category, cat, "{id} is in the wrong category");
+    }
+}
+
+/// The macos_full loginwindow member's rationale (last logged-in user,
+/// auto-login) describes the SYSTEM file /Library/Preferences/
+/// com.apple.loginwindow.plist, so the member must point at that descriptor,
+/// not the per-user ~/Library/Preferences/loginwindow.plist.
+#[test]
+fn macos_full_loginwindow_member_points_at_the_system_plist() {
+    let full = EXAMINATION_PROFILES
+        .iter()
+        .find(|p| p.id == "macos_full")
+        .expect("macos_full missing");
+    assert!(
+        !full
+            .members
+            .iter()
+            .any(|m| m.artifact_id == "fa_file_preferences_loginwindow_plist"),
+        "the per-user loginwindow.plist does not hold lastUserName/autoLoginUser"
+    );
+    let m = full
+        .members
+        .iter()
+        .find(|m| m.artifact_id == "fa_file_preferences_com_apple_loginwindow_plist")
+        .expect("macos_full must reference the system loginwindow plist");
+    assert!(m.rationale.contains("lastUserName") && m.rationale.contains("autoLoginUser"));
+    let d = crate::catalog::CATALOG.by_id(m.artifact_id).unwrap();
+    assert_eq!(
+        d.file_path,
+        Some("/Library/Preferences/com.apple.loginwindow.plist")
+    );
+}
+
+/// SSIDs come from userland unified-log entries (configd IPConfiguration and
+/// others), not the ARPT: driver lines, which carry BSSIDs only.
+#[test]
+fn wifi_presence_timeline_takes_ssids_from_userland_entries() {
+    let t = INVESTIGATIVE_TECHNIQUES
+        .iter()
+        .find(|t| t.id == "wifi_presence_timeline")
+        .expect("wifi_presence_timeline missing");
+    assert!(t.artifacts_used.contains(&"macos_wifi_ssid_unified_log"));
+    assert!(
+        !t.steps
+            .iter()
+            .any(|s| s.action.contains("driver entries naming the SSID")),
+        "driver entries carry BSSIDs only"
+    );
+    assert!(t
+        .steps
+        .iter()
+        .any(|s| s.artifact_id == Some("macos_wifi_ssid_unified_log")
+            && s.action.contains("com.apple.IPConfiguration")));
+    let full = EXAMINATION_PROFILES
+        .iter()
+        .find(|p| p.id == "macos_full")
+        .expect("macos_full missing");
+    assert!(full
+        .members
+        .iter()
+        .any(|m| m.artifact_id == "macos_wifi_ssid_unified_log"));
+}
+
+/// macOS image-handling and log/Spotlight tool behaviours: each one where a
+/// wrong conclusion (no APFS container, no log events, a spurious hit, a
+/// missing Spotlight record, an unreadable volume) follows from the tool's
+/// default behaviour.
+#[test]
+fn macos_tool_behaviour_batch_is_present_and_shaped() {
+    let by_id = |id: &str| {
+        TOOL_BEHAVIOURS
+            .iter()
+            .find(|b| b.id == id)
+            .unwrap_or_else(|| panic!("missing tool behaviour: {id}"))
+    };
+    for (id, kind, artifact) in [
+        (
+            "hdiutil_headerless_raw_requires_craw_image_class",
+            ToolBehaviourKind::RequiresFlag,
+            "apfs_container",
+        ),
+        (
+            "hdiutil_truncated_raw_hides_apfs_container",
+            ToolBehaviourKind::SilentlyIncomplete,
+            "apfs_container",
+        ),
+        (
+            "log_show_zero_events_on_copied_archive",
+            ToolBehaviourKind::SilentlyIncomplete,
+            "macos_unified_log",
+        ),
+        (
+            "unifiedlog_iterator_evidence_field_false_hits",
+            ToolBehaviourKind::FalsePositiveProne,
+            "macos_unified_log",
+        ),
+        (
+            "spotlight_parser_one_store_per_run",
+            ToolBehaviourKind::SilentlyIncomplete,
+            "macos_spotlight_store",
+        ),
+        (
+            "tsk_apfs_plain_offset_without_pool_options",
+            ToolBehaviourKind::RequiresFlag,
+            "apfs_container",
+        ),
+    ] {
+        let b = by_id(id);
+        assert_eq!(b.kind, kind, "{id}");
+        assert_eq!(b.artifact_id, Some(artifact), "{id}");
+    }
+    assert!(by_id("hdiutil_headerless_raw_requires_craw_image_class")
+        .mitigation
+        .contains("diskimage-class=CRawDiskImage"));
+    assert!(by_id("unifiedlog_iterator_evidence_field_false_hits")
+        .detail
+        .contains("evidence"));
+    assert!(by_id("spotlight_parser_one_store_per_run")
+        .detail
+        .contains(".store.db"));
+    let tsk = by_id("tsk_apfs_plain_offset_without_pool_options");
+    assert!(tsk.mitigation.contains("-B"));
+    assert!(
+        tsk.detail.contains("not tried") || tsk.consequence.contains("not tried"),
+        "the pool options were never tried on the observed image: hedge"
+    );
+    let trunc = by_id("hdiutil_truncated_raw_hides_apfs_container");
+    assert_eq!(trunc.evidence_tier, EvidenceTier::SearchedNotFound);
+    assert!(trunc.detail.contains("Searched"), "name where searched");
+    let log = by_id("log_show_zero_events_on_copied_archive");
+    assert!(
+        log.detail.contains("Info.plist") && log.detail.contains("OSArchiveVersion"),
+        "a copied archive lacks the Info.plist that log collect writes (mac4n6, padawan-4n6)"
+    );
+}
+
+/// The macOS user-attribution profile: the macOS counterpart of
+/// windows_user_attribution. One account is not one person, so every member
+/// must say in its own rationale that the artefact attributes to an account,
+/// device or the machine, not a person.
+#[test]
+fn macos_user_attribution_profile_is_present_and_caveated() {
+    let p = EXAMINATION_PROFILES
+        .iter()
+        .find(|p| p.id == "macos_user_attribution")
+        .expect("macos_user_attribution profile missing");
+    assert_eq!(p.platform, Platform::MacOS);
+    assert_eq!(p.kind, ProfileKind::Focused);
+    assert_eq!(p.focus, ExaminationFocus::UserAttribution);
+    assert!(p.description.contains("One account is not one person"));
+    for m in p.members {
+        assert!(
+            m.rationale.contains("not a person") || m.rationale.contains("not the person"),
+            "{}: rationale must state the artefact does not identify a person",
+            m.artifact_id
+        );
+    }
+    for (id, cat) in [
+        ("macos_dslocal_users", InvestigativeCategory::AccountUse),
+        ("macos_openbsm_audit", InvestigativeCategory::AccountUse),
+        (
+            "fa_file_preferences_com_apple_loginwindow_plist",
+            InvestigativeCategory::AccountUse,
+        ),
+        ("macos_knowledgec", InvestigativeCategory::ApplicationUse),
+        (
+            "macos_install_history",
+            InvestigativeCategory::ApplicationUse,
+        ),
+        (
+            "macos_sfl2_recent_items",
+            InvestigativeCategory::FileActivity,
+        ),
+        (
+            "macos_wifi_known_networks",
+            InvestigativeCategory::Connections,
+        ),
+        ("macos_sms_db", InvestigativeCategory::Communications),
+        ("macos_safari_history", InvestigativeCategory::WebActivity),
+        (
+            "ooxml_core_properties",
+            InvestigativeCategory::DocumentAuthorship,
+        ),
+    ] {
+        let m = p
+            .members
+            .iter()
+            .find(|m| m.artifact_id == id)
+            .unwrap_or_else(|| panic!("macos_user_attribution must include {id}"));
+        assert_eq!(m.category, cat, "{id} is in the wrong category");
+    }
+}
+
+/// An InstallHistory.plist entry can record an installer being DOWNLOADED,
+/// not an OS being installed; the installed version is SystemVersion.plist's.
+#[test]
+fn install_history_warns_that_an_entry_can_be_a_download() {
+    let d = crate::catalog::CATALOG
+        .by_id("macos_install_history")
+        .expect("macos_install_history missing");
+    let body = d.evidence_caveats.join(" ");
+    assert!(body.contains("download"), "an entry can record a download");
+    assert!(body.contains("SystemVersion.plist"));
+    assert!(d
+        .related_artifacts
+        .contains(&"fa_file_coreservices_systemversion_plist"));
+    assert!(
+        !d.sources.iter().any(|s| s.contains("forensicmike1.com")),
+        "the forensicmike1 URL returns 404"
+    );
+    assert!(d
+        .sources
+        .iter()
+        .any(|s| s.contains("mac_apt") && s.contains("installhistory.py")));
 }

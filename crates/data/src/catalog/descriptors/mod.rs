@@ -14,6 +14,7 @@ mod linux_ext;
 mod macos_ext;
 mod vehicle_ext;
 mod windows_ad_ext;
+mod windows_attribution_ext;
 mod windows_evtx_ext;
 mod windows_evtx_format;
 mod windows_files_ext;
@@ -1046,7 +1047,14 @@ pub(crate) static AMCACHE_FIELDS: &[FieldSchema] = &[
     },
 ];
 
-/// Amcache InventoryApplicationFile — program execution evidence with hashes.
+/// Amcache InventoryApplicationFile — inventory of executables present on or
+/// registered with the system, with hashes. Presence, not by itself execution.
+///
+/// Per ANSSI (Blanche Lagny, "Analysis of the AmCache v2", 2019, §8) the key
+/// lists three categories of PE: executed shimmed EXEs with a GUI, EXE/SYS
+/// files installed with a program, and EXEs found in the folders the
+/// Compatibility Appraiser scans (Program Files, Program Files (x86),
+/// Desktop). Only the first category proves execution.
 pub static AMCACHE_APP_FILE: ArtifactDescriptor = ArtifactDescriptor {
     id: "amcache_app_file",
     name: "Amcache InventoryApplicationFile",
@@ -1058,7 +1066,7 @@ pub static AMCACHE_APP_FILE: ArtifactDescriptor = ArtifactDescriptor {
     scope: DataScope::System,
     os_scope: OsScope::Win8Plus,
     decoder: Decoder::Identity,
-    meaning: "Program execution evidence with file hash; persists after binary deletion",
+    meaning: "Inventory of executable files present on or registered with the system (SHA-1, PE metadata, path); presence and inventory, not by itself execution. Persists after binary deletion",
     mitre_techniques: &["T1218", "T1204.002"],
     fields: AMCACHE_FIELDS,
     retention: None,
@@ -1079,11 +1087,17 @@ pub static AMCACHE_APP_FILE: ArtifactDescriptor = ArtifactDescriptor {
         // established the 31,457,280-byte (30 MiB) input threshold and the
         // truncated-input behaviour above it
         "https://blog.nviso.eu/2022/03/07/amcache-contains-sha-1-hash-it-depends/",
+        // Source: ANSSI (Blanche Lagny), "Analysis of the AmCache v2", 2019 —
+        // §8: InventoryApplicationFile lists three PE categories; execution is
+        // ascertainable only for executed shimmed GUI EXEs
+        "https://cyber.gouv.fr/documents/634/anssi-coriin_2019-analysis_amcache.pdf",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
     evidence_tier: None,
     evidence_caveats: &[
         "Presence proves file was on disk and touched by Windows; not always execution",
+        "ANSSI finds the key lists three categories: executed shimmed EXEs with a GUI, EXE/SYS files installed with a program, and EXEs present in folders the Compatibility Appraiser scans (Program Files, Program Files (x86), Desktop). Only the first proves execution; the others are inventory of files that may never have run",
+        "Amcache.hve is a system-wide hive: an entry carries no user SID, so it gives no per-user attribution of presence or execution",
         "Can be populated by antivirus scans",
         "The FileId SHA-1 covers only the first 31,457,280 bytes (30 MiB). Above that size the value is a prefix hash, not a file hash — it is present and well-formed and will never match a full-file SHA-1, so a hash-set miss on a large binary is an artefact of the threshold and not evidence the file differs. Read the stored Size before comparing",
         "AmCache last write time is NOT a reliable first-execution indicator on modern systems — the hive is updated by multiple mechanisms beyond the Compatibility Appraiser scheduled task (which is often disabled), including normal app launches and PCA activity",
@@ -1396,7 +1410,7 @@ pub(crate) static BAM_FIELDS: &[FieldSchema] = &[FieldSchema {
     is_uid_component: false,
 }];
 
-/// Background Activity Moderator — per-user background process execution times.
+/// Background Activity Moderator — per-SID last-execution times of locally run executables.
 ///
 /// Each value under a SID sub-key is the executable path; value data is an
 /// 8-byte FILETIME of the last execution. Win10 1709+.
@@ -1411,7 +1425,7 @@ pub static BAM_USER: ArtifactDescriptor = ArtifactDescriptor {
     scope: DataScope::Mixed,
     os_scope: OsScope::Win10Plus,
     decoder: Decoder::FiletimeAt { offset: 0 },
-    meaning: "Last execution time of background/UWP processes per-user SID",
+    meaning: "Last execution time (FILETIME) of locally run executables, one value per executable path under each user SID sub-key",
     mitre_techniques: &["T1059", "T1204"],
     fields: BAM_FIELDS,
     retention: Some("~7 days rolling window"),
@@ -1426,7 +1440,12 @@ pub static BAM_USER: ArtifactDescriptor = ArtifactDescriptor {
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
     evidence_tier: None,
-    evidence_caveats: &["Granularity is per-day; precise execution time not available"],
+    evidence_caveats: &[
+        "Each value's data begins with an 8-byte FILETIME of the executable's last run under that SID (100 ns resolution, UTC), so the last-run time is precise to the event, not rounded to a day",
+        "Entries older than about 7 days are removed when Windows boots, and an entry is removed when its executable is removed from its original location, so absence is weak evidence of non-execution",
+        "Only locally run executables are recorded: programs launched from network shares or removable media, and console applications, do not generate entries (forensafe)",
+        "The SID sub-key names an account context, not a person: several people sharing one account produce one SID",
+    ],
     volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
     volatility_rationale: "Rotated by OS on background activity manager flush",
 };
@@ -1497,7 +1516,7 @@ pub static SAM_USERS: ArtifactDescriptor = ArtifactDescriptor {
     fields: SAM_FIELDS,
     retention: None,
     triage_priority: TriagePriority::Critical,
-    related_artifacts: &["lsa_secrets", "dcc2_cache"],
+    related_artifacts: &["lsa_secrets", "dcc2_cache", "sam_user_f_record", "profile_list_users"],
     sources: &[
         "https://www.sans.org/blog/windows-credential-storage-for-penetration-testers/",
         "https://windowsir.blogspot.com/2010/11/recovering-passwords.html",
@@ -1506,8 +1525,9 @@ pub static SAM_USERS: ArtifactDescriptor = ArtifactDescriptor {
     evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
     evidence_tier: None,
     evidence_caveats: &[
-        "Contains local account NTLM hashes; requires SYSTEM privilege to read",
+        "Contains local account NTLM hashes; on a live system reading it requires SYSTEM privilege, while an offline hive from an image needs none",
         "Must be used with SYSTEM hive to decrypt",
+        "Lists accounts, not people: several people sharing one account appear as one entry; for last logon, logon count, flags and RID semantics (including why a first owner at RID 1002 is ordinary on OEM installs) see sam_user_f_record",
     ],
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "SAM registry hive; persists until account deleted",
@@ -3251,6 +3271,7 @@ pub static USNJRNL: ArtifactDescriptor = ArtifactDescriptor {
         "Journal is a rolling window (~32 MB default); older entries are overwritten",
         "Journal can be cleared by an attacker with sufficient privileges",
         "$J alternate data stream requires raw NTFS access — not visible via Win32 APIs",
+        "A record carries the change Reason and the file's SecurityId (its security descriptor), not the user or process that made the change; attribute the change from other sources",
     ],
     volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
     volatility_rationale: "$UsnJrnl:$J is a rolling window (~32 MB); oldest records are overwritten as the journal grows",
@@ -3787,7 +3808,7 @@ pub static RECYCLE_BIN: ArtifactDescriptor = ArtifactDescriptor {
     fields: RECYCLE_BIN_FIELDS,
     retention: None,
     triage_priority: TriagePriority::High,
-    related_artifacts: &["sam_users", "mft_file", "usnjrnl", "lnk_files"],
+    related_artifacts: &["sam_users", "mft_file", "usnjrnl", "lnk_files", "zone_identifier"],
     sources: &[
         "https://www.sans.org/blog/digital-forensics-recycle-bin-forensics/",
         "https://windowsir.blogspot.com/2010/02/more-on-recycle-bin.html",
@@ -3796,10 +3817,23 @@ pub static RECYCLE_BIN: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/EricZimmerman/RBCmd",
         "https://github.com/akhil-dara/RecycleBin-Forensic-Explorer",
         "https://raw.githubusercontent.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/main/01_Hunting_Cheatsheets/1.5_Forensics_Artifacts_Map.csv",
+        // Source: $I/$R names share a random token and keep the original extension
+        // ($R5ZF742.old / $I5ZF742.old); deletion paths that bypass the bin
+        "https://sethenoka.com/windows-recycle-bin-forensics-on-windows-10-and-11/",
+        // Source: $I header of 01 followed by seven 00 bytes (Vista format)
+        "https://www.forensicfocus.com/articles/forensic-analysis-of-the-microsoft-windows-vista-recycle-bin/",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
     evidence_tier: None,
-    evidence_caveats: &["File name and deletion time available; original content may be overwritten"],
+    evidence_caveats: &[
+        "File name and deletion time available; original content may be overwritten",
+        "Map the SID folder's RID to an account on this machine's own SAM before treating it as a separate user; a SID that looks foreign is often the sole user's own",
+        "A $I/$R pair shows what was deleted under that profile, not which person deleted it: several people sharing one account produce one SID folder",
+        "Sending a file to the Recycle Bin renames it on the same NTFS volume, so a recovered $R file can keep its alternate data streams, including Zone.Identifier with the download URL",
+        "$I and $R names keep the deleted file's original extension ($I5ZF742.old pairs with $R5ZF742.old), so a $I record named *.pdf is a small metadata record, not a PDF: check for the 8-byte version header (01 or 02 followed by zero bytes) before treating a bin file by its extension. On one Windows 11 logical export examined in 2026 an extension-driven text pipeline reported over a thousand unreadable PDFs that were all $I records",
+        "Absence of a $I is weak evidence: Shift+Delete, command-line and programmatic deletion, network shares, some removable media and files larger than the bin quota bypass the Recycle Bin, and emptying it removes both files",
+        "Many $I records stamped within the same few seconds are consistent with one multi-item deletion (such as a select-all of a folder's contents) rather than many separate acts; one such burst was observed on one Windows 11 image examined in 2026",
+    ],
     volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
     volatility_rationale: "Deleted on permanent delete; survives recycle until purge",
 };
@@ -7365,6 +7399,7 @@ pub static PREFETCH_FILE: ArtifactDescriptor = ArtifactDescriptor {
         "Several .pf files for one executable NAME is expected for binaries launched with /prefetch:N — svchost.exe, dllhost.exe, rundll32.exe, backgroundtaskhost.exe — because the switch value is added into the path hash. Do not read the multiplicity as the same binary having run from several directories, and do not attempt to verify those hashes from the path alone",
         "The .pf file's own NTFS timestamps carry what the embedded array cannot: creation ~= first execution + ~10 s (the prefetcher writes the trace only after its ~10-second window) and last-modified ~= most recent execution + ~10 s. Past eight runs the array has wrapped and the creation time is the only remaining witness of the first execution. The ~10 s offset applies to the filesystem times only, never to the embedded FILETIMEs",
         "A .pf is produced for an execution ATTEMPT — the trace begins at process start — so its existence does not establish that the program initialised successfully or ran to completion",
+        "Prefetch is system-wide and does not identify the user or account that ran the program; pair it with per-SID sources (UserAssist, BAM, SRUM) for that",
     ],
     volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
     volatility_rationale: "Directory-level FIFO eviction: 128 .pf files on Windows 7 and earlier, 1024 from Windows 8 onward",
@@ -9225,6 +9260,7 @@ pub static MOUNTPOINTS2: ArtifactDescriptor = ArtifactDescriptor {
         "The per-SUBKEY LastWrite dates the mount, not the parent key's LastWrite; read each resource subkey's own time",
         "Entries are retained after a device is removed or a mapped drive is disconnected, so presence does not imply the resource is still mounted",
         "LastWrite-as-last-mount is the accepted convention but carries no explicit event record — corroborate with USBSTOR/MountedDevices/setupapi.dev.log for the connection timeline",
+        "Attributes to the Windows profile (SID) under whose NTUSER.DAT the subkey sits, not a person: several people sharing one account produce one SID",
     ],
     volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
     volatility_rationale: "Subkeys are written when the user mounts a resource; persist in NTUSER.DAT after disconnection",
@@ -9295,21 +9331,26 @@ pub static MACOS_UNIFIED_LOG: ArtifactDescriptor = ArtifactDescriptor {
     value_name: None,
     file_path: Some("/var/db/diagnostics/"),
     scope: DataScope::System,
-    os_scope: OsScope::MacOS12Plus,
+    // macOS 10.12 Sierra and later; `MacOS12Plus` would mean Monterey.
+    os_scope: OsScope::MacOS,
     decoder: Decoder::Identity,
-    meaning: "Apple Unified Logging system. Contains all system and application logs since macOS 10.12. Provides timestamped, structured log entries for process activity, crashes, and security events.",
+    meaning: "Apple Unified Logging system. Contains all system and application logs since macOS 10.12. Provides timestamped, structured log entries for process activity, crashes, and security events. The .tracev3 files here decode only with the format strings in /private/var/db/uuidtext/, so collect both directories together (as a logarchive) from a disk image.",
     mitre_techniques: &["T1685.006", "T1059"], // v19: T1685.006 (Mac system logs), not the Windows T1685.005
     fields: &[],
     retention: Some("Rotated by OS; typically weeks to months"),
     triage_priority: TriagePriority::High,
-    related_artifacts: &["macos_install_history"],
+    related_artifacts: &["macos_install_history", "fa_file__7", "macos_wifi_driver_log"],
     sources: &[
         "https://www.mandiant.com/resources/blog/reviewing-macos-unified-logs",
         "https://developer.apple.com/documentation/os/logging",
+        // Source: kernel `PMRD: System Wake` as the first entry of a wake from sleep
+        "https://eclecticlight.co/2017/02/27/waking-your-mac-from-sleep-log-highlights/",
     ],
     evidence_strength: None,
     evidence_tier: None,
-    evidence_caveats: &[],
+    evidence_caveats: &[
+        "A stretch with no entries is not by itself a gap in the record: the Mac writes nothing while asleep, and the kernel's `PMRD: System Wake` entry marks the first sign of the wake that ends it. On one macOS Big Sur 11 image examined in 2026 such silent stretches were also closed by a kernel line reporting the seconds slept (time_slept), which dates the sleep; check for the wake entries before reading a silent period as deletion or power-off",
+    ],
     volatility: None,
     volatility_rationale: "",
 };
@@ -9465,19 +9506,41 @@ pub static MACOS_QUARANTINE_EVENTS: ArtifactDescriptor = ArtifactDescriptor {
     scope: DataScope::User,
     os_scope: OsScope::MacOS,
     decoder: Decoder::Identity,
-    meaning: "SQLite database recording all files downloaded from the internet with their origin URL, download date, and quarantine agent. Proves a file was downloaded even after deletion.",
+    meaning: "SQLite database (table LSQuarantineEvent) recording files downloaded or received from \
+        external sources, with their origin URL (LSQuarantineDataURLString / \
+        LSQuarantineOriginURLString), download date, and quarantine agent (LSQuarantineAgentName). \
+        Proves a file arrived even after deletion. It is also an AirDrop-provenance store: for a \
+        file received over AirDrop the agent is `sharingd`, the origin/data URLs are empty, and \
+        LSQuarantineSenderName carries the sending device's name — which turns the \
+        database into an enumerator of nearby AirDrop peers, not only a download record. The Cocoa \
+        LSQuarantineTimeStamp is seconds since 2001-01-01 (add 978307200 for Unix epoch).",
     mitre_techniques: &["T1204.002"],
-    fields: &[],
-    retention: Some("Persistent; entries accumulate unless cleared"),
+    fields: &[
+        FieldSchema { name: "agent_name", value_type: ValueType::Text, description: "LSQuarantineAgentName — the app that introduced the file; `sharingd` marks an AirDrop transfer", is_uid_component: false },
+        // Source: https://github.com/seemoo-lab/opendrop/blob/master/opendrop/client.py (send_ask: SenderComputerName)
+        FieldSchema { name: "sender_name", value_type: ValueType::Text, description: "LSQuarantineSenderName — the sending device's name as announced in the AirDrop Ask request (SenderComputerName), or the receiver's own Contacts/Me-card name for a recognised sender; populated only for AirDrop (sharingd) transfers; never an Apple ID name", is_uid_component: false },
+        FieldSchema { name: "data_url", value_type: ValueType::Text, description: "LSQuarantineDataURLString — the download source URL (empty for AirDrop)", is_uid_component: false },
+    ],
+    retention: Some("Persistent; entries accumulate unless cleared (outlasts the unified-log AirDrop trail)"),
     triage_priority: TriagePriority::High,
-    related_artifacts: &["macos_safari_downloads"],
+    related_artifacts: &["macos_safari_downloads", "macos_airdrop_sharingd", "macos_quarantine_xattr"],
     sources: &[
         "https://www.jaiminton.com/cheatsheet/DFIR/#quarantine-events",
         "https://eclecticlight.co/2021/06/05/checking-quarantine-flags-in-big-sur/",
+        "https://kieczkowska.wordpress.com/2020/06/29/airdrop-forensics-2/",
+        // Source: AirDrop Ask request body (SenderComputerName, SenderModelName, SenderID,
+        // SenderRecordData) in an open-source AirDrop implementation; its README calls the
+        // record the Apple ID validation record
+        "https://github.com/seemoo-lab/opendrop/blob/master/opendrop/client.py",
+        "https://github.com/seemoo-lab/opendrop",
     ],
     evidence_strength: None,
     evidence_tier: None,
-    evidence_caveats: &[],
+    evidence_caveats: &[
+        "LSQuarantineSenderName is a device or contact label, never an Apple ID name: the sender announces its device name as SenderComputerName in the AirDrop Ask request, which carries no account display name (OpenDrop). When the receiver recognises the sender it can show a name from its own Contacts instead; on one macOS Big Sur 11 image examined in 2026, receipts from the Mac's own account read the Mac's Me-card name rather than the iCloud account's name. A factory-default 'iPhone' identifies nothing",
+        "Discrepancy (kept per the accuracy rules): this descriptor previously described the value as the sender's Apple ID name; the protocol (OpenDrop's Ask request) and one examined Mac's records contradict it. The cited kieczkowska 2020 post shows sender names in its sample output but does not establish their origin",
+        "The Ask request's SenderRecordData (the Apple ID validation record) is not kept here, so a single receipt cannot be tied to a specific Apple ID; LSQuarantineSenderAddress can be empty",
+    ],
     volatility: None,
     volatility_rationale: "",
 };
@@ -9557,7 +9620,7 @@ pub static MACOS_KNOWLEDGEC: ArtifactDescriptor = ArtifactDescriptor {
     value_name: None,
     file_path: Some("~/Library/Application Support/Knowledge/knowledgeC.db"),
     scope: DataScope::User,
-    os_scope: OsScope::MacOS12Plus,
+    os_scope: OsScope::MacOS,
     decoder: Decoder::Identity,
     meaning: "SQLite database maintained by the Duet Activity Scheduler. Records application usage, device lock/unlock events, browser activity, and screen time. Rich timeline source for user activity reconstruction.",
     mitre_techniques: &["T1083"],
@@ -9566,12 +9629,19 @@ pub static MACOS_KNOWLEDGEC: ArtifactDescriptor = ArtifactDescriptor {
     triage_priority: TriagePriority::High,
     related_artifacts: &["macos_unified_log"],
     sources: &[
-        "https://www.mac4n6.com/blog/2018/8/5/knowledge-is-power-using-the-knowledgecdb-database-on-macos-ios-to-determine-precise-user-and-application-usage",
+        "https://www.mac4n6.com/blog/2018/8/5/knowledge-is-power-using-the-knowledgecdb-database-on-macos-and-ios-to-determine-precise-user-and-application-usage",
         "https://github.com/mac4n6/APOLLO",
+        // Source: ZSYNCPEER and ZSOURCE on a Mac's knowledgeC.db holding data synced from an iPhone
+        "https://www.hecfblog.com/2020/05/daily-blog-698-solution-saturday-5920.html",
+        // Source: ZOBJECT.ZSOURCE -> ZSOURCE.ZDEVICEID -> ZSYNCPEER.ZDEVICEID join yielding ZMODEL per event
+        "https://felixkohlhas.com/projects/screentime/",
     ],
     evidence_strength: None,
     evidence_tier: None,
-    evidence_caveats: &[],
+    evidence_caveats: &[
+        "Documented at this per-user path (and a system-context copy in /private/var/db/CoreDuet/Knowledge/) on macOS 10.13 (mac4n6, 2018) and present on one macOS Big Sur 11.7 image; the schema differs between releases",
+        "Not every event happened on this Mac: the database can hold events synced in from the user's other devices (mac4n6; hecfblog; felixkohlhas). Join ZOBJECT.ZSOURCE to ZSOURCE and compare ZSOURCE.ZDEVICEID with ZSYNCPEER.ZDEVICEID (which carries the peer's ZMODEL); a match marks an event from another device. On one macOS Big Sur 11 image examined in 2026 a synced Notes intent was created locally two days after its event time, so compare ZCREATIONDATE with ZSTARTDATE before placing the event on the Mac",
+    ],
     volatility: None,
     volatility_rationale: "",
 };
@@ -9627,13 +9697,16 @@ pub static MACOS_INSTALL_HISTORY: ArtifactDescriptor = ArtifactDescriptor {
     fields: &[],
     retention: Some("Persistent; accumulates over system lifetime"),
     triage_priority: TriagePriority::Medium,
-    related_artifacts: &["macos_launch_daemons"],
+    related_artifacts: &["macos_launch_daemons", "fa_file_coreservices_systemversion_plist"],
     sources: &[
-        "https://www.forensicmike1.com/2019/12/17/macos-forensic-artifacts-install-history/",
+        "https://github.com/ydkhatri/mac_apt/blob/master/plugins/installhistory.py",
     ],
     evidence_strength: None,
     evidence_tier: None,
-    evidence_caveats: &[],
+    evidence_caveats: &[
+        "An entry can record an installer being downloaded rather than installed: on one macOS Big Sur 11.7 image an entry named a later macOS release whose installer was present but never run, while /System/Library/CoreServices/SystemVersion.plist gave the installed OS as Big Sur 11.7. Read the running version from SystemVersion.plist, and treat an OS-named entry as an install only when SystemVersion.plist or the OS's own receipts agree",
+        "processName names the process that recorded the step, not who asked for it; entries attribute to the machine, not a person",
+    ],
     volatility: None,
     volatility_rationale: "",
 };
@@ -18483,7 +18556,33 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     macos_ext::OOXML_CORE_PROPERTIES,
     macos_ext::OLE2_SUMMARY_INFORMATION,
     macos_ext::MACOS_ICLOUD_DRIVE_CONTAINERS,
+    macos_ext::MACOS_OPENBSM_AUDIT,
+    macos_ext::MACOS_DSLOCAL_USERS,
+    macos_ext::MACOS_AIRDROP_SHARINGD,
+    macos_ext::MACOS_USB_MASS_STORAGE_LOG,
+    macos_ext::MACOS_SAFARI_COOKIES,
+    macos_ext::MACOS_HEIC_IMAGE,
+    macos_ext::MACOS_NETWORK_INTERFACES,
+    macos_ext::MACOS_NETWORK_PREFERENCES,
+    macos_ext::MACOS_WIFI_KNOWN_NETWORKS,
+    macos_ext::MACOS_WIFI_PLIST_BACKUP,
+    macos_ext::MACOS_WIFI_DRIVER_LOG,
+    macos_ext::MACOS_WIFI_SSID_UNIFIED_LOG,
+    macos_ext::MACOS_WIFI_LOG,
+    macos_ext::MACOS_BLUETOOTH_DEVICES,
+    macos_ext::MACOS_SMB_SERVER_IDENTITY,
+    macos_ext::MACOS_CONNECT_TO_SERVER_HISTORY,
+    macos_ext::MACOS_TRUSTEDPEERSHELPER_DB,
+    macos_ext::MACOS_SCREENSHARING_CONNECTIONS,
     windows_files_ext::ONEDRIVE_ODL_LOGS,
+    // ── Windows user attribution (SAM F record, WeChat, Partition/Diagnostic
+    //    1006, FAT/exFAT directory entries) ──
+    windows_attribution_ext::SAM_USER_F_RECORD,
+    windows_attribution_ext::WECHAT_WINDOWS_FILES,
+    windows_attribution_ext::WECHAT_WINDOWS_ACCINFO,
+    windows_attribution_ext::WECHAT_WINDOWS_IMAGE_DAT,
+    windows_attribution_ext::EVTX_PARTITION_DIAGNOSTIC_1006,
+    windows_attribution_ext::FAT_EXFAT_DIRECTORY_ENTRY,
     // ── Android ─────────────────────────────────────────────────────────────
     android_ext::SAMSUNG_GALLERY3D_TRASH,
     android_ext::SAMSUNG_GALLERY3D_LOG,

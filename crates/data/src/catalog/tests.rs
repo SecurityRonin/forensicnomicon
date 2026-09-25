@@ -15,7 +15,7 @@ use crate::catalog::*;
 /// `catalog_integrity::catalog_len_matches_expected_catalog_len` asserts against
 /// it; every `catalog_*` test belonging to a batch asserts that batch's
 /// artifacts are *present*, which is the invariant those tests are named for.
-const EXPECTED_CATALOG_LEN: usize = 6866;
+const EXPECTED_CATALOG_LEN: usize = 6890;
 
 #[cfg(test)]
 mod catalog_integrity {
@@ -13364,5 +13364,1780 @@ mod tests_disk_gcfa_ext {
                 .any(|c| c.contains("docs.cilium.io")),
             "the exhausted search locations must be named concretely"
         );
+    }
+}
+
+// ── Curated macOS gap-fill descriptors ───────────────────────────────────
+//
+// Curated `macos_*` descriptors authored for the examination-profile gaps:
+// artifacts the profile work had to fall back on `fa_file_*` for, or exclude
+// entirely, because no curated descriptor existed (the OpenBSM audit trail,
+// the dslocal local-account store, AirDrop/sharingd transfer activity,
+// removable/USB device history, and a correctly-scoped Safari cookie jar and
+// macOS HEIC image).
+
+#[cfg(test)]
+mod tests_macos_openbsm_audit {
+    use super::*;
+
+    #[test]
+    fn exists_in_catalog() {
+        assert!(
+            CATALOG.by_id("macos_openbsm_audit").is_some(),
+            "catalog must contain 'macos_openbsm_audit'"
+        );
+    }
+
+    #[test]
+    fn os_scope_is_macos() {
+        let d = CATALOG.by_id("macos_openbsm_audit").unwrap();
+        assert_eq!(d.os_scope, OsScope::MacOS);
+    }
+
+    #[test]
+    fn file_path_is_var_audit() {
+        let d = CATALOG.by_id("macos_openbsm_audit").unwrap();
+        assert!(d.file_path.unwrap().contains("/var/audit"));
+    }
+
+    #[test]
+    fn meaning_records_login_and_account_creation() {
+        let d = CATALOG.by_id("macos_openbsm_audit").unwrap();
+        let m = d.meaning.to_lowercase();
+        assert!(m.contains("login"), "must record login/logout events");
+        assert!(
+            m.contains("account") || m.contains("created"),
+            "must record account creation — the reason this artifact is pulled"
+        );
+    }
+
+    #[test]
+    fn caveats_note_deprecation() {
+        let d = CATALOG.by_id("macos_openbsm_audit").unwrap();
+        assert!(
+            d.evidence_caveats
+                .iter()
+                .any(|c| c.contains("Big Sur") || c.contains("Sonoma") || c.contains("deprecat")),
+            "the audit trail is deprecated/disabled on newer macOS — say so"
+        );
+    }
+
+    #[test]
+    fn has_sources() {
+        let d = CATALOG.by_id("macos_openbsm_audit").unwrap();
+        assert!(!d.sources.is_empty());
+        assert!(
+            d.sources.iter().any(|s| s.contains("openbsm")),
+            "must cite the OpenBSM project"
+        );
+    }
+}
+
+#[cfg(test)]
+mod tests_macos_dslocal_users {
+    use super::*;
+
+    #[test]
+    fn exists_in_catalog() {
+        assert!(
+            CATALOG.by_id("macos_dslocal_users").is_some(),
+            "catalog must contain 'macos_dslocal_users'"
+        );
+    }
+
+    #[test]
+    fn os_scope_is_macos() {
+        let d = CATALOG.by_id("macos_dslocal_users").unwrap();
+        assert_eq!(d.os_scope, OsScope::MacOS);
+    }
+
+    #[test]
+    fn file_path_is_dslocal_users() {
+        let d = CATALOG.by_id("macos_dslocal_users").unwrap();
+        assert!(d.file_path.unwrap().contains("dslocal/nodes/Default/users"));
+    }
+
+    #[test]
+    fn has_account_fields() {
+        let d = CATALOG.by_id("macos_dslocal_users").unwrap();
+        let names: Vec<&str> = d.fields.iter().map(|f| f.name).collect();
+        assert!(names.contains(&"uid"));
+        assert!(names.contains(&"generateduid"));
+    }
+
+    #[test]
+    fn has_sources() {
+        let d = CATALOG.by_id("macos_dslocal_users").unwrap();
+        assert!(!d.sources.is_empty());
+    }
+}
+
+#[cfg(test)]
+mod tests_macos_airdrop_sharingd {
+    use super::*;
+
+    #[test]
+    fn exists_in_catalog() {
+        assert!(
+            CATALOG.by_id("macos_airdrop_sharingd").is_some(),
+            "catalog must contain 'macos_airdrop_sharingd'"
+        );
+    }
+
+    #[test]
+    fn os_scope_is_macos() {
+        let d = CATALOG.by_id("macos_airdrop_sharingd").unwrap();
+        assert_eq!(d.os_scope, OsScope::MacOS);
+    }
+
+    #[test]
+    fn meaning_names_sharingd_and_says_log_only() {
+        let d = CATALOG.by_id("macos_airdrop_sharingd").unwrap();
+        assert!(
+            d.meaning.contains("sharingd"),
+            "must name the sharingd process"
+        );
+        let m = d.meaning.to_lowercase();
+        assert!(
+            m.contains("unified log"),
+            "AirDrop transfer history lives in the unified log — say so"
+        );
+    }
+
+    #[test]
+    fn has_sources() {
+        let d = CATALOG.by_id("macos_airdrop_sharingd").unwrap();
+        assert!(!d.sources.is_empty());
+    }
+}
+
+#[cfg(test)]
+mod tests_macos_usb_mass_storage_log {
+    use super::*;
+
+    #[test]
+    fn exists_in_catalog() {
+        assert!(
+            CATALOG.by_id("macos_usb_mass_storage_log").is_some(),
+            "catalog must contain 'macos_usb_mass_storage_log'"
+        );
+    }
+
+    #[test]
+    fn os_scope_is_macos() {
+        let d = CATALOG.by_id("macos_usb_mass_storage_log").unwrap();
+        assert_eq!(d.os_scope, OsScope::MacOS);
+    }
+
+    #[test]
+    fn caveats_note_no_usbstor_equivalent() {
+        let d = CATALOG.by_id("macos_usb_mass_storage_log").unwrap();
+        let body = format!("{} {}", d.meaning, d.evidence_caveats.join(" "));
+        assert!(
+            body.contains("USBSTOR") || body.to_lowercase().contains("no persistent"),
+            "macOS has no USBSTOR-equivalent registry — the caveat must say the \
+             per-device history is weaker than Windows"
+        );
+    }
+
+    #[test]
+    fn has_sources() {
+        let d = CATALOG.by_id("macos_usb_mass_storage_log").unwrap();
+        assert!(!d.sources.is_empty());
+    }
+}
+
+#[cfg(test)]
+mod tests_macos_safari_cookies {
+    use super::*;
+
+    #[test]
+    fn exists_in_catalog() {
+        assert!(
+            CATALOG.by_id("macos_safari_cookies").is_some(),
+            "catalog must contain 'macos_safari_cookies'"
+        );
+    }
+
+    /// The whole point of this descriptor: the generated `browsers_safari_cookies`
+    /// is mis-scoped `OsScope::Win7Plus`; Safari cookies are macOS/iOS.
+    #[test]
+    fn os_scope_is_macos_not_windows() {
+        let d = CATALOG.by_id("macos_safari_cookies").unwrap();
+        assert_eq!(d.os_scope, OsScope::MacOS);
+    }
+
+    #[test]
+    fn file_path_is_binarycookies() {
+        let d = CATALOG.by_id("macos_safari_cookies").unwrap();
+        assert!(d.file_path.unwrap().contains("Cookies.binarycookies"));
+    }
+
+    #[test]
+    fn meaning_supersedes_mis_scoped_generated() {
+        let d = CATALOG.by_id("macos_safari_cookies").unwrap();
+        assert!(
+            d.meaning.contains("browsers_safari_cookies"),
+            "must record that it supersedes the mis-scoped generated descriptor"
+        );
+    }
+
+    #[test]
+    fn has_sources() {
+        let d = CATALOG.by_id("macos_safari_cookies").unwrap();
+        assert!(!d.sources.is_empty());
+    }
+}
+
+#[cfg(test)]
+mod tests_macos_heic_image {
+    use super::*;
+
+    #[test]
+    fn exists_in_catalog() {
+        assert!(
+            CATALOG.by_id("macos_heic_image").is_some(),
+            "catalog must contain 'macos_heic_image'"
+        );
+    }
+
+    #[test]
+    fn os_scope_is_macos() {
+        let d = CATALOG.by_id("macos_heic_image").unwrap();
+        assert_eq!(d.os_scope, OsScope::MacOS);
+    }
+
+    #[test]
+    fn references_the_ios_format_descriptor() {
+        let d = CATALOG.by_id("macos_heic_image").unwrap();
+        assert!(
+            d.related_artifacts.contains(&"heic_image_file"),
+            "must cross-reference the iOS HEIC format descriptor for the byte structure"
+        );
+    }
+
+    #[test]
+    fn has_sources() {
+        let d = CATALOG.by_id("macos_heic_image").unwrap();
+        assert!(!d.sources.is_empty());
+    }
+}
+
+// Curated `macos_*` network-configuration descriptors: the Wi-Fi / DHCP /
+// interface layer that establishes which physical interfaces a Mac has and
+// their MACs (NetworkInterfaces.plist), how the uplink is configured and which
+// service is primary (preferences.plist), and the remembered Wi-Fi networks
+// whose access-point BSSIDs are the geolocation handle (known-networks.plist).
+// The DHCP lease store (`macos_dhcp_leases`) and the legacy airport preferences
+// (`macos_wifi_plist`) already exist; these fill the rest of the layer.
+
+#[cfg(test)]
+mod tests_macos_network_interfaces {
+    use super::*;
+
+    #[test]
+    fn exists_in_catalog() {
+        assert!(
+            CATALOG.by_id("macos_network_interfaces").is_some(),
+            "catalog must contain 'macos_network_interfaces'"
+        );
+    }
+
+    #[test]
+    fn os_scope_is_macos() {
+        let d = CATALOG.by_id("macos_network_interfaces").unwrap();
+        assert_eq!(d.os_scope, OsScope::MacOS);
+    }
+
+    #[test]
+    fn file_path_is_network_interfaces_plist() {
+        let d = CATALOG.by_id("macos_network_interfaces").unwrap();
+        assert!(d
+            .file_path
+            .unwrap()
+            .contains("SystemConfiguration/NetworkInterfaces.plist"));
+    }
+
+    #[test]
+    fn has_interface_and_mac_fields() {
+        let d = CATALOG.by_id("macos_network_interfaces").unwrap();
+        let names: Vec<&str> = d.fields.iter().map(|f| f.name).collect();
+        assert!(
+            names.contains(&"bsd_name"),
+            "must map the BSD interface name"
+        );
+        assert!(
+            names.contains(&"mac_address"),
+            "must record the IOMACAddress per interface"
+        );
+        assert!(
+            names.contains(&"interface_type"),
+            "must record the SCNetworkInterfaceType (IEEE80211, Ethernet, ...)"
+        );
+    }
+
+    #[test]
+    fn has_sources() {
+        let d = CATALOG.by_id("macos_network_interfaces").unwrap();
+        assert!(!d.sources.is_empty());
+    }
+}
+
+#[cfg(test)]
+mod tests_macos_network_preferences {
+    use super::*;
+
+    #[test]
+    fn exists_in_catalog() {
+        assert!(
+            CATALOG.by_id("macos_network_preferences").is_some(),
+            "catalog must contain 'macos_network_preferences'"
+        );
+    }
+
+    #[test]
+    fn os_scope_is_macos() {
+        let d = CATALOG.by_id("macos_network_preferences").unwrap();
+        assert_eq!(d.os_scope, OsScope::MacOS);
+    }
+
+    #[test]
+    fn file_path_is_preferences_plist() {
+        let d = CATALOG.by_id("macos_network_preferences").unwrap();
+        assert!(d
+            .file_path
+            .unwrap()
+            .contains("SystemConfiguration/preferences.plist"));
+    }
+
+    #[test]
+    fn meaning_records_config_method_and_service_order() {
+        let d = CATALOG.by_id("macos_network_preferences").unwrap();
+        assert!(
+            d.meaning.contains("ConfigMethod"),
+            "must record the per-service IPv4 ConfigMethod (DHCP/Manual/BOOTP)"
+        );
+        assert!(
+            d.meaning.contains("ServiceOrder") || d.meaning.contains("service order"),
+            "must record the service priority / primary-interface ordering"
+        );
+    }
+
+    #[test]
+    fn has_sources() {
+        let d = CATALOG.by_id("macos_network_preferences").unwrap();
+        assert!(!d.sources.is_empty());
+    }
+}
+
+#[cfg(test)]
+mod tests_macos_wifi_known_networks {
+    use super::*;
+
+    #[test]
+    fn exists_in_catalog() {
+        assert!(
+            CATALOG.by_id("macos_wifi_known_networks").is_some(),
+            "catalog must contain 'macos_wifi_known_networks'"
+        );
+    }
+
+    #[test]
+    fn os_scope_is_macos() {
+        let d = CATALOG.by_id("macos_wifi_known_networks").unwrap();
+        assert_eq!(d.os_scope, OsScope::MacOS);
+    }
+
+    #[test]
+    fn file_path_is_known_networks_plist() {
+        let d = CATALOG.by_id("macos_wifi_known_networks").unwrap();
+        assert!(d
+            .file_path
+            .unwrap()
+            .contains("com.apple.wifi.known-networks.plist"));
+    }
+
+    #[test]
+    fn meaning_names_the_bssid_geolocation_handle() {
+        let d = CATALOG.by_id("macos_wifi_known_networks").unwrap();
+        assert!(
+            d.meaning.contains("BSSID"),
+            "the per-network access-point BSSID list is the reason this artifact matters"
+        );
+        assert!(
+            d.meaning.contains("LEAKY_AP_BSSID"),
+            "must name the internal key holding the access-point BSSID list"
+        );
+    }
+
+    #[test]
+    fn has_ssid_and_bssid_fields() {
+        let d = CATALOG.by_id("macos_wifi_known_networks").unwrap();
+        let names: Vec<&str> = d.fields.iter().map(|f| f.name).collect();
+        assert!(names.contains(&"ssid"));
+        assert!(names.contains(&"bssid"));
+    }
+
+    #[test]
+    fn caveats_note_cloud_synced_entries() {
+        let d = CATALOG.by_id("macos_wifi_known_networks").unwrap();
+        let body = format!("{} {}", d.meaning, d.evidence_caveats.join(" "));
+        assert!(
+            body.contains("Cloud Sync") || body.to_lowercase().contains("synced"),
+            "a cloud-synced known-network entry was never joined on this Mac — say so"
+        );
+    }
+
+    #[test]
+    fn cross_references_legacy_airport_preferences() {
+        let d = CATALOG.by_id("macos_wifi_known_networks").unwrap();
+        assert!(
+            d.related_artifacts.contains(&"macos_wifi_plist"),
+            "must cross-reference the pre-Big Sur airport preferences descriptor"
+        );
+    }
+
+    #[test]
+    fn has_sources() {
+        let d = CATALOG.by_id("macos_wifi_known_networks").unwrap();
+        assert!(!d.sources.is_empty());
+    }
+
+    // On a network migrated from the legacy airport store, AddedAt repeats
+    // the legacy last-join time, so it is not a first-join date. Without this
+    // caveat an examiner reads the upgrade date as the date a network was
+    // first used.
+    #[test]
+    fn caveats_warn_added_at_is_rewritten_by_migration() {
+        let d = CATALOG.by_id("macos_wifi_known_networks").unwrap();
+        let body = format!("{} {}", d.meaning, d.evidence_caveats.join(" "));
+        assert!(body.contains("AddedAt"));
+        assert!(
+            body.to_lowercase().contains("migrat"),
+            "must say AddedAt on a migrated network is set by the migration"
+        );
+        assert!(
+            body.contains("LastConnected") || body.contains("LastAutoJoinAt"),
+            "must name the legacy field AddedAt is copied from"
+        );
+        assert!(
+            body.contains("ChannelHistory"),
+            "must point at ChannelHistory as the better evidence of when a network was used"
+        );
+    }
+
+    // BSSIDList entries carry no per-BSSID timestamp or channel, so when an
+    // access point was used cannot be read from them.
+    #[test]
+    fn caveats_state_bssid_list_is_undated() {
+        let d = CATALOG.by_id("macos_wifi_known_networks").unwrap();
+        let body = d.evidence_caveats.join(" ");
+        assert!(
+            body.contains("LEAKY_AP_LEARNED_DATA"),
+            "must name the only other key in a BSSIDList entry"
+        );
+        assert!(
+            body.to_lowercase().contains("no per-bssid timestamp"),
+            "must say a BSSIDList entry carries no timestamp"
+        );
+    }
+
+    #[test]
+    fn cross_references_the_migrated_legacy_backup() {
+        let d = CATALOG.by_id("macos_wifi_known_networks").unwrap();
+        assert!(d.related_artifacts.contains(&"macos_wifi_plist_backup"));
+    }
+}
+
+// The Big Sur upgrade migrates the legacy airport store into
+// com.apple.wifi.known-networks.plist; on the observed image the full legacy
+// store survived beside it as a `.backup` file while the live airport plist
+// was cut down to Counter/DeviceUUID/Version. The descriptor model holds one
+// file_path per descriptor, so the `.backup` is its own entry.
+#[cfg(test)]
+mod tests_macos_wifi_plist_backup {
+    use super::*;
+
+    #[test]
+    fn exists_in_catalog() {
+        assert!(CATALOG.by_id("macos_wifi_plist_backup").is_some());
+    }
+
+    #[test]
+    fn file_path_is_the_backup_plist() {
+        let d = CATALOG.by_id("macos_wifi_plist_backup").unwrap();
+        assert_eq!(
+            d.file_path,
+            Some("/Library/Preferences/SystemConfiguration/com.apple.airport.preferences.plist.backup")
+        );
+    }
+
+    #[test]
+    fn meaning_names_the_legacy_structure() {
+        let d = CATALOG.by_id("macos_wifi_plist_backup").unwrap();
+        for key in ["KnownNetworks", "PreferredOrder", "wifi.ssid.", "BSSIDList"] {
+            assert!(d.meaning.contains(key), "meaning must name {key}");
+        }
+    }
+
+    #[test]
+    fn cross_references_both_wifi_stores() {
+        let d = CATALOG.by_id("macos_wifi_plist_backup").unwrap();
+        assert!(d.related_artifacts.contains(&"macos_wifi_plist"));
+        assert!(d.related_artifacts.contains(&"macos_wifi_known_networks"));
+    }
+
+    #[test]
+    fn cites_an_implementation_that_reads_it() {
+        let d = CATALOG.by_id("macos_wifi_plist_backup").unwrap();
+        assert!(d
+            .sources
+            .iter()
+            .any(|s| s.contains("ydkhatri/mac_apt") && s.contains("airport_preferences.py")));
+    }
+
+    #[test]
+    fn legacy_descriptor_points_at_the_backup() {
+        let d = CATALOG.by_id("macos_wifi_plist").unwrap();
+        assert!(d.related_artifacts.contains(&"macos_wifi_plist_backup"));
+        let body = format!("{} {}", d.meaning, d.evidence_caveats.join(" "));
+        assert!(
+            body.contains("com.apple.airport.preferences.plist.backup"),
+            "the live plist is reduced after the Big Sur migration; say where the data went"
+        );
+    }
+}
+
+// ── macOS Wi-Fi presence timeline layer ─────────────────────────────────────
+// Dating when a Mac was on a given Wi-Fi network: the Broadcom driver's
+// unified-log entries (BSSIDs in plain text despite the log's general
+// redaction), the text wifi.log, and CUPS printers reached over mDNS as
+// LAN co-presence evidence. The driver-message claims were observed on one
+// Big Sur 11.7 image; no public source was found, so the descriptor sits at
+// SearchedNotFound and names where the search went.
+#[cfg(test)]
+mod tests_macos_wifi_driver_log {
+    use super::*;
+    use crate::evidence::EvidenceTier;
+
+    #[test]
+    fn exists_and_reads_the_unified_log_store() {
+        let d = CATALOG
+            .by_id("macos_wifi_driver_log")
+            .expect("macos_wifi_driver_log missing");
+        assert_eq!(d.file_path, Some("/var/db/diagnostics/"));
+        assert_eq!(d.os_scope, crate::catalog::types::OsScope::MacOS);
+    }
+
+    #[test]
+    fn meaning_names_the_driver_messages() {
+        let d = CATALOG.by_id("macos_wifi_driver_log").unwrap();
+        for s in [
+            "ARPT",
+            "SetCryptoKey",
+            "Roamed or switched channel",
+            "/kernel",
+            "<private>",
+        ] {
+            assert!(d.meaning.contains(s), "meaning must name {s}");
+        }
+    }
+
+    #[test]
+    fn meaning_names_how_to_export_and_parse() {
+        let d = CATALOG.by_id("macos_wifi_driver_log").unwrap();
+        for s in ["uuidtext", "unifiedlog_iterator", "log-archive"] {
+            assert!(d.meaning.contains(s), "meaning must name {s}");
+        }
+    }
+
+    #[test]
+    fn caveats_cover_padding_control_and_retention() {
+        let d = CATALOG.by_id("macos_wifi_driver_log").unwrap();
+        let body = d.evidence_caveats.join(" ").to_lowercase();
+        assert!(
+            body.contains("zero-padded"),
+            "BSSIDs appear padded and unpadded"
+        );
+        assert!(body.contains("control"), "must require a per-image control");
+        assert!(body.contains("weeks"), "must state the retention window");
+    }
+
+    #[test]
+    fn observation_only_claim_is_recorded_with_where_searched() {
+        let d = CATALOG.by_id("macos_wifi_driver_log").unwrap();
+        assert_eq!(d.evidence_tier, Some(EvidenceTier::SearchedNotFound));
+        assert!(d.evidence_caveats.iter().any(|c| c.contains("Searched")));
+        assert!(d
+            .evidence_caveats
+            .iter()
+            .any(|c| c.contains("Big Sur 11.7")));
+    }
+
+    #[test]
+    fn cites_the_parser_and_apple_redaction_default() {
+        let d = CATALOG.by_id("macos_wifi_driver_log").unwrap();
+        assert!(d
+            .sources
+            .iter()
+            .any(|s| s.contains("mandiant/macos-UnifiedLogs")));
+        assert!(d
+            .sources
+            .iter()
+            .any(|s| s.contains("developer.apple.com") && s.contains("generating-log-messages")));
+    }
+
+    #[test]
+    fn cross_references_sibling_wifi_evidence() {
+        let d = CATALOG.by_id("macos_wifi_driver_log").unwrap();
+        for id in [
+            "macos_unified_log",
+            "macos_wifi_log",
+            "macos_wifi_known_networks",
+        ] {
+            assert!(d.related_artifacts.contains(&id), "must relate {id}");
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests_macos_wifi_log {
+    use super::*;
+    use crate::evidence::EvidenceTier;
+
+    #[test]
+    fn exists_and_covers_live_and_rotated_files() {
+        let d = CATALOG
+            .by_id("macos_wifi_log")
+            .expect("macos_wifi_log missing");
+        assert_eq!(d.file_path, Some("/private/var/log/wifi.log*"));
+    }
+
+    #[test]
+    fn meaning_names_the_disconnect_and_driver_init_lines() {
+        let d = CATALOG.by_id("macos_wifi_log").unwrap();
+        for s in [
+            "RSNSupplicant: Releasing authenticator for",
+            "_bsdDriver_init",
+            "wifi.log.N.bz2",
+        ] {
+            assert!(d.meaning.contains(s), "meaning must name {s}");
+        }
+    }
+
+    #[test]
+    fn caveats_cover_year_redaction_and_retention() {
+        let d = CATALOG.by_id("macos_wifi_log").unwrap();
+        let body = d.evidence_caveats.join(" ").to_lowercase();
+        assert!(body.contains("no year"), "timestamps carry no year");
+        assert!(body.contains("local time"), "timestamps are local time");
+        assert!(
+            body.contains("ssid") && body.contains("redacted"),
+            "SSIDs redacted, BSSIDs not"
+        );
+        assert!(body.contains("weeks"), "must state the retention window");
+    }
+
+    #[test]
+    fn is_graded_as_secondary_and_cites_them() {
+        let d = CATALOG.by_id("macos_wifi_log").unwrap();
+        assert_eq!(d.evidence_tier, Some(EvidenceTier::SingleSecondary));
+        assert!(d
+            .sources
+            .iter()
+            .any(|s| s.contains("discussions.apple.com")));
+        assert!(d.sources.iter().any(|s| s.contains("blog.frd.mn")));
+    }
+
+    #[test]
+    fn cross_references_driver_log_and_audit() {
+        let d = CATALOG.by_id("macos_wifi_log").unwrap();
+        assert!(d.related_artifacts.contains(&"macos_wifi_driver_log"));
+        assert!(d.related_artifacts.contains(&"macos_openbsm_audit"));
+    }
+}
+
+#[cfg(test)]
+mod tests_macos_unified_log_scope_and_uuidtext {
+    use super::*;
+
+    // The unified log exists from macOS 10.12 Sierra; `MacOS12Plus` means
+    // Monterey and would exclude the Big Sur image the Wi-Fi entries were
+    // observed on.
+    #[test]
+    fn os_scope_covers_every_unified_log_release() {
+        let d = CATALOG.by_id("macos_unified_log").unwrap();
+        assert_eq!(d.os_scope, crate::catalog::types::OsScope::MacOS);
+    }
+
+    #[test]
+    fn says_uuidtext_is_needed_and_links_it() {
+        let d = CATALOG.by_id("macos_unified_log").unwrap();
+        assert!(d.meaning.contains("/private/var/db/uuidtext/"));
+        assert!(d.related_artifacts.contains(&"fa_file__7"));
+        assert!(d.related_artifacts.contains(&"macos_wifi_driver_log"));
+    }
+}
+
+#[cfg(test)]
+mod tests_macos_cups_lan_copresence {
+    use super::*;
+
+    #[test]
+    fn printers_conf_explains_local_is_link_local_and_uuid_mac() {
+        let d = CATALOG.by_id("macos_cups_printers_conf").unwrap();
+        assert!(
+            d.meaning.contains("link-local"),
+            "mDNS .local. is link-local"
+        );
+        assert!(d.meaning.contains("MAC"), "a UUIDv1 node field is a MAC");
+        assert!(d.sources.iter().any(|s| s.contains("rfc6762")));
+        assert!(d.sources.iter().any(|s| s.contains("rfc9562")));
+        let caveats = d.evidence_caveats.join(" ").to_lowercase();
+        assert!(caveats.contains("moved"), "printers can be moved");
+        assert!(
+            caveats.contains("reflector") || caveats.contains("gateway"),
+            "mDNS reflectors/gateways extend .local. beyond one link"
+        );
+    }
+
+    #[test]
+    fn spool_jobs_explain_job_state_completed() {
+        let d = CATALOG.by_id("macos_cups_spool_jobs").unwrap();
+        assert!(d.meaning.contains("job-state 9"), "9 = completed");
+        assert!(d.meaning.contains("reachable"));
+        assert!(d.sources.iter().any(|s| s.contains("rfc8011")));
+        let caveats = d.evidence_caveats.join(" ").to_lowercase();
+        assert!(
+            caveats.contains("operator"),
+            "printing does not identify the operator"
+        );
+    }
+
+    #[test]
+    fn printers_relate_to_wifi_presence_evidence() {
+        let d = CATALOG.by_id("macos_cups_printers_conf").unwrap();
+        assert!(d.related_artifacts.contains(&"macos_wifi_driver_log"));
+    }
+}
+
+// ── macOS network-neighbour / peer-device discovery layer ──────────────────
+// The persisted traces of the Mac's peer neighbourhood: bonded/seen Bluetooth
+// devices, the SMB/NetBIOS name the Mac advertised, and the Connect-to-Server
+// host history. These complete the network descriptors above with the
+// peer-device side a dead-disk examination can recover.
+
+#[cfg(test)]
+mod tests_macos_bluetooth_devices {
+    use super::*;
+
+    #[test]
+    fn exists_in_catalog() {
+        assert!(
+            CATALOG.by_id("macos_bluetooth_devices").is_some(),
+            "catalog must contain 'macos_bluetooth_devices'"
+        );
+    }
+
+    #[test]
+    fn os_scope_is_macos() {
+        let d = CATALOG.by_id("macos_bluetooth_devices").unwrap();
+        assert_eq!(d.os_scope, OsScope::MacOS);
+    }
+
+    #[test]
+    fn file_path_is_bluetooth_plist() {
+        let d = CATALOG.by_id("macos_bluetooth_devices").unwrap();
+        assert!(d.file_path.unwrap().contains("com.apple.Bluetooth.plist"));
+    }
+
+    #[test]
+    fn meaning_names_paired_devices_and_device_cache() {
+        let d = CATALOG.by_id("macos_bluetooth_devices").unwrap();
+        assert!(
+            d.meaning.contains("PairedDevices"),
+            "must name the PairedDevices bonded-device array"
+        );
+        assert!(
+            d.meaning.contains("DeviceCache"),
+            "must name the DeviceCache paired-or-seen dict"
+        );
+    }
+
+    #[test]
+    fn has_mac_and_name_fields() {
+        let d = CATALOG.by_id("macos_bluetooth_devices").unwrap();
+        let names: Vec<&str> = d.fields.iter().map(|f| f.name).collect();
+        assert!(names.contains(&"device_mac"));
+        assert!(names.contains(&"name"));
+    }
+
+    #[test]
+    fn caveats_note_name_is_a_user_assigned_label() {
+        let d = CATALOG.by_id("macos_bluetooth_devices").unwrap();
+        let body = format!("{} {}", d.meaning, d.evidence_caveats.join(" "));
+        assert!(
+            body.contains("user-assigned") || body.to_lowercase().contains("not proof"),
+            "the device Name is a user-assigned label, not a verified owner — say so"
+        );
+    }
+
+    #[test]
+    fn has_sources() {
+        let d = CATALOG.by_id("macos_bluetooth_devices").unwrap();
+        assert!(!d.sources.is_empty());
+    }
+}
+
+#[cfg(test)]
+mod tests_macos_smb_server_identity {
+    use super::*;
+
+    #[test]
+    fn exists_in_catalog() {
+        assert!(
+            CATALOG.by_id("macos_smb_server_identity").is_some(),
+            "catalog must contain 'macos_smb_server_identity'"
+        );
+    }
+
+    #[test]
+    fn os_scope_is_macos() {
+        let d = CATALOG.by_id("macos_smb_server_identity").unwrap();
+        assert_eq!(d.os_scope, OsScope::MacOS);
+    }
+
+    #[test]
+    fn file_path_is_smb_server_plist() {
+        let d = CATALOG.by_id("macos_smb_server_identity").unwrap();
+        assert!(d.file_path.unwrap().contains("com.apple.smb.server.plist"));
+    }
+
+    #[test]
+    fn meaning_names_the_netbios_advertised_identity() {
+        let d = CATALOG.by_id("macos_smb_server_identity").unwrap();
+        assert!(
+            d.meaning.contains("NetBIOSName"),
+            "must name the NetBIOSName the Mac advertised to SMB neighbours"
+        );
+    }
+
+    #[test]
+    fn has_netbios_name_field() {
+        let d = CATALOG.by_id("macos_smb_server_identity").unwrap();
+        let names: Vec<&str> = d.fields.iter().map(|f| f.name).collect();
+        assert!(names.contains(&"netbios_name"));
+    }
+
+    #[test]
+    fn has_sources() {
+        let d = CATALOG.by_id("macos_smb_server_identity").unwrap();
+        assert!(!d.sources.is_empty());
+    }
+}
+
+#[cfg(test)]
+mod tests_macos_connect_to_server_history {
+    use super::*;
+
+    #[test]
+    fn exists_in_catalog() {
+        assert!(
+            CATALOG.by_id("macos_connect_to_server_history").is_some(),
+            "catalog must contain 'macos_connect_to_server_history'"
+        );
+    }
+
+    #[test]
+    fn os_scope_is_macos() {
+        let d = CATALOG.by_id("macos_connect_to_server_history").unwrap();
+        assert_eq!(d.os_scope, OsScope::MacOS);
+    }
+
+    #[test]
+    fn file_path_is_under_sharedfilelist() {
+        let d = CATALOG.by_id("macos_connect_to_server_history").unwrap();
+        assert!(d.file_path.unwrap().contains("com.apple.sharedfilelist"));
+    }
+
+    #[test]
+    fn meaning_names_recent_hosts_and_favorite_volumes() {
+        let d = CATALOG.by_id("macos_connect_to_server_history").unwrap();
+        assert!(
+            d.meaning.contains("RecentHosts"),
+            "must name the RecentHosts.sfl connect-to-server host history"
+        );
+        assert!(
+            d.meaning.contains("FavoriteVolumes"),
+            "must name the FavoriteVolumes.sfl2 favourite network volumes"
+        );
+    }
+
+    #[test]
+    fn cross_references_mounted_server_list() {
+        let d = CATALOG.by_id("macos_connect_to_server_history").unwrap();
+        assert!(
+            d.related_artifacts.contains(&"macos_sfl2_recent_servers"),
+            "must cross-reference the mounted-server list (RecentServers.sfl2)"
+        );
+    }
+
+    #[test]
+    fn caveats_note_entries_are_undated() {
+        let d = CATALOG.by_id("macos_connect_to_server_history").unwrap();
+        let body = format!("{} {}", d.meaning, d.evidence_caveats.join(" "));
+        assert!(
+            body.to_lowercase().contains("undated") || body.to_lowercase().contains("empty"),
+            "SFL entries are undated and an empty archive is a meaningful negative — say so"
+        );
+    }
+
+    #[test]
+    fn has_sources() {
+        let d = CATALOG.by_id("macos_connect_to_server_history").unwrap();
+        assert!(!d.sources.is_empty());
+    }
+}
+
+/// The already-cataloged QuarantineEventsV2 database must now also carry the
+/// AirDrop-sender angle: for an AirDropped file the quarantine agent is
+/// `sharingd` and `LSQuarantineSenderName` records the sending device's name,
+/// which makes the database an enumerator of nearby AirDrop peers, not only a
+/// download-provenance store.
+#[cfg(test)]
+mod tests_macos_quarantine_events_airdrop_sender {
+    use super::*;
+
+    #[test]
+    fn meaning_or_fields_name_the_sharingd_airdrop_sender() {
+        let d = CATALOG.by_id("macos_quarantine_events").unwrap();
+        let field_body = d
+            .fields
+            .iter()
+            .map(|f| format!("{} {}", f.name, f.description))
+            .collect::<Vec<_>>()
+            .join(" ");
+        let body = format!("{} {}", d.meaning, field_body);
+        assert!(
+            body.contains("sharingd"),
+            "must name the sharingd agent that marks an AirDropped file"
+        );
+        assert!(
+            body.contains("LSQuarantineSenderName") || body.to_lowercase().contains("sender"),
+            "must record that the sending device's name is captured for AirDrop transfers"
+        );
+    }
+
+    #[test]
+    fn relates_to_airdrop_log_artifact() {
+        let d = CATALOG.by_id("macos_quarantine_events").unwrap();
+        assert!(
+            d.related_artifacts.contains(&"macos_airdrop_sharingd"),
+            "the AirDrop-sender angle must cross-reference the unified-log AirDrop artifact"
+        );
+    }
+}
+
+// ── Windows contradictions: BAM granularity, Amcache headline, EWF logical ──
+// Three descriptors contradicted their own decoders or sources. BAM said
+// "per-day" over a FILETIME decoder; amcache_app_file headlined "execution"
+// while ANSSI shows InventoryApplicationFile lists files never run; the EWF
+// container named L01 but registered only the EVF signature, so an EWF1 L01
+// ("LVF\x09\x0d\x0a\xff\x00", libewf_segment_file.c:70) matched nothing.
+#[cfg(test)]
+mod tests_windows_contradictions {
+    use super::*;
+
+    #[test]
+    fn bam_caveats_state_filetime_not_per_day() {
+        let d = CATALOG.by_id("bam_user").expect("bam_user missing");
+        let body = d.evidence_caveats.join(" ");
+        assert!(
+            !body.contains("per-day"),
+            "BAM value data is a FILETIME (decoder FiletimeAt); 'per-day' contradicts it"
+        );
+        assert!(body.contains("FILETIME"), "caveat must name the FILETIME");
+        assert!(
+            body.to_lowercase().contains("7 days"),
+            "must record the boot-time pruning of entries older than 7 days"
+        );
+        assert!(
+            body.contains("not a person") || body.contains("not the person"),
+            "the SID is an account context, not a person"
+        );
+    }
+
+    #[test]
+    fn amcache_app_file_headline_is_inventory_not_execution() {
+        let d = CATALOG
+            .by_id("amcache_app_file")
+            .expect("amcache_app_file missing");
+        assert!(
+            !d.meaning.contains("execution evidence"),
+            "InventoryApplicationFile lists files that never ran (ANSSI); headline must not claim execution"
+        );
+        assert!(d.meaning.to_lowercase().contains("inventory"));
+        assert!(d.meaning.contains("not by itself execution"));
+    }
+
+    #[test]
+    fn amcache_app_file_cites_anssi_and_denies_user_attribution() {
+        let d = CATALOG.by_id("amcache_app_file").unwrap();
+        assert!(
+            d.sources
+                .iter()
+                .any(|s| s.contains("cyber.gouv.fr") && s.contains("amcache")),
+            "must cite the ANSSI AmCache analysis"
+        );
+        let body = d.evidence_caveats.join(" ");
+        assert!(
+            body.contains("per-user"),
+            "system-wide hive: must say there is no per-user attribution"
+        );
+        assert!(
+            body.contains("Program Files") && body.contains("Desktop"),
+            "must record the Compatibility Appraiser's scanned folders (ANSSI)"
+        );
+    }
+
+    fn ewf_sigs(id: &str) -> Vec<&'static crate::catalog::ContainerSignature> {
+        all_container_signatures()
+            .iter()
+            .filter(|s| s.container_id == id)
+            .collect()
+    }
+
+    #[test]
+    fn ewf_physical_signatures_cover_ewf1_and_ewf2() {
+        let sigs = ewf_sigs("ewf_image");
+        assert!(sigs
+            .iter()
+            .any(|s| s.header_magic == b"EVF\x09\x0d\x0a\xff\x00"));
+        assert!(
+            sigs.iter()
+                .any(|s| s.header_magic == b"EVF2\x0d\x0a\x81\x00"),
+            "Ex01 signature (libewf ewf2_evf_file_signature) must be registered"
+        );
+    }
+
+    #[test]
+    fn ewf_logical_container_registers_lvf_and_lef2() {
+        let p = container_profile("ewf_logical_evidence")
+            .expect("L01/Lx01 logical-evidence container profile missing");
+        assert!(p.summary.contains("unallocated"));
+        let sigs = ewf_sigs("ewf_logical_evidence");
+        assert!(
+            sigs.iter()
+                .any(|s| s.header_magic == b"LVF\x09\x0d\x0a\xff\x00"),
+            "EWF1 L01 begins LVF\\x09\\x0d\\x0a\\xff\\x00 (libewf_segment_file.c:70)"
+        );
+        assert!(
+            sigs.iter()
+                .any(|s| s.header_magic == b"LEF2\x0d\x0a\x81\x00"),
+            "Lx01 signature (libewf ewf2_lef_file_signature) must be registered"
+        );
+    }
+
+    #[test]
+    fn ewf_hints_and_invariants_name_every_signature_and_rollover() {
+        let p = container_profile("ewf_image").unwrap();
+        let hints = p.parser_hints.join(" ");
+        assert!(hints.contains("LVF"), "variant hint must include EWF1 L01");
+        assert!(
+            hints.contains(".EAA"),
+            "must state the .E99 -> .EAA rollover"
+        );
+        let sig = all_container_signatures()
+            .iter()
+            .find(|s| s.container_id == "ewf_image")
+            .unwrap();
+        assert!(
+            !sig.invariants.join(" ").contains("EVF/EVF2/LEF2"),
+            "the invariant that omitted LVF must be replaced"
+        );
+        assert!(
+            !p.name.contains("L01"),
+            "logical L01/Lx01 now has its own container profile"
+        );
+    }
+
+    #[test]
+    fn ad1_logical_image_profile_states_logical_scope() {
+        let p = container_profile("ad1_logical_image").expect("AD1 container profile missing");
+        assert!(p.summary.contains("Custom Content Image"));
+        assert!(p.summary.contains("geometry"));
+    }
+}
+
+// ── Windows user attribution: accounts, removable media, messenger ──────────
+// Descriptors the windows_user_attribution profile needs, and attribution
+// caveats on existing ones: every artefact below identifies an account or
+// SID, never the person at the keyboard.
+#[cfg(test)]
+mod tests_windows_user_attribution_descriptors {
+    use super::*;
+    use crate::evidence::EvidenceTier;
+
+    #[test]
+    fn sam_user_f_record_decodes_the_f_value() {
+        let d = CATALOG
+            .by_id("sam_user_f_record")
+            .expect("sam_user_f_record missing");
+        assert_eq!(d.value_name, Some("F"));
+        assert!(d.key_path.contains(r"SAM\Domains\Account\Users"));
+        for f in [
+            "last_logon",
+            "password_last_set",
+            "last_failed_logon",
+            "rid",
+            "account_control_flags",
+            "logon_count",
+        ] {
+            assert!(d.fields.iter().any(|x| x.name == f), "field {f} missing");
+        }
+        assert!(d
+            .sources
+            .iter()
+            .any(|s| s.contains("libyal/winreg-kb") && s.contains("Domains.md")));
+    }
+
+    #[test]
+    fn sam_user_f_record_carries_rid_semantics() {
+        let d = CATALOG.by_id("sam_user_f_record").unwrap();
+        let body = d.evidence_caveats.join(" ");
+        for needle in [
+            "500",
+            "501",
+            "503",
+            "504",
+            "never reused",
+            "1002",
+            "defaultuser0",
+        ] {
+            assert!(body.contains(needle), "RID caveats must mention {needle}");
+        }
+        assert!(
+            body.contains("WDAGUtilityAccount") && body.contains("not 1001"),
+            "must reject the false claim that WDAGUtilityAccount burns RID 1001"
+        );
+        assert!(body.contains("not a person") || body.contains("not the person"));
+        assert_eq!(d.evidence_tier, Some(EvidenceTier::SourceOrMultiImpl));
+        assert!(d
+            .sources
+            .iter()
+            .any(|s| s.contains("understand-security-identifiers")));
+        assert!(d.sources.iter().any(|s| s.contains("local-accounts")));
+    }
+
+    #[test]
+    fn sam_users_drops_live_only_framing_and_links_rid_detail() {
+        let d = CATALOG.by_id("sam_users").unwrap();
+        assert!(d.evidence_caveats.join(" ").contains("offline"));
+        for id in ["sam_user_f_record", "profile_list_users"] {
+            assert!(d.related_artifacts.contains(&id), "must relate {id}");
+        }
+    }
+
+    #[test]
+    fn wechat_windows_files_records_layout_and_operator_limit() {
+        let d = CATALOG
+            .by_id("wechat_windows_files")
+            .expect("wechat_windows_files missing");
+        assert!(d.file_path.unwrap().contains("WeChat Files"));
+        assert!(d.meaning.contains("xwechat_files"), "WeChat 4.x layout");
+        let body = d.evidence_caveats.join(" ");
+        assert!(body.contains("QR"));
+        assert!(body.contains("not who"));
+        assert!(body.contains("whitelist") || body.contains("selected file"));
+        assert!(d.sources.iter().any(|s| s.contains("help.wechat.com")));
+    }
+
+    #[test]
+    fn partition_diagnostic_1006_is_curated() {
+        let d = CATALOG
+            .by_id("evtx_partition_diagnostic_1006")
+            .expect("evtx_partition_diagnostic_1006 missing");
+        assert!(d.file_path.unwrap().contains("Partition%4Diagnostic.evtx"));
+        for s in ["1006", "SerialNumber", "Capacity", "Vbr0"] {
+            assert!(d.meaning.contains(s), "meaning must name {s}");
+        }
+        assert!(d.related_artifacts.contains(&"usb_stor_enum"));
+        let usb = CATALOG.by_id("usb_stor_enum").unwrap();
+        assert!(usb
+            .related_artifacts
+            .contains(&"evtx_partition_diagnostic_1006"));
+    }
+
+    #[test]
+    fn fat_exfat_directory_entry_states_no_ownership() {
+        let d = CATALOG
+            .by_id("fat_exfat_directory_entry")
+            .expect("fat_exfat_directory_entry missing");
+        assert!(d.meaning.contains("0xE5"));
+        let body = d.evidence_caveats.join(" ");
+        assert!(body.contains("no owner"));
+        assert!(body.contains("date only") || body.contains("only a date"));
+        assert!(d.sources.iter().any(|s| s.contains("fatgen103")));
+        assert!(d.sources.iter().any(|s| s.contains("exfat-specification")));
+    }
+
+    #[test]
+    fn mountpoints2_attributes_to_a_profile_not_a_person() {
+        let d = CATALOG.by_id("mountpoints2").unwrap();
+        let body = d.evidence_caveats.join(" ");
+        assert!(body.contains("SID"));
+        assert!(body.contains("not a person"));
+    }
+
+    #[test]
+    fn owner_sid_is_not_authorship() {
+        let d = CATALOG.by_id("ntfs_secure_sds").unwrap();
+        assert!(d.evidence_caveats.join(" ").contains("not authorship"));
+        assert!(d.sources.iter().any(|s| s.contains("robocopy")));
+    }
+
+    #[test]
+    fn usn_journal_records_reason_not_actor() {
+        let d = CATALOG.by_id("usnjrnl").unwrap();
+        assert!(d.evidence_caveats.join(" ").contains("SecurityId"));
+        assert!(d.sources.iter().any(|s| s.contains("usn_record_v2")));
+    }
+
+    #[test]
+    fn office_authorship_descriptors_are_platform_neutral_in_wording() {
+        for id in ["ooxml_core_properties", "ole2_summary_information"] {
+            let d = CATALOG.by_id(id).unwrap();
+            let body = format!("{} {}", d.meaning, d.evidence_caveats.join(" "));
+            assert!(
+                !body.contains("this Mac"),
+                "{id}: the format is platform-independent; wording must not assume a Mac"
+            );
+        }
+    }
+}
+
+// ── Windows attribution caveats on existing descriptors ────────────────────
+#[cfg(test)]
+mod tests_windows_attribution_caveats {
+    use super::*;
+
+    #[test]
+    fn install_date_scopes_what_install_time_artefacts_can_reach() {
+        let d = CATALOG.by_id("windows_install_date").unwrap();
+        let body = d.evidence_caveats.join(" ");
+        assert!(body.contains("cannot reach"));
+        assert!(body.contains("older than"));
+    }
+
+    #[test]
+    fn recycle_bin_sid_folder_is_an_account_not_a_person() {
+        let d = CATALOG.by_id("recycle_bin").unwrap();
+        let body = d.evidence_caveats.join(" ");
+        assert!(body.contains("SAM"), "map the SID on the native SAM first");
+        assert!(body.contains("not which person"));
+        assert!(body.contains("Zone.Identifier"));
+        assert!(d.related_artifacts.contains(&"zone_identifier"));
+    }
+
+    #[test]
+    fn prefetch_does_not_identify_the_user() {
+        let d = CATALOG.by_id("prefetch_file").unwrap();
+        assert!(d
+            .evidence_caveats
+            .iter()
+            .any(|c| c.contains("does not identify") && c.contains("user")));
+    }
+}
+
+// ── macOS contradictions: DHCP lease files, AirDrop history, APFS offsets ──
+// Three descriptors asserted things their own sources, or Apple's, contradict.
+// DHCP: Apple's IPConfiguration names the lease file two ways across bootp
+// releases, and the newer code never removes the older file, so a pre-upgrade
+// lease can survive. AirDrop: QuarantineEventsV2 keeps a persistent row per
+// AirDropped file (agent sharingd, LSQuarantineSenderName). APFS: the offset
+// multiplier is the disk's logical sector size from the partition table, not
+// APFS's 4096-byte block size.
+#[cfg(test)]
+mod tests_macos_contradictions {
+    use super::*;
+
+    #[test]
+    fn dhcp_leases_names_both_bootp_filename_formats() {
+        let d = CATALOG.by_id("macos_dhcp_leases").unwrap();
+        assert!(
+            d.meaning.contains("<ifname>.plist") && d.meaning.contains("<ifname>-<client-id>"),
+            "must name both lease-file formats (DHCPCLIENT_LEASE_FILE_FMT across bootp releases)"
+        );
+        assert!(
+            d.sources
+                .iter()
+                .any(|s| s.contains("apple-oss-distributions/bootp") && s.contains("359.50.1")),
+            "must cite Apple's bootp DHCPLease.c for the old format"
+        );
+        assert!(
+            d.sources
+                .iter()
+                .any(|s| s.contains("apple-oss-distributions/bootp") && s.contains("534.120.2")),
+            "must cite Apple's bootp DHCPLease.c for the current format"
+        );
+    }
+
+    #[test]
+    fn dhcp_leases_no_longer_claims_history_is_always_overwritten() {
+        let d = CATALOG.by_id("macos_dhcp_leases").unwrap();
+        let body = d.evidence_caveats.join(" ");
+        assert!(
+            !body.contains("historical leases are overwritten"),
+            "an old-format lease file can survive an OS upgrade holding a pre-upgrade lease"
+        );
+        assert!(
+            body.contains("survive") && body.contains("upgrade"),
+            "must record that the old-format file can survive an OS upgrade"
+        );
+        assert!(
+            !d.retention.unwrap_or("").contains("overwritten on renewal"),
+            "retention must describe expiry deletion and the orphaned old-format file"
+        );
+    }
+
+    #[test]
+    fn airdrop_sharingd_points_at_the_persistent_quarantine_store() {
+        let d = CATALOG.by_id("macos_airdrop_sharingd").unwrap();
+        let text = format!("{} {}", d.meaning, d.evidence_caveats.join(" "));
+        assert!(
+            !text.contains("No persistent transfer-history store"),
+            "QuarantineEventsV2 holds persistent AirDrop rows"
+        );
+        assert!(
+            !text.contains("survives only in the unified log"),
+            "QuarantineEventsV2 holds persistent AirDrop rows"
+        );
+        assert!(text.contains("QuarantineEventsV2"));
+        assert!(text.contains("LSQuarantineSenderName"));
+        assert!(d.related_artifacts.contains(&"macos_quarantine_events"));
+        assert!(
+            d.sources
+                .iter()
+                .any(|s| s.contains("kieczkowska.wordpress.com")),
+            "must cite the QuarantineEventsV2 AirDrop analysis"
+        );
+    }
+
+    #[test]
+    fn apfs_container_offset_uses_disk_sector_size_not_apfs_block_size() {
+        let d = CATALOG.by_id("apfs_container").unwrap();
+        assert!(
+            !d.meaning.contains("typically 4096"),
+            "the multiplier is the disk's sector size from the partition table"
+        );
+        let bps = d
+            .fields
+            .iter()
+            .find(|f| f.name == "bytes_per_sector")
+            .expect("bytes_per_sector field");
+        assert!(
+            !bps.description.contains("typically 4096 for APFS"),
+            "4096 is APFS's block size, not the disk's sector size"
+        );
+        assert!(bps.description.contains("512"));
+        assert!(
+            d.meaning.contains("nx_block_size") && d.meaning.contains("512"),
+            "must separate APFS's block size from the disk's sector size"
+        );
+        assert!(
+            d.sources
+                .iter()
+                .any(|s| s.contains("Apple-File-System-Reference.pdf")),
+            "must cite the Apple File System Reference for nx_block_size"
+        );
+    }
+}
+
+// ── Generated Velociraptor scope ─────────────────────────────────────────
+// The Velociraptor ingest source hard-coded OsScope::Win7Plus for every
+// record, so MacOS.* and Linux.* artifacts (e.g. MacOS.System.TimeMachine at
+// /Library/Preferences/com.apple.TimeMachine.plist) were scoped to Windows.
+#[cfg(test)]
+mod tests_velociraptor_generated_scope {
+    use super::*;
+
+    #[test]
+    fn timemachine_plist_is_macos_scoped() {
+        let d = CATALOG
+            .by_id("velociraptor_file_preferences_com_apple_timemachine_plist")
+            .expect("velociraptor TimeMachine descriptor missing");
+        assert_eq!(d.os_scope, OsScope::MacOS);
+    }
+
+    #[test]
+    fn every_velociraptor_entry_scope_matches_its_name_prefix() {
+        let mut checked = 0;
+        for d in CATALOG
+            .list()
+            .iter()
+            .filter(|d| d.id.starts_with("velociraptor_"))
+        {
+            if d.name.starts_with("MacOS.") {
+                assert_eq!(d.os_scope, OsScope::MacOS, "{}", d.id);
+                checked += 1;
+            } else if d.name.starts_with("Linux.") {
+                assert_eq!(d.os_scope, OsScope::Linux, "{}", d.id);
+                checked += 1;
+            }
+        }
+        assert!(checked > 0, "selector matched no MacOS./Linux. entries");
+    }
+}
+
+// ── Wi-Fi SSIDs in the unified log come from userland, not the driver ──────
+// The Broadcom driver's ARPT: entries carry BSSIDs only. SSIDs are written by
+// configd's IPConfiguration ("<if>: SSID <name> BSSID <bssid> Security ...",
+// the format string in Apple's bootp ipconfigd.c), configd's captive
+// subsystem, and sharingd/rapportd (com.apple.CoreUtils "SysMon: WiFi join
+// started"). The IPConfiguration line pairs SSID with BSSID.
+#[cfg(test)]
+mod tests_macos_wifi_ssid_unified_log {
+    use super::*;
+
+    #[test]
+    fn driver_log_no_longer_attributes_ssids_to_the_driver() {
+        let d = CATALOG.by_id("macos_wifi_driver_log").unwrap();
+        assert!(
+            !d.meaning.contains("other driver entries carry the SSID"),
+            "ARPT driver entries carry BSSIDs only"
+        );
+        assert!(
+            !d.fields.iter().any(|f| f.name == "ssid"),
+            "the driver entries have no SSID field"
+        );
+        assert!(d.related_artifacts.contains(&"macos_wifi_ssid_unified_log"));
+    }
+
+    #[test]
+    fn ssid_descriptor_names_the_userland_sources() {
+        let d = CATALOG
+            .by_id("macos_wifi_ssid_unified_log")
+            .expect("macos_wifi_ssid_unified_log missing");
+        assert_eq!(d.file_path, Some("/var/db/diagnostics/"));
+        for s in [
+            "/usr/libexec/configd",
+            "com.apple.IPConfiguration",
+            "com.apple.captive",
+            "/usr/libexec/sharingd",
+            "/usr/libexec/rapportd",
+            "com.apple.CoreUtils",
+            "SSID %@ BSSID",
+        ] {
+            assert!(d.meaning.contains(s), "meaning must name {s}");
+        }
+        assert!(d
+            .sources
+            .iter()
+            .any(|s| s.contains("apple-oss-distributions/bootp") && s.contains("ipconfigd.c")));
+        assert!(
+            d.evidence_caveats
+                .iter()
+                .any(|c| c.contains("hide_wifi_string") && c.contains("494.140.4")),
+            "must record that later bootp redacts SSID/BSSID by default"
+        );
+        assert!(d.related_artifacts.contains(&"macos_wifi_driver_log"));
+    }
+}
+
+// ── macOS OS scope: MacOS12Plus on artifacts that predate Monterey ────────
+// knowledgeC.db, the SFL2 recent-items and recent-servers lists, and the
+// system TCC.db were scoped "macOS 12 Monterey and later", but each is
+// documented on earlier releases (mac4n6 2017/2018, Jamf 2018) and three were
+// present on one Big Sur 11.7 image. Screen Time was also mis-pathed: its
+// store lives in the per-user DARWIN_USER_DIR (mac_apt screentime.py), and
+// Screen Time reached the Mac in Catalina (Apple Newsroom).
+#[cfg(test)]
+mod tests_macos_os_scope_predates_monterey {
+    use super::*;
+
+    const DEAD: &[&str] = &[
+        "mac4n6.com/blog/2016/6/21/introduction-to-sfl-and-sfl2-files",
+        "mac4n6.com/blog/2019/6/20/screen-time-in-ios-12-macos-mojave",
+        "knowledgecdb-database-on-macos-ios-to-determine",
+    ];
+
+    fn check(id: &str, release: &str) {
+        let d = CATALOG.by_id(id).unwrap_or_else(|| panic!("{id} missing"));
+        assert_eq!(d.os_scope, OsScope::MacOS, "{id}: predates Monterey");
+        assert!(
+            d.evidence_caveats.iter().any(|c| c.contains(release)),
+            "{id}: a caveat must name the earliest release confirmed ({release})"
+        );
+        for s in d.sources {
+            assert!(
+                !DEAD.iter().any(|x| s.contains(x)),
+                "{id}: source returns 404: {s}"
+            );
+        }
+    }
+
+    #[test]
+    fn knowledgec_is_not_monterey_only() {
+        check("macos_knowledgec", "10.13");
+    }
+
+    #[test]
+    fn sfl2_recent_items_is_not_monterey_only() {
+        check("macos_sfl2_recent_items", "10.13");
+        let d = CATALOG.by_id("macos_sfl2_recent_items").unwrap();
+        assert!(!d.meaning.contains("10.12+"), "sfl2 is new with 10.13");
+    }
+
+    #[test]
+    fn sfl2_recent_servers_is_not_monterey_only() {
+        check("macos_sfl2_recent_servers", "10.13");
+    }
+
+    #[test]
+    fn tcc_system_db_is_not_monterey_only() {
+        check("macos_tcc_system_db", "High Sierra");
+    }
+
+    #[test]
+    fn screen_time_db_path_and_scope() {
+        check("macos_screen_time_db", "10.15");
+        let d = CATALOG.by_id("macos_screen_time_db").unwrap();
+        let p = d.file_path.unwrap_or("");
+        assert!(p.starts_with("/private/var/folders/"), "{p}");
+        assert!(
+            p.ends_with("/0/com.apple.ScreenTimeAgent/Store/RMAdminStore-Local.sqlite"),
+            "{p}"
+        );
+        assert!(d
+            .sources
+            .iter()
+            .any(|s| s.contains("mac_apt") && s.contains("screentime.py")));
+    }
+}
+
+/// macOS artifact knowledge recorded from one examination: the iCloud Keychain
+/// trust store's escrow tables, the Screen Sharing viewer's connection
+/// history, and interpretation caveats on existing macOS descriptors.
+#[cfg(test)]
+mod macos_case_knowledge_tests {
+    use crate::catalog::CATALOG;
+
+    fn caveat_contains(id: &str, needle: &str) -> bool {
+        CATALOG
+            .by_id(id)
+            .unwrap_or_else(|| panic!("{id} must be cataloged"))
+            .evidence_caveats
+            .iter()
+            .any(|c| c.contains(needle))
+    }
+
+    /// The escrow tables of TrustedPeersHelper.db name every device that made
+    /// an iCloud Keychain escrow backup for the account, reaching further back
+    /// than the ZPEER table of current trust-circle peers.
+    #[test]
+    fn trustedpeershelper_escrow_tables_are_cataloged() {
+        let d = CATALOG
+            .by_id("macos_trustedpeershelper_db")
+            .expect("macos_trustedpeershelper_db must be cataloged");
+        assert!(d
+            .file_path
+            .is_some_and(|p| p.ends_with("TrustedPeersHelper.db")));
+        assert!(d.meaning.contains("ZESCROWCLIENTMETADATA"));
+        assert!(d.meaning.contains("ZPEER"));
+        assert!(caveat_contains("macos_trustedpeershelper_db", "protobuf"));
+        assert!(caveat_contains("macos_trustedpeershelper_db", "WAL"));
+    }
+
+    /// The Screen Sharing preferences hold the viewer's outgoing connection
+    /// history; their absence says nothing about incoming Screen Sharing.
+    #[test]
+    fn screensharing_connections_are_outgoing_history_only() {
+        let d = CATALOG
+            .by_id("macos_screensharing_connections")
+            .expect("macos_screensharing_connections must be cataloged");
+        assert!(d
+            .file_path
+            .is_some_and(|p| p.ends_with("com.apple.ScreenSharing.plist")));
+        assert!(d.meaning.contains("connectionsStore"));
+        assert!(caveat_contains(
+            "macos_screensharing_connections",
+            "incoming"
+        ));
+    }
+
+    #[test]
+    fn photos_db_records_the_stored_reverse_geocode() {
+        let d = CATALOG.by_id("macos_photos_db").expect("macos_photos_db");
+        assert!(d.fields.iter().any(|f| f.name == "reverse_location_data"));
+        assert!(caveat_contains("macos_photos_db", "ZREVERSELOCATIONDATA"));
+    }
+
+    #[test]
+    fn knowledgec_flags_events_synced_from_other_devices() {
+        assert!(caveat_contains("macos_knowledgec", "ZSYNCPEER"));
+    }
+
+    #[test]
+    fn unified_log_sleep_gaps_are_explained() {
+        assert!(caveat_contains("macos_unified_log", "PMRD: System Wake"));
+    }
+
+    #[test]
+    fn notes_dates_are_utc_before_local_conversion() {
+        assert!(caveat_contains("macos_notes_db", "UTC"));
+    }
+
+    #[test]
+    fn wherefroms_urls_can_carry_live_tokens() {
+        assert!(caveat_contains("macos_wherefroms_xattr", "token"));
+    }
+}
+
+/// Corrections to macOS descriptors from one examination: the AirDrop sender
+/// name, the Bluetooth name-update time, and OpenBSM login/restart reading.
+#[cfg(test)]
+mod macos_case_corrections_tests {
+    use crate::catalog::CATALOG;
+
+    fn caveat_contains(id: &str, needle: &str) -> bool {
+        CATALOG
+            .by_id(id)
+            .unwrap_or_else(|| panic!("{id} must be cataloged"))
+            .evidence_caveats
+            .iter()
+            .any(|c| c.contains(needle))
+    }
+
+    /// LSQuarantineSenderName is the sending device's name (the AirDrop Ask
+    /// request's SenderComputerName), not an Apple ID name.
+    #[test]
+    fn quarantine_sender_name_is_the_device_name_not_the_apple_id() {
+        let d = CATALOG
+            .by_id("macos_quarantine_events")
+            .expect("macos_quarantine_events");
+        assert!(
+            !d.meaning.contains("Apple ID) name"),
+            "the sender name must not be described as an Apple ID name"
+        );
+        assert!(caveat_contains(
+            "macos_quarantine_events",
+            "SenderComputerName"
+        ));
+    }
+
+    /// LastNameUpdate is when the device's name was set (usually once), not
+    /// when the device was last seen.
+    #[test]
+    fn bluetooth_last_name_update_is_a_name_set_time() {
+        assert!(caveat_contains("macos_bluetooth_devices", "LastNameUpdate"));
+    }
+
+    /// The field schema carries the corrected meanings too, not only the
+    /// caveats: the sender name is the Ask request's SenderComputerName, and
+    /// LastNameUpdate is its own field.
+    #[test]
+    fn field_schemas_carry_the_corrected_meanings() {
+        let q = CATALOG
+            .by_id("macos_quarantine_events")
+            .expect("macos_quarantine_events");
+        assert!(q
+            .fields
+            .iter()
+            .any(|f| f.name == "sender_name" && f.description.contains("SenderComputerName")));
+        let b = CATALOG
+            .by_id("macos_bluetooth_devices")
+            .expect("macos_bluetooth_devices");
+        assert!(b
+            .fields
+            .iter()
+            .any(|f| f.name == "last_name_update" && f.description.contains("name was set")));
+    }
+
+    /// _mbsetupuser logins are the system's Setup User, and a missing
+    /// shutdown record is common rather than proof of an unclean stop.
+    #[test]
+    fn openbsm_setup_user_and_missing_shutdowns_are_explained() {
+        assert!(caveat_contains("macos_openbsm_audit", "_mbsetupuser"));
+        assert!(caveat_contains(
+            "macos_openbsm_audit",
+            "no recorded shutdown"
+        ));
+    }
+}
+
+/// Windows artifact knowledge recorded from one examination: WeChat for
+/// Windows account-identity and image files, and interpretation caveats on
+/// the Recycle Bin and build-identification descriptors.
+#[cfg(test)]
+mod windows_case_knowledge_tests {
+    use crate::catalog::CATALOG;
+
+    fn caveat_contains(id: &str, needle: &str) -> bool {
+        CATALOG
+            .by_id(id)
+            .unwrap_or_else(|| panic!("{id} must be cataloged"))
+            .evidence_caveats
+            .iter()
+            .any(|c| c.contains(needle))
+    }
+
+    /// AccInfo.dat names the logged-in account; All Users\config\config.data
+    /// points at the last account's AccInfo.dat.
+    #[test]
+    fn wechat_accinfo_and_config_data_are_cataloged() {
+        let d = CATALOG
+            .by_id("wechat_windows_accinfo")
+            .expect("wechat_windows_accinfo must be cataloged");
+        assert!(d.file_path.is_some_and(|p| p.ends_with("AccInfo.dat")));
+        assert!(d.meaning.contains("config.data"));
+        assert!(caveat_contains("wechat_windows_accinfo", "nickname"));
+    }
+
+    /// FileStorage\Image .dat files are single-byte-XOR encoded images whose
+    /// key falls out of the known image header.
+    #[test]
+    fn wechat_image_dat_xor_is_cataloged() {
+        let d = CATALOG
+            .by_id("wechat_windows_image_dat")
+            .expect("wechat_windows_image_dat must be cataloged");
+        assert!(d.meaning.contains("XOR"));
+        assert!(caveat_contains("wechat_windows_image_dat", "3.x"));
+    }
+
+    /// $I files keep the deleted file's original extension, so an
+    /// extension-driven pipeline mistakes them for documents.
+    #[test]
+    fn recycle_bin_i_files_keep_the_original_extension() {
+        assert!(caveat_contains("recycle_bin", "original extension"));
+    }
+
+    /// Windows 11 still writes "Windows 10" into ProductName; the build number
+    /// (22000 and up) is what identifies Windows 11.
+    #[test]
+    fn build_identification_warns_windows11_productname_reads_windows10() {
+        let d = CATALOG
+            .by_id("windows_build_identification")
+            .expect("windows_build_identification");
+        assert!(d
+            .evidence_caveats
+            .iter()
+            .any(|c| c.contains("Windows 10") && c.contains("22000")));
+    }
+
+    /// The account folder is named by the ID used at login, which can be the
+    /// custom WeChat ID rather than the wxid_.
+    #[test]
+    fn wechat_folder_name_is_the_login_id() {
+        let d = CATALOG
+            .by_id("wechat_windows_files")
+            .expect("wechat_windows_files");
+        assert!(d.meaning.contains("custom WeChat ID"));
+        assert!(d.related_artifacts.contains(&"wechat_windows_accinfo"));
+    }
+
+    /// FAT times can carry UTC values when the copying tool preserves them.
+    #[test]
+    fn fat_times_can_be_utc_valued_when_preserved() {
+        assert!(caveat_contains("fat_exfat_directory_entry", "UTC-valued"));
     }
 }

@@ -13,17 +13,20 @@
 //! bug misleads as surely as a bug filed as a design limit.
 
 pub use forensicnomicon_core::knowledge::{
-    AntiForensicMethod, CorrelationHint, CorrelationRelation, InvestigativeTechnique,
-    TechniqueStep, ToolBehaviour, ToolBehaviourKind,
+    AntiForensicMethod, CorrelationHint, CorrelationRelation, ExaminationFocus, ExaminationProfile,
+    InvestigativeCategory, InvestigativeTechnique, ProfileKind, ProfileMember, TechniqueStep,
+    ToolBehaviour, ToolBehaviourKind,
 };
 
 mod anti_forensic_methods;
 mod correlation_hints;
+mod examination_profiles;
 mod investigative_techniques;
 mod tool_behaviours;
 
 pub use anti_forensic_methods::ANTI_FORENSIC_METHODS;
 pub use correlation_hints::CORRELATION_HINTS;
+pub use examination_profiles::EXAMINATION_PROFILES;
 pub use investigative_techniques::INVESTIGATIVE_TECHNIQUES;
 pub use tool_behaviours::TOOL_BEHAVIOURS;
 
