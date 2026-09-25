@@ -835,6 +835,126 @@ pub fn time_format(id: &str) -> Option<&'static TimeFormat> {
     TIME_FORMATS.iter().find(|f| f.id == id)
 }
 
+// ---------------------------------------------------------------------------
+// Text tokens (URL parameters, encoded IDs)
+// ---------------------------------------------------------------------------
+
+/// How a text token lays out its timestamp. Like [`PackedLayout`], the table
+/// names the layout and the engine (timeglyph) dispatches it to the decoder.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize))]
+#[non_exhaustive]
+pub enum TokenLayout {
+    /// Google `ei`: unpadded urlsafe base64 (RFC 4648 §5). Decoded bytes 0..4 are
+    /// a little-endian `u32` of Unix seconds, followed by protobuf varints. The
+    /// first varint is microseconds and is valid only below 1 000 000; the
+    /// meaning of the later two is unknown.
+    GoogleEi,
+}
+
+/// A worked example: a token and the instant it encodes, as published by `source`.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize))]
+pub struct TokenExample {
+    /// The token as it appears in the wild.
+    pub token: &'static str,
+    /// The encoded instant, in microseconds since the Unix epoch.
+    pub unix_micros: i64,
+    /// The document that published this example (one of the format's `sources`).
+    pub source: &'static str,
+}
+
+/// A timestamp carried in a text token rather than a stored integer.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize))]
+#[non_exhaustive]
+pub struct TokenFormat {
+    /// Stable id (e.g. `"google_ei"`), disjoint from [`TIME_FORMATS`] ids.
+    pub id: &'static str,
+    /// Human label.
+    pub label: &'static str,
+    /// Where it's found / who writes it.
+    pub family: &'static str,
+    /// Short citation line.
+    pub citation: &'static str,
+    /// Timezone semantics.
+    pub tz: TzSemantics,
+    /// Leap-second semantics.
+    pub leap: LeapSemantics,
+    /// Auto-detect ranking prior, as for [`TimeFormat::plausible`].
+    pub plausible: (i128, i128),
+    /// URL query-parameter names that carry the token. A bare token has no
+    /// structure to recognise it by, so the engine keys detection on these names.
+    pub url_params: &'static [&'static str],
+    /// How the token lays out its timestamp.
+    pub layout: TokenLayout,
+    /// What the decoded instant does and does not establish.
+    pub caveats: &'static [&'static str],
+    /// Documents the layout and caveats rest on.
+    pub sources: &'static [&'static str],
+    /// Worked examples, each published by one of `sources`.
+    pub examples: &'static [TokenExample],
+}
+
+// Source: https://cheeky4n6monkey.blogspot.com/2014/10/google-eid.html
+const EI_CHEEKY: &str = "https://cheeky4n6monkey.blogspot.com/2014/10/google-eid.html";
+// Source: https://deedpolloffice.com/blog/articles/decoding-ei-parameter
+const EI_DEEDPOLL: &str = "https://deedpolloffice.com/blog/articles/decoding-ei-parameter";
+// Source: https://github.com/obsidianforensics/unfurl/blob/main/unfurl/parsers/parse_google.py
+const EI_UNFURL: &str =
+    "https://github.com/obsidianforensics/unfurl/blob/main/unfurl/parsers/parse_google.py";
+// Source: https://github.com/obsidianforensics/unfurl/issues/56
+const EI_UNFURL_56: &str = "https://github.com/obsidianforensics/unfurl/issues/56";
+
+/// Every catalogued text-token format. Appended, never reordered.
+pub static TOKEN_FORMATS: &[TokenFormat] = &[TokenFormat {
+    id: "google_ei",
+    label: "Google ei= URL parameter (Unix seconds + microseconds)",
+    family: "Google search result / click-through URLs (ei, sei parameters)",
+    citation: "Google ei (urlsafe base64; 4-byte LE Unix seconds + varint µs); \
+               Deed Poll Office 2013, Cheeky4n6Monkey 2014, unfurl",
+    tz: TzSemantics::Utc,
+    leap: LeapSemantics::PosixIgnored,
+    plausible: W,
+    url_params: &["ei", "sei"],
+    layout: TokenLayout::GoogleEi,
+    caveats: &[
+        // Source: https://github.com/obsidianforensics/unfurl/issues/56
+        "the instant is when Google served the page the link was minted on (session \
+         start or a previous search), not necessarily when the query in the same URL \
+         was run; the unfurl #56 reporter saw ei values hours apart from the search",
+        // Source: https://deedpolloffice.com/blog/articles/decoding-ei-parameter
+        "Google does not document the layout; the microsecond field is a conjecture \
+         (Deed Poll Office 2013), corroborated where the same URL's ved parameter \
+         carries the identical microsecond instant (unfurl #56)",
+        // Source: https://cheeky4n6monkey.blogspot.com/2014/10/google-eid.html
+        "Deed Poll Office's PHP decoder maps '_' to '+' and '-' to '/', the reverse of \
+         RFC 4648 urlsafe base64; a token with '-' or '_' in its first 6 characters \
+         decodes to different seconds under it than under a standard decoder",
+    ],
+    sources: &[EI_DEEDPOLL, EI_CHEEKY, EI_UNFURL, EI_UNFURL_56],
+    // Both tokens are public ei values quoted verbatim from the cited pages, not
+    // credentials; gitleaks' generic-api-key rule matches the `token` field name.
+    examples: &[
+        TokenExample {
+            token: "tci4UszSJeLN7Ab9xYD4CQ", // gitleaks:allow
+            unix_micros: 1_387_841_717_616_780,
+            source: EI_DEEDPOLL,
+        },
+        TokenExample {
+            token: "ttqdXsP7IMKZk74Pgv-k6AY", // gitleaks:allow
+            unix_micros: 1_587_403_446_540_099,
+            source: EI_UNFURL_56,
+        },
+    ],
+}];
+
+/// The catalogued text-token format with this stable id, or `None`.
+#[must_use]
+pub fn token_format(id: &str) -> Option<&'static TokenFormat> {
+    TOKEN_FORMATS.iter().find(|f| f.id == id)
+}
+
 #[cfg(test)]
 mod tests {
 
