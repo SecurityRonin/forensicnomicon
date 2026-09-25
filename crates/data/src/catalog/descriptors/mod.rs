@@ -9335,10 +9335,14 @@ pub static MACOS_UNIFIED_LOG: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://www.mandiant.com/resources/blog/reviewing-macos-unified-logs",
         "https://developer.apple.com/documentation/os/logging",
+        // Source: kernel `PMRD: System Wake` as the first entry of a wake from sleep
+        "https://eclecticlight.co/2017/02/27/waking-your-mac-from-sleep-log-highlights/",
     ],
     evidence_strength: None,
     evidence_tier: None,
-    evidence_caveats: &[],
+    evidence_caveats: &[
+        "A stretch with no entries is not by itself a gap in the record: the Mac writes nothing while asleep, and the kernel's `PMRD: System Wake` entry marks the first sign of the wake that ends it. On one macOS Big Sur 11 image examined in 2026 such silent stretches were also closed by a kernel line reporting the seconds slept (time_slept), which dates the sleep; check for the wake entries before reading a silent period as deletion or power-off",
+    ],
     volatility: None,
     volatility_rationale: "",
 };
@@ -9609,11 +9613,16 @@ pub static MACOS_KNOWLEDGEC: ArtifactDescriptor = ArtifactDescriptor {
     sources: &[
         "https://www.mac4n6.com/blog/2018/8/5/knowledge-is-power-using-the-knowledgecdb-database-on-macos-and-ios-to-determine-precise-user-and-application-usage",
         "https://github.com/mac4n6/APOLLO",
+        // Source: ZSYNCPEER and ZSOURCE on a Mac's knowledgeC.db holding data synced from an iPhone
+        "https://www.hecfblog.com/2020/05/daily-blog-698-solution-saturday-5920.html",
+        // Source: ZOBJECT.ZSOURCE -> ZSOURCE.ZDEVICEID -> ZSYNCPEER.ZDEVICEID join yielding ZMODEL per event
+        "https://felixkohlhas.com/projects/screentime/",
     ],
     evidence_strength: None,
     evidence_tier: None,
     evidence_caveats: &[
         "Documented at this per-user path (and a system-context copy in /private/var/db/CoreDuet/Knowledge/) on macOS 10.13 (mac4n6, 2018) and present on one macOS Big Sur 11.7 image; the schema differs between releases",
+        "Not every event happened on this Mac: the database can hold events synced in from the user's other devices (mac4n6; hecfblog; felixkohlhas). Join ZOBJECT.ZSOURCE to ZSOURCE and compare ZSOURCE.ZDEVICEID with ZSYNCPEER.ZDEVICEID (which carries the peer's ZMODEL); a match marks an event from another device. On one macOS Big Sur 11 image examined in 2026 a synced Notes intent was created locally two days after its event time, so compare ZCREATIONDATE with ZSTARTDATE before placing the event on the Mac",
     ],
     volatility: None,
     volatility_rationale: "",
@@ -18545,6 +18554,8 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     macos_ext::MACOS_BLUETOOTH_DEVICES,
     macos_ext::MACOS_SMB_SERVER_IDENTITY,
     macos_ext::MACOS_CONNECT_TO_SERVER_HISTORY,
+    macos_ext::MACOS_TRUSTEDPEERSHELPER_DB,
+    macos_ext::MACOS_SCREENSHARING_CONNECTIONS,
     windows_files_ext::ONEDRIVE_ODL_LOGS,
     // ── Windows user attribution (SAM F record, WeChat, Partition/Diagnostic
     //    1006, FAT/exFAT directory entries) ──

@@ -411,10 +411,13 @@ pub(crate) static MACOS_NOTES_DB: ArtifactDescriptor = ArtifactDescriptor {
         "http://www.swiftforensics.com/2018/02/reading-notes-database-on-macos.html",
         "https://ciofecaforensics.com/2020/01/10/apple-notes-revisited/",
         "https://github.com/threeplanetssoftware/apple_cloud_notes_parser",
+        // Source: Apple's absolute-time reference date, 1 Jan 2001 00:00:00 GMT
+        "https://developer.apple.com/documentation/corefoundation/cfabsolutetime",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
     evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
     evidence_caveats: &[
+        "Creation and modification times are Mac absolute times counted from 1 Jan 2001 00:00:00 UTC, so a converted value is a UTC instant: convert it to the examined location's local time before stating the calendar date, because near midnight the UTC date and the local date differ by a day",
         "Version scope: NoteStore.sqlite is documented from OS X El Capitan onward; Mountain Lion to High Sierra also used legacy NotesV1/V2/V4/V6/V7.storedata stores under /Users/*/Library/Containers/com.apple.Notes/Data/Library/Notes/ (attachments under .../CoreData/Attachments/<UUID>/), so older or upgraded Macs can hold both",
         "Body text is not plaintext in the database: ZICNOTEDATA.ZDATA must be gunzipped and protobuf-decoded; a string search of the raw file misses note text",
         "Collect NoteStore.sqlite-wal and -shm with the database; recent edits may exist only in the WAL",
@@ -634,6 +637,7 @@ pub(crate) static MACOS_PHOTOS_DB: ArtifactDescriptor = ArtifactDescriptor {
         FieldSchema { name: "gps_latitude", value_type: ValueType::Text, description: "GPS latitude from EXIF", is_uid_component: false },
         FieldSchema { name: "gps_longitude", value_type: ValueType::Text, description: "GPS longitude from EXIF", is_uid_component: false },
         FieldSchema { name: "capture_date", value_type: ValueType::Timestamp, description: "Photo capture timestamp", is_uid_component: false },
+        FieldSchema { name: "reverse_location_data", value_type: ValueType::Bytes, description: "ZADDITIONALASSETATTRIBUTES.ZREVERSELOCATIONDATA — binary plist of Apple's stored reverse-geocode (place names) for the asset's coordinates; ZREVERSELOCATIONDATAISVALID flags whether it has been populated", is_uid_component: false },
     ],
     retention: Some("Persistent; syncs to iCloud Photos"),
     triage_priority: TriagePriority::High,
@@ -643,6 +647,9 @@ pub(crate) static MACOS_PHOTOS_DB: ArtifactDescriptor = ArtifactDescriptor {
         // Source: user reports of localised bundle names (zh-Hant, fr)
         "https://www.vedfolnir.com/technology/software/apple-photos-library-notice/",
         "https://forums.macg.co/threads/phototheque-photoslibrary.1401945/",
+        // Source: ZREVERSELOCATIONDATA bplist of place data and its ZREVERSELOCATIONDATAISVALID flag (iOS testing)
+        "https://smarterforensics.com/2020/08/does-photos-sqlite-have-relations-with-cameramessagesapp-by-scott-koenig/",
+        "https://theforensicscooter.com/2022/05/02/photos-sqlite-query-documentation-notable-artifacts/",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Definitive),
     evidence_tier: None,
@@ -650,6 +657,8 @@ pub(crate) static MACOS_PHOTOS_DB: ArtifactDescriptor = ArtifactDescriptor {
         "GPS metadata may be stripped if user disabled location for camera",
         "The library bundle name is localised and user-choosable, so match *.photoslibrary rather than the English \"Photos Library.photoslibrary\": a Traditional Chinese system was observed with 照片圖庫.photoslibrary on one macOS Big Sur 11.7 image, and user reports show the same name (vedfolnir.com) and French Photothèque.photoslibrary (forums.macg.co); no Apple document naming the localised bundle was found",
         "A library can live outside ~/Pictures (another folder or an external volume) and a user can have several; the glob covers only the default parent folder",
+        "Coordinates are in ZASSET.ZLATITUDE/ZLONGITUDE; ZADDITIONALASSETATTRIBUTES.ZREVERSELOCATIONDATA (join ZADDITIONALASSETATTRIBUTES.ZASSET = ZASSET.Z_PK) is Apple's own reverse-geocode of them, a binary plist (NSKeyedArchiver) whose $objects strings give the place hierarchy and a formatted address. It is empty until Photos has analysed the asset (ZREVERSELOCATIONDATAISVALID 0), per iOS testing by Koenig and The Forensic Scooter; on one macOS Big Sur 11 image examined in 2026 it decoded with plistlib and agreed with independent geocoders",
+        "A geotag places the device that captured the asset, not the Mac: a Mac library signed in to iCloud Photos holds synced records (and often only derivatives) of assets captured on the user's phone",
     ],
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "Photos library database persists until photo deletion",
@@ -3181,6 +3190,7 @@ pub(crate) static MACOS_WHEREFROMS_XATTR: ArtifactDescriptor = ArtifactDescripto
     evidence_caveats: &[
         "Set only by cooperating applications — a file downloaded by curl or a custom tool carries neither attribute",
         "User-writable metadata: can be edited or stripped with xattr, so corroborate against QuarantineEventsV2 and browser history",
+        "The recorded URL is the full request URL, query string included, and can carry live credentials: on one macOS image examined in 2026 the Spotlight metadata record of an attachment downloaded in Safari from Outlook on the web held its download URL with a bearer token, an X-OWA-CANARY value and JWT-shaped strings. Treat kMDItemWhereFroms and quarantine URLs as secret-bearing and redact them before reproducing them in a report",
     ],
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "Extended attributes travel with the file until explicitly removed",
@@ -5735,4 +5745,126 @@ pub(crate) static MACOS_CONNECT_TO_SERVER_HISTORY: ArtifactDescriptor = Artifact
     ],
     volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
     volatility_rationale: "Updated as the user connects to servers; entries evicted only as the capped list rolls",
+};
+
+/// iCloud Keychain trust store of the Security framework's TrustedPeersHelper
+/// (Octagon) service: `com.apple.security.keychain-defaultContext.TrustedPeersHelper.db`.
+///
+/// # Sources
+/// - <https://github.com/apple-oss-distributions/Security/blob/main/keychain/TrustedPeersHelper/TrustedPeersHelper.xcdatamodeld/TrustedPeersHelper_6.xcdatamodel/contents> —
+///   Apple's Core Data model: entities Peer (peerID, stableInfo, stableInfoSig),
+///   EscrowRecord, EscrowMetadata (serial) and EscrowClientMetadata (deviceName,
+///   deviceModel, deviceModelClass, deviceModelVersion,
+///   secureBackupMetadataTimestamp).
+/// - <https://github.com/apple-oss-distributions/Security/blob/main/keychain/TrustedPeersHelper/Container_EscrowRecords.swift> —
+///   `setEscrowRecord` caches each escrow record fetched from the escrow service
+///   into those entities (serial, secureBackupTimestamp, client-metadata device
+///   name and model).
+/// - <https://github.com/abrignoni/iLEAPP/blob/main/scripts/artifacts/trustedPeers.py> —
+///   iLEAPP joins ZESCROWCLIENTMETADATA to ZESCROWMETADATA for device name,
+///   model and serial; notes one database per trust-circle context and sample
+///   data whose rows sat only in the WAL.
+/// - <https://support.apple.com/guide/security/sec3e341e75d> — Apple Platform
+///   Security: escrow records guarded by HSM clusters for iCloud Keychain recovery.
+pub(crate) static MACOS_TRUSTEDPEERSHELPER_DB: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_trustedpeershelper_db",
+    name: "iCloud Keychain Trust Store (TrustedPeersHelper.db)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    // Path observed on one macOS Big Sur 11 image; iLEAPP globs **/*TrustedPeersHelper.db* on iOS.
+    file_path: Some("/Users/*/Library/Keychains/*/com.apple.security.keychain-defaultContext.TrustedPeersHelper.db"),
+    scope: DataScope::User,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "Core Data SQLite store of TrustedPeersHelper, the Security-framework service that \
+        manages iCloud Keychain trust (Octagon). Two parts matter. ZPEER holds the peers in the \
+        account's current trust circle, each with a ZSTABLEINFO blob describing the device. The \
+        escrow tables cache the account's iCloud Keychain escrow records, one per device that made \
+        an escrow backup: ZESCROWRECORD, ZESCROWMETADATA (device serial, secure-backup timestamp) \
+        and ZESCROWCLIENTMETADATA (device name, model identifier such as iPhone15,2 or MacBookPro18,1, \
+        model class and version, backup-metadata timestamp). The escrow tables therefore name the \
+        account's devices by name, model and serial, and reach further back than ZPEER, which \
+        lists only today's circle. Timestamps are Core Data absolute times (seconds since \
+        2001-01-01 UTC).",
+    mitre_techniques: &["T1005"],
+    fields: &[
+        FieldSchema { name: "device_name", value_type: ValueType::Text, description: "ZESCROWCLIENTMETADATA.ZDEVICENAME — the escrowing device's user-assigned name", is_uid_component: false },
+        FieldSchema { name: "device_model", value_type: ValueType::Text, description: "ZESCROWCLIENTMETADATA.ZDEVICEMODEL — model identifier (e.g. iPhone15,2)", is_uid_component: false },
+        FieldSchema { name: "serial", value_type: ValueType::Text, description: "ZESCROWMETADATA.ZSERIAL — the escrowing device's serial number", is_uid_component: true },
+        FieldSchema { name: "secure_backup_timestamp", value_type: ValueType::Timestamp, description: "ZESCROWCLIENTMETADATA.ZSECUREBACKUPMETADATATIMESTAMP — Core Data absolute time (UTC) of the escrow backup metadata", is_uid_component: false },
+        FieldSchema { name: "peer_stable_info", value_type: ValueType::Bytes, description: "ZPEER.ZSTABLEINFO — serialized protobuf describing a current trust-circle peer", is_uid_component: false },
+    ],
+    retention: Some("Refreshed from the escrow service; escrow rows can outlive the devices' membership of the trust circle"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["macos_keychain_user", "apple_dsid"],
+    sources: &[
+        "https://github.com/apple-oss-distributions/Security/blob/main/keychain/TrustedPeersHelper/TrustedPeersHelper.xcdatamodeld/TrustedPeersHelper_6.xcdatamodel/contents",
+        "https://github.com/apple-oss-distributions/Security/blob/main/keychain/TrustedPeersHelper/Container_EscrowRecords.swift",
+        "https://github.com/abrignoni/iLEAPP/blob/main/scripts/artifacts/trustedPeers.py",
+        "https://support.apple.com/guide/security/sec3e341e75d",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
+    evidence_caveats: &[
+        "The macOS location (a per-user ~/Library/Keychains/<UUID>/ folder) was observed on one macOS Big Sur 11 image examined in 2026; the schema is from Apple's source and iLEAPP's iOS parser. iLEAPP notes one database per trust-circle context, so read every *TrustedPeersHelper.db, not the first",
+        "Do not draw a negative from ZPEER alone: it lists only the current trust circle. On the examined image the escrow tables named devices, including by serial, that ZPEER did not, and went back years before the earliest peer",
+        "Read the database with its -wal: iLEAPP records sample data whose rows were present only in the WAL",
+        "ZPEER.ZSTABLEINFO is a serialized protobuf; decode it field by field. On the examined image the OS version string and the device serial were separate fields, and a regex over the raw blob appended the next field's tag byte to every serial it matched",
+        "Device names are user-assigned labels, commonly Apple's default '<first name>'s iPhone' form (localised, e.g. '<name>的 iPad'); a name can echo the account holder's first name but is not verified identity, and a factory-default 'iPhone' identifies nothing",
+        "The rows describe the Apple account's devices, which need never have touched this Mac; tie them to an account separately (on the examined image the container's ZACCOUNTDSID was empty, so attribution rested on the single iCloud account signed in on the Mac)",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "On-disk Core Data store, refreshed while the account stays signed in",
+};
+
+/// Screen Sharing viewer connection history: `connectionsStore` in
+/// `com.apple.ScreenSharing.plist` inside the app's container.
+///
+/// # Sources
+/// - <https://github.com/ydkhatri/mac_apt/blob/master/plugins/screensharing.py> —
+///   mac_apt SCREENSHARING plugin: reads
+///   `<home>/Library/Containers/com.apple.ScreenSharing/Data/Library/Preferences/com.apple.ScreenSharing.plist`,
+///   decodes the embedded `connectionsStore` plist (connectionDetails →
+///   connectionParameters.networkAddress address / username / displayName;
+///   sessionMetadatas → lastConnectedDate; connectionGroups → groupName, members)
+///   and logs "No Screen Sharing artifacts were found!" when it yields no rows.
+pub(crate) static MACOS_SCREENSHARING_CONNECTIONS: ArtifactDescriptor = ArtifactDescriptor {
+    id: "macos_screensharing_connections",
+    name: "Screen Sharing Viewer Connection History (connectionsStore)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some("/Users/*/Library/Containers/com.apple.ScreenSharing/Data/Library/Preferences/com.apple.ScreenSharing.plist"),
+    scope: DataScope::User,
+    os_scope: OsScope::MacOS,
+    decoder: Decoder::Identity,
+    meaning: "Preferences of the Screen Sharing app, the VNC viewer a user runs to control another \
+        computer. Its connectionsStore value is an embedded plist: connectionDetails keys each \
+        remote host by UUID with its network address, display name and the username used to log in \
+        to it; sessionMetadatas gives each host's lastConnectedDate; connectionGroups names \
+        user-made groups and their member hosts. It is the history of connections made FROM this \
+        Mac to other machines.",
+    mitre_techniques: &["T1021.005"],
+    fields: &[
+        FieldSchema { name: "host_uuid", value_type: ValueType::Guid, description: "connectionDetails key identifying the remote host", is_uid_component: true },
+        FieldSchema { name: "address", value_type: ValueType::Text, description: "connectionParameters.networkAddress address — IP or host name connected to", is_uid_component: false },
+        FieldSchema { name: "login_username", value_type: ValueType::Text, description: "Username supplied for the remote host (an account there, not a local user)", is_uid_component: false },
+        FieldSchema { name: "last_connected", value_type: ValueType::Timestamp, description: "sessionMetadatas lastConnectedDate", is_uid_component: false },
+    ],
+    retention: Some("Persists until the user removes the host from the app"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["macos_unified_log"],
+    sources: &["https://github.com/ydkhatri/mac_apt/blob/master/plugins/screensharing.py"],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
+    evidence_caveats: &[
+        "Outgoing history only: it records connections this Mac's user made to other hosts and says nothing about incoming Screen Sharing to this Mac being enabled, permitted or used. mac_apt's 'No Screen Sharing artifacts were found!' means this plist was absent or held no connection records, not that incoming sharing was off",
+        "The structure is taken from one parser's source (mac_apt, 2024); which macOS release introduced this containerised store is not documented there, and the file was absent on one macOS Big Sur 11 image examined in 2026",
+        "lastConnectedDate is the latest session per host, not a log of every session",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Preference file rewritten when the viewer connects or the host list changes",
 };
