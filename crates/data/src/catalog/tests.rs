@@ -15032,6 +15032,27 @@ mod macos_case_corrections_tests {
         assert!(caveat_contains("macos_bluetooth_devices", "LastNameUpdate"));
     }
 
+    /// The field schema carries the corrected meanings too, not only the
+    /// caveats: the sender name is the Ask request's SenderComputerName, and
+    /// LastNameUpdate is its own field.
+    #[test]
+    fn field_schemas_carry_the_corrected_meanings() {
+        let q = CATALOG
+            .by_id("macos_quarantine_events")
+            .expect("macos_quarantine_events");
+        assert!(q
+            .fields
+            .iter()
+            .any(|f| f.name == "sender_name" && f.description.contains("SenderComputerName")));
+        let b = CATALOG
+            .by_id("macos_bluetooth_devices")
+            .expect("macos_bluetooth_devices");
+        assert!(b
+            .fields
+            .iter()
+            .any(|f| f.name == "last_name_update" && f.description.contains("name was set")));
+    }
+
     /// _mbsetupuser logins are the system's Setup User, and a missing
     /// shutdown record is common rather than proof of an unclean stop.
     #[test]
