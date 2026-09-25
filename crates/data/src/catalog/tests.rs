@@ -15,7 +15,7 @@ use crate::catalog::*;
 /// `catalog_integrity::catalog_len_matches_expected_catalog_len` asserts against
 /// it; every `catalog_*` test belonging to a batch asserts that batch's
 /// artifacts are *present*, which is the invariant those tests are named for.
-const EXPECTED_CATALOG_LEN: usize = 6888;
+const EXPECTED_CATALOG_LEN: usize = 6890;
 
 #[cfg(test)]
 mod catalog_integrity {
@@ -15041,5 +15041,82 @@ mod macos_case_corrections_tests {
             "macos_openbsm_audit",
             "no recorded shutdown"
         ));
+    }
+}
+
+/// Windows artifact knowledge recorded from one examination: WeChat for
+/// Windows account-identity and image files, and interpretation caveats on
+/// the Recycle Bin and build-identification descriptors.
+#[cfg(test)]
+mod windows_case_knowledge_tests {
+    use crate::catalog::CATALOG;
+
+    fn caveat_contains(id: &str, needle: &str) -> bool {
+        CATALOG
+            .by_id(id)
+            .unwrap_or_else(|| panic!("{id} must be cataloged"))
+            .evidence_caveats
+            .iter()
+            .any(|c| c.contains(needle))
+    }
+
+    /// AccInfo.dat names the logged-in account; All Users\config\config.data
+    /// points at the last account's AccInfo.dat.
+    #[test]
+    fn wechat_accinfo_and_config_data_are_cataloged() {
+        let d = CATALOG
+            .by_id("wechat_windows_accinfo")
+            .expect("wechat_windows_accinfo must be cataloged");
+        assert!(d.file_path.is_some_and(|p| p.ends_with("AccInfo.dat")));
+        assert!(d.meaning.contains("config.data"));
+        assert!(caveat_contains("wechat_windows_accinfo", "nickname"));
+    }
+
+    /// FileStorage\Image .dat files are single-byte-XOR encoded images whose
+    /// key falls out of the known image header.
+    #[test]
+    fn wechat_image_dat_xor_is_cataloged() {
+        let d = CATALOG
+            .by_id("wechat_windows_image_dat")
+            .expect("wechat_windows_image_dat must be cataloged");
+        assert!(d.meaning.contains("XOR"));
+        assert!(caveat_contains("wechat_windows_image_dat", "3.x"));
+    }
+
+    /// $I files keep the deleted file's original extension, so an
+    /// extension-driven pipeline mistakes them for documents.
+    #[test]
+    fn recycle_bin_i_files_keep_the_original_extension() {
+        assert!(caveat_contains("recycle_bin", "original extension"));
+    }
+
+    /// Windows 11 still writes "Windows 10" into ProductName; the build number
+    /// (22000 and up) is what identifies Windows 11.
+    #[test]
+    fn build_identification_warns_windows11_productname_reads_windows10() {
+        let d = CATALOG
+            .by_id("windows_build_identification")
+            .expect("windows_build_identification");
+        assert!(d
+            .evidence_caveats
+            .iter()
+            .any(|c| c.contains("Windows 10") && c.contains("22000")));
+    }
+
+    /// The account folder is named by the ID used at login, which can be the
+    /// custom WeChat ID rather than the wxid_.
+    #[test]
+    fn wechat_folder_name_is_the_login_id() {
+        let d = CATALOG
+            .by_id("wechat_windows_files")
+            .expect("wechat_windows_files");
+        assert!(d.meaning.contains("custom WeChat ID"));
+        assert!(d.related_artifacts.contains(&"wechat_windows_accinfo"));
+    }
+
+    /// FAT times can carry UTC values when the copying tool preserves them.
+    #[test]
+    fn fat_times_can_be_utc_valued_when_preserved() {
+        assert!(caveat_contains("fat_exfat_directory_entry", "UTC-valued"));
     }
 }
