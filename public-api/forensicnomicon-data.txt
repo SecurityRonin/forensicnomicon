@@ -14,12 +14,18 @@ pub mod forensicnomicon_data::knowledge
 pub use forensicnomicon_data::knowledge::AntiForensicMethod
 pub use forensicnomicon_data::knowledge::CorrelationHint
 pub use forensicnomicon_data::knowledge::CorrelationRelation
+pub use forensicnomicon_data::knowledge::ExaminationFocus
+pub use forensicnomicon_data::knowledge::ExaminationProfile
+pub use forensicnomicon_data::knowledge::InvestigativeCategory
 pub use forensicnomicon_data::knowledge::InvestigativeTechnique
+pub use forensicnomicon_data::knowledge::ProfileKind
+pub use forensicnomicon_data::knowledge::ProfileMember
 pub use forensicnomicon_data::knowledge::TechniqueStep
 pub use forensicnomicon_data::knowledge::ToolBehaviour
 pub use forensicnomicon_data::knowledge::ToolBehaviourKind
 pub static forensicnomicon_data::knowledge::ANTI_FORENSIC_METHODS: &[forensicnomicon_core::knowledge::AntiForensicMethod]
 pub static forensicnomicon_data::knowledge::CORRELATION_HINTS: &[forensicnomicon_core::knowledge::CorrelationHint]
+pub static forensicnomicon_data::knowledge::EXAMINATION_PROFILES: &[forensicnomicon_core::knowledge::ExaminationProfile]
 pub static forensicnomicon_data::knowledge::INVESTIGATIVE_TECHNIQUES: &[forensicnomicon_core::knowledge::InvestigativeTechnique]
 pub static forensicnomicon_data::knowledge::TOOL_BEHAVIOURS: &[forensicnomicon_core::knowledge::ToolBehaviour]
 pub mod forensicnomicon_data::volatility

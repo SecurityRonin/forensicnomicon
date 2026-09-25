@@ -633,6 +633,26 @@ pub forensicnomicon_core::knowledge::CorrelationRelation::Contradicts
 pub forensicnomicon_core::knowledge::CorrelationRelation::Corroborates
 pub forensicnomicon_core::knowledge::CorrelationRelation::SameEventTwoSources
 pub forensicnomicon_core::knowledge::CorrelationRelation::TemporalOrdering
+#[non_exhaustive] pub enum forensicnomicon_core::knowledge::ExaminationFocus
+pub forensicnomicon_core::knowledge::ExaminationFocus::DataLeakage
+pub forensicnomicon_core::knowledge::ExaminationFocus::FullExamination
+pub forensicnomicon_core::knowledge::ExaminationFocus::Malware
+pub forensicnomicon_core::knowledge::ExaminationFocus::UserAttribution
+#[non_exhaustive] pub enum forensicnomicon_core::knowledge::InvestigativeCategory
+pub forensicnomicon_core::knowledge::InvestigativeCategory::AccountUse
+pub forensicnomicon_core::knowledge::InvestigativeCategory::ApplicationUse
+pub forensicnomicon_core::knowledge::InvestigativeCategory::CloudStorage
+pub forensicnomicon_core::knowledge::InvestigativeCategory::Communications
+pub forensicnomicon_core::knowledge::InvestigativeCategory::Connections
+pub forensicnomicon_core::knowledge::InvestigativeCategory::DocumentAuthorship
+pub forensicnomicon_core::knowledge::InvestigativeCategory::ExecutionControl
+pub forensicnomicon_core::knowledge::InvestigativeCategory::FileActivity
+pub forensicnomicon_core::knowledge::InvestigativeCategory::Persistence
+pub forensicnomicon_core::knowledge::InvestigativeCategory::Printing
+pub forensicnomicon_core::knowledge::InvestigativeCategory::WebActivity
+pub enum forensicnomicon_core::knowledge::ProfileKind
+pub forensicnomicon_core::knowledge::ProfileKind::Focused
+pub forensicnomicon_core::knowledge::ProfileKind::Full
 #[non_exhaustive] pub enum forensicnomicon_core::knowledge::ToolBehaviourKind
 pub forensicnomicon_core::knowledge::ToolBehaviourKind::FalsePositiveProne
 pub forensicnomicon_core::knowledge::ToolBehaviourKind::MisreadsStructure
@@ -661,6 +681,15 @@ pub forensicnomicon_core::knowledge::CorrelationHint::mitre_techniques: &'static
 pub forensicnomicon_core::knowledge::CorrelationHint::name: &'static str
 pub forensicnomicon_core::knowledge::CorrelationHint::relation: forensicnomicon_core::knowledge::CorrelationRelation
 pub forensicnomicon_core::knowledge::CorrelationHint::sources: &'static [&'static str]
+pub struct forensicnomicon_core::knowledge::ExaminationProfile
+pub forensicnomicon_core::knowledge::ExaminationProfile::description: &'static str
+pub forensicnomicon_core::knowledge::ExaminationProfile::focus: forensicnomicon_core::knowledge::ExaminationFocus
+pub forensicnomicon_core::knowledge::ExaminationProfile::id: &'static str
+pub forensicnomicon_core::knowledge::ExaminationProfile::kind: forensicnomicon_core::knowledge::ProfileKind
+pub forensicnomicon_core::knowledge::ExaminationProfile::members: &'static [forensicnomicon_core::knowledge::ProfileMember]
+pub forensicnomicon_core::knowledge::ExaminationProfile::name: &'static str
+pub forensicnomicon_core::knowledge::ExaminationProfile::platform: forensicnomicon_core::catalog::types::Platform
+pub forensicnomicon_core::knowledge::ExaminationProfile::sources: &'static [&'static str]
 pub struct forensicnomicon_core::knowledge::InvestigativeTechnique
 pub forensicnomicon_core::knowledge::InvestigativeTechnique::artifacts_used: &'static [&'static str]
 pub forensicnomicon_core::knowledge::InvestigativeTechnique::evidence_tier: forensicnomicon_core::evidence::EvidenceTier
@@ -672,6 +701,10 @@ pub forensicnomicon_core::knowledge::InvestigativeTechnique::preconditions: &'st
 pub forensicnomicon_core::knowledge::InvestigativeTechnique::question: &'static str
 pub forensicnomicon_core::knowledge::InvestigativeTechnique::sources: &'static [&'static str]
 pub forensicnomicon_core::knowledge::InvestigativeTechnique::steps: &'static [forensicnomicon_core::knowledge::TechniqueStep]
+pub struct forensicnomicon_core::knowledge::ProfileMember
+pub forensicnomicon_core::knowledge::ProfileMember::artifact_id: &'static str
+pub forensicnomicon_core::knowledge::ProfileMember::category: forensicnomicon_core::knowledge::InvestigativeCategory
+pub forensicnomicon_core::knowledge::ProfileMember::rationale: &'static str
 pub struct forensicnomicon_core::knowledge::TechniqueStep
 pub forensicnomicon_core::knowledge::TechniqueStep::action: &'static str
 pub forensicnomicon_core::knowledge::TechniqueStep::artifact_id: core::option::Option<&'static str>
