@@ -159,12 +159,14 @@ pub(crate) static WECHAT_WINDOWS_FILES: ArtifactDescriptor = ArtifactDescriptor 
     hive: None,
     key_path: "",
     value_name: None,
-    file_path: Some(r"%USERPROFILE%\Documents\WeChat Files\<wxid_*>\"),
+    // Folder is named by the login ID (wxid_ or custom WeChat ID), so glob every folder.
+    file_path: Some(r"%USERPROFILE%\Documents\WeChat Files\*\"),
     scope: DataScope::User,
     os_scope: OsScope::All,
     decoder: Decoder::Identity,
     meaning: "WeChat for Windows (3.x) creates one folder per WeChat account that has logged in \
-        on this Windows profile, named after the account's wxid: Documents\\WeChat Files\\<wxid>\\ \
+        on this Windows profile, named after the ID used at login, which is either the internal wxid_ \
+        or the account's custom WeChat ID: Documents\\WeChat Files\\<login-id>\\ \
         holding Msg\\ (encrypted message and contact databases such as Multi\\MSG0.db and \
         MicroMsg.db), FileStorage\\ (received and sent files and media) and BackupFiles\\, \
         beside a shared WeChat Files\\All Users\\ folder. WeChat 4.x moves account data to \
@@ -180,7 +182,12 @@ pub(crate) static WECHAT_WINDOWS_FILES: ArtifactDescriptor = ArtifactDescriptor 
     }],
     retention: Some("Until removed by the user or the client; survives logout"),
     triage_priority: TriagePriority::Medium,
-    related_artifacts: &["profile_list_users", "windows_notification_db"],
+    related_artifacts: &[
+        "profile_list_users",
+        "windows_notification_db",
+        "wechat_windows_accinfo",
+        "wechat_windows_image_dat",
+    ],
     sources: &[
         "https://nisos.com/blog/decrypting-wechat-messages/",
         "https://github.com/RTBRuhan/UsChat",
@@ -193,7 +200,7 @@ pub(crate) static WECHAT_WINDOWS_FILES: ArtifactDescriptor = ArtifactDescriptor 
         "An account folder shows that the WeChat account logged in on this Windows profile, not who operated it: WeChat documents that a PC login is authorised by scanning a QR code with the logged-in phone, which proves the phone approved the login, not who later used the session",
         "Several wxid folders on one profile are consistent with one person holding several accounts or with several people; the folders alone do not distinguish the two",
         "The message databases are encrypted per account with a key held in client memory; folder presence and FileStorage content are readable without it, message content is not",
-        "Read wxid values from the on-disk folder names; OCR of screenshots or printed reports garbles them",
+        "Read account IDs from the on-disk folder names, and take the wxid from the account's config\\AccInfo.dat when the folder carries a custom WeChat ID (observed on one Windows 11 image examined in 2026); OCR of screenshots or printed reports garbles them",
         "In a logical export selected by file type (an extension whitelist), a wxid folder appears only if it held a selected file, so absence from the export is not absence from the machine",
         "Check the configured data location and the 4.x xwechat_files layout before concluding WeChat data is absent",
     ],
@@ -325,10 +332,118 @@ pub(crate) static FAT_EXFAT_DIRECTORY_ENTRY: ArtifactDescriptor = ArtifactDescri
         "The entry has no owner, SID or access-control field (the exFAT basic specification leaves security descriptors to the TexFAT extension), so a removable volume cannot show which account or person wrote a file or which computer it was written on",
         "FAT keeps last access as a date only, with no time, and its creation and access fields are optional (fatgen103)",
         "FAT12/16/32 times carry no time-zone field and are written in whatever clock the writing host used; exFAT records a UtcOffset beside each timestamp",
+        "Microsoft documents FAT times as local time, but a copy that preserves the source file's modified time can leave UTC-valued times on the volume: on one USB stick examined in 2026, 638 of 638 phone-backup files matched by name and size to NTFS copies agreed to 0.0 hours only when the FAT values were read as UTC. Establish the basis per set of files, by matching against copies whose basis is known, not per volume, and flag out-of-range FAT dates (a year such as 2411 was seen) rather than plotting them",
         "A deleted FAT entry's first character is overwritten with 0xE5, so a search for the original file name misses it; search by the rest of the name or by surviving long-name entries",
         "A surviving Word owner file (~$ followed by the rest of the document name) sits in the same folder as the document and, per Microsoft, holds the logon name of the person who opened it; Word deletes it on a clean exit, so one left on the volume shows a document there was opened in Word and names the opening account, not the person",
         "The format is platform-independent; it is catalogued under Windows because the catalogue's OsScope has no cross-platform value",
     ],
     volatility: Some(crate::volatility::VolatilityClass::Residual),
     volatility_rationale: "Directory entries are present on every FAT/exFAT volume and deleted entries persist until reused",
+};
+
+// ── WeChat for Windows (3.x) ─────────────────────────────────────────────────
+
+/// WeChat for Windows account identity: `WeChat Files\<login-id>\config\AccInfo.dat`,
+/// with `WeChat Files\All Users\config\config.data` naming the last account.
+///
+/// # Sources
+/// - <https://github.com/Al1ex/MysqlHoneypot> — README: reads
+///   `Documents/WeChat Files/All Users/config/config.data` to get the wxid, then
+///   `Documents/WeChat Files/<wx_id>/config/AccInfo.dat` for address, WeChat ID
+///   and telephone.
+/// - <https://cloud.tencent.com/developer/article/2008732> — collection script
+///   reading each account folder's `config\AccInfo.dat` (skipping `All Users`
+///   and `Applet`) for the wxid, region, WeChat ID and phone number.
+pub(crate) static WECHAT_WINDOWS_ACCINFO: ArtifactDescriptor = ArtifactDescriptor {
+    id: "wechat_windows_accinfo",
+    name: "WeChat for Windows Account Info (AccInfo.dat, config.data)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some(r"C:\Users\*\Documents\WeChat Files\*\config\AccInfo.dat"),
+    scope: DataScope::User,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "Per-account profile cache of WeChat for Windows 3.x, one in each account folder \
+        under Documents\\WeChat Files\\. Its strings read directly (the file was a protobuf on the one \
+        image examined for this entry): the \
+        account's internal wxid_ identifier, its custom WeChat ID, profile nickname, bound phone \
+        number, region and avatar URL, so it names the account that logged in with that folder \
+        without the encrypted message databases. Beside it, the shared \
+        WeChat Files\\All Users\\config\\config.data (auto-login configuration) holds the full \
+        path to the last account's AccInfo.dat, naming the last account used and the Windows \
+        profile path it ran under.",
+    mitre_techniques: &["T1005"],
+    fields: &[
+        FieldSchema { name: "wxid", value_type: ValueType::Text, description: "Internal wxid_ account identifier", is_uid_component: true },
+        FieldSchema { name: "wechat_id", value_type: ValueType::Text, description: "Custom WeChat ID chosen by the account holder", is_uid_component: false },
+        FieldSchema { name: "nickname", value_type: ValueType::Text, description: "Profile nickname, self-chosen and unverified", is_uid_component: false },
+        FieldSchema { name: "phone", value_type: ValueType::Text, description: "Phone number bound to the account", is_uid_component: false },
+        FieldSchema { name: "region", value_type: ValueType::Text, description: "Profile region", is_uid_component: false },
+    ],
+    retention: Some("Rewritten while the account stays set up on the PC; persists after logout"),
+    triage_priority: TriagePriority::High,
+    related_artifacts: &["wechat_windows_files", "wechat_windows_image_dat"],
+    sources: &[
+        "https://github.com/Al1ex/MysqlHoneypot",
+        "https://cloud.tencent.com/developer/article/2008732",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
+    evidence_caveats: &[
+        "The nickname, WeChat ID and region are chosen by the account holder and not verified by WeChat; they name an account, not a person, and the phone number is the account's bound number, not proof of who used the PC",
+        "The account folder is named by the ID used at login (the custom WeChat ID or the wxid_), so match accounts on the wxid inside AccInfo.dat rather than on folder names",
+        "The public descriptions are tools that string-scrape the files; the only config.data field with a public meaning is the AccInfo.dat path (read as field 50 on one Windows 11 image examined in 2026). Other fields there, and the Unix times in All Users\\config\\<hash>.ini files (and their backups named <hash>.ini<unixtime>), have no public explanation: do not call them sign-in times. On that image account-folder creation times fell seconds after the .ini values, consistent with, not proof of, account set-up",
+        "Layout is WeChat 3.x; see wechat_windows_files for the 4.x location and the configurable data path before calling the files absent",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Client configuration files; persist with the account folder",
+};
+
+/// WeChat for Windows image cache: `FileStorage\Image\<YYYY-MM>\*.dat`.
+///
+/// # Sources
+/// - <https://github.com/kenpusney/wx-image-decoder> — decoder source: derives a
+///   one-byte key by XORing the first two bytes against the JPEG/PNG/GIF/wxgf
+///   header and XORs every byte with it; files under
+///   `<Wechat Files>/<wxid>/FileStorage/Image/<month>`.
+/// - <https://github.com/wsyfree/wechat_image_decode> — decodes the `.dat` files in
+///   the PC client's `FileStorage\Image` directory back to jpg, png and gif.
+pub(crate) static WECHAT_WINDOWS_IMAGE_DAT: ArtifactDescriptor = ArtifactDescriptor {
+    id: "wechat_windows_image_dat",
+    name: "WeChat for Windows Image Files (FileStorage\\Image *.dat)",
+    artifact_type: ArtifactLocation::File,
+    hive: None,
+    key_path: "",
+    value_name: None,
+    file_path: Some(r"C:\Users\*\Documents\WeChat Files\*\FileStorage\Image\*\*.dat"),
+    scope: DataScope::User,
+    os_scope: OsScope::Win7Plus,
+    decoder: Decoder::Identity,
+    meaning: "Images sent and received in WeChat for Windows 3.x chats, stored per account under \
+        FileStorage\\Image\\<YYYY-MM>\\ as .dat files. Each is the original JPEG, PNG or GIF with \
+        every byte XOR-ed with one key byte; the key falls out of the known header (the first \
+        byte XOR 0xFF for a JPEG, and the second byte must give the same key), so the images are \
+        readable offline without the message-database key.",
+    mitre_techniques: &["T1005"],
+    fields: &[
+        FieldSchema { name: "xor_key", value_type: ValueType::UnsignedInt, description: "One-byte XOR key derived from the image header", is_uid_component: false },
+    ],
+    retention: Some("Persists until the user clears WeChat storage"),
+    triage_priority: TriagePriority::Medium,
+    related_artifacts: &["wechat_windows_files", "wechat_windows_accinfo"],
+    sources: &[
+        "https://github.com/kenpusney/wx-image-decoder",
+        "https://github.com/wsyfree/wechat_image_decode",
+    ],
+    evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
+    evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
+    evidence_caveats: &[
+        "Single-byte XOR applies to the WeChat 3.x layout; on one Windows 11 image examined in 2026 eight of eight sampled files decoded, and the key differed between accounts, so derive it per file or per account rather than reusing one",
+        "A decoded image shows the file reached this account's cache, not that anyone viewed it; the month folder is a storage bucket, not a capture date",
+        "The newer WeChat 4.x image format is not covered: a public decoder describing a different encoding for it was blocked on GitHub under a DMCA notice when checked in September 2026, so that format is unverified here",
+    ],
+    volatility: Some(crate::volatility::VolatilityClass::Persistent),
+    volatility_rationale: "Cached media files persist until cleared",
 };

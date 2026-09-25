@@ -3817,6 +3817,11 @@ pub static RECYCLE_BIN: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/EricZimmerman/RBCmd",
         "https://github.com/akhil-dara/RecycleBin-Forensic-Explorer",
         "https://raw.githubusercontent.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/main/01_Hunting_Cheatsheets/1.5_Forensics_Artifacts_Map.csv",
+        // Source: $I/$R names share a random token and keep the original extension
+        // ($R5ZF742.old / $I5ZF742.old); deletion paths that bypass the bin
+        "https://sethenoka.com/windows-recycle-bin-forensics-on-windows-10-and-11/",
+        // Source: $I header of 01 followed by seven 00 bytes (Vista format)
+        "https://www.forensicfocus.com/articles/forensic-analysis-of-the-microsoft-windows-vista-recycle-bin/",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
     evidence_tier: None,
@@ -3825,6 +3830,9 @@ pub static RECYCLE_BIN: ArtifactDescriptor = ArtifactDescriptor {
         "Map the SID folder's RID to an account on this machine's own SAM before treating it as a separate user; a SID that looks foreign is often the sole user's own",
         "A $I/$R pair shows what was deleted under that profile, not which person deleted it: several people sharing one account produce one SID folder",
         "Sending a file to the Recycle Bin renames it on the same NTFS volume, so a recovered $R file can keep its alternate data streams, including Zone.Identifier with the download URL",
+        "$I and $R names keep the deleted file's original extension ($I5ZF742.old pairs with $R5ZF742.old), so a $I record named *.pdf is a small metadata record, not a PDF: check for the 8-byte version header (01 or 02 followed by zero bytes) before treating a bin file by its extension. On one Windows 11 logical export examined in 2026 an extension-driven text pipeline reported over a thousand unreadable PDFs that were all $I records",
+        "Absence of a $I is weak evidence: Shift+Delete, command-line and programmatic deletion, network shares, some removable media and files larger than the bin quota bypass the Recycle Bin, and emptying it removes both files",
+        "Many $I records stamped within the same few seconds are consistent with one multi-item deletion (such as a select-all of a folder's contents) rather than many separate acts; one such burst was observed on one Windows 11 image examined in 2026",
     ],
     volatility: Some(crate::volatility::VolatilityClass::ActivityDriven),
     volatility_rationale: "Deleted on permanent delete; survives recycle until purge",
@@ -18569,6 +18577,8 @@ pub(crate) static CATALOG_ENTRIES: &[ArtifactDescriptor] = &[
     //    1006, FAT/exFAT directory entries) ──
     windows_attribution_ext::SAM_USER_F_RECORD,
     windows_attribution_ext::WECHAT_WINDOWS_FILES,
+    windows_attribution_ext::WECHAT_WINDOWS_ACCINFO,
+    windows_attribution_ext::WECHAT_WINDOWS_IMAGE_DAT,
     windows_attribution_ext::EVTX_PARTITION_DIAGNOSTIC_1006,
     windows_attribution_ext::FAT_EXFAT_DIRECTORY_ENTRY,
     // ── Android ─────────────────────────────────────────────────────────────

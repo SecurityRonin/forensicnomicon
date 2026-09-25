@@ -2282,6 +2282,12 @@ reset caveat in mind.",
         // Source: Get-ComputerInfo sample output showing WindowsCurrentVersion 6.3 alongside
         // OsVersion 10.0.19043 — the major/minor-is-not-the-generation trap.
         "https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-computerinfo",
+        // Source: Windows 11 release table mapping each build.UBR to its KB (22000.1219 = KB5019961).
+        "https://learn.microsoft.com/en-us/windows/release-health/windows11-release-information",
+        "https://support.microsoft.com/en-us/topic/november-8-2022-kb5019961-os-build-22000-1219-92b05506-99a5-449f-b3fa-c9bc96b19b67",
+        // Source: Microsoft Q&A thread (community answers, not an official statement):
+        // ProductName reads "Windows 10" on Windows 11, by design for compatibility.
+        "https://learn.microsoft.com/en-us/answers/questions/555857/windows-11-product-name-in-registry",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
     evidence_tier: None,
@@ -2290,6 +2296,8 @@ reset caveat in mind.",
         "CurrentVersion (major.minor) does not track the OS generation on modern releases — reading it as the version is a documented trap, not an edge case",
         "BuildLab identifies the base build and branch and does not move with monthly cumulative updates; only UBR does, so the two disagreeing is normal",
         "Cloned or imaged deployments share ProductId, RegisteredOwner and RegisteredOrganization across every host built from the same media",
+        "ProductName still reads \"Windows 10 <edition>\" on Windows 11 (reported on Microsoft Q&A as by design, for application compatibility), so a tool or report that calls a machine Windows 10 may simply be quoting it. Identify Windows 11 from CurrentBuild 22000 or later, and map build.UBR to its cumulative update through Microsoft's Windows 11 release table (for example 22000.1219 is KB5019961, the November 2022 security update for version 21H2)",
+        "Component-store (WinSxS) and servicing names embed the full build.UBR, so a burst of file times on names carrying one UBR shows that update's files were staged; it does not by itself show the installation completed (observed on one Windows 11 image examined in 2026)",
     ],
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "Registry values; persist until an upgrade or feature update rewrites them",
