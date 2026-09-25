@@ -4906,6 +4906,9 @@ pub(crate) static MACOS_OPENBSM_AUDIT: ArtifactDescriptor = ArtifactDescriptor {
         "https://theevilbit.github.io/beyond/beyond_0031/",
         "https://boberito.medium.com/auditd-the-logs-we-need-not-the-logs-we-deserve-cf1d8c83d15d",
         "https://www.sans.org/cyber-security-courses/mac-and-ios-forensic-analysis-and-incident-response/",
+        // Source: /etc/passwd entry _mbsetupuser:*:248:248:Setup User:/var/setup and its use when
+        // installing macOS (Apple Community thread; community answer, not Apple documentation)
+        "https://discussions.apple.com/thread/253097317",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
     evidence_tier: Some(crate::evidence::EvidenceTier::VendorDocumented),
@@ -4913,6 +4916,10 @@ pub(crate) static MACOS_OPENBSM_AUDIT: ArtifactDescriptor = ArtifactDescriptor {
         "Deprecated since macOS Big Sur and disabled by default in Sonoma 14 — absent or empty on many modern systems, so absence is not proof of no login or account creation",
         "What is captured depends on the audit_control flags; an event class not selected leaves no record",
         "Trails are rotated and can be deleted or cleared, so the trail on the image is not necessarily the full history",
+        "_mbsetupuser (UID 248, 'Setup User', home /var/setup) is the system account macOS installation and Setup Assistant run under, not a person: exclude its logins from user counts. On one macOS Big Sur 11 image examined in 2026 its membership of admin and _lpadmin was added and removed around updates",
+        "Overnight software-update restarts leave a recognisable pattern: a logout in the small hours, a start-up within about 40 seconds and an automatic login of the user account, with _lpadmin membership writes at the same times (seen on five dates on one macOS Big Sur 11 image examined in 2026). Such a login need not have been made by a person; the meaningful last login is the last one outside that pattern",
+        "A boot with no recorded shutdown is common (32 of 63 boots on that image), so a missing shutdown record does not by itself show an unclean stop at a particular time",
+        "An event 'Set values for record type Groups com.apple.access_screensharing' records a change to who may connect by Screen Sharing; it does not show that sharing stayed enabled or was ever used",
     ],
     volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
     volatility_rationale: "Audit trails are rotated by auditd as they fill or as free space drops",
@@ -5652,6 +5659,8 @@ pub(crate) static MACOS_BLUETOOTH_DEVICES: ArtifactDescriptor = ArtifactDescript
     sources: &[
         "https://github.com/bolodev/osxripper/blob/master/plugins/osx/BluetoothPlist.py",
         "https://forge-work.com/dfir/knowledge/artifacts/macos-bluetooth",
+        // Source: plaso's plugin notes on LastInquiryUpdate / LastNameUpdate / LastServicesUpdate
+        "https://github.com/log2timeline/plaso/blob/main/plaso/parsers/plist_plugins/bluetooth.py",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
     evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
@@ -5659,6 +5668,8 @@ pub(crate) static MACOS_BLUETOOTH_DEVICES: ArtifactDescriptor = ArtifactDescript
         "The Name is a user-assigned label on the peer device, not proof of who owns it or that it belongs to the Mac's user",
         "DeviceCache holds devices merely SEEN nearby as well as bonded ones — presence there is not proof of pairing; the PairedDevices array is the bonded set",
         "BLE MAC randomization inflates the cache with many entries for one physical device, and the BLE CoreBluetoothCache keys by an obscured UUID rather than the MAC",
+        "LastNameUpdate is when the device's human-readable name was set, usually once at initial setup (plaso), not when the device was last seen; LastInquiryUpdate is the discovery time. Any of these values was written by this Mac's Bluetooth stack, so it shows the Mac running with Bluetooth on at that moment (on one macOS Big Sur 11 image examined in 2026 a name update fell 50 seconds after an audit-log start-up, in a boot with no user login)",
+        "An entry named 'iPhone' (the factory default) cannot be tied to a particular AirDrop transfer or person: iPhones use rotating Bluetooth addresses for AirDrop discovery",
     ],
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "Rewritten as devices are paired, seen or removed; entries linger after unpairing",

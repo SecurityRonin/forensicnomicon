@@ -9503,7 +9503,7 @@ pub static MACOS_QUARANTINE_EVENTS: ArtifactDescriptor = ArtifactDescriptor {
         LSQuarantineOriginURLString), download date, and quarantine agent (LSQuarantineAgentName). \
         Proves a file arrived even after deletion. It is also an AirDrop-provenance store: for a \
         file received over AirDrop the agent is `sharingd`, the origin/data URLs are empty, and \
-        LSQuarantineSenderName carries the sending device's (Apple ID) name — which turns the \
+        LSQuarantineSenderName carries the sending device's name — which turns the \
         database into an enumerator of nearby AirDrop peers, not only a download record. The Cocoa \
         LSQuarantineTimeStamp is seconds since 2001-01-01 (add 978307200 for Unix epoch).",
     mitre_techniques: &["T1204.002"],
@@ -9519,10 +9519,18 @@ pub static MACOS_QUARANTINE_EVENTS: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.jaiminton.com/cheatsheet/DFIR/#quarantine-events",
         "https://eclecticlight.co/2021/06/05/checking-quarantine-flags-in-big-sur/",
         "https://kieczkowska.wordpress.com/2020/06/29/airdrop-forensics-2/",
+        // Source: AirDrop Ask request body (SenderComputerName, SenderModelName, SenderID,
+        // SenderRecordData) in an open-source AirDrop implementation; its README calls the
+        // record the Apple ID validation record
+        "https://github.com/seemoo-lab/opendrop/blob/master/opendrop/client.py",
+        "https://github.com/seemoo-lab/opendrop",
     ],
     evidence_strength: None,
     evidence_tier: None,
-    evidence_caveats: &[],
+    evidence_caveats: &[
+        "LSQuarantineSenderName is a device or contact label, never an Apple ID name: the sender announces its device name as SenderComputerName in the AirDrop Ask request, which carries no account display name (OpenDrop). When the receiver recognises the sender it can show a name from its own Contacts instead; on one macOS Big Sur 11 image examined in 2026, receipts from the Mac's own account read the Mac's Me-card name rather than the iCloud account's name. A factory-default 'iPhone' identifies nothing",
+        "The Ask request's SenderRecordData (the Apple ID validation record) is not kept here, so a single receipt cannot be tied to a specific Apple ID; LSQuarantineSenderAddress can be empty",
+    ],
     volatility: None,
     volatility_rationale: "",
 };
