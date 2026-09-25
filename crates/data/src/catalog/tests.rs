@@ -14992,3 +14992,54 @@ mod macos_case_knowledge_tests {
         assert!(caveat_contains("macos_wherefroms_xattr", "token"));
     }
 }
+
+/// Corrections to macOS descriptors from one examination: the AirDrop sender
+/// name, the Bluetooth name-update time, and OpenBSM login/restart reading.
+#[cfg(test)]
+mod macos_case_corrections_tests {
+    use crate::catalog::CATALOG;
+
+    fn caveat_contains(id: &str, needle: &str) -> bool {
+        CATALOG
+            .by_id(id)
+            .unwrap_or_else(|| panic!("{id} must be cataloged"))
+            .evidence_caveats
+            .iter()
+            .any(|c| c.contains(needle))
+    }
+
+    /// LSQuarantineSenderName is the sending device's name (the AirDrop Ask
+    /// request's SenderComputerName), not an Apple ID name.
+    #[test]
+    fn quarantine_sender_name_is_the_device_name_not_the_apple_id() {
+        let d = CATALOG
+            .by_id("macos_quarantine_events")
+            .expect("macos_quarantine_events");
+        assert!(
+            !d.meaning.contains("Apple ID) name"),
+            "the sender name must not be described as an Apple ID name"
+        );
+        assert!(caveat_contains(
+            "macos_quarantine_events",
+            "SenderComputerName"
+        ));
+    }
+
+    /// LastNameUpdate is when the device's name was set (usually once), not
+    /// when the device was last seen.
+    #[test]
+    fn bluetooth_last_name_update_is_a_name_set_time() {
+        assert!(caveat_contains("macos_bluetooth_devices", "LastNameUpdate"));
+    }
+
+    /// _mbsetupuser logins are the system's Setup User, and a missing
+    /// shutdown record is common rather than proof of an unclean stop.
+    #[test]
+    fn openbsm_setup_user_and_missing_shutdowns_are_explained() {
+        assert!(caveat_contains("macos_openbsm_audit", "_mbsetupuser"));
+        assert!(caveat_contains(
+            "macos_openbsm_audit",
+            "no recorded shutdown"
+        ));
+    }
+}
