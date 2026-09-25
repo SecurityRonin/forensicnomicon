@@ -5,6 +5,7 @@
 //! size, id-uniqueness, a spot-checked FILETIME encoding, the `Unit::nanos`
 //! conversion table, and the cross-table invariant that every artifact→format
 //! mapping in [`ARTIFACT_TIMESTAMPS`] resolves to a real format.
+#![allow(clippy::unwrap_used, clippy::expect_used)]
 
 use forensicnomicon::temporal_formats::{
     time_format, token_format, Encoding, TokenLayout, TzSemantics, Unit, FILETIME_EPOCH_NS,
