@@ -184,6 +184,8 @@ pub use forensicnomicon_core::filesystems;
 pub mod forensicartifacts;
 pub mod gpt;
 pub mod history;
+#[doc(alias = "mdf")]
+pub mod mdnext;
 pub mod mitre;
 pub mod navigator;
 pub mod ntfs;
