@@ -5652,6 +5652,8 @@ pub(crate) static MACOS_BLUETOOTH_DEVICES: ArtifactDescriptor = ArtifactDescript
         FieldSchema { name: "name", value_type: ValueType::Text, description: "DeviceCache Name — the user-assigned device label, not a verified owner", is_uid_component: false },
         FieldSchema { name: "paired", value_type: ValueType::Bool, description: "Whether the MAC is in the PairedDevices (bonded) array, vs DeviceCache only (paired-or-seen)", is_uid_component: false },
         FieldSchema { name: "last_seen", value_type: ValueType::Timestamp, description: "LastInquiryUpdate / LastServicesUpdate — when the device was last seen or its services read", is_uid_component: false },
+        // Source: https://github.com/log2timeline/plaso/blob/main/plaso/parsers/plist_plugins/bluetooth.py
+        FieldSchema { name: "last_name_update", value_type: ValueType::Timestamp, description: "LastNameUpdate — when the device's human name was set, usually only once at initial setup; not a last-seen time", is_uid_component: false },
     ],
     retention: Some("Persists until the device is removed; the cache accretes seen devices and is not pruned on unpair"),
     triage_priority: TriagePriority::Medium,

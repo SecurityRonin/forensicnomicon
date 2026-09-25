@@ -9517,7 +9517,8 @@ pub static MACOS_QUARANTINE_EVENTS: ArtifactDescriptor = ArtifactDescriptor {
     mitre_techniques: &["T1204.002"],
     fields: &[
         FieldSchema { name: "agent_name", value_type: ValueType::Text, description: "LSQuarantineAgentName — the app that introduced the file; `sharingd` marks an AirDrop transfer", is_uid_component: false },
-        FieldSchema { name: "sender_name", value_type: ValueType::Text, description: "LSQuarantineSenderName — the sending device's name, populated only for AirDrop (sharingd) transfers", is_uid_component: false },
+        // Source: https://github.com/seemoo-lab/opendrop/blob/master/opendrop/client.py (send_ask: SenderComputerName)
+        FieldSchema { name: "sender_name", value_type: ValueType::Text, description: "LSQuarantineSenderName — the sending device's name as announced in the AirDrop Ask request (SenderComputerName), or the receiver's own Contacts/Me-card name for a recognised sender; populated only for AirDrop (sharingd) transfers; never an Apple ID name", is_uid_component: false },
         FieldSchema { name: "data_url", value_type: ValueType::Text, description: "LSQuarantineDataURLString — the download source URL (empty for AirDrop)", is_uid_component: false },
     ],
     retention: Some("Persistent; entries accumulate unless cleared (outlasts the unified-log AirDrop trail)"),
@@ -9537,6 +9538,7 @@ pub static MACOS_QUARANTINE_EVENTS: ArtifactDescriptor = ArtifactDescriptor {
     evidence_tier: None,
     evidence_caveats: &[
         "LSQuarantineSenderName is a device or contact label, never an Apple ID name: the sender announces its device name as SenderComputerName in the AirDrop Ask request, which carries no account display name (OpenDrop). When the receiver recognises the sender it can show a name from its own Contacts instead; on one macOS Big Sur 11 image examined in 2026, receipts from the Mac's own account read the Mac's Me-card name rather than the iCloud account's name. A factory-default 'iPhone' identifies nothing",
+        "Discrepancy (kept per the accuracy rules): this descriptor previously described the value as the sender's Apple ID name; the protocol (OpenDrop's Ask request) and one examined Mac's records contradict it. The cited kieczkowska 2020 post shows sender names in its sample output but does not establish their origin",
         "The Ask request's SenderRecordData (the Apple ID validation record) is not kept here, so a single receipt cannot be tied to a specific Apple ID; LSQuarantineSenderAddress can be empty",
     ],
     volatility: None,
