@@ -15,7 +15,7 @@ use crate::catalog::*;
 /// `catalog_integrity::catalog_len_matches_expected_catalog_len` asserts against
 /// it; every `catalog_*` test belonging to a batch asserts that batch's
 /// artifacts are *present*, which is the invariant those tests are named for.
-const EXPECTED_CATALOG_LEN: usize = 6886;
+const EXPECTED_CATALOG_LEN: usize = 6888;
 
 #[cfg(test)]
 mod catalog_integrity {
@@ -14912,5 +14912,83 @@ mod tests_macos_os_scope_predates_monterey {
             .sources
             .iter()
             .any(|s| s.contains("mac_apt") && s.contains("screentime.py")));
+    }
+}
+
+/// macOS artifact knowledge recorded from one examination: the iCloud Keychain
+/// trust store's escrow tables, the Screen Sharing viewer's connection
+/// history, and interpretation caveats on existing macOS descriptors.
+#[cfg(test)]
+mod macos_case_knowledge_tests {
+    use crate::catalog::CATALOG;
+
+    fn caveat_contains(id: &str, needle: &str) -> bool {
+        CATALOG
+            .by_id(id)
+            .unwrap_or_else(|| panic!("{id} must be cataloged"))
+            .evidence_caveats
+            .iter()
+            .any(|c| c.contains(needle))
+    }
+
+    /// The escrow tables of TrustedPeersHelper.db name every device that made
+    /// an iCloud Keychain escrow backup for the account, reaching further back
+    /// than the ZPEER table of current trust-circle peers.
+    #[test]
+    fn trustedpeershelper_escrow_tables_are_cataloged() {
+        let d = CATALOG
+            .by_id("macos_trustedpeershelper_db")
+            .expect("macos_trustedpeershelper_db must be cataloged");
+        assert!(d
+            .file_path
+            .is_some_and(|p| p.ends_with("TrustedPeersHelper.db")));
+        assert!(d.meaning.contains("ZESCROWCLIENTMETADATA"));
+        assert!(d.meaning.contains("ZPEER"));
+        assert!(caveat_contains("macos_trustedpeershelper_db", "protobuf"));
+        assert!(caveat_contains("macos_trustedpeershelper_db", "WAL"));
+    }
+
+    /// The Screen Sharing preferences hold the viewer's outgoing connection
+    /// history; their absence says nothing about incoming Screen Sharing.
+    #[test]
+    fn screensharing_connections_are_outgoing_history_only() {
+        let d = CATALOG
+            .by_id("macos_screensharing_connections")
+            .expect("macos_screensharing_connections must be cataloged");
+        assert!(d
+            .file_path
+            .is_some_and(|p| p.ends_with("com.apple.ScreenSharing.plist")));
+        assert!(d.meaning.contains("connectionsStore"));
+        assert!(caveat_contains(
+            "macos_screensharing_connections",
+            "incoming"
+        ));
+    }
+
+    #[test]
+    fn photos_db_records_the_stored_reverse_geocode() {
+        let d = CATALOG.by_id("macos_photos_db").expect("macos_photos_db");
+        assert!(d.fields.iter().any(|f| f.name == "reverse_location_data"));
+        assert!(caveat_contains("macos_photos_db", "ZREVERSELOCATIONDATA"));
+    }
+
+    #[test]
+    fn knowledgec_flags_events_synced_from_other_devices() {
+        assert!(caveat_contains("macos_knowledgec", "ZSYNCPEER"));
+    }
+
+    #[test]
+    fn unified_log_sleep_gaps_are_explained() {
+        assert!(caveat_contains("macos_unified_log", "PMRD: System Wake"));
+    }
+
+    #[test]
+    fn notes_dates_are_utc_before_local_conversion() {
+        assert!(caveat_contains("macos_notes_db", "UTC"));
+    }
+
+    #[test]
+    fn wherefroms_urls_can_carry_live_tokens() {
+        assert!(caveat_contains("macos_wherefroms_xattr", "token"));
     }
 }
