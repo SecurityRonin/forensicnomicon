@@ -5,9 +5,11 @@
 //! size, id-uniqueness, a spot-checked FILETIME encoding, the `Unit::nanos`
 //! conversion table, and the cross-table invariant that every artifact→format
 //! mapping in [`ARTIFACT_TIMESTAMPS`] resolves to a real format.
+#![allow(clippy::unwrap_used, clippy::expect_used)]
 
 use forensicnomicon::temporal_formats::{
-    time_format, Encoding, TzSemantics, Unit, FILETIME_EPOCH_NS, TIME_FORMATS,
+    time_format, token_format, Encoding, TokenLayout, TzSemantics, Unit, FILETIME_EPOCH_NS,
+    TIME_FORMATS, TOKEN_FORMATS,
 };
 use forensicnomicon::timestamp_artifacts::ARTIFACT_TIMESTAMPS;
 
@@ -54,6 +56,72 @@ fn unit_nanos_table_is_exact() {
     assert_eq!(Unit::HundredNanos.nanos(), 100);
     assert_eq!(Unit::Nanos.nanos(), 1);
     assert_eq!(Unit::Days.nanos(), 86_400 * 1_000_000_000);
+}
+
+#[test]
+fn google_ei_is_a_catalogued_url_token_format() {
+    let f = token_format("google_ei").expect("google_ei catalogued");
+    assert_eq!(f.layout, TokenLayout::GoogleEi);
+    // `sei` carries the same layout (Cheeky4n6Monkey 2014: an sei and ei from one
+    // session share their leading timestamp bytes).
+    assert_eq!(f.url_params, &["ei", "sei"]);
+    assert_eq!(f.tz, TzSemantics::Utc);
+    // The instant is when Google served the page, NOT necessarily the query time
+    // in the same URL (unfurl #56) — the caveat an analyst most needs.
+    assert!(
+        f.caveats.iter().any(|c| c.contains("not necessarily")),
+        "{:?}",
+        f.caveats
+    );
+}
+
+#[test]
+fn google_ei_worked_examples_come_from_their_cited_sources() {
+    // Deed Poll Office (2013) publishes all four fields of tci4UszSJeLN7Ab9xYD4CQ:
+    // 1387841717 s and 616780 (conjectured µs). The unfurl #56 URL's ei decodes to
+    // 1587403446 s + 540099 µs, which the same URL's `ved` carries as one µs value.
+    let f = token_format("google_ei").unwrap();
+    let got: Vec<(&str, i64)> = f
+        .examples
+        .iter()
+        .map(|e| (e.token, e.unix_micros))
+        .collect();
+    assert_eq!(
+        got,
+        vec![
+            ("tci4UszSJeLN7Ab9xYD4CQ", 1_387_841_717_616_780),
+            ("ttqdXsP7IMKZk74Pgv-k6AY", 1_587_403_446_540_099),
+        ]
+    );
+    for e in f.examples {
+        assert!(
+            f.sources.contains(&e.source),
+            "{} cites an uncatalogued source",
+            e.token
+        );
+    }
+}
+
+#[test]
+fn token_formats_are_unique_sourced_and_distinct_from_integer_formats() {
+    let mut ids: Vec<&str> = TOKEN_FORMATS.iter().map(|f| f.id).collect();
+    let total = ids.len();
+    ids.sort_unstable();
+    ids.dedup();
+    assert_eq!(ids.len(), total, "duplicate token format id(s)");
+    for f in TOKEN_FORMATS {
+        assert!(
+            time_format(f.id).is_none(),
+            "{} is also an integer format",
+            f.id
+        );
+        assert!(!f.sources.is_empty() && !f.caveats.is_empty(), "{}", f.id);
+        assert!(
+            f.sources.iter().all(|s| s.starts_with("https://")),
+            "{}",
+            f.id
+        );
+    }
 }
 
 #[test]
