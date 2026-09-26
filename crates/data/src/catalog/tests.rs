@@ -15151,14 +15151,23 @@ mod device_name_wording {
     /// network settings. Caveats must call it a generic name, not "factory default".
     #[test]
     fn bare_iphone_name_is_generic_not_factory_default() {
-        for id in ["macos_quarantine_events", "macos_bluetooth_devices", "macos_trustedpeershelper_db"] {
+        for id in [
+            "macos_quarantine_events",
+            "macos_bluetooth_devices",
+            "macos_trustedpeershelper_db",
+        ] {
             let d = CATALOG.by_id(id).unwrap_or_else(|| panic!("{id} missing"));
             for c in d.evidence_caveats {
-                assert!(!c.to_lowercase().contains("factory-default") && !c.to_lowercase().contains("factory default"),
-                    "{id}: caveat calls a bare 'iPhone' the factory default: {c}");
+                assert!(
+                    !c.to_lowercase().contains("factory-default")
+                        && !c.to_lowercase().contains("factory default"),
+                    "{id}: caveat calls a bare 'iPhone' the factory default: {c}"
+                );
             }
-            assert!(d.evidence_caveats.iter().any(|c| c.contains("generic")),
-                "{id}: a caveat must describe a bare 'iPhone' as a generic name");
+            assert!(
+                d.evidence_caveats.iter().any(|c| c.contains("generic")),
+                "{id}: a caveat must describe a bare 'iPhone' as a generic name"
+            );
         }
     }
 }

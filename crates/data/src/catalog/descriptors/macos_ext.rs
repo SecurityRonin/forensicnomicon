@@ -5663,6 +5663,7 @@ pub(crate) static MACOS_BLUETOOTH_DEVICES: ArtifactDescriptor = ArtifactDescript
         "https://forge-work.com/dfir/knowledge/artifacts/macos-bluetooth",
         // Source: plaso's plugin notes on LastInquiryUpdate / LastNameUpdate / LastServicesUpdate
         "https://github.com/log2timeline/plaso/blob/main/plaso/parsers/plist_plugins/bluetooth.py",
+        "https://www.macrumors.com/how-to/change-the-name-of-your-iphone/", // Source: bare "iPhone" is a generic name (secondary)
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
     evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
@@ -5671,7 +5672,7 @@ pub(crate) static MACOS_BLUETOOTH_DEVICES: ArtifactDescriptor = ArtifactDescript
         "DeviceCache holds devices merely SEEN nearby as well as bonded ones — presence there is not proof of pairing; the PairedDevices array is the bonded set",
         "BLE MAC randomization inflates the cache with many entries for one physical device, and the BLE CoreBluetoothCache keys by an obscured UUID rather than the MAC",
         "LastNameUpdate is when the device's human-readable name was set, usually once at initial setup (plaso), not when the device was last seen; LastInquiryUpdate is the discovery time. Any of these values was written by this Mac's Bluetooth stack, so it shows the Mac running with Bluetooth on at that moment (on one macOS Big Sur 11 image examined in 2026 a name update fell 50 seconds after an audit-log start-up, in a boot with no user login)",
-        "An entry named 'iPhone' (the factory default) cannot be tied to a particular AirDrop transfer or person: iPhones use rotating Bluetooth addresses for AirDrop discovery",
+        "An entry named 'iPhone' (a generic name: iOS set-up normally names a handset after its owner, and a plain 'iPhone' can follow a network-settings reset, per MacRumors, a secondary source) cannot be tied to a particular AirDrop transfer or person: iPhones use rotating Bluetooth addresses for AirDrop discovery",
     ],
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "Rewritten as devices are paired, seen or removed; entries linger after unpairing",
@@ -5817,6 +5818,7 @@ pub(crate) static MACOS_TRUSTEDPEERSHELPER_DB: ArtifactDescriptor = ArtifactDesc
         "https://github.com/apple-oss-distributions/Security/blob/main/keychain/TrustedPeersHelper/Container_EscrowRecords.swift",
         "https://github.com/abrignoni/iLEAPP/blob/main/scripts/artifacts/trustedPeers.py",
         "https://support.apple.com/guide/security/sec3e341e75d",
+        "https://www.macrumors.com/how-to/change-the-name-of-your-iphone/", // Source: bare "iPhone" is a generic name (secondary)
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
     evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
@@ -5825,7 +5827,7 @@ pub(crate) static MACOS_TRUSTEDPEERSHELPER_DB: ArtifactDescriptor = ArtifactDesc
         "Do not draw a negative from ZPEER alone: it lists only the current trust circle. On the examined image the escrow tables named devices, including by serial, that ZPEER did not, and went back years before the earliest peer",
         "Read the database with its -wal: iLEAPP records sample data whose rows were present only in the WAL",
         "ZPEER.ZSTABLEINFO is a serialized protobuf; decode it field by field. On the examined image the OS version string and the device serial were separate fields, and a regex over the raw blob appended the next field's tag byte to every serial it matched",
-        "Device names are user-assigned labels, commonly Apple's default '<first name>'s iPhone' form (localised, e.g. '<name>的 iPad'); a name can echo the account holder's first name but is not verified identity, and a factory-default 'iPhone' identifies nothing",
+        "Device names are user-assigned labels, commonly Apple's default '<first name>'s iPhone' form (localised, e.g. '<name>的 iPad'); a name can echo the account holder's first name but is not verified identity, and a bare 'iPhone' is a generic name that identifies nothing (iOS set-up normally uses the owner's first name; a plain 'iPhone' can follow a network-settings reset, per MacRumors, a secondary source)",
         "The rows describe the Apple account's devices, which need never have touched this Mac; tie them to an account separately (on the examined image the container's ZACCOUNTDSID was empty, so attribution rested on the single iCloud account signed in on the Mac)",
     ],
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
