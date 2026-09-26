@@ -7,6 +7,48 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.6.0](https://github.com/SecurityRonin/forensicnomicon/compare/forensicnomicon-data-v1.5.0...forensicnomicon-data-v1.6.0) - 2026-09-26
+
+### Added
+
+- *(catalog)* GREEN - WeChat for Windows identity and image files, Recycle Bin, build and FAT caveats
+- *(catalog)* GREEN - macOS keychain escrow, Screen Sharing history and interpretation caveats
+- *(knowledge)* GREEN - macOS user-attribution profile and install-history download caveat
+- *(knowledge)* GREEN - macOS image, unified-log and Spotlight tool behaviours
+- *(catalog,knowledge)* GREEN - Wi-Fi SSIDs from userland unified-log entries
+- *(catalog)* GREEN - macOS DHCP lease, AirDrop history and APFS offset corrections
+- *(data)* GREEN - TSK FAT deleted-name rendering and attribution caveats
+- *(knowledge)* GREEN - windows_user_attribution examination profile
+- *(knowledge)* GREEN - evidence-handling and Windows attribution techniques
+- *(catalog)* GREEN - Windows account, removable-media and messenger descriptors
+- *(knowledge)* GREEN - libewf and FTK Imager evidence-container behaviours
+- *(data)* GREEN - Wi-Fi presence timeline: driver log, wifi.log, CUPS co-presence
+- *(data)* GREEN - Wi-Fi migration, legacy .backup and undated BSSIDList
+- *(data)* macOS peer-device discovery descriptors, technique, profile wiring
+- *(knowledge)* GREEN - wire the macOS network layer into profiles
+- *(knowledge)* GREEN - Wi-Fi BSSID geolocation investigative technique
+- *(catalog)* GREEN - curated macOS network-configuration descriptors
+- *(knowledge)* GREEN - wire curated macOS descriptors into profiles
+- *(catalog)* GREEN - curated macOS gap-fill descriptors
+- *(knowledge)* GREEN - seed macOS examination profiles
+
+### Documentation
+
+- *(catalog)* cite a fetch-verifiable dslocal source
+
+### Fixed
+
+- *(catalog)* GREEN - field schemas carry the AirDrop sender and LastNameUpdate corrections
+- *(catalog)* GREEN - AirDrop sender name, Bluetooth LastNameUpdate and OpenBSM setup-user corrections
+- *(catalog)* GREEN - macOS OS scope and Screen Time path
+- *(catalog,ingest)* GREEN - loginwindow profile member and Velociraptor OS scope
+- *(catalog)* GREEN - fix three Windows/EWF contradictions
+
+### Other
+
+- case-derived artifact knowledge (feat/case-knowledge-2026-09)
+- cross-platform tool behaviours and methods (feat/kb-tools)
+
 ## [1.5.0](https://github.com/SecurityRonin/forensicnomicon/compare/forensicnomicon-data-v1.4.0...forensicnomicon-data-v1.5.0) - 2026-09-23
 
 ### Added
