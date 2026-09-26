@@ -690,7 +690,7 @@ checksum = "00b0228411908ca8685dba7fc2cdd70ec9990a6e753e89b6ac91a84c40fbaf4b"
 
 [[package]]
 name = "forensicnomicon"
-version = "1.12.0"
+version = "1.12.1"
 dependencies = [
  "forensicnomicon-core",
  "forensicnomicon-data",
@@ -718,7 +718,7 @@ dependencies = [
 
 [[package]]
 name = "forensicnomicon-core"
-version = "1.6.0"
+version = "1.6.1"
 dependencies = [
  "serde",
  "serde_json",
@@ -726,7 +726,7 @@ dependencies = [
 
 [[package]]
 name = "forensicnomicon-data"
-version = "1.5.0"
+version = "1.6.0"
 dependencies = [
  "forensicnomicon-core",
  "serde",
