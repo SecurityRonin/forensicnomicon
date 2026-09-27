@@ -15135,10 +15135,29 @@ mod windows_case_knowledge_tests {
         assert!(d.related_artifacts.contains(&"wechat_windows_accinfo"));
     }
 
-    /// FAT times can carry UTC values when the copying tool preserves them.
+    /// FAT times are stored in the writer's local time, as Microsoft
+    /// documents. An earlier caveat said a time-preserving copy could leave
+    /// UTC-valued times; that reading came from a listing tool that applied
+    /// the analysis host's zone, and it is withdrawn. The caveats must say how
+    /// to read the stored values (TZ=UTC), how to establish the writer's zone
+    /// from anchors, the 2-second write resolution, and the day shift of a
+    /// date-only access value read in the wrong zone.
     #[test]
-    fn fat_times_can_be_utc_valued_when_preserved() {
-        assert!(caveat_contains("fat_exfat_directory_entry", "UTC-valued"));
+    fn fat_times_are_stored_local_and_listed_under_tz_utc() {
+        let d = CATALOG
+            .by_id("fat_exfat_directory_entry")
+            .expect("fat_exfat_directory_entry");
+        assert!(
+            !d.evidence_caveats.iter().any(|c| c.contains("UTC-valued")),
+            "the UTC-valued reading was an instrument artefact and must be withdrawn"
+        );
+        assert!(caveat_contains("fat_exfat_directory_entry", "TZ=UTC"));
+        assert!(caveat_contains(
+            "fat_exfat_directory_entry",
+            "dcterms:modified"
+        ));
+        assert!(caveat_contains("fat_exfat_directory_entry", "2-second"));
+        assert!(caveat_contains("fat_exfat_directory_entry", "by a day"));
     }
 }
 
