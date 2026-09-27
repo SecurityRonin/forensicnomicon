@@ -3724,7 +3724,10 @@ pub const RECYCLE_BIN_FIELDS: &[FieldSchema] = &[
     FieldSchema {
         name: "original_path",
         value_type: ValueType::Text,
-        description: "UTF-16LE null-terminated string starting at offset 24 (v1) or 28 (v2): \
+        description: "UTF-16LE null-terminated string starting at offset 24 (v1) or 28 (v2); \
+                      in v2 a 4-byte UTF-16 character count at offset 24 precedes it and \
+                      includes the terminating null (a 35-character path is stored as 36, \
+                      giving a 100-byte record): \
                       full pre-deletion Windows path (e.g. C:\\Users\\alice\\Documents\\creds.xlsx); \
                       survives Recycle.Bin emptying if $I file is not overwritten",
         is_uid_component: true,
@@ -3776,7 +3779,8 @@ pub const RECYCLE_BIN_FIELDS: &[FieldSchema] = &[
 /// ## Version semantics
 ///
 /// - Version 1 (Vista/7/8/8.1): path starts at byte offset 24
-/// - Version 2 (Win10/11): path starts at byte offset 28 (4-byte path-length prefix added)
+/// - Version 2 (Win10/11): 4-byte UTF-16 character count at offset 24 (it includes the
+///   terminating null), path from byte offset 28
 ///
 /// ## User attribution
 ///
@@ -3822,6 +3826,9 @@ pub static RECYCLE_BIN: ArtifactDescriptor = ArtifactDescriptor {
         "https://sethenoka.com/windows-recycle-bin-forensics-on-windows-10-and-11/",
         // Source: $I header of 01 followed by seven 00 bytes (Vista format)
         "https://www.forensicfocus.com/articles/forensic-analysis-of-the-microsoft-windows-vista-recycle-bin/",
+        // Source: $I layout; v2 "Number of characters in original filename" at 24, filename
+        // at 28 as a UTF-16LE string with end-of-string character; v1 filename at 24
+        "https://github.com/libyal/dtformats/blob/main/documentation/Windows%20Recycle.Bin%20file%20formats.asciidoc",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
     evidence_tier: None,
