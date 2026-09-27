@@ -99,12 +99,21 @@ pub(crate) static MACOS_SPOTLIGHT_STORE: ArtifactDescriptor = ArtifactDescriptor
     sources: &[
         "https://www.mac4n6.com/blog/2016/2/22/spotlight-on-spotlight",
         "https://forensicswiki.xyz/wiki/index.php?title=Spotlight",
+        // Source: kMDItemUseCount "counts how many times the file has been opened on that
+        // volume ... It starts at two"; closing caution that behaviour may differ by file type
+        // and application
+        "https://forensic4cast.com/2016/10/macos-timestamps-from-extended-attributes-and-spotlight/",
+        // Source: MDItem.h, kMDItemDateAdded "is the date that the file was moved into the
+        // current location"
+        "https://developer.apple.com/documentation/coreservices/kmditemdateadded",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
     evidence_tier: None,
     evidence_caveats: &[
         "User can disable Spotlight indexing for specific paths",
         "Encrypted volumes require unlock to access",
+        "kMDItemUseCount is not a count of openings. Apple does not document it; the one researcher description (Forensic 4:cast, 2016) says it counts openings on the volume starting at two and cautions that behaviour may differ by file type and application. On one examination (2026) screenshots last used within seconds of being added carried a value of 5. Report the stored value, not a number of times opened",
+        "kMDItemDateAdded is, per Apple's MDItem.h, the date the file was moved into its current location. Content creation and kMDItemDateAdded within the same second, with a later content modification while the file sat there, is consistent with the file having been saved on this host; it does not exclude every copy route and does not identify the person",
     ],
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "Spotlight metadata store persists until volume reindex",
