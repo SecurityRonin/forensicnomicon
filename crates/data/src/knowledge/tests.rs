@@ -423,8 +423,10 @@ fn evidence_handling_and_windows_attribution_techniques_are_present() {
     assert!(os.artifacts_used.contains(&"macos_trash"));
     assert!(
         fm("removable_volume_host_os_residue").contains("System Volume Information")
-            && fm("removable_volume_host_os_residue").contains("searched"),
-        "SVI on removable FAT must be recorded as searched and unsourced"
+            && fm("removable_volume_host_os_residue")
+                .contains("not when Windows calls it for a removable drive"),
+        "SVI on removable FAT: the creation routine is documented, its use on removable \
+         drives is not, and that remaining gap must stay stated"
     );
 
     let acct = t("windows_deleted_account_reconstruction");

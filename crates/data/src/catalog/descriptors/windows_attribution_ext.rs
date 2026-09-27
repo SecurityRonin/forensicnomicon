@@ -325,6 +325,11 @@ pub(crate) static FAT_EXFAT_DIRECTORY_ENTRY: ArtifactDescriptor = ArtifactDescri
         "https://learn.microsoft.com/en-us/windows/win32/fileio/exfat-specification",
         // Source: FAT stores local time; write time 2 s, access time 1 day resolution
         "https://learn.microsoft.com/en-us/windows/win32/sysinfo/file-times",
+        // Source: System Volume Information is created by this routine when missing
+        "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/ntifs/nf-ntifs-rtlcreatesystemvolumeinformationfolder",
+        // Source: IndexerVolumeGuid (Windows Search) and WPSettings.dat (Storage Service) on USB drives
+        "https://winaero.com/how-to-disable-system-volume-information-folder-for-removable-drives/",
+        "https://www.howtogeek.com/282214/what-is-the-system-volume-information-folder-and-can-i-delete-it/",
         // Source: Word owner file (~$ name, same folder, holds the opener's
         // logon name, left behind when Word quits improperly)
         "https://support.microsoft.com/en-us/word/the-document-is-locked-for-editing-by-another-user-error-message-when-you-try-to-open-a-document-in",
@@ -341,6 +346,7 @@ pub(crate) static FAT_EXFAT_DIRECTORY_ENTRY: ArtifactDescriptor = ArtifactDescri
         "A listing that turns FAT's date-only last access into midnight in the wrong zone and prints it back as a date moves it by a day (a date read as midnight UTC+8 prints as the previous day in UTC)",
         "A deleted FAT entry's first character is overwritten with 0xE5, so a search for the original file name misses it; search by the rest of the name or by surviving long-name entries",
         "A surviving Word owner file (~$ followed by the rest of the document name) sits in the same folder as the document and, per Microsoft, holds the logon name of the person who opened it; Word deletes it on a clean exit, so one left on the volume shows a document there was opened in Word and names the opening account, not the person",
+        "A System Volume Information folder holding IndexerVolumeGuid and WPSettings.dat on a removable FAT volume is Windows residue: third-party write-ups attribute the files to Windows Search and the Storage Service, and Microsoft documents that RtlCreateSystemVolumeInformationFolder creates the folder when missing, though not when Windows calls it for removable drives. The files' last-access date is consistent with the last time a Windows host used the volume (on one examination, 2026, it was the latest access date on the volume); read it under the writer's zone, since it is a date only",
         "The format is platform-independent; it is catalogued under Windows because the catalogue's OsScope has no cross-platform value",
     ],
     volatility: Some(crate::volatility::VolatilityClass::Residual),
