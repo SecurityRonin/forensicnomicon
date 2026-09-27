@@ -413,6 +413,9 @@ pub(crate) static MACOS_NOTES_DB: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/threeplanetssoftware/apple_cloud_notes_parser",
         // Source: Apple's absolute-time reference date, 1 Jan 2001 00:00:00 GMT
         "https://developer.apple.com/documentation/corefoundation/cfabsolutetime",
+        // Source: add_cloudkit_server_record_data() unarchives ZSERVERRECORDDATA and reads
+        // ModifiedByDevice as the last modified device
+        "https://github.com/threeplanetssoftware/apple_cloud_notes_parser/blob/master/lib/AppleCloudKitRecord.rb",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
     evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
@@ -422,6 +425,7 @@ pub(crate) static MACOS_NOTES_DB: ArtifactDescriptor = ArtifactDescriptor {
         "Body text is not plaintext in the database: ZICNOTEDATA.ZDATA must be gunzipped and protobuf-decoded; a string search of the raw file misses note text",
         "Collect NoteStore.sqlite-wal and -shm with the database; recent edits may exist only in the WAL",
         "Locked (password-protected) notes are encrypted in the store and their attachments are encrypted on disk",
+        "For an iCloud note, ZICCLOUDSYNCINGOBJECT.ZSERVERRECORDDATA is an NSKeyedArchiver-archived CloudKit record (CKRecord) carrying the server's creation and modification times and a ModifiedByDevice string; apple_cloud_notes_parser reads that string as the last modified device. There is no Apple documentation of the field (searched 2026). On one examination (2026) the Mac's own device name appeared there for notes changed on that Mac (the control), so a different name is consistent with the last change having been made on that other device. Device names are user-settable and not unique (several handsets can be called 'iPhone'), so a name alone does not identify a handset",
     ],
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "SQLite store persists until note deletion",
