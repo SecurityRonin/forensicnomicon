@@ -3197,6 +3197,8 @@ pub(crate) static MACOS_WHEREFROMS_XATTR: ArtifactDescriptor = ArtifactDescripto
     sources: &[
         "https://developer.apple.com/documentation/coreservices/kmditemwherefroms",
         "https://eclecticlight.co/2020/10/29/quarantine-and-the-quarantine-flag/",
+        // Source: RFC 7519 §4.1.4 "exp" and §4.1.5 "nbf" claims
+        "https://www.rfc-editor.org/rfc/rfc7519",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
     evidence_tier: Some(crate::evidence::EvidenceTier::VendorDocumented),
@@ -3204,6 +3206,7 @@ pub(crate) static MACOS_WHEREFROMS_XATTR: ArtifactDescriptor = ArtifactDescripto
         "Set only by cooperating applications — a file downloaded by curl or a custom tool carries neither attribute",
         "User-writable metadata: can be edited or stripped with xattr, so corroborate against QuarantineEventsV2 and browser history",
         "The recorded URL is the full request URL, query string included, and can carry live credentials: on one macOS image examined in 2026 the Spotlight metadata record of an attachment downloaded in Safari from Outlook on the web held its download URL with a bearer token, an X-OWA-CANARY value and JWT-shaped strings. Treat kMDItemWhereFroms and quarantine URLs as secret-bearing and redact them before reproducing them in a report",
+        "An attachment downloaded from Outlook on the web carries a URL of the form https://attachment.outlook.live.net/owa/<mailbox>/service.svc/s/GetFileAttachment?id=...&token=..., which names the mailbox the attachment was opened from. Its token parameter is a signed JSON Web Token whose nbf and exp claims (RFC 7519 §4.1.4-4.1.5) bound when the link could be used, an anchor for the download time independent of the Mac's clock. On one examination (2026) the window was 600 seconds and each of three downloads' kMDItemDownloadedDate fell inside it. Decode only the claims, and treat the token and X-OWA-CANARY values as secrets",
     ],
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "Extended attributes travel with the file until explicitly removed",
