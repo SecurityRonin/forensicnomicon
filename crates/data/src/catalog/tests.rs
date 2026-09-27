@@ -15246,4 +15246,17 @@ mod case_knowledge_0927_tests {
         assert!(c.contains("user-settable"));
         assert!(cites("macos_notes_db", "AppleCloudKitRecord.rb"));
     }
+
+    /// kMDItemUseCount is not a literal count of openings, and content
+    /// creation with kMDItemDateAdded in the same second, followed by a later
+    /// content modification, is consistent with the file having been saved
+    /// on that host.
+    #[test]
+    fn spotlight_use_count_and_date_added() {
+        let c = caveats("macos_spotlight_store");
+        assert!(c.contains("kMDItemUseCount") && c.contains("not a count of openings"));
+        assert!(c.contains("kMDItemDateAdded") && c.contains("same second"));
+        assert!(cites("macos_spotlight_store", "forensic4cast.com"));
+        assert!(cites("macos_spotlight_store", "kmditemdateadded"));
+    }
 }
