@@ -15190,3 +15190,47 @@ mod device_name_wording {
         }
     }
 }
+
+/// Artifact knowledge recorded from one examination (2026-09-27 batch):
+/// macOS Notes and knowledgeC joins, Spotlight fields, OpenBSM, WeChat for
+/// Windows, the Recycle Bin and removable volumes.
+#[cfg(test)]
+mod case_knowledge_0927_tests {
+    use crate::catalog::CATALOG;
+
+    fn caveats(id: &str) -> String {
+        CATALOG
+            .by_id(id)
+            .unwrap_or_else(|| panic!("{id} must be cataloged"))
+            .evidence_caveats
+            .join(" ")
+    }
+
+    fn cites(id: &str, needle: &str) -> bool {
+        CATALOG
+            .by_id(id)
+            .unwrap_or_else(|| panic!("{id} must be cataloged"))
+            .sources
+            .iter()
+            .any(|s| s.contains(needle))
+    }
+
+    /// A Notes intent record in knowledgeC joins to its note by
+    /// ZSOURCE.ZGROUPID = ZICCLOUDSYNCINGOBJECT.ZIDENTIFIER; handling status
+    /// and direction 0 are "unspecified" (INInteraction.h), and the intent's
+    /// time follows editing, so it does not date a note's creation.
+    #[test]
+    fn knowledgec_notes_intents_join_and_limits() {
+        let c = caveats("macos_knowledgec");
+        assert!(c.contains("ZGROUPID") && c.contains("ZIDENTIFIER"));
+        assert!(c.contains("INCreateNoteIntent"));
+        assert!(c.contains("unspecified") && c.contains("INInteraction.h"));
+        assert!(c.contains("does not date"));
+        assert!(cites("macos_knowledgec", "inintenthandlingstatus"));
+        assert!(CATALOG
+            .by_id("macos_knowledgec")
+            .expect("macos_knowledgec")
+            .related_artifacts
+            .contains(&"macos_notes_db"));
+    }
+}
