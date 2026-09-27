@@ -9628,7 +9628,7 @@ pub static MACOS_KNOWLEDGEC: ArtifactDescriptor = ArtifactDescriptor {
     fields: &[],
     retention: Some("Rolling window; typically 30 days"),
     triage_priority: TriagePriority::High,
-    related_artifacts: &["macos_unified_log"],
+    related_artifacts: &["macos_unified_log", "macos_notes_db"],
     sources: &[
         "https://www.mac4n6.com/blog/2018/8/5/knowledge-is-power-using-the-knowledgecdb-database-on-macos-and-ios-to-determine-precise-user-and-application-usage",
         "https://github.com/mac4n6/APOLLO",
@@ -9636,12 +9636,20 @@ pub static MACOS_KNOWLEDGEC: ArtifactDescriptor = ArtifactDescriptor {
         "https://www.hecfblog.com/2020/05/daily-blog-698-solution-saturday-5920.html",
         // Source: ZOBJECT.ZSOURCE -> ZSOURCE.ZDEVICEID -> ZSYNCPEER.ZDEVICEID join yielding ZMODEL per event
         "https://felixkohlhas.com/projects/screentime/",
+        // Source: INIntentHandlingStatusUnspecified = 0 (Success = 3) and
+        // INInteractionDirectionUnspecified = 0, Intents.framework INInteraction.h
+        "https://developer.apple.com/documentation/intents/inintenthandlingstatus",
+        "https://developer.apple.com/documentation/intents/ininteractiondirection",
+        // Source: groupIdentifier, "the unique identifier of the interaction's group"
+        "https://developer.apple.com/documentation/intents/ininteraction/groupidentifier",
     ],
     evidence_strength: None,
     evidence_tier: None,
     evidence_caveats: &[
         "Documented at this per-user path (and a system-context copy in /private/var/db/CoreDuet/Knowledge/) on macOS 10.13 (mac4n6, 2018) and present on one macOS Big Sur 11.7 image; the schema differs between releases",
         "Not every event happened on this Mac: the database can hold events synced in from the user's other devices (mac4n6; hecfblog; felixkohlhas). Join ZOBJECT.ZSOURCE to ZSOURCE and compare ZSOURCE.ZDEVICEID with ZSYNCPEER.ZDEVICEID (which carries the peer's ZMODEL); a match marks an event from another device. On one macOS Big Sur 11 image examined in 2026 a synced Notes intent was created locally two days after its event time, so compare ZCREATIONDATE with ZSTARTDATE before placing the event on the Mac",
+        "Notes intent rows (/app/intents; ZSOURCE.ZBUNDLEID com.apple.mobilenotes, ZSOURCEID intents) join to Apple Notes: ZSOURCE.ZGROUPID, the donated interaction's group identifier, equals the note's ZICCLOUDSYNCINGOBJECT.ZIDENTIFIER in NoteStore.sqlite (3 of 3 such rows on one examination, 2026; test by searching every knowledgeC column for the note's identifier). ZSTRUCTUREDMETADATA holds the intent class (e.g. INCreateNoteIntent), verb, DONATEDBYSIRI, INTENTHANDLINGSTATUS and DIRECTION, and the archived interaction can hold the note's first line",
+        "A Notes intent row does not state that the action succeeded: INTENTHANDLINGSTATUS 0 and DIRECTION 0 are 'unspecified' in Apple's Intents header INInteraction.h (success is 3). The row's time, whatever its label, does not date a note's creation: it follows editing activity, and on that examination a CreateNote row fell 17 hours after the note it names was created, seconds before the note's last change. DONATEDBYSIRI 0 excludes a Siri donation only; it does not show typing rather than pasting or dictation",
     ],
     volatility: None,
     volatility_rationale: "",
