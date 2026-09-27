@@ -168,7 +168,7 @@ pub(crate) static WECHAT_WINDOWS_FILES: ArtifactDescriptor = ArtifactDescriptor 
         on this Windows profile, named after the ID used at login, which is either the internal wxid_ \
         or the account's custom WeChat ID: Documents\\WeChat Files\\<login-id>\\ \
         holding Msg\\ (encrypted message and contact databases such as Multi\\MSG0.db and \
-        MicroMsg.db), FileStorage\\ (received and sent files and media) and BackupFiles\\, \
+        MicroMsg.db), FileStorage\\ (files and media from chats) and BackupFiles\\, \
         beside a shared WeChat Files\\All Users\\ folder. WeChat 4.x moves account data to \
         %USERPROFILE%\\xwechat_files\\<account>\\ with a shared all_users\\ folder, and the data \
         location can be changed in the client's settings. Several account folders on one \
@@ -199,7 +199,8 @@ pub(crate) static WECHAT_WINDOWS_FILES: ArtifactDescriptor = ArtifactDescriptor 
     evidence_caveats: &[
         "An account folder shows that the WeChat account logged in on this Windows profile, not who operated it: WeChat documents that a PC login is authorised by scanning a QR code with the logged-in phone, which proves the phone approved the login, not who later used the session",
         "Several wxid folders on one profile are consistent with one person holding several accounts or with several people; the folders alone do not distinguish the two",
-        "The message databases are encrypted per account with a key held in client memory; folder presence and FileStorage content are readable without it, message content is not",
+        "The message databases (Msg\\*.db) are SQLCipher-encrypted per account with a key held in client memory (Nisos, citing wechat-dump's SQLCipher parameters); folder presence and FileStorage content are readable without it, message content is not",
+        "A file under <login-id>\\FileStorage\\File\\<YYYY-MM>\\ does not record whether it was sent or received: the folder holds the file and its file-system times, and the direction is in the encrypted message databases, so describe such files as stored under the account, not as received",
         "Read account IDs from the on-disk folder names, and take the wxid from the account's config\\AccInfo.dat when the folder carries a custom WeChat ID (observed on one Windows 11 image examined in 2026); OCR of screenshots or printed reports garbles them",
         "In a logical export selected by file type (an extension whitelist), a wxid folder appears only if it held a selected file, so absence from the export is not absence from the machine",
         "Check the configured data location and the 4.x xwechat_files layout before concluding WeChat data is absent",
@@ -349,7 +350,7 @@ pub(crate) static FAT_EXFAT_DIRECTORY_ENTRY: ArtifactDescriptor = ArtifactDescri
 // ── WeChat for Windows (3.x) ─────────────────────────────────────────────────
 
 /// WeChat for Windows account identity: `WeChat Files\<login-id>\config\AccInfo.dat`,
-/// with `WeChat Files\All Users\config\config.data` naming the last account.
+/// with `WeChat Files\All Users\config\config.data` holding a path to an account's AccInfo.dat.
 ///
 /// # Sources
 /// - <https://github.com/Al1ex/MysqlHoneypot> — README: reads
@@ -377,8 +378,9 @@ pub(crate) static WECHAT_WINDOWS_ACCINFO: ArtifactDescriptor = ArtifactDescripto
         number, region and avatar URL, so it names the account that logged in with that folder \
         without the encrypted message databases. Beside it, the shared \
         WeChat Files\\All Users\\config\\config.data (auto-login configuration) holds the full \
-        path to the last account's AccInfo.dat, naming the last account used and the Windows \
-        profile path it ran under.",
+        path to an account's AccInfo.dat, and with it the Windows profile path that account ran \
+        under. Practitioner write-ups read it as the last account used; no source documents that \
+        meaning.",
     mitre_techniques: &["T1005"],
     fields: &[
         FieldSchema { name: "wxid", value_type: ValueType::Text, description: "Internal wxid_ account identifier", is_uid_component: true },
@@ -399,7 +401,7 @@ pub(crate) static WECHAT_WINDOWS_ACCINFO: ArtifactDescriptor = ArtifactDescripto
     evidence_caveats: &[
         "The nickname, WeChat ID and region are chosen by the account holder and not verified by WeChat; they name an account, not a person, and the phone number is the account's bound number, not proof of who used the PC",
         "The account folder is named by the ID used at login (the custom WeChat ID or the wxid_), so match accounts on the wxid inside AccInfo.dat rather than on folder names",
-        "The public descriptions are tools that string-scrape the files; the only config.data field with a public meaning is the AccInfo.dat path (read as field 50 on one Windows 11 image examined in 2026). Other fields there, and the Unix times in All Users\\config\\<hash>.ini files (and their backups named <hash>.ini<unixtime>), have no public explanation: do not call them sign-in times. On that image account-folder creation times fell seconds after the .ini values, consistent with, not proof of, account set-up",
+        "The public descriptions are tools that string-scrape the files; the only config.data field with a public meaning is the AccInfo.dat path (read as field 50 on one Windows 11 image examined in 2026), and the one public source located (MysqlHoneypot's README) says only that the file yields the wxid: reading field 50 as the last account used is a practitioner inference, so report it as a stored path. Other fields there, and the Unix times in All Users\\config\\<hash>.ini files (and their backups named <hash>.ini<unixtime>), have no public explanation: do not call them sign-in times. On that image account-folder creation times fell seconds after the .ini values, consistent with, not proof of, account set-up",
         "Layout is WeChat 3.x; see wechat_windows_files for the 4.x location and the configurable data path before calling the files absent",
     ],
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
