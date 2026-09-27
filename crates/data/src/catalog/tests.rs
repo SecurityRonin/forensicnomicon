@@ -15270,4 +15270,15 @@ mod case_knowledge_0927_tests {
         assert!(c.contains("exp") && c.contains("RFC 7519"));
         assert!(cites("macos_wherefroms_xattr", "rfc7519"));
     }
+
+    /// A gap in login and start-up events is not a gap in the trail: the full
+    /// trail can hold password checks and authorisation records in the same
+    /// interval. praudit times are in the analysis host's zone unless run
+    /// under TZ=UTC, and should be checked against a zone-free anchor.
+    #[test]
+    fn openbsm_login_gap_is_not_trail_gap() {
+        let c = caveats("macos_openbsm_audit");
+        assert!(c.contains("user authentication") && c.contains("full trail"));
+        assert!(c.contains("TZ=UTC") && c.contains("zone-free"));
+    }
 }
