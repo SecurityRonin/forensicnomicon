@@ -1244,6 +1244,61 @@ pub static TSK_APFS_PLAIN_OFFSET_WITHOUT_POOL_OPTIONS: ToolBehaviour = ToolBehav
     ],
 };
 
+/// The Sleuth Kit: `fls -z <zone>` does not change how FAT times are
+/// converted on the observed build; the analysis host's zone is used.
+///
+/// # Verification
+///
+/// - Microsoft, File Times: "The FAT file system stores time values based on
+///   the local time of the computer" — a FAT time has no zone of its own.
+/// - `tsk/fs/fatfs_utils.c` (sleuthkit-4.12.1), `fatfs_dos_2_unix_time()`:
+///   the DOS date and time are converted with `mktime()`, i.e. in whatever
+///   zone the process has.
+/// - `tools/fstools/fls.cpp` (sleuthkit-4.12.1), lines 237-247: `-z` builds
+///   "TZ=<zone>" in a 32-character array declared inside the option's block,
+///   hands it to `putenv()` and calls `tzset()`. POSIX `putenv()` makes the
+///   string itself part of the environment rather than copying it, and that
+///   array goes out of scope when the block ends. That is consistent with the
+///   observed failure; it is not shown to be the cause.
+/// - Observed (2026-09-27, TSK 4.12.1 on macOS 27.2, host zone UTC+8): on a
+///   FAT16 image holding one entry whose stored write time is 2020-01-02
+///   15:30:44, `fls -m /` with no -z, and with -z UTC, -z GMT, -z EST5EDT or
+///   -z Asia/Tokyo, all gave the same epoch (07:30:44 UTC, the stored time read
+///   as UTC+8); `TZ=UTC fls -m /` gave 15:30:44 UTC and `TZ=EST5EDT fls` a
+///   different epoch again. The date-only access value moved to the previous
+///   day in the same way.
+pub static TSK_FLS_Z_OPTION_IGNORED_FOR_FAT_TIMES: ToolBehaviour = ToolBehaviour {
+    id: "tsk_fls_z_option_ignored_for_fat_times",
+    tool: "The Sleuth Kit fls (and bodyfiles built from fls -m)",
+    version_range: Some(
+        "sleuthkit 4.12.1 on macOS (observed); other builds and platforms not tested",
+    ),
+    artifact_id: Some("fat_exfat_directory_entry"),
+    kind: ToolBehaviourKind::MisreadsStructure,
+    detail: "FAT stores times as local wall time with no zone. fls converts them to epochs \
+             with mktime(), so the result depends on the process's zone. The documented \
+             -z <zone> option (\"the time zone of the original system\") had no effect on the \
+             observed build: output with -z UTC, GMT, EST5EDT or Asia/Tokyo was byte-identical \
+             to output with no -z, all read in the analysis host's zone. Setting TZ in the \
+             environment did change the conversion.",
+    consequence: "A timeline built with fls -z is silently offset by the analysis host's \
+                  zone, and the offset can be mistaken for a property of the volume (for \
+                  example, times that look UTC-valued when the volume holds local time). \
+                  Date-only FAT access values shift by a day when printed in another zone.",
+    mitigation: "Run TZ=UTC fls -m ... so each epoch is the stored wall time, then assign the \
+                 writer's zone from anchors (application-internal UTC times, NTFS copies of \
+                 the same files). Test the build first: list one entry whose raw directory \
+                 bytes you have decoded and compare.",
+    evidence_tier: EvidenceTier::SourceOrMultiImpl,
+    sources: &[
+        "https://github.com/sleuthkit/sleuthkit/blob/sleuthkit-4.12.1/tools/fstools/fls.cpp",
+        "https://github.com/sleuthkit/sleuthkit/blob/sleuthkit-4.12.1/tsk/fs/fatfs_utils.c",
+        "https://www.sleuthkit.org/sleuthkit/man/fls.html",
+        "https://learn.microsoft.com/en-us/windows/win32/sysinfo/file-times",
+        "https://pubs.opengroup.org/onlinepubs/9799919799/functions/putenv.html",
+    ],
+};
+
 /// Every registered tool behaviour. Lookup and iteration read this slice;
 /// a static not referenced here is invisible to every consumer.
 pub static TOOL_BEHAVIOURS: &[ToolBehaviour] = &[
@@ -1273,4 +1328,5 @@ pub static TOOL_BEHAVIOURS: &[ToolBehaviour] = &[
     UNIFIEDLOG_ITERATOR_EVIDENCE_FIELD_FALSE_HITS,
     SPOTLIGHT_PARSER_ONE_STORE_PER_RUN,
     TSK_APFS_PLAIN_OFFSET_WITHOUT_POOL_OPTIONS,
+    TSK_FLS_Z_OPTION_IGNORED_FOR_FAT_TIMES,
 ];
