@@ -9533,11 +9533,12 @@ pub static MACOS_QUARANTINE_EVENTS: ArtifactDescriptor = ArtifactDescriptor {
         // record the Apple ID validation record
         "https://github.com/seemoo-lab/opendrop/blob/master/opendrop/client.py",
         "https://github.com/seemoo-lab/opendrop",
+        "https://www.macrumors.com/how-to/change-the-name-of-your-iphone/", // Source: bare "iPhone" is a generic name (secondary)
     ],
     evidence_strength: None,
     evidence_tier: None,
     evidence_caveats: &[
-        "LSQuarantineSenderName is a device or contact label, never an Apple ID name: the sender announces its device name as SenderComputerName in the AirDrop Ask request, which carries no account display name (OpenDrop). When the receiver recognises the sender it can show a name from its own Contacts instead; on one macOS Big Sur 11 image examined in 2026, receipts from the Mac's own account read the Mac's Me-card name rather than the iCloud account's name. A factory-default 'iPhone' identifies nothing",
+        "LSQuarantineSenderName is a device or contact label, never an Apple ID name: the sender announces its device name as SenderComputerName in the AirDrop Ask request, which carries no account display name (OpenDrop). When the receiver recognises the sender it can show a name from its own Contacts instead; on one macOS Big Sur 11 image examined in 2026, receipts from the Mac's own account read the Mac's Me-card name rather than the iCloud account's name. A bare 'iPhone' is a generic name that identifies nothing: iOS set-up normally names a handset after its owner ('Tim's iPhone'), and a plain 'iPhone' can follow a reset of its network settings (MacRumors, a secondary source)",
         "Discrepancy (kept per the accuracy rules): this descriptor previously described the value as the sender's Apple ID name; the protocol (OpenDrop's Ask request) and one examined Mac's records contradict it. The cited kieczkowska 2020 post shows sender names in its sample output but does not establish their origin",
         "The Ask request's SenderRecordData (the Apple ID validation record) is not kept here, so a single receipt cannot be tied to a specific Apple ID; LSQuarantineSenderAddress can be empty",
     ],
