@@ -15233,4 +15233,17 @@ mod case_knowledge_0927_tests {
             .related_artifacts
             .contains(&"macos_notes_db"));
     }
+
+    /// ZSERVERRECORDDATA is an archived CloudKit record whose ModifiedByDevice
+    /// names the device that last changed the note; Apple does not document
+    /// the field, the reading rests on a control, and device names are
+    /// user-settable.
+    #[test]
+    fn notes_server_record_modified_by_device() {
+        let c = caveats("macos_notes_db");
+        assert!(c.contains("ZSERVERRECORDDATA") && c.contains("ModifiedByDevice"));
+        assert!(c.contains("no Apple documentation"));
+        assert!(c.contains("user-settable"));
+        assert!(cites("macos_notes_db", "AppleCloudKitRecord.rb"));
+    }
 }
