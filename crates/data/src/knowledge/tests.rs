@@ -1705,3 +1705,22 @@ fn tsk_fls_z_option_ignored_for_fat_times_is_cataloged() {
     assert!(b.version_range.is_some_and(|v| v.contains("4.12.1")));
     assert!(b.sources.iter().any(|s| s.contains("fls.cpp")));
 }
+
+/// The removable-volume residue technique must no longer say no primary
+/// source speaks to System Volume Information: Microsoft documents that
+/// RtlCreateSystemVolumeInformationFolder creates the folder when missing,
+/// though not when Windows calls it for removable drives.
+#[test]
+fn removable_volume_residue_cites_svi_creation_routine() {
+    let t = INVESTIGATIVE_TECHNIQUES
+        .iter()
+        .find(|t| t.id == "removable_volume_host_os_residue")
+        .expect("removable_volume_host_os_residue");
+    let modes = t.failure_modes.join(" ");
+    assert!(modes.contains("RtlCreateSystemVolumeInformationFolder"));
+    assert!(modes.contains("WPSettings.dat"));
+    assert!(t
+        .sources
+        .iter()
+        .any(|s| s.contains("nf-ntifs-rtlcreatesystemvolumeinformationfolder")));
+}

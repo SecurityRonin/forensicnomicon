@@ -15338,4 +15338,18 @@ mod case_knowledge_0927_tests {
         assert!(path.description.contains("terminating null"));
         assert!(cites("recycle_bin", "dtformats"));
     }
+
+    /// WPSettings.dat and IndexerVolumeGuid in System Volume Information on
+    /// a removable FAT volume are written by Windows, and their last-access
+    /// date is consistent with the last Windows use of the volume.
+    #[test]
+    fn removable_volume_system_volume_information_files() {
+        let c = caveats("fat_exfat_directory_entry");
+        assert!(c.contains("WPSettings.dat") && c.contains("IndexerVolumeGuid"));
+        assert!(c.contains("RtlCreateSystemVolumeInformationFolder"));
+        assert!(cites(
+            "fat_exfat_directory_entry",
+            "nf-ntifs-rtlcreatesystemvolumeinformationfolder"
+        ));
+    }
 }
