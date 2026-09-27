@@ -15082,7 +15082,7 @@ mod windows_case_knowledge_tests {
     }
 
     /// AccInfo.dat names the logged-in account; All Users\config\config.data
-    /// points at the last account's AccInfo.dat.
+    /// holds a path to an account's AccInfo.dat.
     #[test]
     fn wechat_accinfo_and_config_data_are_cataloged() {
         let d = CATALOG
@@ -15280,5 +15280,28 @@ mod case_knowledge_0927_tests {
         let c = caveats("macos_openbsm_audit");
         assert!(c.contains("user authentication") && c.contains("full trail"));
         assert!(c.contains("TZ=UTC") && c.contains("zone-free"));
+    }
+
+    /// config.data field 50 is a stored path to an account's AccInfo.dat;
+    /// "last account used" is a practitioner inference, not documented.
+    /// FileStorage\File does not record sent versus received, and the message
+    /// databases are SQLCipher-encrypted.
+    #[test]
+    fn wechat_config_data_and_filestorage_limits() {
+        let acc = CATALOG
+            .by_id("wechat_windows_accinfo")
+            .expect("wechat_windows_accinfo");
+        assert!(
+            !acc.meaning.contains("naming the last account used"),
+            "the last-account reading is an inference, not the file's documented meaning"
+        );
+        let c = caveats("wechat_windows_accinfo");
+        assert!(c.contains("field 50") && c.contains("practitioner inference"));
+        let files = CATALOG
+            .by_id("wechat_windows_files")
+            .expect("wechat_windows_files");
+        assert!(!files.meaning.contains("received and sent files"));
+        let f = caveats("wechat_windows_files");
+        assert!(f.contains("sent or received") && f.contains("SQLCipher"));
     }
 }
