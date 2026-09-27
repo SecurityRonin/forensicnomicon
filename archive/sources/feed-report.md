@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-09-26T03:32:56Z
+Generated: 2026-09-27T03:36:18Z
 
 ## Windows Incident Response
 
@@ -16,9 +16,9 @@ Generated: 2026-09-26T03:32:56Z
 - Site: https://dfir.blog/
 - Feed: https://dfir.blog/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- unknown date — [Parsers for Gmail, Outlook Safe Links, Social Media IDs added in Unfurl](https://dfir.blog/blog/unfurl-parses-gmail-safe-links-and-social-media-ids)
+- No new entries detected
 
 ## Another Forensics Blog
 
@@ -220,10 +220,9 @@ Generated: 2026-09-26T03:32:56Z
 - Site: https://isc.sans.edu/
 - Feed: https://isc.sans.edu/rssfeed_full.xml
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-09-25T12:45:19+00:00 — [A Closer Look at Malware From the Macfinger ClickFix Campaign, (Fri, Sep 25th)](https://isc.sans.edu/diary/rss/33368)
-- 2026-09-25T03:45:12+00:00 — [ISC Stormcast For Friday, September 25th, 2026 https://isc.sans.edu/podcastdetail/10110, (Fri, Sep 25th)](https://isc.sans.edu/diary/rss/33370)
+- No new entries detected
 
 ## DFIR Training Blog
 
@@ -248,9 +247,9 @@ Generated: 2026-09-26T03:32:56Z
 - Site: https://aboutdfir.com/
 - Feed: https://aboutdfir.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-09-25T11:14:54+00:00 — [InfoSec News Nuggets – 09/25/2026](https://aboutdfir.com/infosec-news-nuggets-09-25-2026/)
+- No new entries detected
 
 ## Forensic 4cast
 
@@ -266,9 +265,9 @@ Generated: 2026-09-26T03:32:56Z
 - Site: https://thisweekin4n6.com/
 - Feed: https://thisweekin4n6.wordpress.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-09-27T01:15:11+00:00 — [Week 39 – 2026](https://thisweekin4n6.com/2026/09/27/week-39-2026/)
 
 ## The Sleuth Kit updates
 
@@ -311,9 +310,11 @@ Generated: 2026-09-26T03:32:56Z
 - Site: https://www.hexacorn.com/blog/
 - Feed: https://www.hexacorn.com/blog/feed/
 - Entries checked: 5
-- New since last snapshot: 0
+- New since last snapshot: 3
 
-- No new entries detected
+- 2026-09-26T23:39:13+00:00 — [1 little known secret of aidd.dll](https://www.hexacorn.com/blog/2026/09/26/1-little-known-secret-of-aidd-dll/)
+- 2026-09-26T22:40:02+00:00 — [1 little known secret of WinCsFlags.exe](https://www.hexacorn.com/blog/2026/09/26/1-little-known-secret-of-wincsflags-exe/)
+- 2026-09-26T22:28:46+00:00 — [1 little known secret of UIEOrchestratorStub.exe](https://www.hexacorn.com/blog/2026/09/26/1-little-known-secret-of-uieorchestratorstub-exe/)
 
 ## The DFIR Spot
 
@@ -365,10 +366,12 @@ Generated: 2026-09-26T03:32:56Z
 - Site: https://eclecticlight.co/
 - Feed: https://eclecticlight.co/feed/
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 4
 
-- 2026-09-25T11:30:00+00:00 — [American in Paris, the brief paintings of Susan Watkins](https://eclecticlight.co/2026/09/25/american-in-paris-the-brief-paintings-of-susan-watkins/)
-- 2026-09-25T06:30:00+00:00 — [XProtect Remediator 163 doesn’t run](https://eclecticlight.co/2026/09/25/xprotect-remediator-163-doesnt-run/)
+- 2026-09-26T11:30:00+00:00 — [Critics against art: How British landscape painting was killed](https://eclecticlight.co/2026/09/26/critics-against-art-how-british-landscape-painting-was-killed/)
+- 2026-09-26T08:00:00+00:00 — [Saturday Mac riddles 379](https://eclecticlight.co/2026/09/26/saturday-mac-riddles-379/)
+- 2026-09-26T07:00:00+00:00 — [AI at work: Privacy, PCC and prompts](https://eclecticlight.co/2026/09/26/ai-at-work-privacy-pcc-and-prompts/)
+- 2026-09-26T06:19:58+00:00 — [Apple has just released an update to XProtect for macOS Sequoia and later](https://eclecticlight.co/2026/09/26/apple-has-just-released-an-update-to-xprotect-for-macos-sequoia-and-later-2/)
 
 ## JPCERT/CC
 
@@ -402,9 +405,9 @@ Generated: 2026-09-26T03:32:56Z
 - Site: https://www.huntress.com/blog
 - Feed: https://www.huntress.com/blog/rss.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-09-25T13:00:00+00:00 — [Culture at Speed: Protecting What Makes Huntress Work](https://www.huntress.com/blog/culture-at-speed)
 
 ## Red Canary Blog
 
@@ -420,18 +423,18 @@ Generated: 2026-09-26T03:32:56Z
 - Site: https://unit42.paloaltonetworks.com/
 - Feed: https://unit42.paloaltonetworks.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-09-25T23:00:28+00:00 — [3 Consulting Myths Debunked by Unit 42 Experts](https://unit42.paloaltonetworks.com/3-consulting-myths-debunked-by-unit-42-experts/)
+- No new entries detected
 
 ## Mandiant Threat Intelligence
 
 - Site: https://cloud.google.com/blog/topics/threat-intelligence
 - Feed: https://feeds.feedburner.com/threatintelligence/pvexyqv7v0v
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-09-25T14:00:00+00:00 — [ShinyHunters Renewed Mass Exploitation Campaign Targeting Oracle PeopleSoft](https://cloud.google.com/blog/topics/threat-intelligence/shinyhunters-renewed-mass-exploitation-campaign-targeting-oracle-peoplesoft/)
 
 ## Cisco Talos Blog
 
@@ -465,9 +468,9 @@ Generated: 2026-09-26T03:32:56Z
 - Site: https://flare.io/learn/resources/blog/
 - Feed: https://flare.io/learn/resources/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-09-25T13:01:16+00:00 — [Real-World Impact of Takedowns on the Infostealer Market](https://flare.io/learn/resources/blog/infostealer-market-takedowns-impact)
+- No new entries detected
 
 ## Binalyze Blog
 
@@ -525,51 +528,40 @@ Generated: 2026-09-26T03:32:56Z
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 4
+- New since last snapshot: 0
 
-- 2026-09-25T15:04:30+00:00 — [LinkedIn adds new checks for fake profiles and work histories](https://www.malwarebytes.com/blog/news/2026/09/linkedin-adds-new-checks-for-fake-profiles-and-work-histories)
-- 2026-09-25T14:57:29+00:00 — [Kothamine malware uses Tailscale’s tailcat to evade network detection](https://www.malwarebytes.com/blog/threat-intel/2026/09/kothamine-malware-uses-tailscales-tailcat-to-evade-network-detection)
-- 2026-09-25T12:42:11+00:00 — [Criminals turn placeholder domain into ClickFix trap](https://www.malwarebytes.com/blog/news/2026/09/criminals-turn-placeholder-domain-into-clickfix-trap)
-- 2026-09-25T09:51:26+00:00 — [That shipping rebate offer may come with a monthly charge](https://www.malwarebytes.com/blog/threat-intel/2026/09/that-shipping-rebate-offer-may-come-with-a-monthly-charge)
+- No new entries detected
 
 ## Krebs on Security
 
 - Site: https://krebsonsecurity.com/
 - Feed: https://krebsonsecurity.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-09-25T21:44:40+00:00 — [U.S. Soldier Gets 70 Months in Prison for AT&T, Verizon Extortions](https://krebsonsecurity.com/2026/09/u-s-soldier-gets-70-months-in-prison-for-att-verizon-extortions/)
+- No new entries detected
 
 ## BleepingComputer
 
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 10
+- New since last snapshot: 5
 
-- 2026-09-25T17:41:07-04:00 — [Kiteworks urges 6-hour server shutdown over potential zero-day attacks](https://www.bleepingcomputer.com/news/security/kiteworks-urges-6-hour-server-shutdown-over-potential-zero-day-attacks/)
-- 2026-09-25T16:57:55-04:00 — [ShinyHunters hacked Clop leak site using Grav CMS path traversal flaw](https://www.bleepingcomputer.com/news/security/shinyhunters-hacked-clop-leak-site-using-grav-cms-path-traversal-flaw/)
-- 2026-09-25T14:13:33-04:00 — [Elementor WordPress flaw lets attackers create admin accounts](https://www.bleepingcomputer.com/news/security/elementor-wordpress-flaw-lets-attackers-create-admin-accounts/)
-- 2026-09-25T13:24:20-04:00 — [CISA warns of Sharepoint, WSO2, Adobe Commerce flaws exploited in attacks](https://www.bleepingcomputer.com/news/security/cisa-warns-of-sharepoint-wso2-adobe-commerce-flaws-exploited-in-attacks/)
-- 2026-09-25T12:00:00-04:00 — [Anthropic rolls out up to $250 in free Claude Code credits, but only for cloud sessions](https://www.bleepingcomputer.com/news/artificial-intelligence/anthropic-rolls-out-up-to-250-in-free-claude-code-credits-but-only-for-cloud-sessions/)
-- 2026-09-25T10:54:33-04:00 — [OpenAI is preparing a $500 ChatGPT Pro Max plan with faster Codex](https://www.bleepingcomputer.com/news/artificial-intelligence/openai-is-preparing-a-500-chatgpt-pro-max-plan-with-faster-codex/)
-- 2026-09-25T10:51:10-04:00 — [With the Rise of AI Agents, SOC 2 Should Adapt or Risk Irrelevance](https://www.bleepingcomputer.com/news/security/with-the-rise-of-ai-agents-soc-2-should-adapt-or-risk-irrelevance/)
-- 2026-09-25T08:40:59-04:00 — [Microsoft plans to deprecate Windows Deployment Services](https://www.bleepingcomputer.com/news/microsoft/microsoft-to-deprecate-windows-deployment-services-after-windows-server-2025/)
-- 2026-09-25T07:35:14-04:00 — [Rydox marketplace admin pleads guilty, faces 22 years in prison](https://www.bleepingcomputer.com/news/security/rydox-marketplace-admin-pleads-guilty-faces-22-years-in-prison/)
-- 2026-09-25T06:30:38-04:00 — [Microsoft: Recent Windows updates cause desktop loading issues](https://www.bleepingcomputer.com/news/microsoft/microsoft-recent-windows-updates-cause-desktop-loading-issues/)
+- 2026-09-26T15:03:34-04:00 — [ShinyHunters uses WAF bypass trick in Oracle PeopleSoft attacks](https://www.bleepingcomputer.com/news/security/shinyhunters-uses-waf-bypass-trick-in-oracle-peoplesoft-attacks/)
+- 2026-09-26T12:26:58-04:00 — [Claude Opus 5.5 uses 95% fewer em dashes, but its answers are getting longer](https://www.bleepingcomputer.com/news/artificial-intelligence/claude-opus-55-uses-95-percent-fewer-em-dashes-but-its-answers-are-getting-longer/)
+- 2026-09-26T11:50:38-04:00 — [Microsoft pauses KB5002907 update after Office license deactivations](https://www.bleepingcomputer.com/news/microsoft/microsoft-365-kb5002907-update-paused-after-office-license-deactivations/)
+- 2026-09-26T10:19:46-04:00 — [GitHub Actions re-enabled with Mini Shai-Hulud payload still active](https://www.bleepingcomputer.com/news/security/github-actions-re-enabled-with-mini-shai-hulud-payload-still-active/)
+- 2026-09-26T08:28:41-04:00 — [OpenAI's AI agents accidentally uploaded user-provided images to third-party sites](https://www.bleepingcomputer.com/news/artificial-intelligence/openais-ai-agents-accidentally-uploaded-user-provided-images-to-third-party-sites/)
 
 ## Dark Reading
 
 - Site: https://www.darkreading.com/
 - Feed: https://www.darkreading.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 4
+- New since last snapshot: 0
 
-- 2026-09-25T18:39:32+00:00 — [AI Sandbox Escapes: Why Forensic Readiness Matters More Than Containment](https://www.darkreading.com/cyberattacks-data-breaches/ai-sandbox-escapes-forensic-readiness)
-- 2026-09-25T17:56:23+00:00 — [What We Missed: Google Gemini Joins the AI Escape Party](https://www.darkreading.com/cyber-risk/what-we-missed-google-gemini-ai-escape-party)
-- 2026-09-25T14:46:13+00:00 — [Stopping IT Worker Scams Requires Revamped HR Process](https://www.darkreading.com/cyber-risk/stopping-it-worker-scams-revamped-hr-process)
-- 2026-09-25T07:00:00+00:00 — [Russia's Hybrid Cyber-Physical War in Europe Heats Up](https://www.darkreading.com/physical-security/russia-hybrid-cyber-physical-war-europe)
+- No new entries detected
 
 ## Volexity Blog
 
@@ -591,27 +583,27 @@ Generated: 2026-09-26T03:32:56Z
 - Site: https://www.microsoft.com/en-us/security/blog/
 - Feed: https://www.microsoft.com/en-us/security/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-09-25T15:35:08+00:00 — [Storm-3168: Agentic-driven cloud attacks using compromised service principals](https://www.microsoft.com/en-us/security/blog/2026/09/25/storm-3168-agentic-driven-cloud-attacks-using-compromised-service-principals/)
+- No new entries detected
 
 ## HackingPassion
 
 - Site: https://hackingpassion.com/
 - Feed: https://hackingpassion.com/index.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-09-26T13:05:00+02:00 — [Container Escape to Host Root Through a Linux Kernel Bug](https://hackingpassion.com/container-escape-host-root-linux-kernel-bug/)
 
 ## LOLBAS Project (Windows)
 
 - Site: https://lolbas-project.github.io/
 - Feed: https://github.com/LOLBAS-Project/LOLBAS/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-09-26T08:13:22+00:00 — [Add 'file createnew' command to Fsutil.yml (#525)](https://github.com/LOLBAS-Project/LOLBAS/commit/2056cb7662509dc998fc6ce79636aec4e6c0397f)
 
 ## GTFOBins (Linux)
 
@@ -834,9 +826,9 @@ Generated: 2026-09-26T03:32:56Z
 - Site: https://github.com/Yamato-Security/hayabusa-rules
 - Feed: https://github.com/Yamato-Security/hayabusa-rules/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-09-25T20:07:42+00:00 — [Sigma Rule Update (2026-09-25  20:07:21) (#1072)](https://github.com/Yamato-Security/hayabusa-rules/commit/1d9f8751f6b0f2dd3eee1d44712c6a92541f5d08)
+- No new entries detected
 
 ## Hayabusa releases
 
@@ -861,19 +853,19 @@ Generated: 2026-09-26T03:32:56Z
 - Site: https://github.com/elastic/detection-rules
 - Feed: https://github.com/elastic/detection-rules/releases.atom
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-09-25T21:18:09+00:00 — [dev-v3.0.1](https://github.com/elastic/detection-rules/releases/tag/dev-v3.0.1)
-- 2026-09-25T21:06:52+00:00 — [dev-v3.0.0](https://github.com/elastic/detection-rules/releases/tag/dev-v3.0.0)
+- No new entries detected
 
 ## regipy releases
 
 - Site: https://github.com/mkorman90/regipy
 - Feed: https://github.com/mkorman90/regipy/releases.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- 2026-09-26T14:23:13+00:00 — [6.4.0](https://github.com/mkorman90/regipy/releases/tag/6.4.0)
+- 2026-09-26T14:25:11+00:00 — [regipy-rs-0.1.0a2](https://github.com/mkorman90/regipy/releases/tag/regipy-rs-0.1.0a2)
 
 ## EZ Registry commits
 
