@@ -15322,4 +15322,20 @@ mod case_knowledge_0927_tests {
             .iter()
             .any(|s| s.contains("Expert%20Witness%20Compression%20Format")));
     }
+
+    /// $I version 2 stores a 4-byte UTF-16 character count at offset 24,
+    /// counting the terminating null, and the path from 28; version 1 has
+    /// the path at 24 (libyal dtformats).
+    #[test]
+    fn recycle_bin_i_v2_character_count() {
+        let d = CATALOG.by_id("recycle_bin").expect("recycle_bin");
+        let path = d
+            .fields
+            .iter()
+            .find(|f| f.name == "original_path")
+            .expect("original_path field");
+        assert!(path.description.contains("character count"));
+        assert!(path.description.contains("terminating null"));
+        assert!(cites("recycle_bin", "dtformats"));
+    }
 }
