@@ -166,6 +166,7 @@ const EWF_LOGICAL_HINTS: &[&str] = &[
     "Folder names in the tree (Windows, System32, Users) do not imply their contents were captured: under a selective export a folder appears only if it held a selected file.",
     "Enumerate it, do not mount it: there is no partition table or file system, so a file-system tool (for example Sleuth Kit fls) reports that it cannot determine the file-system type.",
     "Verify the ltree MD5 before trusting the enumeration, and record the tool and version that read it: libewf 20231119 aborts the whole open of some real EnCase L01s at a short-name size check (libewf_lef_file_entry.c:982).",
+    "A file entry whose data is a single byte is not a one-byte file (libewf EWF format documentation, file entry flags): if the entry has a du (duplicate data offset) the byte is ignored and the content is read from that offset (deduplicated); if not, and the sparse flag is set, the file is that byte repeated to the file size. Check each extracted file against its stored MD5. On one examination (2026) one entry among about 25,750 single-byte entries had no du, and its stored MD5 matched neither the byte nor the byte repeated, so its content was not in the container; a reader that returned the single byte produced a one-byte file and a hash mismatch.",
 ];
 const EWF_LOGICAL_INVARIANTS: &[&str] = &[
     "Begins with the EWF1 logical signature 'LVF\\x09\\x0d\\x0a\\xff\\x00' (.L01) or the EWF2 logical signature 'LEF2\\x0d\\x0a\\x81\\x00' (.Lx01) at offset 0.",
@@ -325,6 +326,9 @@ static CONTAINER_PROFILES: &[ContainerProfile] = &[
             "https://github.com/libyal/libewf/tree/main/documentation",
             "https://github.com/libyal/libewf/blob/20231119/libewf/libewf_segment_file.c",
             "https://github.com/libyal/libewf/blob/20231119/libewf/libewf_lef_file_entry.c",
+            // Source: ltree file entry "du" = duplicate data offset; single-byte data is
+            // sparse fill unless du is set
+            "https://github.com/libyal/libewf/blob/main/documentation/Expert%20Witness%20Compression%20Format%20(EWF).asciidoc",
         ],
     },
     ContainerProfile {
