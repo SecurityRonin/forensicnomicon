@@ -99,12 +99,21 @@ pub(crate) static MACOS_SPOTLIGHT_STORE: ArtifactDescriptor = ArtifactDescriptor
     sources: &[
         "https://www.mac4n6.com/blog/2016/2/22/spotlight-on-spotlight",
         "https://forensicswiki.xyz/wiki/index.php?title=Spotlight",
+        // Source: kMDItemUseCount "counts how many times the file has been opened on that
+        // volume ... It starts at two"; closing caution that behaviour may differ by file type
+        // and application
+        "https://forensic4cast.com/2016/10/macos-timestamps-from-extended-attributes-and-spotlight/",
+        // Source: MDItem.h, kMDItemDateAdded "is the date that the file was moved into the
+        // current location"
+        "https://developer.apple.com/documentation/coreservices/kmditemdateadded",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
     evidence_tier: None,
     evidence_caveats: &[
         "User can disable Spotlight indexing for specific paths",
         "Encrypted volumes require unlock to access",
+        "kMDItemUseCount is not a count of openings. Apple does not document it; the one researcher description (Forensic 4:cast, 2016) says it counts openings on the volume starting at two and cautions that behaviour may differ by file type and application. On one examination (2026) screenshots last used within seconds of being added carried a value of 5. Report the stored value, not a number of times opened",
+        "kMDItemDateAdded is, per Apple's MDItem.h, the date the file was moved into its current location. Content creation and kMDItemDateAdded within the same second, with a later content modification while the file sat there, is consistent with the file having been saved on this host; it does not exclude every copy route and does not identify the person",
     ],
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "Spotlight metadata store persists until volume reindex",
@@ -413,6 +422,9 @@ pub(crate) static MACOS_NOTES_DB: ArtifactDescriptor = ArtifactDescriptor {
         "https://github.com/threeplanetssoftware/apple_cloud_notes_parser",
         // Source: Apple's absolute-time reference date, 1 Jan 2001 00:00:00 GMT
         "https://developer.apple.com/documentation/corefoundation/cfabsolutetime",
+        // Source: add_cloudkit_server_record_data() unarchives ZSERVERRECORDDATA and reads
+        // ModifiedByDevice as the last modified device
+        "https://github.com/threeplanetssoftware/apple_cloud_notes_parser/blob/master/lib/AppleCloudKitRecord.rb",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
     evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
@@ -422,6 +434,7 @@ pub(crate) static MACOS_NOTES_DB: ArtifactDescriptor = ArtifactDescriptor {
         "Body text is not plaintext in the database: ZICNOTEDATA.ZDATA must be gunzipped and protobuf-decoded; a string search of the raw file misses note text",
         "Collect NoteStore.sqlite-wal and -shm with the database; recent edits may exist only in the WAL",
         "Locked (password-protected) notes are encrypted in the store and their attachments are encrypted on disk",
+        "For an iCloud note, ZICCLOUDSYNCINGOBJECT.ZSERVERRECORDDATA is an NSKeyedArchiver-archived CloudKit record (CKRecord) carrying the server's creation and modification times and a ModifiedByDevice string; apple_cloud_notes_parser reads that string as the last modified device. There is no Apple documentation of the field (searched 2026). On one examination (2026) the Mac's own device name appeared there for notes changed on that Mac (the control), so a different name is consistent with the last change having been made on that other device. Device names are user-settable and not unique (several handsets can be called 'iPhone'), so a name alone does not identify a handset",
     ],
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "SQLite store persists until note deletion",
@@ -3184,6 +3197,8 @@ pub(crate) static MACOS_WHEREFROMS_XATTR: ArtifactDescriptor = ArtifactDescripto
     sources: &[
         "https://developer.apple.com/documentation/coreservices/kmditemwherefroms",
         "https://eclecticlight.co/2020/10/29/quarantine-and-the-quarantine-flag/",
+        // Source: RFC 7519 §4.1.4 "exp" and §4.1.5 "nbf" claims
+        "https://www.rfc-editor.org/rfc/rfc7519",
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
     evidence_tier: Some(crate::evidence::EvidenceTier::VendorDocumented),
@@ -3191,6 +3206,7 @@ pub(crate) static MACOS_WHEREFROMS_XATTR: ArtifactDescriptor = ArtifactDescripto
         "Set only by cooperating applications — a file downloaded by curl or a custom tool carries neither attribute",
         "User-writable metadata: can be edited or stripped with xattr, so corroborate against QuarantineEventsV2 and browser history",
         "The recorded URL is the full request URL, query string included, and can carry live credentials: on one macOS image examined in 2026 the Spotlight metadata record of an attachment downloaded in Safari from Outlook on the web held its download URL with a bearer token, an X-OWA-CANARY value and JWT-shaped strings. Treat kMDItemWhereFroms and quarantine URLs as secret-bearing and redact them before reproducing them in a report",
+        "An attachment downloaded from Outlook on the web carries a URL of the form https://attachment.outlook.live.net/owa/<mailbox>/service.svc/s/GetFileAttachment?id=...&token=..., which names the mailbox the attachment was opened from. Its token parameter is a signed JSON Web Token whose nbf and exp claims (RFC 7519 §4.1.4-4.1.5) bound when the link could be used, an anchor for the download time independent of the Mac's clock. On one examination (2026) the window was 600 seconds and each of three downloads' kMDItemDownloadedDate fell inside it. Decode only the claims, and treat the token and X-OWA-CANARY values as secrets",
     ],
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "Extended attributes travel with the file until explicitly removed",
@@ -4920,6 +4936,8 @@ pub(crate) static MACOS_OPENBSM_AUDIT: ArtifactDescriptor = ArtifactDescriptor {
         "Overnight software-update restarts leave a recognisable pattern: a logout in the small hours, a start-up within about 40 seconds and an automatic login of the user account, with _lpadmin membership writes at the same times (seen on five dates on one macOS Big Sur 11 image examined in 2026). Such a login need not have been made by a person; the meaningful last login is the last one outside that pattern",
         "A boot with no recorded shutdown is common (32 of 63 boots on that image), so a missing shutdown record does not by itself show an unclean stop at a particular time",
         "An event 'Set values for record type Groups com.apple.access_screensharing' records a change to who may connect by Screen Sharing; it does not show that sharing stayed enabled or was ever used",
+        "A gap in login, start-up and shutdown events is not a gap in the trail. A selection of account and session events can be empty for months while the full trail holds records for the same interval: password checks ('user authentication', including accepted passwords for the account), SecSrvr AuthEngine and AuthMechanism records, and session start/end. On one examination (2026) such a gap held about 1,500 records on 78 dates. Reduce the full trail before stating when the Mac was or was not in use",
+        "praudit prints times in the analysis host's zone with no marker (see tool behaviour praudit_resolves_ids_on_analysis_host), so run it under TZ=UTC and confirm the basis against a zone-free anchor: on one examination (2026) TZ=UTC praudit times of login-window failures matched the unified log's epoch times of the same failures (opendirectoryd password-verification errors) to within tens of milliseconds, and the first record of each trail file matched the file's UTC name",
     ],
     volatility: Some(crate::volatility::VolatilityClass::RotatingBuffer),
     volatility_rationale: "Audit trails are rotated by auditd as they fill or as free space drops",
@@ -5663,6 +5681,7 @@ pub(crate) static MACOS_BLUETOOTH_DEVICES: ArtifactDescriptor = ArtifactDescript
         "https://forge-work.com/dfir/knowledge/artifacts/macos-bluetooth",
         // Source: plaso's plugin notes on LastInquiryUpdate / LastNameUpdate / LastServicesUpdate
         "https://github.com/log2timeline/plaso/blob/main/plaso/parsers/plist_plugins/bluetooth.py",
+        "https://www.macrumors.com/how-to/change-the-name-of-your-iphone/", // Source: bare "iPhone" is a generic name (secondary)
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Strong),
     evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
@@ -5671,7 +5690,7 @@ pub(crate) static MACOS_BLUETOOTH_DEVICES: ArtifactDescriptor = ArtifactDescript
         "DeviceCache holds devices merely SEEN nearby as well as bonded ones — presence there is not proof of pairing; the PairedDevices array is the bonded set",
         "BLE MAC randomization inflates the cache with many entries for one physical device, and the BLE CoreBluetoothCache keys by an obscured UUID rather than the MAC",
         "LastNameUpdate is when the device's human-readable name was set, usually once at initial setup (plaso), not when the device was last seen; LastInquiryUpdate is the discovery time. Any of these values was written by this Mac's Bluetooth stack, so it shows the Mac running with Bluetooth on at that moment (on one macOS Big Sur 11 image examined in 2026 a name update fell 50 seconds after an audit-log start-up, in a boot with no user login)",
-        "An entry named 'iPhone' (the factory default) cannot be tied to a particular AirDrop transfer or person: iPhones use rotating Bluetooth addresses for AirDrop discovery",
+        "An entry named 'iPhone' (a generic name: iOS set-up normally names a handset after its owner, and a plain 'iPhone' can follow a network-settings reset, per MacRumors, a secondary source) cannot be tied to a particular AirDrop transfer or person: iPhones use rotating Bluetooth addresses for AirDrop discovery",
     ],
     volatility: Some(crate::volatility::VolatilityClass::Persistent),
     volatility_rationale: "Rewritten as devices are paired, seen or removed; entries linger after unpairing",
@@ -5817,6 +5836,7 @@ pub(crate) static MACOS_TRUSTEDPEERSHELPER_DB: ArtifactDescriptor = ArtifactDesc
         "https://github.com/apple-oss-distributions/Security/blob/main/keychain/TrustedPeersHelper/Container_EscrowRecords.swift",
         "https://github.com/abrignoni/iLEAPP/blob/main/scripts/artifacts/trustedPeers.py",
         "https://support.apple.com/guide/security/sec3e341e75d",
+        "https://www.macrumors.com/how-to/change-the-name-of-your-iphone/", // Source: bare "iPhone" is a generic name (secondary)
     ],
     evidence_strength: Some(crate::evidence::EvidenceStrength::Corroborative),
     evidence_tier: Some(crate::evidence::EvidenceTier::SourceOrMultiImpl),
@@ -5825,7 +5845,7 @@ pub(crate) static MACOS_TRUSTEDPEERSHELPER_DB: ArtifactDescriptor = ArtifactDesc
         "Do not draw a negative from ZPEER alone: it lists only the current trust circle. On the examined image the escrow tables named devices, including by serial, that ZPEER did not, and went back years before the earliest peer",
         "Read the database with its -wal: iLEAPP records sample data whose rows were present only in the WAL",
         "ZPEER.ZSTABLEINFO is a serialized protobuf; decode it field by field. On the examined image the OS version string and the device serial were separate fields, and a regex over the raw blob appended the next field's tag byte to every serial it matched",
-        "Device names are user-assigned labels, commonly Apple's default '<first name>'s iPhone' form (localised, e.g. '<name>的 iPad'); a name can echo the account holder's first name but is not verified identity, and a factory-default 'iPhone' identifies nothing",
+        "Device names are user-assigned labels, commonly Apple's default '<first name>'s iPhone' form (localised, e.g. '<name>的 iPad'); a name can echo the account holder's first name but is not verified identity, and a bare 'iPhone' is a generic name that identifies nothing (iOS set-up normally uses the owner's first name; a plain 'iPhone' can follow a network-settings reset, per MacRumors, a secondary source)",
         "The rows describe the Apple account's devices, which need never have touched this Mac; tie them to an account separately (on the examined image the container's ZACCOUNTDSID was empty, so attribution rested on the single iCloud account signed in on the Mac)",
     ],
     volatility: Some(crate::volatility::VolatilityClass::Persistent),

@@ -15082,7 +15082,7 @@ mod windows_case_knowledge_tests {
     }
 
     /// AccInfo.dat names the logged-in account; All Users\config\config.data
-    /// points at the last account's AccInfo.dat.
+    /// holds a path to an account's AccInfo.dat.
     #[test]
     fn wechat_accinfo_and_config_data_are_cataloged() {
         let d = CATALOG
@@ -15135,9 +15135,221 @@ mod windows_case_knowledge_tests {
         assert!(d.related_artifacts.contains(&"wechat_windows_accinfo"));
     }
 
-    /// FAT times can carry UTC values when the copying tool preserves them.
+    /// FAT times are stored in the writer's local time, as Microsoft
+    /// documents. An earlier caveat said a time-preserving copy could leave
+    /// UTC-valued times; that reading came from a listing tool that applied
+    /// the analysis host's zone, and it is withdrawn. The caveats must say how
+    /// to read the stored values (TZ=UTC), how to establish the writer's zone
+    /// from anchors, the 2-second write resolution, and the day shift of a
+    /// date-only access value read in the wrong zone.
     #[test]
-    fn fat_times_can_be_utc_valued_when_preserved() {
-        assert!(caveat_contains("fat_exfat_directory_entry", "UTC-valued"));
+    fn fat_times_are_stored_local_and_listed_under_tz_utc() {
+        let d = CATALOG
+            .by_id("fat_exfat_directory_entry")
+            .expect("fat_exfat_directory_entry");
+        assert!(
+            !d.evidence_caveats.iter().any(|c| c.contains("UTC-valued")),
+            "the UTC-valued reading was an instrument artefact and must be withdrawn"
+        );
+        assert!(caveat_contains("fat_exfat_directory_entry", "TZ=UTC"));
+        assert!(caveat_contains(
+            "fat_exfat_directory_entry",
+            "dcterms:modified"
+        ));
+        assert!(caveat_contains("fat_exfat_directory_entry", "2-second"));
+        assert!(caveat_contains("fat_exfat_directory_entry", "by a day"));
+    }
+}
+
+#[cfg(test)]
+mod device_name_wording {
+    use crate::catalog::*;
+
+    /// A bare "iPhone" device name is not the factory default: iOS set-up normally names the
+    /// handset after its owner ("Tim's iPhone"), and a plain "iPhone" can follow a reset of the
+    /// network settings. Caveats must call it a generic name, not "factory default".
+    #[test]
+    fn bare_iphone_name_is_generic_not_factory_default() {
+        for id in [
+            "macos_quarantine_events",
+            "macos_bluetooth_devices",
+            "macos_trustedpeershelper_db",
+        ] {
+            let d = CATALOG.by_id(id).unwrap_or_else(|| panic!("{id} missing"));
+            for c in d.evidence_caveats {
+                assert!(
+                    !c.to_lowercase().contains("factory-default")
+                        && !c.to_lowercase().contains("factory default"),
+                    "{id}: caveat calls a bare 'iPhone' the factory default: {c}"
+                );
+            }
+            assert!(
+                d.evidence_caveats.iter().any(|c| c.contains("generic")),
+                "{id}: a caveat must describe a bare 'iPhone' as a generic name"
+            );
+        }
+    }
+}
+
+/// Artifact knowledge recorded from one examination (2026-09-27 batch):
+/// macOS Notes and knowledgeC joins, Spotlight fields, OpenBSM, WeChat for
+/// Windows, the Recycle Bin and removable volumes.
+#[cfg(test)]
+mod case_knowledge_0927_tests {
+    use crate::catalog::CATALOG;
+
+    fn caveats(id: &str) -> String {
+        CATALOG
+            .by_id(id)
+            .unwrap_or_else(|| panic!("{id} must be cataloged"))
+            .evidence_caveats
+            .join(" ")
+    }
+
+    fn cites(id: &str, needle: &str) -> bool {
+        CATALOG
+            .by_id(id)
+            .unwrap_or_else(|| panic!("{id} must be cataloged"))
+            .sources
+            .iter()
+            .any(|s| s.contains(needle))
+    }
+
+    /// A Notes intent record in knowledgeC joins to its note by
+    /// ZSOURCE.ZGROUPID = ZICCLOUDSYNCINGOBJECT.ZIDENTIFIER; handling status
+    /// and direction 0 are "unspecified" (INInteraction.h), and the intent's
+    /// time follows editing, so it does not date a note's creation.
+    #[test]
+    fn knowledgec_notes_intents_join_and_limits() {
+        let c = caveats("macos_knowledgec");
+        assert!(c.contains("ZGROUPID") && c.contains("ZIDENTIFIER"));
+        assert!(c.contains("INCreateNoteIntent"));
+        assert!(c.contains("unspecified") && c.contains("INInteraction.h"));
+        assert!(c.contains("does not date"));
+        assert!(cites("macos_knowledgec", "inintenthandlingstatus"));
+        assert!(CATALOG
+            .by_id("macos_knowledgec")
+            .expect("macos_knowledgec")
+            .related_artifacts
+            .contains(&"macos_notes_db"));
+    }
+
+    /// ZSERVERRECORDDATA is an archived CloudKit record whose ModifiedByDevice
+    /// names the device that last changed the note; Apple does not document
+    /// the field, the reading rests on a control, and device names are
+    /// user-settable.
+    #[test]
+    fn notes_server_record_modified_by_device() {
+        let c = caveats("macos_notes_db");
+        assert!(c.contains("ZSERVERRECORDDATA") && c.contains("ModifiedByDevice"));
+        assert!(c.contains("no Apple documentation"));
+        assert!(c.contains("user-settable"));
+        assert!(cites("macos_notes_db", "AppleCloudKitRecord.rb"));
+    }
+
+    /// kMDItemUseCount is not a literal count of openings, and content
+    /// creation with kMDItemDateAdded in the same second, followed by a later
+    /// content modification, is consistent with the file having been saved
+    /// on that host.
+    #[test]
+    fn spotlight_use_count_and_date_added() {
+        let c = caveats("macos_spotlight_store");
+        assert!(c.contains("kMDItemUseCount") && c.contains("not a count of openings"));
+        assert!(c.contains("kMDItemDateAdded") && c.contains("same second"));
+        assert!(cites("macos_spotlight_store", "forensic4cast.com"));
+        assert!(cites("macos_spotlight_store", "kmditemdateadded"));
+    }
+
+    /// An Outlook-on-the-web GetFileAttachment URL names the mailbox, and its
+    /// token's nbf/exp claims bound when the link was usable, an anchor for
+    /// the download time.
+    #[test]
+    fn wherefroms_outlook_attachment_token_bounds_download() {
+        let c = caveats("macos_wherefroms_xattr");
+        assert!(c.contains("GetFileAttachment") && c.contains("mailbox"));
+        assert!(c.contains("exp") && c.contains("RFC 7519"));
+        assert!(cites("macos_wherefroms_xattr", "rfc7519"));
+    }
+
+    /// A gap in login and start-up events is not a gap in the trail: the full
+    /// trail can hold password checks and authorisation records in the same
+    /// interval. praudit times are in the analysis host's zone unless run
+    /// under TZ=UTC, and should be checked against a zone-free anchor.
+    #[test]
+    fn openbsm_login_gap_is_not_trail_gap() {
+        let c = caveats("macos_openbsm_audit");
+        assert!(c.contains("user authentication") && c.contains("full trail"));
+        assert!(c.contains("TZ=UTC") && c.contains("zone-free"));
+    }
+
+    /// config.data field 50 is a stored path to an account's AccInfo.dat;
+    /// "last account used" is a practitioner inference, not documented.
+    /// FileStorage\File does not record sent versus received, and the message
+    /// databases are SQLCipher-encrypted.
+    #[test]
+    fn wechat_config_data_and_filestorage_limits() {
+        let acc = CATALOG
+            .by_id("wechat_windows_accinfo")
+            .expect("wechat_windows_accinfo");
+        assert!(
+            !acc.meaning.contains("naming the last account used"),
+            "the last-account reading is an inference, not the file's documented meaning"
+        );
+        let c = caveats("wechat_windows_accinfo");
+        assert!(c.contains("field 50") && c.contains("practitioner inference"));
+        let files = CATALOG
+            .by_id("wechat_windows_files")
+            .expect("wechat_windows_files");
+        assert!(!files.meaning.contains("received and sent files"));
+        let f = caveats("wechat_windows_files");
+        assert!(f.contains("sent or received") && f.contains("SQLCipher"));
+    }
+
+    /// A logical-evidence file entry whose data is a single byte is sparse
+    /// (the byte repeated) or deduplicated (read from `du`); with no `du`,
+    /// and a stored MD5 matching neither reading, its content is not in the
+    /// container, and a reader that returns one byte gives a hash mismatch.
+    #[test]
+    fn l01_single_byte_placeholder_without_du() {
+        let p = crate::catalog::container_profile("ewf_logical_evidence")
+            .expect("ewf_logical_evidence");
+        let hints = p.parser_hints.join(" ");
+        assert!(hints.contains("du") && hints.contains("duplicate data offset"));
+        assert!(hints.contains("single byte") && hints.contains("sparse"));
+        assert!(hints.contains("stored MD5"));
+        assert!(p
+            .sources
+            .iter()
+            .any(|s| s.contains("Expert%20Witness%20Compression%20Format")));
+    }
+
+    /// $I version 2 stores a 4-byte UTF-16 character count at offset 24,
+    /// counting the terminating null, and the path from 28; version 1 has
+    /// the path at 24 (libyal dtformats).
+    #[test]
+    fn recycle_bin_i_v2_character_count() {
+        let d = CATALOG.by_id("recycle_bin").expect("recycle_bin");
+        let path = d
+            .fields
+            .iter()
+            .find(|f| f.name == "original_path")
+            .expect("original_path field");
+        assert!(path.description.contains("character count"));
+        assert!(path.description.contains("terminating null"));
+        assert!(cites("recycle_bin", "dtformats"));
+    }
+
+    /// WPSettings.dat and IndexerVolumeGuid in System Volume Information on
+    /// a removable FAT volume are written by Windows, and their last-access
+    /// date is consistent with the last Windows use of the volume.
+    #[test]
+    fn removable_volume_system_volume_information_files() {
+        let c = caveats("fat_exfat_directory_entry");
+        assert!(c.contains("WPSettings.dat") && c.contains("IndexerVolumeGuid"));
+        assert!(c.contains("RtlCreateSystemVolumeInformationFolder"));
+        assert!(cites(
+            "fat_exfat_directory_entry",
+            "nf-ntifs-rtlcreatesystemvolumeinformationfolder"
+        ));
     }
 }

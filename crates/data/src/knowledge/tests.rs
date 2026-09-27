@@ -11,7 +11,7 @@ use super::*;
 /// The exact number of registered tool behaviours — the single place the
 /// count is written down. Adding an entry updates this constant and nothing
 /// else; every other test asserts presence or invariants, not size.
-const EXPECTED_TOOL_BEHAVIOUR_LEN: usize = 26;
+const EXPECTED_TOOL_BEHAVIOUR_LEN: usize = 27;
 
 #[test]
 fn no_duplicate_ids() {
@@ -423,8 +423,10 @@ fn evidence_handling_and_windows_attribution_techniques_are_present() {
     assert!(os.artifacts_used.contains(&"macos_trash"));
     assert!(
         fm("removable_volume_host_os_residue").contains("System Volume Information")
-            && fm("removable_volume_host_os_residue").contains("searched"),
-        "SVI on removable FAT must be recorded as searched and unsourced"
+            && fm("removable_volume_host_os_residue")
+                .contains("not when Windows calls it for a removable drive"),
+        "SVI on removable FAT: the creation routine is documented, its use on removable \
+         drives is not, and that remaining gap must stay stated"
     );
 
     let acct = t("windows_deleted_account_reconstruction");
@@ -1690,4 +1692,37 @@ fn install_history_warns_that_an_entry_can_be_a_download() {
         .sources
         .iter()
         .any(|s| s.contains("mac_apt") && s.contains("installhistory.py")));
+}
+
+/// The Sleuth Kit's fls -z does not change how FAT times are read on the
+/// observed build: FAT's zone-less local times are converted with the
+/// analysis host's zone, and only TZ in the environment changes that.
+#[test]
+fn tsk_fls_z_option_ignored_for_fat_times_is_cataloged() {
+    let b = tool_behaviour("tsk_fls_z_option_ignored_for_fat_times");
+    assert_eq!(b.kind, ToolBehaviourKind::MisreadsStructure);
+    assert_eq!(b.artifact_id, Some("fat_exfat_directory_entry"));
+    assert!(b.detail.contains("-z"));
+    assert!(b.mitigation.contains("TZ=UTC"));
+    assert!(b.version_range.is_some_and(|v| v.contains("4.12.1")));
+    assert!(b.sources.iter().any(|s| s.contains("fls.cpp")));
+}
+
+/// The removable-volume residue technique must no longer say no primary
+/// source speaks to System Volume Information: Microsoft documents that
+/// RtlCreateSystemVolumeInformationFolder creates the folder when missing,
+/// though not when Windows calls it for removable drives.
+#[test]
+fn removable_volume_residue_cites_svi_creation_routine() {
+    let t = INVESTIGATIVE_TECHNIQUES
+        .iter()
+        .find(|t| t.id == "removable_volume_host_os_residue")
+        .expect("removable_volume_host_os_residue");
+    let modes = t.failure_modes.join(" ");
+    assert!(modes.contains("RtlCreateSystemVolumeInformationFolder"));
+    assert!(modes.contains("WPSettings.dat"));
+    assert!(t
+        .sources
+        .iter()
+        .any(|s| s.contains("nf-ntifs-rtlcreatesystemvolumeinformationfolder")));
 }

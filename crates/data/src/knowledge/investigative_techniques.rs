@@ -2007,10 +2007,13 @@ pub static REMOVABLE_VOLUME_HOST_OS_RESIDUE: InvestigativeTechnique = Investigat
          leaves none, and a Mac that only read files may write nothing.",
         "Mac residue shows a writable Mac mount, not which person used the Mac; the Trashes UID \
          names an account on that Mac.",
-        "Whether Windows creates System Volume Information on removable FAT volumes was searched \
-         for and no primary source was found (searched: Microsoft's Volume Shadow Copy \
-         documentation, which covers NTFS system volumes; only third-party claims otherwise). \
-         Do not rest a 'used on Windows' finding on its presence or absence.",
+        "Microsoft documents that RtlCreateSystemVolumeInformationFolder creates System Volume \
+         Information on a volume when it is missing, but not when Windows calls it for a \
+         removable drive. Third-party write-ups (How-To Geek; Winaero) report Windows writing \
+         IndexerVolumeGuid (Windows Search) and WPSettings.dat (Storage Service) there on USB \
+         drives. Their presence is consistent with Windows use; their absence is weak (deleted \
+         folder, services off, or a Windows host that never wrote), and their last-access date \
+         is consistent with, not proof of, the last Windows use of the volume.",
     ],
     evidence_tier: EvidenceTier::SingleSecondary,
     mitre_techniques: &["T1052.001"],
@@ -2018,6 +2021,9 @@ pub static REMOVABLE_VOLUME_HOST_OS_RESIDUE: InvestigativeTechnique = Investigat
         "https://ponderthebits.com/2017/01/mac-dumpster-diving-identifying-deleted-file-references-in-the-trash-ds_store-files-part-1/",
         "https://papers.put.as/papers/macosx/2019/summit_archive_1565288427.pdf",
         "https://www.mac4n6.com/blog/2016/2/1/the-hitchhikers-guide-to-the-fseventsd",
+        "https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/ntifs/nf-ntifs-rtlcreatesystemvolumeinformationfolder",
+        "https://www.howtogeek.com/282214/what-is-the-system-volume-information-folder-and-can-i-delete-it/",
+        "https://winaero.com/how-to-disable-system-volume-information-folder-for-removable-drives/",
     ],
 };
 
