@@ -15304,4 +15304,22 @@ mod case_knowledge_0927_tests {
         let f = caveats("wechat_windows_files");
         assert!(f.contains("sent or received") && f.contains("SQLCipher"));
     }
+
+    /// A logical-evidence file entry whose data is a single byte is sparse
+    /// (the byte repeated) or deduplicated (read from `du`); with no `du`,
+    /// and a stored MD5 matching neither reading, its content is not in the
+    /// container, and a reader that returns one byte gives a hash mismatch.
+    #[test]
+    fn l01_single_byte_placeholder_without_du() {
+        let p = crate::catalog::container_profile("ewf_logical_evidence")
+            .expect("ewf_logical_evidence");
+        let hints = p.parser_hints.join(" ");
+        assert!(hints.contains("du") && hints.contains("duplicate data offset"));
+        assert!(hints.contains("single byte") && hints.contains("sparse"));
+        assert!(hints.contains("stored MD5"));
+        assert!(p
+            .sources
+            .iter()
+            .any(|s| s.contains("Expert%20Witness%20Compression%20Format")));
+    }
 }
