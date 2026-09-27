@@ -15259,4 +15259,15 @@ mod case_knowledge_0927_tests {
         assert!(cites("macos_spotlight_store", "forensic4cast.com"));
         assert!(cites("macos_spotlight_store", "kmditemdateadded"));
     }
+
+    /// An Outlook-on-the-web GetFileAttachment URL names the mailbox, and its
+    /// token's nbf/exp claims bound when the link was usable, an anchor for
+    /// the download time.
+    #[test]
+    fn wherefroms_outlook_attachment_token_bounds_download() {
+        let c = caveats("macos_wherefroms_xattr");
+        assert!(c.contains("GetFileAttachment") && c.contains("mailbox"));
+        assert!(c.contains("exp") && c.contains("RFC 7519"));
+        assert!(cites("macos_wherefroms_xattr", "rfc7519"));
+    }
 }
