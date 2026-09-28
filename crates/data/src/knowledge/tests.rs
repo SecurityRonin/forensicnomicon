@@ -1726,3 +1726,52 @@ fn removable_volume_residue_cites_svi_creation_routine() {
         .iter()
         .any(|s| s.contains("nf-ntifs-rtlcreatesystemvolumeinformationfolder")));
 }
+
+/// An empty keyword or name search is a fact about the search, not about the
+/// evidence. The technique must carry the positive control, the text-layer and
+/// coverage checks, the character-level variants, and the name-romanization
+/// variants that make an honest search return zero.
+#[test]
+fn text_search_negative_result_technique_is_cataloged() {
+    let t = technique("text_search_negative_result");
+    assert!(
+        t.steps[0].action.contains("known to be present"),
+        "the first step must be a positive control"
+    );
+    let modes = t.failure_modes.join(" ");
+    for needle in [
+        "text layer",
+        "line",
+        "U+00AD",
+        "full-width",
+        "Chan",
+        "Tan",
+        "Wong",
+        "Ng",
+        "alias",
+        "fabricat",
+    ] {
+        assert!(modes.contains(needle), "failure modes must mention {needle:?}");
+    }
+    assert_eq!(t.evidence_tier, EvidenceTier::SourceOrMultiImpl);
+    for src in ["tr15", "tr14", "Chen_(surname)", "Huang_(surname)"] {
+        assert!(
+            t.sources.iter().any(|s| s.contains(src)),
+            "sources must include {src}"
+        );
+    }
+}
+
+/// Microsoft documents that Office's Document Inspector finds only text
+/// formatted as hidden, not white-on-white text.
+#[test]
+fn office_document_inspector_white_text_is_cataloged() {
+    let b = tool_behaviour("office_document_inspector_misses_white_text");
+    assert_eq!(b.kind, ToolBehaviourKind::SilentlyIncomplete);
+    assert!(b.detail.contains("white text on a white background"));
+    assert_eq!(b.evidence_tier, EvidenceTier::VendorDocumented);
+    assert!(b
+        .sources
+        .iter()
+        .any(|s| s.contains("support.microsoft.com")));
+}
