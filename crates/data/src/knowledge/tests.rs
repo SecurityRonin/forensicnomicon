@@ -11,7 +11,7 @@ use super::*;
 /// The exact number of registered tool behaviours — the single place the
 /// count is written down. Adding an entry updates this constant and nothing
 /// else; every other test asserts presence or invariants, not size.
-const EXPECTED_TOOL_BEHAVIOUR_LEN: usize = 27;
+const EXPECTED_TOOL_BEHAVIOUR_LEN: usize = 28;
 
 #[test]
 fn no_duplicate_ids() {
@@ -195,7 +195,7 @@ fn every_correlation_entry_is_verifiable() {
 
 /// The exact number of registered investigative techniques — the single place
 /// the count is written down, mirroring [`EXPECTED_TOOL_BEHAVIOUR_LEN`].
-const EXPECTED_INVESTIGATIVE_TECHNIQUE_LEN: usize = 23;
+const EXPECTED_INVESTIGATIVE_TECHNIQUE_LEN: usize = 24;
 
 #[test]
 fn investigative_len_matches_expected() {
@@ -1751,7 +1751,10 @@ fn text_search_negative_result_technique_is_cataloged() {
         "alias",
         "fabricat",
     ] {
-        assert!(modes.contains(needle), "failure modes must mention {needle:?}");
+        assert!(
+            modes.contains(needle),
+            "failure modes must mention {needle:?}"
+        );
     }
     assert_eq!(t.evidence_tier, EvidenceTier::SourceOrMultiImpl);
     for src in ["tr15", "tr14", "Chen_(surname)", "Huang_(surname)"] {
