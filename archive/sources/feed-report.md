@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-09-27T03:36:18Z
+Generated: 2026-09-28T03:41:57Z
 
 ## Windows Incident Response
 
@@ -33,7 +33,19 @@ Generated: 2026-09-27T03:36:18Z
 
 - Site: https://dfirdiva.com/
 - Feed: https://dfirdiva.com/feed
-- Status: error: not well-formed (invalid token): line 1, column 116
+- Entries checked: 10
+- New since last snapshot: 10
+
+- 2026-09-23T02:32:48+00:00 — [Techno Security & Digital Forensics Conference: October 20-22, 2026](https://dfirdiva.com/techno-security-digital-forensics-conference-october-20-22-2026/)
+- 2026-09-11T21:01:49+00:00 — [Introducing DFIR, OSINT, & Cybersecurity Community Listings](https://dfirdiva.com/introducing-dfir-osint-cybersecurity-community-listings/)
+- 2026-07-28T01:53:25+00:00 — [The Events Site is Being Rebuilt](https://dfirdiva.com/the-events-site-is-being-rebuilt/)
+- 2025-11-30T06:00:00+00:00 — [My Experience with Alias by SockPuppet](https://dfirdiva.com/my-experience-with-alias-by-sockpuppet/)
+- 2025-11-29T04:39:45+00:00 — [Free & Affordable Training News: Black Friday 2025 Edition](https://dfirdiva.com/free-affordable-training-news-black-friday-2025-edition/)
+- 2025-10-01T04:47:39+00:00 — [Techno Security & Digital Forensics Conference: October 27-29, 2025](https://dfirdiva.com/techno-security-digital-forensics-conference-october-27-29-2025/)
+- 2025-05-28T02:49:49+00:00 — [Upcoming Techno Security & Digital Forensics Conference](https://dfirdiva.com/upcoming-techno-security-digital-forensics-conference-2/)
+- 2025-03-10T05:47:02+00:00 — [Free & Affordable Training News Monthly: Feb – Mar 2025](https://dfirdiva.com/free-affordable-training-news-monthly-feb-march-2025/)
+- 2025-02-03T09:18:55+00:00 — [Free & Affordable Training News Monthly: Dec 2024 – Feb 2025](https://dfirdiva.com/free-amp-affordable-training-news-monthly-dec-2024-feb-2025/)
+- 2024-12-01T19:45:17+00:00 — [Free & Affordable Training News Monthly: Nov – Dec, 2024](https://dfirdiva.com/free-affordable-training-news-monthly-nov-dec-2024/)
 
 ## mac4n6
 
@@ -58,9 +70,9 @@ Generated: 2026-09-27T03:36:18Z
 - Site: https://andreafortuna.org/
 - Feed: https://andreafortuna.org/feed.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-09-27T00:00:00+00:00 — [Weekly Wire #11: Hackers Turn on Hackers](https://andreafortuna.org/2026/09/27/weekly-wire-11/)
 
 ## Salt Forensics
 
@@ -165,7 +177,7 @@ Generated: 2026-09-27T03:36:18Z
 
 - Site: https://brettshavers.com/brett-s-blog
 - Feed: https://feeds.feedburner.com/brettshavers/oSyq
-- Status: error: undefined entity: line 1, column 606
+- Status: error: undefined entity: line 1, column 549
 
 ## Yogesh Khatri's forensic blog
 
@@ -220,18 +232,28 @@ Generated: 2026-09-27T03:36:18Z
 - Site: https://isc.sans.edu/
 - Feed: https://isc.sans.edu/rssfeed_full.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- 2026-09-28T02:00:02+00:00 — [ISC Stormcast For Monday, September 28th, 2026 https://isc.sans.edu/podcastdetail/10112, (Mon, Sep 28th)](https://isc.sans.edu/diary/rss/33374)
+- 2026-09-27T15:04:49+00:00 — [Wireshark 4.6.9 Released, (Sun, Sep 27th)](https://isc.sans.edu/diary/rss/33372)
 
 ## DFIR Training Blog
 
 - Site: https://www.dfir.training/blog
 - Feed: https://www.dfir.training/blog
-- Entries checked: 0
-- New since last snapshot: 0
+- Entries checked: 10
+- New since last snapshot: 10
 
-- No new entries detected
+- unknown date — [Training](https://www.dfir.training/training)
+- unknown date — [Tools](https://www.dfir.training/dfir-tools)
+- unknown date — [Directory](https://www.dfir.training/providers)
+- unknown date — [Library](https://www.dfir.training/resources)
+- unknown date — [Sponsors](https://www.dfir.training/sponsors)
+- unknown date — [Blog](https://www.dfir.training/blog)
+- unknown date — [Contact](https://www.dfir.training/contact-form)
+- unknown date — [What 400 DFIR Books Tell Us About the Field](https://www.dfir.training/blog/what-400-dfir-books-tell-us-about-the-field)
+- unknown date — [Where Are Digital Investigations Breaking Down?](https://www.dfir.training/blog/where-are-digital-investigations-breaking-down)
+- unknown date — [The Marketplace for the DFIR Community](https://www.dfir.training/blog/the-marketplace-for-the-dfir-community)
 
 ## MSAB
 
@@ -265,9 +287,9 @@ Generated: 2026-09-27T03:36:18Z
 - Site: https://thisweekin4n6.com/
 - Feed: https://thisweekin4n6.wordpress.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-09-27T01:15:11+00:00 — [Week 39 – 2026](https://thisweekin4n6.com/2026/09/27/week-39-2026/)
+- No new entries detected
 
 ## The Sleuth Kit updates
 
@@ -310,11 +332,9 @@ Generated: 2026-09-27T03:36:18Z
 - Site: https://www.hexacorn.com/blog/
 - Feed: https://www.hexacorn.com/blog/feed/
 - Entries checked: 5
-- New since last snapshot: 3
+- New since last snapshot: 0
 
-- 2026-09-26T23:39:13+00:00 — [1 little known secret of aidd.dll](https://www.hexacorn.com/blog/2026/09/26/1-little-known-secret-of-aidd-dll/)
-- 2026-09-26T22:40:02+00:00 — [1 little known secret of WinCsFlags.exe](https://www.hexacorn.com/blog/2026/09/26/1-little-known-secret-of-wincsflags-exe/)
-- 2026-09-26T22:28:46+00:00 — [1 little known secret of UIEOrchestratorStub.exe](https://www.hexacorn.com/blog/2026/09/26/1-little-known-secret-of-uieorchestratorstub-exe/)
+- No new entries detected
 
 ## The DFIR Spot
 
@@ -366,12 +386,10 @@ Generated: 2026-09-27T03:36:18Z
 - Site: https://eclecticlight.co/
 - Feed: https://eclecticlight.co/feed/
 - Entries checked: 10
-- New since last snapshot: 4
+- New since last snapshot: 2
 
-- 2026-09-26T11:30:00+00:00 — [Critics against art: How British landscape painting was killed](https://eclecticlight.co/2026/09/26/critics-against-art-how-british-landscape-painting-was-killed/)
-- 2026-09-26T08:00:00+00:00 — [Saturday Mac riddles 379](https://eclecticlight.co/2026/09/26/saturday-mac-riddles-379/)
-- 2026-09-26T07:00:00+00:00 — [AI at work: Privacy, PCC and prompts](https://eclecticlight.co/2026/09/26/ai-at-work-privacy-pcc-and-prompts/)
-- 2026-09-26T06:19:58+00:00 — [Apple has just released an update to XProtect for macOS Sequoia and later](https://eclecticlight.co/2026/09/26/apple-has-just-released-an-update-to-xprotect-for-macos-sequoia-and-later-2/)
+- 2026-09-27T11:30:00+00:00 — [Critics against art: How John Singer Sargent was erased](https://eclecticlight.co/2026/09/27/critics-against-art-how-john-singer-sargent-was-erased/)
+- 2026-09-27T07:00:00+00:00 — [Last Week on My Mac: Spinning plates](https://eclecticlight.co/2026/09/27/last-week-on-my-mac-spinning-plates/)
 
 ## JPCERT/CC
 
@@ -405,9 +423,9 @@ Generated: 2026-09-27T03:36:18Z
 - Site: https://www.huntress.com/blog
 - Feed: https://www.huntress.com/blog/rss.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-09-25T13:00:00+00:00 — [Culture at Speed: Protecting What Makes Huntress Work](https://www.huntress.com/blog/culture-at-speed)
+- No new entries detected
 
 ## Red Canary Blog
 
@@ -432,9 +450,9 @@ Generated: 2026-09-27T03:36:18Z
 - Site: https://cloud.google.com/blog/topics/threat-intelligence
 - Feed: https://feeds.feedburner.com/threatintelligence/pvexyqv7v0v
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-09-25T14:00:00+00:00 — [ShinyHunters Renewed Mass Exploitation Campaign Targeting Oracle PeopleSoft](https://cloud.google.com/blog/topics/threat-intelligence/shinyhunters-renewed-mass-exploitation-campaign-targeting-oracle-peoplesoft/)
+- No new entries detected
 
 ## Cisco Talos Blog
 
@@ -546,22 +564,21 @@ Generated: 2026-09-27T03:36:18Z
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 5
+- New since last snapshot: 4
 
-- 2026-09-26T15:03:34-04:00 — [ShinyHunters uses WAF bypass trick in Oracle PeopleSoft attacks](https://www.bleepingcomputer.com/news/security/shinyhunters-uses-waf-bypass-trick-in-oracle-peoplesoft-attacks/)
-- 2026-09-26T12:26:58-04:00 — [Claude Opus 5.5 uses 95% fewer em dashes, but its answers are getting longer](https://www.bleepingcomputer.com/news/artificial-intelligence/claude-opus-55-uses-95-percent-fewer-em-dashes-but-its-answers-are-getting-longer/)
-- 2026-09-26T11:50:38-04:00 — [Microsoft pauses KB5002907 update after Office license deactivations](https://www.bleepingcomputer.com/news/microsoft/microsoft-365-kb5002907-update-paused-after-office-license-deactivations/)
-- 2026-09-26T10:19:46-04:00 — [GitHub Actions re-enabled with Mini Shai-Hulud payload still active](https://www.bleepingcomputer.com/news/security/github-actions-re-enabled-with-mini-shai-hulud-payload-still-active/)
-- 2026-09-26T08:28:41-04:00 — [OpenAI's AI agents accidentally uploaded user-provided images to third-party sites](https://www.bleepingcomputer.com/news/artificial-intelligence/openais-ai-agents-accidentally-uploaded-user-provided-images-to-third-party-sites/)
+- 2026-09-27T19:40:39-04:00 — [OpenAI is preparing “o,” an always-on ChatGPT assistant that could handle email](https://www.bleepingcomputer.com/news/artificial-intelligence/openai-is-preparing-o-an-always-on-chatgpt-assistant-that-could-handle-email/)
+- 2026-09-27T12:02:37-04:00 — [Citrix confirms two NetScaler RCE zero-days exploited in attacks](https://www.bleepingcomputer.com/news/security/citrix-admins-warned-to-shut-down-netscalers-over-2-exploited-zero-days/)
+- 2026-09-27T10:13:31-04:00 — [Cloudflare fixes Containers cross-tenant flaw exposing customer data](https://www.bleepingcomputer.com/news/security/cloudflare-fixes-containers-cross-tenant-flaw-exposing-customer-data/)
+- 2026-09-27T09:38:40-04:00 — [Anthropic turns Claude into an AI marketplace with 2,000+ plugins and connectors](https://www.bleepingcomputer.com/news/artificial-intelligence/anthropic-turns-claude-into-an-ai-marketplace-with-2-000-plus-plugins-and-connectors/)
 
 ## Dark Reading
 
 - Site: https://www.darkreading.com/
 - Feed: https://www.darkreading.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-09-25T20:28:10+00:00 — [How the CISO CFO Relationship is a Key to Cybersecurity Success](https://www.darkreading.com/cyber-risk/how-to-manage-ciso-cfo-relationship-cybersecurity-success)
 
 ## Volexity Blog
 
@@ -594,16 +611,16 @@ Generated: 2026-09-27T03:36:18Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-09-26T13:05:00+02:00 — [Container Escape to Host Root Through a Linux Kernel Bug](https://hackingpassion.com/container-escape-host-root-linux-kernel-bug/)
+- 2026-09-27T10:35:58+02:00 — [File Notification Attacks Leak Keystrokes, Websites and WhatsApp Photos on Windows, Linux, Android and macOS](https://hackingpassion.com/file-notification-attacks/)
 
 ## LOLBAS Project (Windows)
 
 - Site: https://lolbas-project.github.io/
 - Feed: https://github.com/LOLBAS-Project/LOLBAS/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-09-26T08:13:22+00:00 — [Add 'file createnew' command to Fsutil.yml (#525)](https://github.com/LOLBAS-Project/LOLBAS/commit/2056cb7662509dc998fc6ce79636aec4e6c0397f)
+- No new entries detected
 
 ## GTFOBins (Linux)
 
@@ -862,10 +879,9 @@ Generated: 2026-09-27T03:36:18Z
 - Site: https://github.com/mkorman90/regipy
 - Feed: https://github.com/mkorman90/regipy/releases.atom
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-09-26T14:23:13+00:00 — [6.4.0](https://github.com/mkorman90/regipy/releases/tag/6.4.0)
-- 2026-09-26T14:25:11+00:00 — [regipy-rs-0.1.0a2](https://github.com/mkorman90/regipy/releases/tag/regipy-rs-0.1.0a2)
+- No new entries detected
 
 ## EZ Registry commits
 
