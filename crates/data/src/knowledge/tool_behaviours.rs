@@ -1301,6 +1301,42 @@ pub static TSK_FLS_Z_OPTION_IGNORED_FOR_FAT_TIMES: ToolBehaviour = ToolBehaviour
 
 /// Every registered tool behaviour. Lookup and iteration read this slice;
 /// a static not referenced here is invisible to every consumer.
+/// Office's Document Inspector does not find white-on-white text.
+///
+/// # Sources actually read
+///
+/// - Microsoft Support, "Remove hidden data and personal information by
+///   inspecting documents, presentations, or workbooks": the Hidden Text
+///   inspector covers "Text that is formatted as hidden (a font effect that is
+///   available in the Font dialog box)", and "This Inspector cannot detect text
+///   that was hidden by other methods (for example, white text on a white
+///   background)."
+pub static OFFICE_DOCUMENT_INSPECTOR_MISSES_WHITE_TEXT: ToolBehaviour = ToolBehaviour {
+    id: "office_document_inspector_misses_white_text",
+    tool: "Microsoft Office Document Inspector",
+    version_range: Some(
+        "Word, Excel and PowerPoint for Microsoft 365, and 2016 through 2024 — the page's own \
+         Applies-To list, read 26 Sep 2026",
+    ),
+    artifact_id: None,
+    kind: ToolBehaviourKind::SilentlyIncomplete,
+    detail: "The Hidden Text inspector finds text carrying the Hidden font effect only. \
+             Microsoft's own page: it cannot detect text hidden by other methods, 'for \
+             example, white text on a white background'. Tiny or off-page text is outside \
+             it for the same reason.",
+    consequence: "An examiner or lawyer checking a document for concealed content — \
+                  including instructions addressed to an AI tool that later reads the file — \
+                  concludes it is clean because the inspector reported nothing.",
+    mitigation: "Compare the text layer with the rendered page: select all and paste into a \
+                 plain-text editor, or extract the text and diff it against an OCR of the \
+                 printed page; in Word, set all text to Automatic colour and show hidden \
+                 text before reading.",
+    evidence_tier: EvidenceTier::VendorDocumented,
+    sources: &[
+        "https://support.microsoft.com/en-us/office/remove-hidden-data-and-personal-information-by-inspecting-documents-presentations-or-workbooks-356b7b5d-77af-44fe-a07f-9aa4d085966f",
+    ],
+};
+
 pub static TOOL_BEHAVIOURS: &[ToolBehaviour] = &[
     VOL2_NETSCAN_SILENT_GAPS,
     VOL3_VMWARE_VMEM_MISSING_METADATA,
@@ -1329,4 +1365,5 @@ pub static TOOL_BEHAVIOURS: &[ToolBehaviour] = &[
     SPOTLIGHT_PARSER_ONE_STORE_PER_RUN,
     TSK_APFS_PLAIN_OFFSET_WITHOUT_POOL_OPTIONS,
     TSK_FLS_Z_OPTION_IGNORED_FOR_FAT_TIMES,
+    OFFICE_DOCUMENT_INSPECTOR_MISSES_WHITE_TEXT,
 ];

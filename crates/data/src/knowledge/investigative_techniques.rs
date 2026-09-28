@@ -2100,6 +2100,119 @@ pub static WINDOWS_DELETED_ACCOUNT_RECONSTRUCTION: InvestigativeTechnique = Inve
 
 /// Every registered investigative technique. Lookup and iteration read this
 /// slice; a static not referenced here is invisible to every consumer.
+/// Establishing that an empty keyword, name or citation search means absence.
+///
+/// # Sources actually read
+///
+/// - Unicode Standard Annex #14 (Line Breaking): U+00AD SOFT HYPHEN "is an
+///   invisible format character with no width. It marks the place where an
+///   optional line break may occur inside a word."
+/// - Unicode Standard Annex #15 (Normalization): compatibility normalization
+///   (NFKD/NFKC) "folds the differences between compatibility-equivalent
+///   characters", e.g. halfwidth and fullwidth forms.
+/// - Wikipedia, "Chen (surname)": romanizations Chen (Mandarin), Chan
+///   (Cantonese), Tan (Hokkien, Teochew), Tang (Teochew), Chin (Taishanese,
+///   Hakka). "Huang (surname)": Huáng (Mandarin), Wong (Cantonese, Hakka), Ng
+///   (Hokkien, Teochew), Ooi/Oei/Wee/Uy (Hokkien). A secondary source for a
+///   well-attested convention; the point is that one character has several
+///   standard spellings, not any particular list.
+/// - HKLII public API, observed 26 Sep 2026 with a control: `getjudgment` for
+///   [2025] HKCFI 808 returned HTTP 404 with `lang=en` and 200 with `lang=tc`
+///   (a Chinese-language judgment); [2022] HKCFA 22 with `lang=en` returned 200.
+pub static TEXT_SEARCH_NEGATIVE_RESULT: InvestigativeTechnique = InvestigativeTechnique {
+    id: "text_search_negative_result",
+    name: "Establish that an empty keyword or name search means absence",
+    question: "My keyword, name or citation search returned nothing. Is the text, the person \
+               or the document absent — or did the search miss it?",
+    steps: &[
+        TechniqueStep {
+            order: 1,
+            action: "Run the same tool, on the same file or index, for a string known to be \
+                     present (a positive control), built the same way as the real query.",
+            artifact_id: None,
+            yields: "Whether this search can return a hit at all.",
+        },
+        TechniqueStep {
+            order: 2,
+            action: "Confirm there is text to search and that the collection covers the \
+                     claim: a text layer exists (an image-only scan has none), and the index \
+                     covers the date range, court or custodian, language and file types.",
+            artifact_id: None,
+            yields: "Whether a zero is interpretable at all.",
+        },
+        TechniqueStep {
+            order: 3,
+            action: "Normalise query and text: join lines and undo line-end hyphenation, \
+                     strip soft hyphens, fold compatibility forms (full-width to half-width), \
+                     treat curly and straight quotes, dashes and ligatures as equal, and \
+                     search traditional and simplified forms and variant characters.",
+            artifact_id: None,
+            yields: "Character-level misses removed.",
+        },
+        TechniqueStep {
+            order: 4,
+            action: "Expand every name: each surname's romanizations, name order and \
+                     hyphenation, added English names, former, married and trading names, \
+                     aliases, pen names and nicknames, and a company's Chinese and English \
+                     names, which often share no words.",
+            artifact_id: None,
+            yields: "A variant list, recorded with the search.",
+        },
+        TechniqueStep {
+            order: 5,
+            action: "Search on attributes the error could not have touched: a citation or \
+                     action number, a date, an amount, the other party.",
+            artifact_id: None,
+            yields: "A hit that locates a record whose name was mangled.",
+        },
+        TechniqueStep {
+            order: 6,
+            action: "Record the negative bounded: searched [where] for [which variants], \
+                     found none; not checked: [what].",
+            artifact_id: None,
+            yields: "A negative the next examiner can extend rather than repeat.",
+        },
+    ],
+    artifacts_used: &[],
+    preconditions: &[
+        "The collection searched is the one the claim is about. A zero from a different \
+         index, date range or language is not evidence about this one.",
+    ],
+    failure_modes: &[
+        "Reading zero hits in a file with no text layer — an image-only scan — as absence. \
+         The search measured the scan, and every query returns the same zero.",
+        "A phrase split across a line or page break, or a word hyphenated at a line end, in \
+         extracted text: the phrase is present and the literal query returns zero. Running \
+         headers, footers and footnotes landing mid-sentence do the same.",
+        "Invisible and compatibility characters: a soft hyphen (U+00AD, 'an invisible format \
+         character with no width') inside a word, full-width letters or brackets in \
+         bilingual documents, curly quotes, en and em dashes and ligatures all defeat a \
+         literal query while the text reads identically on screen.",
+        "Name variants: one surname has several standard spellings — 陳 is Chen, Chan, Tan \
+         or Chin; 黃 is Huang, Wong, Ng, Ooi or Wee — and a search for one returns zero for \
+         a person recorded under another. Name order, hyphens, added English names, \
+         former and married names, an alias, pen name or nickname do the same.",
+        "Table columns interleaved by extraction: every word of the phrase is present, \
+         never contiguous, so no query matches.",
+        "A database's language or coverage split: HKLII's API returned 404 for [2025] \
+         HKCFI 808 in English and 200 in Chinese, so a single-language lookup reports a \
+         real judgment as not found.",
+        "Treating an unfound citation, person or document as fabricated. A corrupted or \
+         variant record of a real thing looks identical to a fabrication; an allegation \
+         built on one literal search has measured the search, not the world.",
+    ],
+    evidence_tier: EvidenceTier::SourceOrMultiImpl,
+    mitre_techniques: &[],
+    sources: &[
+        "https://www.unicode.org/reports/tr14/",
+        "https://www.unicode.org/reports/tr15/",
+        "https://en.wikipedia.org/wiki/Chen_(surname)",
+        "https://en.wikipedia.org/wiki/Huang_(surname)",
+        "https://www.hklii.hk/api/getjudgment?lang=en&abbr=hkcfi&year=2025&num=808",
+        "https://www.hklii.hk/api/getjudgment?lang=tc&abbr=hkcfi&year=2025&num=808",
+    ],
+};
+
 pub static INVESTIGATIVE_TECHNIQUES: &[InvestigativeTechnique] = &[
     PYRAMID_OF_PAIN,
     DIAMOND_MODEL,
@@ -2124,4 +2237,5 @@ pub static INVESTIGATIVE_TECHNIQUES: &[InvestigativeTechnique] = &[
     USB_EXHIBIT_HOST_CORRELATION,
     REMOVABLE_VOLUME_HOST_OS_RESIDUE,
     WINDOWS_DELETED_ACCOUNT_RECONSTRUCTION,
+    TEXT_SEARCH_NEGATIVE_RESULT,
 ];
