@@ -7,6 +7,59 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.6.0](https://github.com/SecurityRonin/forensicnomicon/compare/forensicnomicon-data-v1.5.0...forensicnomicon-data-v1.6.0) - 2026-09-28
+
+### Added
+
+- *(knowledge)* GREEN - an empty text or name search is a fact about the search
+- *(knowledge)* GREEN - System Volume Information residue on removable FAT volumes
+- *(catalog)* GREEN - Recycle Bin $I version 2 stores a character count that includes the null
+- *(catalog)* GREEN - an OpenBSM login gap is not a trail gap; check praudit's zone
+- *(catalog)* GREEN - an Outlook web attachment URL names the mailbox and its token bounds the download
+- *(catalog)* GREEN - Spotlight kMDItemUseCount is not a count of openings; DateAdded places a save
+- *(catalog)* GREEN - NoteStore ZSERVERRECORDDATA names the last modifying device
+- *(catalog)* GREEN - knowledgeC Notes intent records join to NoteStore and do not date creation
+- *(knowledge)* GREEN - FAT times are stored local; TSK fls -z does not apply
+- *(catalog)* GREEN - WeChat for Windows identity and image files, Recycle Bin, build and FAT caveats
+- *(catalog)* GREEN - macOS keychain escrow, Screen Sharing history and interpretation caveats
+- *(knowledge)* GREEN - macOS user-attribution profile and install-history download caveat
+- *(knowledge)* GREEN - macOS image, unified-log and Spotlight tool behaviours
+- *(catalog,knowledge)* GREEN - Wi-Fi SSIDs from userland unified-log entries
+- *(catalog)* GREEN - macOS DHCP lease, AirDrop history and APFS offset corrections
+- *(data)* GREEN - TSK FAT deleted-name rendering and attribution caveats
+- *(knowledge)* GREEN - windows_user_attribution examination profile
+- *(knowledge)* GREEN - evidence-handling and Windows attribution techniques
+- *(catalog)* GREEN - Windows account, removable-media and messenger descriptors
+- *(knowledge)* GREEN - libewf and FTK Imager evidence-container behaviours
+- *(data)* GREEN - Wi-Fi presence timeline: driver log, wifi.log, CUPS co-presence
+- *(data)* GREEN - Wi-Fi migration, legacy .backup and undated BSSIDList
+- *(data)* macOS peer-device discovery descriptors, technique, profile wiring
+- *(knowledge)* GREEN - wire the macOS network layer into profiles
+- *(knowledge)* GREEN - Wi-Fi BSSID geolocation investigative technique
+- *(catalog)* GREEN - curated macOS network-configuration descriptors
+- *(knowledge)* GREEN - wire curated macOS descriptors into profiles
+- *(catalog)* GREEN - curated macOS gap-fill descriptors
+- *(knowledge)* GREEN - seed macOS examination profiles
+
+### Documentation
+
+- *(catalog)* cite a fetch-verifiable dslocal source
+
+### Fixed
+
+- *(catalog)* GREEN - WeChat config.data holds a path, not a documented last account; FileStorage lacks direction
+- *(catalog)* GREEN - describe a bare "iPhone" device name as generic, not the factory default
+- *(catalog)* GREEN - field schemas carry the AirDrop sender and LastNameUpdate corrections
+- *(catalog)* GREEN - AirDrop sender name, Bluetooth LastNameUpdate and OpenBSM setup-user corrections
+- *(catalog)* GREEN - macOS OS scope and Screen Time path
+- *(catalog,ingest)* GREEN - loginwindow profile member and Velociraptor OS scope
+- *(catalog)* GREEN - fix three Windows/EWF contradictions
+
+### Other
+
+- case-derived artifact knowledge (feat/case-knowledge-2026-09)
+- cross-platform tool behaviours and methods (feat/kb-tools)
+
 ## [1.5.0](https://github.com/SecurityRonin/forensicnomicon/compare/forensicnomicon-data-v1.4.0...forensicnomicon-data-v1.5.0) - 2026-09-23
 
 ### Added
