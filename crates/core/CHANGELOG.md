@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.7.0](https://github.com/SecurityRonin/forensicnomicon/compare/forensicnomicon-core-v1.6.0...forensicnomicon-core-v1.7.0) - 2026-09-28
+
+### Added
+
+- *(catalog)* GREEN - L01 single-byte data extents are sparse or deduplicated; without du the content is absent
+
+### Fixed
+
+- *(catalog)* GREEN - fix three Windows/EWF contradictions
+
+### Other
+
+- case-derived artifact knowledge (feat/case-knowledge-2026-09)
+
 ## [1.6.0](https://github.com/SecurityRonin/forensicnomicon/compare/forensicnomicon-core-v1.5.1...forensicnomicon-core-v1.6.0) - 2026-09-23
 
 ### Added
