@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-09-29T03:37:03Z
+Generated: 2026-09-30T03:37:55Z
 
 ## Windows Incident Response
 
@@ -61,9 +61,9 @@ Generated: 2026-09-29T03:37:03Z
 - Site: https://andreafortuna.org/
 - Feed: https://andreafortuna.org/feed.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-09-28T00:00:00+00:00 — [The tyranny of personal bests](https://andreafortuna.org/2026/09/28/the-tyranny-of-personal-bests/)
+- No new entries detected
 
 ## Salt Forensics
 
@@ -225,8 +225,8 @@ Generated: 2026-09-29T03:37:03Z
 - Entries checked: 10
 - New since last snapshot: 2
 
-- 2026-09-29T02:00:02+00:00 — [ISC Stormcast For Tuesday, September 29th, 2026 https://isc.sans.edu/podcastdetail/10114, (Tue, Sep 29th)](https://isc.sans.edu/diary/rss/33378)
-- 2026-09-28T22:35:35+00:00 — [Apple Emergency Patch for iOS 26, macOS26, macOS15 (CVE-2026-86950), (Mon, Sep 28th)](https://isc.sans.edu/diary/rss/33376)
+- 2026-09-30T02:00:03+00:00 — [ISC Stormcast For Wednesday, September 30th, 2026 https://isc.sans.edu/podcastdetail/10116, (Wed, Sep 30th)](https://isc.sans.edu/diary/rss/33384)
+- 2026-09-29T13:29:33+00:00 — [Scans for Wordfence Protected Websites, (Tue, Sep 29th)](https://isc.sans.edu/diary/rss/33382)
 
 ## DFIR Training Blog
 
@@ -253,7 +253,7 @@ Generated: 2026-09-29T03:37:03Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-09-28T10:31:11+00:00 — [InfoSec News Nuggets – 09/28/2026](https://aboutdfir.com/infosec-news-nuggets-09-28-2026/)
+- 2026-09-29T10:46:30+00:00 — [InfoSec News Nuggets – 09/29/2026](https://aboutdfir.com/infosec-news-nuggets-09-29-2026/)
 
 ## Forensic 4cast
 
@@ -368,12 +368,11 @@ Generated: 2026-09-29T03:37:03Z
 - Site: https://eclecticlight.co/
 - Feed: https://eclecticlight.co/feed/
 - Entries checked: 10
-- New since last snapshot: 4
+- New since last snapshot: 3
 
-- 2026-09-28T17:27:01+00:00 — [Apple has just released updates to Golden Gate 27.0.1, 26.7.1 and 15.8.1](https://eclecticlight.co/2026/09/28/apple-has-just-released-updates-to-golden-gate-27-0-1-26-7-1-and-15-8-1/)
-- 2026-09-28T11:30:00+00:00 — [In memoriam Helen Allingham and her paintings of a lost England](https://eclecticlight.co/2026/09/28/in-memoriam-helen-allingham-and-her-paintings-of-a-lost-england/)
-- 2026-09-28T08:00:00+00:00 — [Solutions to Saturday Mac riddles 379](https://eclecticlight.co/2026/09/28/solutions-to-saturday-mac-riddles-379/)
-- 2026-09-28T06:30:00+00:00 — [Silently updated security data files in Golden Gate](https://eclecticlight.co/2026/09/28/silently-updated-security-data-files-in-golden-gate/)
+- 2026-09-29T11:30:00+00:00 — [Hero or hooligan: Heracles wrestles for a wife](https://eclecticlight.co/2026/09/29/hero-or-hooligan-heracles-wrestles-for-a-wife/)
+- 2026-09-29T06:30:33+00:00 — [Apple has released an update to XProtect for all macOS](https://eclecticlight.co/2026/09/29/apple-has-released-an-update-to-xprotect-for-all-macos-41/)
+- 2026-09-29T06:30:00+00:00 — [Create an external boot disk in Golden Gate](https://eclecticlight.co/2026/09/29/create-an-external-boot-disk-in-golden-gate/)
 
 ## JPCERT/CC
 
@@ -407,9 +406,10 @@ Generated: 2026-09-29T03:37:03Z
 - Site: https://www.huntress.com/blog
 - Feed: https://www.huntress.com/blog/rss.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- 2026-09-28T20:00:00+00:00 — [Attackers Abuse ChatGPT Custom GPTs to Deliver RAT via ClickFix](https://www.huntress.com/blog/chatgpt-custom-gpts-clickfix-rat)
+- 2026-09-28T17:00:00+00:00 — [Privilege Hygiene: Least Privilege Best Practices Guide](https://www.huntress.com/blog/privilege-hygiene-least-privilege-best-practices)
 
 ## Red Canary Blog
 
@@ -427,25 +427,25 @@ Generated: 2026-09-29T03:37:03Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-09-28T15:02:04+00:00 — [Threat Brief: NetScaler Zero Days CVE-2026-88771 and CVE-2026-88772 Exploited in the Wild](https://unit42.paloaltonetworks.com/netscaler-zero-days-exploited/)
+- 2026-09-29T10:00:48+00:00 — [OperTraitors: How Kubernetes Operators Betray Your Security Posture](https://unit42.paloaltonetworks.com/agentic-ai-kubernetes-operator-risks/)
 
 ## Mandiant Threat Intelligence
 
 - Site: https://cloud.google.com/blog/topics/threat-intelligence
 - Feed: https://feeds.feedburner.com/threatintelligence/pvexyqv7v0v
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-09-29T14:00:00+00:00 — [Defending Against Active Exploitation of Citrix NetScaler ADC and Gateway Appliances](https://cloud.google.com/blog/topics/threat-intelligence/defending-against-active-exploitation-of-citrix-netscaler-adc-and-gateway-appliances/)
 
 ## Cisco Talos Blog
 
 - Site: https://blog.talosintelligence.com/
 - Feed: https://blog.talosintelligence.com/rss/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-09-29T10:00:36+00:00 — [Securing the keys to the kingdom: Announcing Executive Threat Detection](https://blog.talosintelligence.com/securing-the-keys-to-the-kingdom-announcing-executive-threat-detection/)
 
 ## SANS Blog
 
@@ -470,10 +470,9 @@ Generated: 2026-09-29T03:37:03Z
 - Site: https://flare.io/learn/resources/blog/
 - Feed: https://flare.io/learn/resources/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 1
 
-- 2026-09-28T13:54:42+00:00 — [The Airport isn’t Online but its Directory is: A Sector-Wide Look at What DNS Reveals About Aviation Infrastructure](https://flare.io/learn/resources/blog/aviation-infrastructure-dns-exposure)
-- 2026-09-28T13:00:00+00:00 — [The Overlooked Healthcare Attack Surface: 1,057 FHIR Endpoints and 656 HL7 Systems Found Without Sending a Single Packet](https://flare.io/learn/resources/blog/healthcare-attack-surface-fhir-hl7-endpoints)
+- 2026-09-29T13:00:21+00:00 — [Hacker-for-Hire Economy: How Cyber Mercenaries Turned Digital Revenge Into a Business](https://flare.io/learn/resources/blog/hacker-hire-economy-cyber-mercenaries)
 
 ## Binalyze Blog
 
@@ -524,57 +523,60 @@ Generated: 2026-09-29T03:37:03Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-09-28T00:00:00-04:00 — [A Win for Defenders: CrowdStrike and NVIDIA Extend Security Across the AI Stack](https://www.crowdstrike.com/en-us/blog/crowdstrike-nvidia-extend-security-across-ai-stack/)
+- 2026-09-29T00:00:00-05:00 — [Copy, Paste, Compromised: How ClickFix Attacks Work and How CrowdStrike Stops Them](https://www.crowdstrike.com/en-us/blog/how-clickfix-attacks-work-and-how-to-stop-them/)
 
 ## Malwarebytes Labs
 
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 4
 
-- 2026-09-28T12:58:12+00:00 — [OpenAI pauses work on top AI models after agent slips past internet controls](https://www.malwarebytes.com/blog/ai/2026/09/openai-pauses-work-on-top-ai-models-after-agent-slips-past-internet-controls)
-- 2026-09-28T09:28:31+00:00 — [FBI agents’ blood tests and doctors’ notes surface after breach](https://www.malwarebytes.com/blog/data-breaches/2026/09/fbi-agents-blood-tests-and-doctors-notes-surface-after-breach)
-- 2026-09-28T07:01:00+00:00 — [A week in security (September 21 – September 27)](https://www.malwarebytes.com/blog/news/2026/09/a-week-in-security-september-21-september-27)
+- 2026-09-29T12:51:22+00:00 — [Meta’s Muse sent a Facebook Marketplace buyer to a seller’s home](https://www.malwarebytes.com/blog/news/2026/09/metas-muse-sent-a-facebook-marketplace-buyer-to-a-sellers-home)
+- 2026-09-29T10:35:16+00:00 — [Update your iPhone, iPad, or Mac: Flaw could run attackers’ code](https://www.malwarebytes.com/blog/bugs/2026/09/update-your-iphone-ipad-or-mac-flaw-could-run-attackers-code)
+- 2026-09-29T09:56:49+00:00 — [Fake iPhone Duo preorder scam triggers DarkSword attack](https://www.malwarebytes.com/blog/threat-intel/2026/09/fake-iphone-duo-preorder-scam-triggers-darksword-attack)
+- 2026-09-29T09:27:30+00:00 — [Humans are reviewing Copilot users’ bizarre and abusive image-editing requests](https://www.malwarebytes.com/blog/ai/2026/09/humans-are-reviewing-copilot-users-bizarre-and-abusive-image-editing-requests)
 
 ## Krebs on Security
 
 - Site: https://krebsonsecurity.com/
 - Feed: https://krebsonsecurity.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-09-28T15:08:57+00:00 — [Dutch Police Arrest ‘Reformed’ Hacker in Shiny Hunters Investigation](https://krebsonsecurity.com/2026/09/dutch-police-arrest-reformed-hacker-in-shiny-hunters-investigation/)
+- No new entries detected
 
 ## BleepingComputer
 
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 9
+- New since last snapshot: 10
 
-- 2026-09-28T16:56:47-04:00 — [Japan's Keio confirms ransomware attack disrupted business systems](https://www.bleepingcomputer.com/news/security/japans-keio-confirms-ransomware-attack-disrupted-business-systems/)
-- 2026-09-28T16:31:16-04:00 — [Times Car confirms data breach affecting 6.6 million user accounts](https://www.bleepingcomputer.com/news/security/times-car-confirms-data-breach-affecting-66-million-user-accounts/)
-- 2026-09-28T15:49:10-04:00 — [Dutch police confirm arrest in ShinyHunters hacking investigation](https://www.bleepingcomputer.com/news/security/dutch-police-confirm-arrest-in-shinyhunters-hacking-investigation/)
-- 2026-09-28T14:50:59-04:00 — [Over 16,000 Supabase databases expose PII, passwords, auth tokens](https://www.bleepingcomputer.com/news/security/misconfigured-supabase-apps-expose-data-in-over-16-000-databases/)
-- 2026-09-28T11:49:27-04:00 — [JadePuffer agentic AI attacks target Azure, destroy cloud resources](https://www.bleepingcomputer.com/news/security/jadepuffer-agentic-ai-attacks-target-azure-destroy-cloud-resources/)
-- 2026-09-28T10:00:10-04:00 — [80,000+ Organizations Had AI Logins Stolen: From Shadow AI to LLMjacking](https://www.bleepingcomputer.com/news/security/80-000-plus-organizations-had-ai-logins-stolen-from-shadow-ai-to-llmjacking/)
-- 2026-09-28T05:25:29-04:00 — [Bitget resumes Bitcoin withdrawals after $387.5 million crypto heist](https://www.bleepingcomputer.com/news/security/bitget-resumes-bitcoin-withdrawals-after-3875-million-crypto-heist/)
-- 2026-09-28T03:30:15-04:00 — [US soldier gets 70 months in prison for extorting 10 tech, telecom firms](https://www.bleepingcomputer.com/news/security/us-soldier-gets-70-months-in-prison-for-extorting-10-tech-telecom-firms/)
-- 2026-09-28T02:24:19-04:00 — [CISA orders feds to patch exploited Citrix flaws by Wednesday](https://www.bleepingcomputer.com/news/security/cisa-orders-feds-to-patch-exploited-citrix-flaws-by-wednesday/)
+- 2026-09-29T20:40:57-04:00 — [Microsoft is rolling out Linux container support to WSL](https://www.bleepingcomputer.com/news/microsoft/microsoft-is-rolling-out-linux-container-support-to-wsl/)
+- 2026-09-29T17:30:08-04:00 — [Signal adds encypted local backup support to iOS, desktop apps](https://www.bleepingcomputer.com/news/security/signal-adds-encypted-local-backup-support-to-ios-desktop-apps/)
+- 2026-09-29T16:59:39-04:00 — [Custom ChatGPTs push ClickFix attacks to deploy RAT malware](https://www.bleepingcomputer.com/news/security/custom-chatgpts-push-clickfix-attacks-to-deploy-rat-malware/)
+- 2026-09-29T16:09:55-04:00 — [FBI tells ShinyHunters members to turn themselves in after recent arrest](https://www.bleepingcomputer.com/news/security/fbi-tells-shinyhunters-members-to-turn-themselves-in-after-recent-arrest/)
+- 2026-09-29T14:37:12-04:00 — [Hackers exploit Citrix NetScaler zero-day to deploy web shells](https://www.bleepingcomputer.com/news/security/hackers-exploit-citrix-netscaler-zero-day-to-deploy-web-shells/)
+- 2026-09-29T14:09:39-04:00 — [Former US Air Force members sent to prison over BEC attacks](https://www.bleepingcomputer.com/news/security/former-us-air-force-members-sent-to-prison-over-bec-attacks/)
+- 2026-09-29T13:37:40-04:00 — [Windows 11 2026 Update released, here's everything you need to know](https://www.bleepingcomputer.com/news/microsoft/windows-11-2026-update-released-heres-everything-you-need-to-know/)
+- 2026-09-29T13:10:11-04:00 — [New Spectre v2 attack variant leaks Linux root password hash in minutes](https://www.bleepingcomputer.com/news/security/new-spectre-v2-attack-variant-leaks-linux-root-password-hash-in-minutes/)
+- 2026-09-29T11:39:19-04:00 — [Automated AI agent used to breach cybersecurity nonprofit DIVD](https://www.bleepingcomputer.com/news/security/automated-ai-agent-used-to-breach-cybersecurity-nonprofit-divd/)
+- 2026-09-29T10:01:11-04:00 — [Catch threats before they escalate with real-time Identity Telemetry](https://www.bleepingcomputer.com/news/security/catch-threats-before-they-escalate-with-real-time-identity-telemetry/)
 
 ## Dark Reading
 
 - Site: https://www.darkreading.com/
 - Feed: https://www.darkreading.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 5
+- New since last snapshot: 6
 
-- 2026-09-28T21:13:04+00:00 — [One Packet Can Crash OT Servers in Industrial Sectors](https://www.darkreading.com/ics-ot-security/one-packet-crash-servers-tdengine)
-- 2026-09-28T20:23:58+00:00 — [Carbonato Botnet Puts an AI Agent on Hacked Docker Hosts](https://www.darkreading.com/identity-access-management-security/carbonato-botnet-ai-agent-hacked-docker-hosts)
-- 2026-09-28T18:44:22+00:00 — [AI Agents Are Privileged Users; Who Is Auditing Their Access?](https://www.darkreading.com/vulnerabilities-threats/ai-agents-are-privileged-users-who-is-auditing-their-access)
-- 2026-09-28T16:51:25+00:00 — [Chrome Store Hosts 'Poper Blocker' Spyware Downloaded by Millions](https://www.darkreading.com/application-security/chrome-store-poper-blocker-spyware-downloaded-millions)
-- 2026-09-28T15:33:21+00:00 — [JadePuffer AI Actor Compromises Azure Tenant in Destructive Cloud Attack](https://www.darkreading.com/cloud-security/jadepuffer-ai-actor-azure-tenant-destructive-cloud-attack)
+- 2026-09-29T21:31:29+00:00 — [Apple Zero-Day Vulnerability Weaponized in Targeted Attacks](https://www.darkreading.com/cyberattacks-data-breaches/apple-zero-day-vulnerability-weaponized-targeted-attacks)
+- 2026-09-29T21:08:42+00:00 — [Unsloth Studio Flaw Turns Routine Model Inspection Into Code Execution](https://www.darkreading.com/application-security/unsloth-studio-flaw-model-inspection-code-execution)
+- 2026-09-29T17:02:16+00:00 — [Cloudflare Announces Public Certificate Authority for the Post-Quantum Web](https://www.darkreading.com/cloud-security/cloudflare-announces-public-certificate-authority-post-quantum-web)
+- 2026-09-29T15:12:39+00:00 — ['NeedyMantis' Provides Long-Term Access to Compromised Networks](https://www.darkreading.com/threat-intelligence/needymantis-long-term-access-compromised-networks)
+- 2026-09-29T14:19:43+00:00 — [Dual NetScaler Zero-Days Trigger Chaos for Citrix Customers](https://www.darkreading.com/vulnerabilities-threats/netscaler-zero-days-chaos-citrix)
+- 2026-09-28T22:02:46+00:00 — [Nvidia Launches AI Agent Safety Platform to Prevent Rogue Activities](https://www.darkreading.com/cyber-risk/nvidia-launches-ai-agent-safety-platform-prevent-rogue-activities)
 
 ## Volexity Blog
 
@@ -587,18 +589,20 @@ Generated: 2026-09-29T03:37:03Z
 - Site: https://www.sentinelone.com/labs/
 - Feed: https://www.sentinelone.com/labs/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-05-14T13:00:44+00:00 — [LABScon25 Replay | Breach Alpha: Trading on Cyber Fallout](https://www.sentinelone.com/labs/labscon25-replay-breach-alpha-trading-on-cyber-fallout/)
 
 ## Microsoft Security Blog
 
 - Site: https://www.microsoft.com/en-us/security/blog/
 - Feed: https://www.microsoft.com/en-us/security/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 3
 
-- 2026-09-28T15:00:00+00:00 — [NeedyMantis: Unpacking a post-compromise malware family used in targeted operations](https://www.microsoft.com/en-us/security/blog/2026/09/28/needymantis-unpacking-a-post-compromise-malware-family-used-in-targeted-operations/)
+- 2026-09-29T21:39:27+00:00 — [Phishing Abuses RMM Tools for Persistent Access](https://www.microsoft.com/en-us/security/blog/2026/09/29/phishing-abuses-rmm-tools-persistent-access/)
+- 2026-09-29T16:00:00+00:00 — [​​Beyond source code: A path to the keys to the kingdom](https://www.microsoft.com/en-us/security/blog/2026/09/29/beyond-source-code-a-path-to-the-keys-to-the-kingdom/)
+- 2026-09-29T15:00:00+00:00 — [Star Blizzard refines phishing and malware delivery with the RedFlick technique](https://www.microsoft.com/en-us/security/blog/2026/09/29/star-blizzard-refines-phishing-and-malware-delivery-with-the-redflick-technique/)
 
 ## HackingPassion
 
@@ -607,7 +611,7 @@ Generated: 2026-09-29T03:37:03Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-09-28T12:43:00+02:00 — [OnePlus Left a Zero-Permission Root Bug Open for 159 Days After Threatening the Researcher](https://hackingpassion.com/oneplus-zero-permission-root-oxygenos/)
+- 2026-09-29T13:09:00+02:00 — [Bitget Lost 387.5 Million Dollars Without Losing a Single Private Key](https://hackingpassion.com/bitget-387-million-hack-spoofed-transaction-data/)
 
 ## LOLBAS Project (Windows)
 
@@ -641,12 +645,9 @@ Generated: 2026-09-29T03:37:03Z
 - Site: https://www.loldrivers.io/
 - Feed: https://github.com/magicsword-io/LOLDrivers/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 4
+- New since last snapshot: 0
 
-- 2026-09-28T15:11:37+00:00 — [New site and hashes generated by GitHub Actions [ci skip]](https://github.com/magicsword-io/LOLDrivers/commit/08c628dd6a0c337858b19726e53e8ce3454dfae6)
-- 2026-09-28T15:01:46+00:00 — [updating drivers count in README.md [ci skip]](https://github.com/magicsword-io/LOLDrivers/commit/00541a6e31d01c656221f79e0ccebcc00601d33a)
-- 2026-09-28T15:00:46+00:00 — [Merge pull request #450 from magicsword-io/add-beazley-inc-driver-cov…](https://github.com/magicsword-io/LOLDrivers/commit/e9cd1426a779203646931b2683a65f370525023a)
-- 2026-09-28T14:48:06+00:00 — [Add IoDrv sample and INC campaign references](https://github.com/magicsword-io/LOLDrivers/commit/a3a5913bdcfc390cb6adb39398005128e67cb3ea)
+- No new entries detected
 
 ## LOFL Project (RMM C2 indicators)
 
@@ -869,11 +870,13 @@ Generated: 2026-09-29T03:37:03Z
 - Site: https://github.com/elastic/detection-rules
 - Feed: https://github.com/elastic/detection-rules/releases.atom
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 5
 
-- 2026-09-28T18:29:36+00:00 — [dev-v3.0.4](https://github.com/elastic/detection-rules/releases/tag/dev-v3.0.4)
-- 2026-09-28T17:38:43+00:00 — [dev-v3.0.3](https://github.com/elastic/detection-rules/releases/tag/dev-v3.0.3)
-- 2026-09-28T14:33:43+00:00 — [dev-v3.0.2](https://github.com/elastic/detection-rules/releases/tag/dev-v3.0.2)
+- 2026-09-29T13:47:20+00:00 — [integration-v9.5.8: Lock versions for releases: 8.19,9.3,9.4,9.5 (#6929)](https://github.com/elastic/detection-rules/releases/tag/integration-v9.5.8)
+- 2026-09-29T13:46:21+00:00 — [integration-v9.4.15: Lock versions for releases: 8.19,9.3,9.4,9.5 (#6929)](https://github.com/elastic/detection-rules/releases/tag/integration-v9.4.15)
+- 2026-09-29T13:45:20+00:00 — [integration-v9.3.23: Lock versions for releases: 8.19,9.3,9.4,9.5 (#6929)](https://github.com/elastic/detection-rules/releases/tag/integration-v9.3.23)
+- 2026-09-29T13:44:17+00:00 — [integration-v8.19.35: Lock versions for releases: 8.19,9.3,9.4,9.5 (#6929)](https://github.com/elastic/detection-rules/releases/tag/integration-v8.19.35)
+- 2026-09-29T13:42:46+00:00 — [dev-v3.0.5](https://github.com/elastic/detection-rules/releases/tag/dev-v3.0.5)
 
 ## regipy releases
 
