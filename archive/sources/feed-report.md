@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-10-03T03:44:54Z
+Generated: 2026-10-04T04:42:07Z
 
 ## Windows Incident Response
 
@@ -199,9 +199,9 @@ Generated: 2026-10-03T03:44:54Z
 - Site: https://www.magnetforensics.com/
 - Feed: https://www.magnetforensics.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-10-02T20:52:29+00:00 — [The importance of digital forensics examiner training](https://www.magnetforensics.com/blog/the-importance-of-digital-forensics-examiner-training/)
+- No new entries detected
 
 ## The DFIR Report
 
@@ -223,9 +223,9 @@ Generated: 2026-10-03T03:44:54Z
 - Site: https://isc.sans.edu/
 - Feed: https://isc.sans.edu/rssfeed_full.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-10-03T14:40:21+00:00 — [YARA-X 1.21.0 Release, (Sat, Oct 3rd)](https://isc.sans.edu/diary/rss/33392)
 
 ## DFIR Training Blog
 
@@ -250,9 +250,9 @@ Generated: 2026-10-03T03:44:54Z
 - Site: https://aboutdfir.com/
 - Feed: https://aboutdfir.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-10-02T14:19:17+00:00 — [InfoSec News Nuggets – 10/02/2026](https://aboutdfir.com/infosec-news-nuggets-10-02-2026/)
+- No new entries detected
 
 ## Forensic 4cast
 
@@ -315,7 +315,7 @@ Generated: 2026-10-03T03:44:54Z
 - Entries checked: 5
 - New since last snapshot: 1
 
-- 2026-10-02T23:32:48+00:00 — [EtwCheckCoverage API](https://www.hexacorn.com/blog/2026/10/02/etwcheckcoverage-api/)
+- 2026-10-03T23:35:26+00:00 — [The boring state of stalled timelines…](https://www.hexacorn.com/blog/2026/10/03/the-boring-state-of-stalled-timelines/)
 
 ## The DFIR Spot
 
@@ -367,10 +367,11 @@ Generated: 2026-10-03T03:44:54Z
 - Site: https://eclecticlight.co/
 - Feed: https://eclecticlight.co/feed/
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 3
 
-- 2026-10-02T11:30:00+00:00 — [Giorgione’s few brilliant years of painting](https://eclecticlight.co/2026/10/02/giorgiones-few-brilliant-years-of-painting/)
-- 2026-10-02T06:30:00+00:00 — [How to copy login keychains that can be unlocked](https://eclecticlight.co/2026/10/02/how-to-copy-login-keychains-that-can-be-unlocked/)
+- 2026-10-03T11:30:00+00:00 — [Leaf peeping: painting autumn 1650-1899](https://eclecticlight.co/2026/10/03/leaf-peeping-painting-autumn-1650-1899/)
+- 2026-10-03T08:00:00+00:00 — [Saturday Mac riddles 380](https://eclecticlight.co/2026/10/03/saturday-mac-riddles-380/)
+- 2026-10-03T07:00:00+00:00 — [What changed in macOS Tahoe 26.4? (Take 2)](https://eclecticlight.co/2026/10/03/what-changed-in-macos-tahoe-26-4-take-2/)
 
 ## JPCERT/CC
 
@@ -404,9 +405,10 @@ Generated: 2026-10-03T03:44:54Z
 - Site: https://www.huntress.com/blog
 - Feed: https://www.huntress.com/blog/rss.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 2
 
-- 2026-10-01T21:00:00+00:00 — [New Huntress View for Security Incident Investigations](https://www.huntress.com/blog/security-incident-investigations-partner-view)
+- 2026-10-02T16:00:00+00:00 — [The First 24 Hours: What Happens When Ransomware Lands](https://www.huntress.com/blog/what-happens-during-a-ransomware-attack)
+- 2026-10-02T13:30:00+00:00 — [Companies Push AI Use But Skip Training and Official Policy](https://www.huntress.com/blog/llm-security-report)
 
 ## Red Canary Blog
 
@@ -491,10 +493,9 @@ Generated: 2026-10-03T03:44:54Z
 - Site: https://www.forensafe.com/blogs/
 - Feed: https://www.forensafe.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- Fri, 25 Sep 2026 — [Windows Registry Resource Access](https://forensafe.com/blogs/windows-registry-resource-access.html)
-- Fri, 18 Sep 2026 — [Windows Program Compatibility Assistant Records](https://forensafe.com/blogs/windows-program-compatibility-assistant-records.html)
+- No new entries detected
 
 ## Cellebrite Blog
 
@@ -519,18 +520,18 @@ Generated: 2026-10-03T03:44:54Z
 - Site: https://www.crowdstrike.com/blog/
 - Feed: https://www.crowdstrike.com/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-10-01T00:00:00-05:00 — [CrowdStrike Expands Federal SOC Modernization Through CISA-Funded SIEMaaS](https://www.crowdstrike.com/en-us/blog/crowdstrike-expands-federal-soc-modernization-via-cisa-siemaas/)
+- No new entries detected
 
 ## Malwarebytes Labs
 
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-10-01T11:30:30+00:00 — [Convincing Free Mobile phishing emails appear after data breach](https://www.malwarebytes.com/blog/threat-intel/2026/10/free-mobile-phishing-texts-appear-days-after-data-breach)
+- No new entries detected
 
 ## Krebs on Security
 
@@ -546,30 +547,20 @@ Generated: 2026-10-03T03:44:54Z
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 7
+- New since last snapshot: 3
 
-- 2026-10-02T15:01:40-04:00 — [Frontline Education breach exposes school district employee data](https://www.bleepingcomputer.com/news/security/frontline-education-data-breach-impacts-school-district-employees/)
-- 2026-10-02T14:33:01-04:00 — [Warlock ransomware breach SharePoint in water, telecom operator attacks](https://www.bleepingcomputer.com/news/security/warlock-ransomware-breach-sharepoint-in-water-telecom-operator-attacks/)
-- 2026-10-02T12:20:05-04:00 — [GitLab warns of critical RCE vulnerability in AI Gateway service](https://www.bleepingcomputer.com/news/security/gitlab-warns-of-critical-rce-vulnerability-in-ai-gateway-service/)
-- 2026-10-02T11:20:53-04:00 — [US sanctions Tren de Aragua gang members in ATM hacks crackdown](https://www.bleepingcomputer.com/news/security/us-sanctions-tren-de-aragua-members-in-atm-jackpotting-crackdown/)
-- 2026-10-02T10:00:10-04:00 — [The EDR blind spot: 3 ways browser attacks evade endpoint telemetry](https://www.bleepingcomputer.com/news/security/the-edr-blind-spot-3-ways-browser-attacks-evade-endpoint-telemetry/)
-- 2026-10-02T08:37:40-04:00 — [Dell asks admins to patch max severity CSM flaws as soon as possible](https://www.bleepingcomputer.com/news/security/new-max-severity-dell-csm-flaws-give-hackers-admin-privileges/)
-- 2026-10-02T05:29:56-04:00 — [Microsoft’s X account hacked in crypto pump-and-dump scheme](https://www.bleepingcomputer.com/news/security/microsofts-x-account-hacked-in-crypto-token-pump-and-dump-scheme/)
+- 2026-10-03T19:12:34-04:00 — [Google Gemini could soon get full access to your Mac’s files, apps and the web](https://www.bleepingcomputer.com/news/google/google-gemini-could-soon-get-full-access-to-your-macs-files-apps-and-the-web/)
+- 2026-10-03T15:09:38-04:00 — [ShinyHunters hacker reportedly detained in Jordan, aiding FBI](https://www.bleepingcomputer.com/news/security/shinyhunters-hacker-reportedly-detained-in-jordan-aiding-fbi/)
+- 2026-10-03T10:35:20-04:00 — [Danish university DTU breach exposes data of up to 200,000 people](https://www.bleepingcomputer.com/news/security/danish-university-dtu-breach-exposes-data-of-up-to-200-000-people/)
 
 ## Dark Reading
 
 - Site: https://www.darkreading.com/
 - Feed: https://www.darkreading.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 7
+- New since last snapshot: 0
 
-- 2026-10-02T20:18:37+00:00 — [RemoteThreat Bets Security Teams Need to Test What Happens After Defenses Fail](https://www.darkreading.com/cybersecurity-operations/remotethreat-bets-security-teams-need-to-test-what-happens-after-defenses-fail)
-- 2026-10-02T16:56:30+00:00 — [Kiteworks &amp; Citrix Incidents Show Challenges of Zero-Day Response](https://www.darkreading.com/cybersecurity-operations/kiteworks-citrix-incidents-challenges-zero-day-response)
-- 2026-10-02T16:27:54+00:00 — [SWIFT Banking &amp; Government Middleware Enables RCE](https://www.darkreading.com/cybersecurity-operations/swift-banking-govt-middleware-rce)
-- 2026-10-02T16:01:22+00:00 — [Is Your Organization Ready for 2027's AI Accountability Era?](https://www.darkreading.com/cybersecurity-operations/is-your-organization-ready-for-2027-s-ai-accountability-era-)
-- 2026-10-02T15:51:33+00:00 — [Is It Fair to Blame 'Rogue' AI for Security Failures?](https://www.darkreading.com/insider-threats/blame-rogue-ai-security-failures)
-- 2026-10-02T14:00:00+00:00 — [Vulnerability Backlogs Are an Ownership Problem](https://www.darkreading.com/cybersecurity-operations/vulnerability-backlogs-ownership-problem)
-- 2026-10-02T13:00:00+00:00 — [Malicious Linux Implants Mimic Asian Mail Security Products](https://www.darkreading.com/threat-intelligence/malicious-linux-implants-mimic-asian-mail-security)
+- No new entries detected
 
 ## Volexity Blog
 
@@ -600,9 +591,9 @@ Generated: 2026-10-03T03:44:54Z
 - Site: https://hackingpassion.com/
 - Feed: https://hackingpassion.com/index.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-10-03T12:31:34+02:00 — [ClickFix Fake CAPTCHA Hides Malware in Your Browser Cache Before You Run a Single Command](https://hackingpassion.com/clickfix-cache-smuggling-fake-captcha/)
 
 ## LOLBAS Project (Windows)
 
@@ -834,10 +825,9 @@ Generated: 2026-10-03T03:44:54Z
 - Site: https://github.com/Yamato-Security/hayabusa-rules
 - Feed: https://github.com/Yamato-Security/hayabusa-rules/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-10-02T21:06:58+00:00 — [Sigma Rule Supported Modifier Update (2026-10-02  21:06:23) (#1074)](https://github.com/Yamato-Security/hayabusa-rules/commit/3d81fa79779a5af3fde92e37c4b6a0f9a4347d73)
-- 2026-10-02T20:07:36+00:00 — [Sigma Rule Update (2026-10-02  20:07:03) (#1073)](https://github.com/Yamato-Security/hayabusa-rules/commit/89df25c030b1ac625303a7dc57f0cd85b86a947c)
+- No new entries detected
 
 ## Hayabusa releases
 
