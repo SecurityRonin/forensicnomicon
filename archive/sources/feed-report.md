@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-10-04T04:42:07Z
+Generated: 2026-10-05T03:45:18Z
 
 ## Windows Incident Response
 
@@ -61,9 +61,9 @@ Generated: 2026-10-04T04:42:07Z
 - Site: https://andreafortuna.org/
 - Feed: https://andreafortuna.org/feed.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-10-04T00:00:00+00:00 — [Weekly Wire #12: The Expanding Attack Surface](https://andreafortuna.org/2026/10/04/weekly-wire-12/)
 
 ## Salt Forensics
 
@@ -223,9 +223,11 @@ Generated: 2026-10-04T04:42:07Z
 - Site: https://isc.sans.edu/
 - Feed: https://isc.sans.edu/rssfeed_full.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 3
 
-- 2026-10-03T14:40:21+00:00 — [YARA-X 1.21.0 Release, (Sat, Oct 3rd)](https://isc.sans.edu/diary/rss/33392)
+- 2026-10-05T02:00:02+00:00 — [ISC Stormcast For Monday, October 5th, 2026 https://isc.sans.edu/podcastdetail/10122, (Mon, Oct 5th)](https://isc.sans.edu/diary/rss/33398)
+- 2026-10-05T00:15:00+00:00 — [TTY Logs and the Data it Captures, (Sun, Oct 4th)](https://isc.sans.edu/diary/rss/33396)
+- 2026-10-04T07:58:51+00:00 — [User Agent Strings Curiosities, (Sun, Oct 4th)](https://isc.sans.edu/diary/rss/33394)
 
 ## DFIR Training Blog
 
@@ -268,9 +270,9 @@ Generated: 2026-10-04T04:42:07Z
 - Site: https://thisweekin4n6.com/
 - Feed: https://thisweekin4n6.wordpress.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-10-04T09:44:12+00:00 — [Week 40 – 2026](https://thisweekin4n6.com/2026/10/04/week-40-2026/)
 
 ## The Sleuth Kit updates
 
@@ -313,9 +315,9 @@ Generated: 2026-10-04T04:42:07Z
 - Site: https://www.hexacorn.com/blog/
 - Feed: https://www.hexacorn.com/blog/feed/
 - Entries checked: 5
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-10-03T23:35:26+00:00 — [The boring state of stalled timelines…](https://www.hexacorn.com/blog/2026/10/03/the-boring-state-of-stalled-timelines/)
+- No new entries detected
 
 ## The DFIR Spot
 
@@ -367,11 +369,10 @@ Generated: 2026-10-04T04:42:07Z
 - Site: https://eclecticlight.co/
 - Feed: https://eclecticlight.co/feed/
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 2
 
-- 2026-10-03T11:30:00+00:00 — [Leaf peeping: painting autumn 1650-1899](https://eclecticlight.co/2026/10/03/leaf-peeping-painting-autumn-1650-1899/)
-- 2026-10-03T08:00:00+00:00 — [Saturday Mac riddles 380](https://eclecticlight.co/2026/10/03/saturday-mac-riddles-380/)
-- 2026-10-03T07:00:00+00:00 — [What changed in macOS Tahoe 26.4? (Take 2)](https://eclecticlight.co/2026/10/03/what-changed-in-macos-tahoe-26-4-take-2/)
+- 2026-10-04T11:30:00+00:00 — [Leaf peeping: painting autumn 1900-1945](https://eclecticlight.co/2026/10/04/leaf-peeping-painting-autumn-1900-1945/)
+- 2026-10-04T07:00:00+00:00 — [Last Week on My Mac: The AI on the AIRer is drying](https://eclecticlight.co/2026/10/04/last-week-on-my-mac-the-ai-on-the-airer-is-drying/)
 
 ## JPCERT/CC
 
@@ -405,10 +406,9 @@ Generated: 2026-10-04T04:42:07Z
 - Site: https://www.huntress.com/blog
 - Feed: https://www.huntress.com/blog/rss.xml
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-10-02T16:00:00+00:00 — [The First 24 Hours: What Happens When Ransomware Lands](https://www.huntress.com/blog/what-happens-during-a-ransomware-attack)
-- 2026-10-02T13:30:00+00:00 — [Companies Push AI Use But Skip Training and Official Policy](https://www.huntress.com/blog/llm-security-report)
+- No new entries detected
 
 ## Red Canary Blog
 
@@ -547,11 +547,10 @@ Generated: 2026-10-04T04:42:07Z
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 2
 
-- 2026-10-03T19:12:34-04:00 — [Google Gemini could soon get full access to your Mac’s files, apps and the web](https://www.bleepingcomputer.com/news/google/google-gemini-could-soon-get-full-access-to-your-macs-files-apps-and-the-web/)
-- 2026-10-03T15:09:38-04:00 — [ShinyHunters hacker reportedly detained in Jordan, aiding FBI](https://www.bleepingcomputer.com/news/security/shinyhunters-hacker-reportedly-detained-in-jordan-aiding-fbi/)
-- 2026-10-03T10:35:20-04:00 — [Danish university DTU breach exposes data of up to 200,000 people](https://www.bleepingcomputer.com/news/security/danish-university-dtu-breach-exposes-data-of-up-to-200-000-people/)
+- 2026-10-04T17:58:01-04:00 — [Citrix patches NetScaler SAML zero-day exploited in attacks](https://www.bleepingcomputer.com/news/security/citrix-patches-netscaler-saml-zero-day-exploited-in-attacks/)
+- 2026-10-04T06:53:21-04:00 — [Anthropic asks Claude users to share voice data for AI model training](https://www.bleepingcomputer.com/news/artificial-intelligence/anthropic-asks-claude-users-to-share-voice-data-for-ai-model-training/)
 
 ## Dark Reading
 
@@ -593,7 +592,7 @@ Generated: 2026-10-04T04:42:07Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-10-03T12:31:34+02:00 — [ClickFix Fake CAPTCHA Hides Malware in Your Browser Cache Before You Run a Single Command](https://hackingpassion.com/clickfix-cache-smuggling-fake-captcha/)
+- 2026-10-04T11:58:03+02:00 — [Poper Blocker, an Adblocker With 2 Million Users, Sent AI Chats and Browsing History to Its Own Server](https://hackingpassion.com/poper-blocker-adblocker-ai-chats/)
 
 ## LOLBAS Project (Windows)
 
@@ -1005,9 +1004,9 @@ Generated: 2026-10-04T04:42:07Z
 - Site: https://docs.velociraptor.app/
 - Feed: https://github.com/Velocidex/velociraptor/releases.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-10-05T01:38:14+00:00 — [Release 0.77.3](https://github.com/Velocidex/velociraptor/releases/tag/v0.77.3)
 
 ## dfir-scripts DFIR Reference
 
