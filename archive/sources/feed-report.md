@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-10-05T03:45:18Z
+Generated: 2026-10-06T03:37:16Z
 
 ## Windows Incident Response
 
@@ -33,10 +33,7 @@ Generated: 2026-10-05T03:45:18Z
 
 - Site: https://dfirdiva.com/
 - Feed: https://dfirdiva.com/feed
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: not well-formed (invalid token): line 1, column 116
 
 ## mac4n6
 
@@ -61,9 +58,9 @@ Generated: 2026-10-05T03:45:18Z
 - Site: https://andreafortuna.org/
 - Feed: https://andreafortuna.org/feed.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-10-04T00:00:00+00:00 — [Weekly Wire #12: The Expanding Attack Surface](https://andreafortuna.org/2026/10/04/weekly-wire-12/)
+- No new entries detected
 
 ## Salt Forensics
 
@@ -97,9 +94,9 @@ Generated: 2026-10-05T03:45:18Z
 - Site: https://sethenoka.com/windows-artefacts/
 - Feed: https://sethenoka.com/index.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-10-04T20:00:00+00:00 — [Why Most DFIR Careers Stall (and How to Fix It)](https://sethenoka.com/why-dfir-careers-stall-and-how-to-fix-it/)
 
 ## DoubleBlak
 
@@ -223,17 +220,15 @@ Generated: 2026-10-05T03:45:18Z
 - Site: https://isc.sans.edu/
 - Feed: https://isc.sans.edu/rssfeed_full.xml
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 0
 
-- 2026-10-05T02:00:02+00:00 — [ISC Stormcast For Monday, October 5th, 2026 https://isc.sans.edu/podcastdetail/10122, (Mon, Oct 5th)](https://isc.sans.edu/diary/rss/33398)
-- 2026-10-05T00:15:00+00:00 — [TTY Logs and the Data it Captures, (Sun, Oct 4th)](https://isc.sans.edu/diary/rss/33396)
-- 2026-10-04T07:58:51+00:00 — [User Agent Strings Curiosities, (Sun, Oct 4th)](https://isc.sans.edu/diary/rss/33394)
+- No new entries detected
 
 ## DFIR Training Blog
 
 - Site: https://www.dfir.training/blog
 - Feed: https://www.dfir.training/blog
-- Entries checked: 10
+- Entries checked: 0
 - New since last snapshot: 0
 
 - No new entries detected
@@ -252,9 +247,9 @@ Generated: 2026-10-05T03:45:18Z
 - Site: https://aboutdfir.com/
 - Feed: https://aboutdfir.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-10-05T10:53:49+00:00 — [InfoSec News Nuggets – 10/05/2026](https://aboutdfir.com/infosec-news-nuggets-10-05-2026/)
 
 ## Forensic 4cast
 
@@ -270,9 +265,9 @@ Generated: 2026-10-05T03:45:18Z
 - Site: https://thisweekin4n6.com/
 - Feed: https://thisweekin4n6.wordpress.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-10-04T09:44:12+00:00 — [Week 40 – 2026](https://thisweekin4n6.com/2026/10/04/week-40-2026/)
+- No new entries detected
 
 ## The Sleuth Kit updates
 
@@ -369,10 +364,11 @@ Generated: 2026-10-05T03:45:18Z
 - Site: https://eclecticlight.co/
 - Feed: https://eclecticlight.co/feed/
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 3
 
-- 2026-10-04T11:30:00+00:00 — [Leaf peeping: painting autumn 1900-1945](https://eclecticlight.co/2026/10/04/leaf-peeping-painting-autumn-1900-1945/)
-- 2026-10-04T07:00:00+00:00 — [Last Week on My Mac: The AI on the AIRer is drying](https://eclecticlight.co/2026/10/04/last-week-on-my-mac-the-ai-on-the-airer-is-drying/)
+- 2026-10-05T11:30:00+00:00 — [Hero or hooligan: Heracles killed by the hydra’s blood](https://eclecticlight.co/2026/10/05/hero-or-hooligan-heracles-killed-by-the-hydras-blood/)
+- 2026-10-05T08:00:00+00:00 — [Solutions to Saturday Mac riddles 380](https://eclecticlight.co/2026/10/05/solutions-to-saturday-mac-riddles-380/)
+- 2026-10-05T06:30:00+00:00 — [When and how to migrate to your Mac](https://eclecticlight.co/2026/10/05/when-and-how-to-migrate-to-your-mac/)
 
 ## JPCERT/CC
 
@@ -406,9 +402,9 @@ Generated: 2026-10-05T03:45:18Z
 - Site: https://www.huntress.com/blog
 - Feed: https://www.huntress.com/blog/rss.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-10-05T14:00:00+00:00 — [How Huntress Detects and Responds to a ClickFix Attack](https://www.huntress.com/blog/fix-for-clickfix)
 
 ## Red Canary Blog
 
@@ -520,18 +516,21 @@ Generated: 2026-10-05T03:45:18Z
 - Site: https://www.crowdstrike.com/blog/
 - Feed: https://www.crowdstrike.com/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- 2026-10-05T00:00:00-05:00 — [New in Falcon Cloud Security: Third-Party App Insights and AI-Enhanced Remediation](https://www.crowdstrike.com/en-us/blog/falcon-cloud-security-third-party-app-insights-ai-enhanced-remedation/)
+- 2026-10-05T00:00:00-05:00 — [Falcon Data Security for SaaS Secures Sensitive Data in Microsoft 365](https://www.crowdstrike.com/en-us/blog/falcon-data-security-for-saas-secures-sensitive-data/)
 
 ## Malwarebytes Labs
 
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 3
 
-- No new entries detected
+- 2026-10-05T15:00:56+00:00 — [Google pauses open source bug bounty program after rise in AI submissions](https://www.malwarebytes.com/blog/news/2026/10/google-pauses-open-source-bug-bounty-program-after-rise-in-ai-submissions)
+- 2026-10-05T14:15:32+00:00 — [Proposed anti-Flock bills could spell trouble for license plate readers](https://www.malwarebytes.com/blog/news/2026/10/proposed-anti-flock-bills-could-spell-trouble-for-license-plate-readers)
+- 2026-10-05T07:01:00+00:00 — [A week in security (September 28 – October 4)](https://www.malwarebytes.com/blog/news/2026/10/a-week-in-security-september-28-october-4-2)
 
 ## Krebs on Security
 
@@ -547,19 +546,29 @@ Generated: 2026-10-05T03:45:18Z
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 10
 
-- 2026-10-04T17:58:01-04:00 — [Citrix patches NetScaler SAML zero-day exploited in attacks](https://www.bleepingcomputer.com/news/security/citrix-patches-netscaler-saml-zero-day-exploited-in-attacks/)
-- 2026-10-04T06:53:21-04:00 — [Anthropic asks Claude users to share voice data for AI model training](https://www.bleepingcomputer.com/news/artificial-intelligence/anthropic-asks-claude-users-to-share-voice-data-for-ai-model-training/)
+- 2026-10-05T18:46:33-04:00 — [OpenAI is adding invisible watermarks to ChatGPT and Codex text in the EU](https://www.bleepingcomputer.com/news/artificial-intelligence/openai-is-adding-invisible-watermarks-to-chatgpt-and-codex-text-in-the-eu/)
+- 2026-10-05T16:20:05-04:00 — [Rejetto HFS servers now actively scanned for critical RCE flaw](https://www.bleepingcomputer.com/news/security/rejetto-hfs-servers-now-actively-scanned-for-critical-rce-flaw/)
+- 2026-10-05T13:19:53-04:00 — [IQVIA fined $7.8 million for failing to properly anonymize health data](https://www.bleepingcomputer.com/news/security/iqvia-fined-78-million-for-failing-to-properly-anonymize-health-data/)
+- 2026-10-05T11:21:10-04:00 — [Denmark population registry data breach affects 8.8 million people](https://www.bleepingcomputer.com/news/security/denmark-population-registry-data-breach-affects-88-million-people/)
+- 2026-10-05T10:53:06-04:00 — [New Dell System Update flaw lets hackers gain root privileges](https://www.bleepingcomputer.com/news/security/new-dell-system-update-flaw-lets-hackers-gain-root-privileges/)
+- 2026-10-05T10:22:12-04:00 — [South Korea probes bank breaches amid suspected AI-powered attacks](https://www.bleepingcomputer.com/news/security/south-korea-probes-bank-breaches-amid-suspected-ai-powered-attacks/)
+- 2026-10-05T09:33:42-04:00 — [tenfold CE: Our free Identity Governance tool just got 2 new features](https://www.bleepingcomputer.com/news/security/tenfold-ce-our-free-identity-governance-tool-just-got-2-new-features/)
+- 2026-10-05T09:01:45-04:00 — [Alleged dev of Ploutus ATM malware appears in US court after arrest](https://www.bleepingcomputer.com/news/security/suspected-dev-of-ploutus-atm-malware-appears-in-us-court-after-arrest/)
+- 2026-10-05T06:28:45-04:00 — [OpenAI will show visual ads in ChatGPT while you generate images](https://www.bleepingcomputer.com/news/artificial-intelligence/openai-will-show-visual-ads-in-chatgpt-while-you-generate-images/)
+- 2026-10-05T05:37:56-04:00 — [Microsoft: Windows KB5124010 update crashes some games and apps](https://www.bleepingcomputer.com/news/microsoft/microsoft-windows-kb5124010-update-crashes-some-games-and-apps/)
 
 ## Dark Reading
 
 - Site: https://www.darkreading.com/
 - Feed: https://www.darkreading.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 3
 
-- No new entries detected
+- 2026-10-05T21:25:08+00:00 — [ClingSTUN Turns Vulnerable IoT Devices Into Proxy Nodes](https://www.darkreading.com/iot/clingstun-vulnerable-iot-devices-proxy-nodes)
+- 2026-10-05T15:52:59+00:00 — [Chinese Hackers Impersonate US Officials for AI Cyber Espionage](https://www.darkreading.com/cyberattacks-data-breaches/chinese-actor-impersonates-us-officials-cyber-espionage)
+- 2026-10-05T13:00:00+00:00 — [Need for Speed: AI-Driven Attacks Are Changing Security Strategies](https://www.darkreading.com/cyber-risk/ai-attacks-security-strategies)
 
 ## Volexity Blog
 
@@ -592,7 +601,7 @@ Generated: 2026-10-05T03:45:18Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-10-04T11:58:03+02:00 — [Poper Blocker, an Adblocker With 2 Million Users, Sent AI Chats and Browsing History to Its Own Server](https://hackingpassion.com/poper-blocker-adblocker-ai-chats/)
+- 2026-10-05T11:49:21+02:00 — [Connected Cars Talk to Google and Ad Trackers While Seven Car Apps Hand Over the Owner's VIN](https://hackingpassion.com/connected-cars-share-vin-with-trackers/)
 
 ## LOLBAS Project (Windows)
 
@@ -626,9 +635,18 @@ Generated: 2026-10-05T03:45:18Z
 - Site: https://www.loldrivers.io/
 - Feed: https://github.com/magicsword-io/LOLDrivers/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 10
 
-- No new entries detected
+- 2026-10-05T18:58:52+00:00 — [New site and hashes generated by GitHub Actions [ci skip]](https://github.com/magicsword-io/LOLDrivers/commit/9ae95f9c519048ff826ac0eec83514e7d22cfa37)
+- 2026-10-05T18:46:40+00:00 — [updating drivers count in README.md [ci skip]](https://github.com/magicsword-io/LOLDrivers/commit/1be55a262725276e305bcd35e9b7bc1fb90e5957)
+- 2026-10-05T18:46:09+00:00 — [Merge pull request #455 from 3ggspl01t/add-pmxdrv-sample](https://github.com/magicsword-io/LOLDrivers/commit/904288265f2c4391235c9c0957cf8b03d22b3723)
+- 2026-10-05T18:45:42+00:00 — [Merge pull request #456 from magicsword-io/cursor/dfir-akira-throttle…](https://github.com/magicsword-io/LOLDrivers/commit/bb54ff6200da85b313052cf63713d5e94b83a86b)
+- 2026-10-05T18:45:36+00:00 — [Merge pull request #454 from Liran017/nseckrnl-cve-2025-68947](https://github.com/magicsword-io/LOLDrivers/commit/6d1e8bc2c90ab8e731b4e1383aa596c1176d2de1)
+- 2026-10-05T18:45:30+00:00 — [Merge pull request #444 from magicsword-io/add-reviewed-byotc-driver-…](https://github.com/magicsword-io/LOLDrivers/commit/b1a66d61b12462c5d0395333fd7c3c459ecfcbe2)
+- 2026-10-05T18:45:11+00:00 — [Merge pull request #437 from magicsword-io/fix-clamav-lfs-pointers](https://github.com/magicsword-io/LOLDrivers/commit/e9428a74460c6e72545fc84d04a9db0cccb2bcce)
+- 2026-10-05T18:34:55+00:00 — [Merge remote-tracking branch 'origin/main' into HEAD](https://github.com/magicsword-io/LOLDrivers/commit/a0a8784b289832e7d98241b50e4c738ea8655402)
+- 2026-10-05T18:34:54+00:00 — [Correct pmxdrv sample hash and include enriched binary metadata](https://github.com/magicsword-io/LOLDrivers/commit/565ae210a4290de33e1682fb7878ff6ea1427742)
+- 2026-10-05T18:34:09+00:00 — [Merge remote-tracking branch 'origin/main' into HEAD](https://github.com/magicsword-io/LOLDrivers/commit/7bc1b674414d215a76245e353442aeec4ad41edf)
 
 ## LOFL Project (RMM C2 indicators)
 
@@ -851,9 +869,10 @@ Generated: 2026-10-05T03:45:18Z
 - Site: https://github.com/elastic/detection-rules
 - Feed: https://github.com/elastic/detection-rules/releases.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- 2026-10-05T16:43:17+00:00 — [dev-v3.0.8](https://github.com/elastic/detection-rules/releases/tag/dev-v3.0.8)
+- 2026-10-05T11:08:08+00:00 — [dev-v3.0.7](https://github.com/elastic/detection-rules/releases/tag/dev-v3.0.7)
 
 ## regipy releases
 
@@ -1004,9 +1023,9 @@ Generated: 2026-10-05T03:45:18Z
 - Site: https://docs.velociraptor.app/
 - Feed: https://github.com/Velocidex/velociraptor/releases.atom
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-10-05T01:38:14+00:00 — [Release 0.77.3](https://github.com/Velocidex/velociraptor/releases/tag/v0.77.3)
+- No new entries detected
 
 ## dfir-scripts DFIR Reference
 
