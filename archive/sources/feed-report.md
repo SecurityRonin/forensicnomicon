@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-10-08T03:40:23Z
+Generated: 2026-10-09T03:41:37Z
 
 ## Windows Incident Response
 
@@ -16,9 +16,9 @@ Generated: 2026-10-08T03:40:23Z
 - Site: https://dfir.blog/
 - Feed: https://dfir.blog/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- unknown date — [Decoding Facebook&#39;s fbclid](https://dfir.blog/blog/decoding-facebook-fbclid)
 
 ## Another Forensics Blog
 
@@ -33,7 +33,19 @@ Generated: 2026-10-08T03:40:23Z
 
 - Site: https://dfirdiva.com/
 - Feed: https://dfirdiva.com/feed
-- Status: error: not well-formed (invalid token): line 1, column 116
+- Entries checked: 10
+- New since last snapshot: 10
+
+- 2026-09-23T02:32:48+00:00 — [Techno Security & Digital Forensics Conference: October 20-22, 2026](https://dfirdiva.com/techno-security-digital-forensics-conference-october-20-22-2026/)
+- 2026-09-11T21:01:49+00:00 — [Introducing DFIR, OSINT, & Cybersecurity Community Listings](https://dfirdiva.com/introducing-dfir-osint-cybersecurity-community-listings/)
+- 2026-07-28T01:53:25+00:00 — [The Events Site is Being Rebuilt](https://dfirdiva.com/the-events-site-is-being-rebuilt/)
+- 2025-11-30T06:00:00+00:00 — [My Experience with Alias by SockPuppet](https://dfirdiva.com/my-experience-with-alias-by-sockpuppet/)
+- 2025-11-29T04:39:45+00:00 — [Free & Affordable Training News: Black Friday 2025 Edition](https://dfirdiva.com/free-affordable-training-news-black-friday-2025-edition/)
+- 2025-10-01T04:47:39+00:00 — [Techno Security & Digital Forensics Conference: October 27-29, 2025](https://dfirdiva.com/techno-security-digital-forensics-conference-october-27-29-2025/)
+- 2025-05-28T02:49:49+00:00 — [Upcoming Techno Security & Digital Forensics Conference](https://dfirdiva.com/upcoming-techno-security-digital-forensics-conference-2/)
+- 2025-03-10T05:47:02+00:00 — [Free & Affordable Training News Monthly: Feb – Mar 2025](https://dfirdiva.com/free-affordable-training-news-monthly-feb-march-2025/)
+- 2025-02-03T09:18:55+00:00 — [Free & Affordable Training News Monthly: Dec 2024 – Feb 2025](https://dfirdiva.com/free-amp-affordable-training-news-monthly-dec-2024-feb-2025/)
+- 2024-12-01T19:45:17+00:00 — [Free & Affordable Training News Monthly: Nov – Dec, 2024](https://dfirdiva.com/free-affordable-training-news-monthly-nov-dec-2024/)
 
 ## mac4n6
 
@@ -58,9 +70,9 @@ Generated: 2026-10-08T03:40:23Z
 - Site: https://andreafortuna.org/
 - Feed: https://andreafortuna.org/feed.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-10-07T00:00:00+00:00 — [The Cyber Resilience Act and the end of connected product impunity](https://andreafortuna.org/2026/10/07/cra-digital-compact/)
+- No new entries detected
 
 ## Salt Forensics
 
@@ -165,7 +177,7 @@ Generated: 2026-10-08T03:40:23Z
 
 - Site: https://brettshavers.com/brett-s-blog
 - Feed: https://feeds.feedburner.com/brettshavers/oSyq
-- Status: error: undefined entity: line 1, column 549
+- Status: error: undefined entity: line 1, column 606
 
 ## Yogesh Khatri's forensic blog
 
@@ -213,26 +225,46 @@ Generated: 2026-10-08T03:40:23Z
 
 - Site: https://www.youtube.com/@13cubed
 - Feed: https://www.youtube.com/feeds/videos.xml?channel_id=UCy8ntxFEudOCRZYT1f7ya9Q
-- Status: error: HTTP 404
+- Entries checked: 10
+- New since last snapshot: 10
+
+- 2026-10-07T21:25:27+00:00 — [I Got Promoted at Microsoft... Then I Quit](https://www.youtube.com/watch?v=OnavGwRIAtw)
+- 2026-09-29T02:47:29+00:00 — [Windows Forensics on a Mac?! You Have to See This!](https://www.youtube.com/watch?v=W9xHbNgZuT0)
+- 2026-10-04T01:48:19+00:00 — [Want to Get Into Threat Hunting? Start Here!](https://www.youtube.com/shorts/B_iHFonaOHg)
+- 2026-10-09T02:58:21+00:00 — [The Threat Hunting Course I Wish I Had](https://www.youtube.com/watch?v=cFxwYz5TOk0)
+- 2026-10-01T02:00:45+00:00 — [Automate Volatility 3 Memory Analysis with This Tool](https://www.youtube.com/watch?v=0GMTydimOP4)
+- 2026-09-30T14:38:51+00:00 — [How the USN Journal Really Works](https://www.youtube.com/watch?v=eSLHyqZlglk)
+- 2026-09-29T05:55:34+00:00 — [The Korvath Incident: A macOS Forensics Challenge](https://www.youtube.com/watch?v=tRvw13e3Qn0)
+- 2026-09-29T04:52:37+00:00 — [Hunting Copy Fail: 732 Bytes to Root](https://www.youtube.com/watch?v=ZVmpK-9rP0Q)
+- 2026-10-04T00:16:58+00:00 — [The AI Conversation I've Been Avoiding](https://www.youtube.com/watch?v=wKn-9sKBqX8)
+- 2026-10-05T22:00:15+00:00 — [Mac Imaging Made Easy with Fuji](https://www.youtube.com/watch?v=9ZkLdFodhzM)
 
 ## SANS Internet Storm Center
 
 - Site: https://isc.sans.edu/
 - Feed: https://isc.sans.edu/rssfeed_full.xml
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 1
 
-- 2026-10-08T02:00:02+00:00 — [ISC Stormcast For Thursday, October 8th, 2026 https://isc.sans.edu/podcastdetail/10128, (Thu, Oct 8th)](https://isc.sans.edu/diary/rss/33408)
-- 2026-10-07T14:59:33+00:00 — [Scans for Atlassian vulnerablity (CVE-2026-21589), (Wed, Oct 7th)](https://isc.sans.edu/diary/rss/33406)
+- 2026-10-08T16:52:53+00:00 — [Reconstructing AI Agent Activity: Two New Scripts for Forensic Review, (Thu, Oct 8th)](https://isc.sans.edu/diary/rss/33410)
 
 ## DFIR Training Blog
 
 - Site: https://www.dfir.training/blog
 - Feed: https://www.dfir.training/blog
-- Entries checked: 0
-- New since last snapshot: 0
+- Entries checked: 10
+- New since last snapshot: 10
 
-- No new entries detected
+- unknown date — [Training](https://www.dfir.training/training)
+- unknown date — [Tools](https://www.dfir.training/dfir-tools)
+- unknown date — [Directory](https://www.dfir.training/providers)
+- unknown date — [Library](https://www.dfir.training/resources)
+- unknown date — [Sponsors](https://www.dfir.training/sponsors)
+- unknown date — [Blog](https://www.dfir.training/blog)
+- unknown date — [Contact](https://www.dfir.training/contact-form)
+- unknown date — [What 400 DFIR Books Tell Us About the Field](https://www.dfir.training/blog/what-400-dfir-books-tell-us-about-the-field)
+- unknown date — [Where Are Digital Investigations Breaking Down?](https://www.dfir.training/blog/where-are-digital-investigations-breaking-down)
+- unknown date — [The Marketplace for the DFIR Community](https://www.dfir.training/blog/the-marketplace-for-the-dfir-community)
 
 ## MSAB
 
@@ -250,7 +282,7 @@ Generated: 2026-10-08T03:40:23Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-10-07T10:48:19+00:00 — [InfoSec News Nuggets – 10/07/2026](https://aboutdfir.com/infosec-news-nuggets-10-07-2026/)
+- 2026-10-08T10:37:51+00:00 — [InfoSec News Nuggets – 10/08/2026](https://aboutdfir.com/infosec-news-nuggets-10-08-2026/)
 
 ## Forensic 4cast
 
@@ -284,9 +316,9 @@ Generated: 2026-10-08T03:40:23Z
 - Site: https://blog.ampedsoftware.com/
 - Feed: https://blog.ampedsoftware.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-10-07T13:30:00+00:00 — [Unlock the Power of Video Evidence Presentation with Amped FIVE](https://blog.ampedsoftware.com/2026/10/07/video-evidence-presentation-with-amped-five)
+- No new entries detected
 
 ## Didier Stevens Blog
 
@@ -367,8 +399,8 @@ Generated: 2026-10-08T03:40:23Z
 - Entries checked: 10
 - New since last snapshot: 2
 
-- 2026-10-07T11:30:00+00:00 — [Painting a good story: Multi-frame](https://eclecticlight.co/2026/10/07/painting-a-good-story-multi-frame/)
-- 2026-10-07T06:30:00+00:00 — [Explainer: Keychains](https://eclecticlight.co/2026/10/07/explainer-keychains/)
+- 2026-10-08T11:30:00+00:00 — [Painting with impaired vision: Introduction](https://eclecticlight.co/2026/10/08/painting-with-impaired-vision-introduction/)
+- 2026-10-08T06:30:00+00:00 — [What controls access to files?](https://eclecticlight.co/2026/10/08/what-controls-access-to-files/)
 
 ## JPCERT/CC
 
@@ -402,10 +434,9 @@ Generated: 2026-10-08T03:40:23Z
 - Site: https://www.huntress.com/blog
 - Feed: https://www.huntress.com/blog/rss.xml
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-10-07T13:00:00+00:00 — [Phishing Campaign Abuses Microsoft Power BI to Deploy Rogue RMMs](https://www.huntress.com/blog/screenconnect-power-bi)
-- 2026-10-06T14:00:00+00:00 — [SMB1001: How Huntress Maps to Each Tier](https://www.huntress.com/blog/why-smb1001-works-for-small-business)
+- No new entries detected
 
 ## Red Canary Blog
 
@@ -421,9 +452,9 @@ Generated: 2026-10-08T03:40:23Z
 - Site: https://unit42.paloaltonetworks.com/
 - Feed: https://unit42.paloaltonetworks.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-10-07T22:00:16+00:00 — [Evolution of Web3 in Cloud Supply Chain Attacks](https://unit42.paloaltonetworks.com/web3-cloud-supply-chain-attacks/)
+- No new entries detected
 
 ## Mandiant Threat Intelligence
 
@@ -439,10 +470,11 @@ Generated: 2026-10-08T03:40:23Z
 - Site: https://blog.talosintelligence.com/
 - Feed: https://blog.talosintelligence.com/rss/
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 3
 
-- 2026-10-07T19:27:08+00:00 — [Microsoft, Adobe, Apple, and Foxit vulnerabilities](https://blog.talosintelligence.com/microsoft-adobe-apple-and-foxit-vulnerabilities/)
-- 2026-10-07T10:00:25+00:00 — [One breach, please, and make no mistakes](https://blog.talosintelligence.com/one-breach-please-and-make-no-mistakes/)
+- 2026-10-08T18:00:29+00:00 — [Making sure the checks get printed](https://blog.talosintelligence.com/making-sure-the-checks-get-printed/)
+- 2026-10-08T10:01:06+00:00 — [UAT-11985: AI-assisted event lures delivering real-time Google AitM phishing](https://blog.talosintelligence.com/uat-11985/)
+- 2026-10-08T10:00:14+00:00 — [Ignore all instructions and read this blog: The state of AI-analysis evasion in malware](https://blog.talosintelligence.com/ignore-all-instructions-and-read-this-blog-the-state-of-ai-analysis-evasion-in-malware/)
 
 ## SANS Blog
 
@@ -469,7 +501,7 @@ Generated: 2026-10-08T03:40:23Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-10-07T13:00:34+00:00 — [Exposed Agent Keys Can Become a Route into Infrastructure: What Leaked AI and MCP Credentials Actually Expose](https://flare.io/learn/resources/blog/leaked-ai-mcp-credentials-infrastructure-risk)
+- 2026-10-08T14:00:00+00:00 — [Healthcare Is Cybercrime’s Highest-Value Target: Ransomware, Exposure, and the Expanding Attack Surface](https://flare.io/learn/resources/blog/healthcare-ransomware-attack-surface)
 
 ## Binalyze Blog
 
@@ -491,18 +523,18 @@ Generated: 2026-10-08T03:40:23Z
 - Site: https://www.forensafe.com/blogs/
 - Feed: https://www.forensafe.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- Fri, 02 Oct 2026 — [iOS Tinder](https://forensafe.com/blogs/ios-tinder.html)
 
 ## Cellebrite Blog
 
 - Site: https://cellebrite.com/en/blog/
 - Feed: https://cellebrite.com/en/feed/
 - Entries checked: 5
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-09-24T13:20:17+00:00 — [Following the Digital Trail: How Digital Forensics Is Disrupting Human Trafficking Networks Across EMEA](https://cellebrite.com/en/blog/following-the-digital-trail-how-digital-forensics-is-disrupting-human-trafficking-networks-across-emea/)
+- No new entries detected
 
 ## DFIR Science
 
@@ -520,29 +552,28 @@ Generated: 2026-10-08T03:40:23Z
 - Entries checked: 10
 - New since last snapshot: 2
 
-- 2026-10-07T00:00:00-05:00 — [Unknown Threat Actor Uses AI-Driven ARTEX to Target South Korean Finance](https://www.crowdstrike.com/en-us/blog/unknown-threat-actor-uses-artex-to-target-south-korean-finance/)
-- 2026-10-07T00:00:00-05:00 — [CrowdStrike Named a Leader in the 2026 IDC MarketScape for Worldwide Modern Endpoint Security for Enterprises Vendor Assessment](https://www.crowdstrike.com/en-us/blog/crowdstrike-named-leader-2026-idc-marketscape-worldwide-modern-endpoint-security-for-enterprises/)
+- 2026-10-08T00:00:00-05:00 — [Solving the Continuous Authorization Conundrum](https://www.crowdstrike.com/en-us/blog/solving-the-continuous-authorization-conundrum/)
+- 2026-10-08T00:00:00-05:00 — [CrowdStrike and Anthropic Give Critical Infrastructure Defenders the AI Advantage](https://www.crowdstrike.com/en-us/blog/crowdstrike-anthropic-critical-infrastructure-defense-program/)
 
 ## Malwarebytes Labs
 
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 4
+- New since last snapshot: 3
 
-- 2026-10-07T13:25:04+00:00 — [Google issues Android security updates: who can get them and how](https://www.malwarebytes.com/blog/bugs/2026/10/google-issues-android-security-updates-who-can-get-them-and-how)
-- 2026-10-07T10:54:19+00:00 — [AI-powered phishkit arms criminals with account-hijacking tools in 10 minutes](https://www.malwarebytes.com/blog/threat-intel/2026/10/ai-powered-phishkit-arms-criminals-with-account-hijacking-tools-in-10-minutes)
-- 2026-10-07T10:25:26+00:00 — [Update Chrome and ChromeOS to fix critical security issues](https://www.malwarebytes.com/blog/bugs/2026/10/update-chrome-and-chromeos-to-fix-critical-security-issues)
-- 2026-10-07T10:03:06+00:00 — [Another ShinyHunters suspect arrested](https://www.malwarebytes.com/blog/news/2026/10/another-shinyhunters-suspect-arrested)
+- 2026-10-08T15:53:18+00:00 — [Attackers hijack country-code domains to impersonate Google and other services](https://www.malwarebytes.com/blog/news/2026/10/attackers-hijack-country-code-domains-to-impersonate-google-and-other-services)
+- 2026-10-08T12:29:38+00:00 — [Amazon has an uncomfortably personal profile on you](https://www.malwarebytes.com/blog/news/2026/10/amazon-has-an-uncomfortably-personal-profile-on-you-check-yours-now)
+- 2026-10-08T11:07:58+00:00 — [Meta’s Muse AI files away your friendships, arguments, and secrets](https://www.malwarebytes.com/blog/privacy/2026/10/metas-muse-ai-files-away-your-friendships-arguments-and-secrets)
 
 ## Krebs on Security
 
 - Site: https://krebsonsecurity.com/
 - Feed: https://krebsonsecurity.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-10-07T13:48:45+00:00 — [ShinyHunters Extorted Boeing Spin-off Prior to Arrests](https://krebsonsecurity.com/2026/10/shinyhunters-extorted-boeing-spin-off-prior-to-arrests/)
+- No new entries detected
 
 ## BleepingComputer
 
@@ -551,16 +582,16 @@ Generated: 2026-10-08T03:40:23Z
 - Entries checked: 10
 - New since last snapshot: 10
 
-- 2026-10-07T19:04:37-04:00 — [Ransomware recovery CEO charged over secret ransom payments](https://www.bleepingcomputer.com/news/security/ransomware-recovery-ceo-charged-over-secret-ransom-payments/)
-- 2026-10-07T17:28:54-04:00 — [FBI: Ongoing FortiBleed attacks lock out FortiGate VPN admins](https://www.bleepingcomputer.com/news/security/fbi-ongoing-fortibleed-attacks-lock-out-fortigate-vpn-admins/)
-- 2026-10-07T16:50:13-04:00 — [Hackers hijack Google domains after breaching ccTLD registries](https://www.bleepingcomputer.com/news/security/hackers-hijack-google-domains-after-breaching-cctld-registries/)
-- 2026-10-07T11:44:22-04:00 — [Microsoft Outlook to block MSIX attachments starting November](https://www.bleepingcomputer.com/news/microsoft/microsoft-outlook-to-block-msix-attachments-used-in-attacks/)
-- 2026-10-07T11:04:08-04:00 — [PoeLLM malware infects exposed AI servers in cryptomining attacks](https://www.bleepingcomputer.com/news/security/poellm-malware-infects-exposed-ai-servers-in-cryptomining-attacks/)
-- 2026-10-07T10:01:11-04:00 — [Ransomware has a new target. Is your backup ready?](https://www.bleepingcomputer.com/news/security/ransomware-has-a-new-target-is-your-backup-ready/)
-- 2026-10-07T08:49:01-04:00 — [Hackers exploit critical Atlassian flaw after public PoC release](https://www.bleepingcomputer.com/news/security/hackers-exploit-critical-atlassian-flaw-after-public-poc-release/)
-- 2026-10-07T07:37:07-04:00 — [SonicWall warns of max severity SSRF flaw in SMA1000 gateways](https://www.bleepingcomputer.com/news/security/sonicwall-warns-of-max-severity-ssrf-flaw-in-sma1000-gateways/)
-- 2026-10-07T06:35:15-04:00 — [Musician sent to prison for $10 million streaming fraud using AI bots](https://www.bleepingcomputer.com/news/security/musician-gets-18-months-in-prison-for-10-million-streaming-fraud-using-ai-bots/)
-- 2026-10-07T06:27:52-04:00 — [Advantest confirms personal information stolen in ransomware attack](https://www.bleepingcomputer.com/news/security/advantest-confirms-personal-information-stolen-in-ransomware-attack/)
+- 2026-10-08T17:42:51-04:00 — [FBI disrupts Chinese hacking tools used to breach critical infrastructure](https://www.bleepingcomputer.com/news/security/fbi-disrupts-chinese-hacking-tools-used-to-breach-critical-infrastructure/)
+- 2026-10-08T16:09:45-04:00 — [Ransomware attack disrupts Japan's IDCF Cloud used by govt clients](https://www.bleepingcomputer.com/news/security/ransomware-attack-disrupts-japans-idcf-cloud-used-by-govt-clients/)
+- 2026-10-08T15:20:33-04:00 — [Low-cost Android phones ship with residential proxy malware](https://www.bleepingcomputer.com/news/security/low-cost-android-phones-ship-with-residential-proxy-malware/)
+- 2026-10-08T13:10:55-04:00 — [FakeGit malware campaign returns with 17,610 malicious GitHub repos](https://www.bleepingcomputer.com/news/security/fakegit-malware-campaign-returns-with-17-610-malicious-github-repos/)
+- 2026-10-08T11:26:33-04:00 — [Cisco warns of critical flaws allowing Nexus switch takeover](https://www.bleepingcomputer.com/news/security/cisco-warns-of-critical-flaws-allowing-nexus-switch-takeover/)
+- 2026-10-08T10:00:10-04:00 — [OAuth grants pile up faster than you can review them. Here's how to keep up.](https://www.bleepingcomputer.com/news/security/oauth-grants-pile-up-faster-than-you-can-review-them-heres-how-to-keep-up/)
+- 2026-10-08T09:18:36-04:00 — [Uranium crypto exchange hacker convicted for stealing $53 million](https://www.bleepingcomputer.com/news/security/uranium-crypto-exchange-hacker-found-guilty-of-53-million-theft/)
+- 2026-10-08T08:08:16-04:00 — [Microsoft Teams to get support for third-party deepfake detection tools](https://www.bleepingcomputer.com/news/security/microsoft-teams-to-add-third-party-deepfake-detection-impersonation-protection/)
+- 2026-10-08T07:42:46-04:00 — [ASOS links data breach to social engineering attack, credential theft](https://www.bleepingcomputer.com/news/security/asos-links-data-breach-to-social-engineering-attack-credential-theft/)
+- 2026-10-08T06:29:19-04:00 — [Owner of Empire cybercrime market gets 40 years in prison](https://www.bleepingcomputer.com/news/security/owner-of-empire-cybercrime-market-gets-40-years-in-prison/)
 
 ## Dark Reading
 
@@ -569,10 +600,10 @@ Generated: 2026-10-08T03:40:23Z
 - Entries checked: 10
 - New since last snapshot: 4
 
-- 2026-10-07T21:42:55+00:00 — [Australian Gov't Weighs Mandatory AI Incident Reporting](https://www.darkreading.com/cybersecurity-operations/australian-govt-ai-incident-reporting)
-- 2026-10-07T21:25:13+00:00 — [Citizen Lab Slams Trump Administration, 'Techno-Fascist' Executives](https://www.darkreading.com/cyber-risk/citizen-lab-slams-trump-administration-techno-fascist-executives)
-- 2026-10-07T20:51:25+00:00 — [Anthropic Gives Vetted Defenders Fewer Claude Guardrails](https://www.darkreading.com/vulnerabilities-threats/anthropic-vetted-defenders-claude-guardrails)
-- 2026-10-07T19:34:08+00:00 — [OpenAI Agent Escape Causes Wikimedia Service Outage](https://www.darkreading.com/cyberattacks-data-breaches/openai-agent-escape-causes-wikimedia-service-outage)
+- 2026-10-08T20:39:44+00:00 — ['AgentCorruption' Puts AWS Environments At Risk With Single Prompt](https://www.darkreading.com/cloud-security/agentcorruption-aws-environments-at-risk-single-prompt)
+- 2026-10-08T19:08:16+00:00 — [Venezuelan Cartel's Malware Honcho Nabbed for ATM Jackpotting](https://www.darkreading.com/cyberattacks-data-breaches/venezuelan-cartel-malware-honcho-nabbed-atm-jackpotting)
+- 2026-10-08T18:01:50+00:00 — [Russian Spies Give 'MatchBoil' Malware a Stealthy Facelift](https://www.darkreading.com/cyberattacks-data-breaches/russian-spies-matchboil-malware-facelift)
+- 2026-10-08T12:00:00+00:00 — [Writing the Next Chapter](https://www.darkreading.com/cybersecurity-operations/writing-next-chapter)
 
 ## Volexity Blog
 
@@ -596,7 +627,7 @@ Generated: 2026-10-08T03:40:23Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-10-07T16:00:00+00:00 — [3 lessons from frontier AI vulnerability research](https://www.microsoft.com/en-us/security/blog/2026/10/07/3-lessons-from-frontier-ai-vulnerability-research/)
+- 2026-10-08T20:44:28+00:00 — [Post-quantum authentication: Why organizations should start testing certificate ecosystems now](https://www.microsoft.com/en-us/security/blog/2026/10/08/post-quantum-authentication-why-organizations-should-start-testing-certificate-ecosystems-now/)
 
 ## HackingPassion
 
@@ -605,7 +636,7 @@ Generated: 2026-10-08T03:40:23Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-10-07T11:12:26+02:00 — [WordPress Backdoor Rebuilds Itself Seconds After You Delete It and Takes Its Orders From Ethereum](https://hackingpassion.com/wordpress-sc-backdoor-rebuilds-itself/)
+- 2026-10-08T11:26:20+02:00 — [Printer Tracking Dots Put Your Color Laser Printer's Serial Number on the Pages You Print](https://hackingpassion.com/printer-tracking-dots-serial-number/)
 
 ## LOLBAS Project (Windows)
 
@@ -630,29 +661,18 @@ Generated: 2026-10-08T03:40:23Z
 - Site: https://loobins.io/
 - Feed: https://github.com/infosecB/LOOBins/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 10
+- New since last snapshot: 0
 
-- 2026-10-07T13:35:09+00:00 — [Improve web UI: binary filters, table view, and detail page polish (#…](https://github.com/infosecB/LOOBins/commit/015bc32b062452744a5ed60fec194b60dca1e15c)
-- 2026-10-07T13:10:51+00:00 — [Add Used By page to web site (#270)](https://github.com/infosecB/LOOBins/commit/bda8071eb6471135e8d3562fd18893200611fa97)
-- 2026-10-07T13:01:45+00:00 — [chore: bump version to 2.0.15 [skip ci]](https://github.com/infosecB/LOOBins/commit/c40d171c0d3ec85e2d5e2deca8a6fbeff536883e)
-- 2026-10-07T12:31:31+00:00 — [Add killall LOOBin (#261)](https://github.com/infosecB/LOOBins/commit/965a1f65c2ca055d1ff271cc78705dfa74403e92)
-- 2026-10-07T12:30:01+00:00 — [Add trash command (#264)](https://github.com/infosecB/LOOBins/commit/9448d8dc175bd239ab9df2d5abc225c09454ee34)
-- 2026-10-07T12:29:28+00:00 — [Add pbcopy (#263)](https://github.com/infosecB/LOOBins/commit/4afb81feda45a9aabc230d2629d8961ca10559fa)
-- 2026-10-07T12:28:45+00:00 — [Add diskutil (#265)](https://github.com/infosecB/LOOBins/commit/02931fa649c65e90feede947cdeaa585ce46bc85)
-- 2026-10-07T12:28:30+00:00 — [Add LOOBin for pmset (#266)](https://github.com/infosecB/LOOBins/commit/c9f6b324d8918d0306ec229928cf3f07c33dbe8b)
-- 2026-10-07T12:25:53+00:00 — [Add ldapsearch (#267)](https://github.com/infosecB/LOOBins/commit/f82ab45c4f5dc9e110ac0ab673f75b7a9e66d903)
-- 2026-10-07T12:24:57+00:00 — [Skip Claude code review on fork PRs (#269)](https://github.com/infosecB/LOOBins/commit/66a0d85d4061ee0bd1991ef335d5eba3beb0d457)
+- No new entries detected
 
 ## LOLDrivers (BYOVD)
 
 - Site: https://www.loldrivers.io/
 - Feed: https://github.com/magicsword-io/LOLDrivers/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 0
 
-- 2026-10-07T12:26:08+00:00 — [New site and hashes generated by GitHub Actions [ci skip]](https://github.com/magicsword-io/LOLDrivers/commit/9e8d6b30000dc88951597de5bcb9556daa2a07c1)
-- 2026-10-07T12:13:33+00:00 — [Merge pull request #458 from magicsword-io/cursor/ironchain-anyrun-re…](https://github.com/magicsword-io/LOLDrivers/commit/434089ec3e2f5f29ffa8be4b445040e9c7529d23)
-- 2026-10-06T13:07:22+00:00 — [Add IronChain ransomware (ANY.RUN) reference to four LOLDrivers entries](https://github.com/magicsword-io/LOLDrivers/commit/f1875acd3ecb1858e16085163c2e2f181ce1cfee)
+- No new entries detected
 
 ## LOFL Project (RMM C2 indicators)
 
@@ -848,9 +868,15 @@ Generated: 2026-10-08T03:40:23Z
 - Site: https://github.com/Yamato-Security/hayabusa-rules
 - Feed: https://github.com/Yamato-Security/hayabusa-rules/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 7
 
-- 2026-10-07T20:07:44+00:00 — [Sigma Rule Update (2026-10-07  20:06:45) (#1078)](https://github.com/Yamato-Security/hayabusa-rules/commit/f3d827ef09d66658d95b01dbe7d861926bbf6cb6)
+- 2026-10-08T21:07:14+00:00 — [Sigma Rule Supported Modifier Update (2026-10-08  21:06:54) (#1079)](https://github.com/Yamato-Security/hayabusa-rules/commit/04af3d207cae784183e0e5e82c1132ee866bbd67)
+- 2026-10-08T06:32:27+00:00 — [Merge pull request #1077 from defamp/rule/sec-4688-inhibit-system-rec…](https://github.com/Yamato-Security/hayabusa-rules/commit/18afcb376e13e965037b2fc12c1e3470bc5e333d)
+- 2026-10-08T05:06:22+00:00 — [Remove deprecated details line from both rules](https://github.com/Yamato-Security/hayabusa-rules/commit/46037507c243b1a70247be9e517d1e297720645e)
+- 2026-10-08T04:35:58+00:00 — [Merge pull request #1075 from Yamato-Security/rules/auto-sigma-update…](https://github.com/Yamato-Security/hayabusa-rules/commit/9a54ab854d780acfa14418a7a9aa94c48a887bfe)
+- 2026-10-08T04:16:13+00:00 — [Add sample-evtx to 4688 rule and add Sysmon EID 1 version (Inhibit Sy…](https://github.com/Yamato-Security/hayabusa-rules/commit/37704f3589bf3daa925f44eebb8bed1aaf33d03a)
+- 2026-10-07T13:26:22+00:00 — [Add built-in (4688) rule: Possible Inhibit System Recovery](https://github.com/Yamato-Security/hayabusa-rules/commit/228113d44ef8d20875ade2e7a685548db1e22ec9)
+- 2026-10-06T20:06:18+00:00 — [Sigma Rule Update (2026-10-06  20:06:17)](https://github.com/Yamato-Security/hayabusa-rules/commit/bf3f67924619fe548b24da3b8e4309110d574101)
 
 ## Hayabusa releases
 
@@ -877,7 +903,7 @@ Generated: 2026-10-08T03:40:23Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-10-07T14:33:52+00:00 — [dev-v3.0.10](https://github.com/elastic/detection-rules/releases/tag/dev-v3.0.10)
+- 2026-10-08T15:05:17+00:00 — [dev-v3.0.11](https://github.com/elastic/detection-rules/releases/tag/dev-v3.0.11)
 
 ## regipy releases
 
