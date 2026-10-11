@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-10-10T03:39:50Z
+Generated: 2026-10-11T03:43:00Z
 
 ## Windows Incident Response
 
@@ -33,10 +33,7 @@ Generated: 2026-10-10T03:39:50Z
 
 - Site: https://dfirdiva.com/
 - Feed: https://dfirdiva.com/feed
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: not well-formed (invalid token): line 1, column 116
 
 ## mac4n6
 
@@ -216,7 +213,7 @@ Generated: 2026-10-10T03:39:50Z
 
 - Site: https://www.youtube.com/@13cubed
 - Feed: https://www.youtube.com/feeds/videos.xml?channel_id=UCy8ntxFEudOCRZYT1f7ya9Q
-- Status: error: HTTP 404
+- Status: error: HTTP 500
 
 ## SANS Internet Storm Center
 
@@ -225,13 +222,13 @@ Generated: 2026-10-10T03:39:50Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-10-09T07:52:03+00:00 — [ISC Stormcast For Friday, October 9th, 2026 https://isc.sans.edu/podcastdetail/10130, (Fri, Oct 9th)](https://isc.sans.edu/diary/rss/33412)
+- 2026-10-10T09:11:34+00:00 — [Why TLP should not replace your internal information classification, (Sat, Oct 10th)](https://isc.sans.edu/diary/rss/33414)
 
 ## DFIR Training Blog
 
 - Site: https://www.dfir.training/blog
 - Feed: https://www.dfir.training/blog
-- Entries checked: 10
+- Entries checked: 0
 - New since last snapshot: 0
 
 - No new entries detected
@@ -250,9 +247,9 @@ Generated: 2026-10-10T03:39:50Z
 - Site: https://aboutdfir.com/
 - Feed: https://aboutdfir.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-10-09T13:46:52+00:00 — [InfoSec News Nuggets – 10/09/2026](https://aboutdfir.com/infosec-news-nuggets-10-09-2026/)
+- No new entries detected
 
 ## Forensic 4cast
 
@@ -313,9 +310,9 @@ Generated: 2026-10-10T03:39:50Z
 - Site: https://www.hexacorn.com/blog/
 - Feed: https://www.hexacorn.com/blog/feed/
 - Entries checked: 5
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-10-09T23:05:22+00:00 — [Solving practical problems with AI – Part 1 – Jpeg files renaming using EXIF data](https://www.hexacorn.com/blog/2026/10/09/solving-practical-problems-with-ai-part-1-jpeg-files-renaming-using-exif-data/)
+- No new entries detected
 
 ## The DFIR Spot
 
@@ -367,10 +364,11 @@ Generated: 2026-10-10T03:39:50Z
 - Site: https://eclecticlight.co/
 - Feed: https://eclecticlight.co/feed/
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 3
 
-- 2026-10-09T11:30:00+00:00 — [Thomas Fearnley the brief Wanderer](https://eclecticlight.co/2026/10/09/thomas-fearnley-the-brief-wanderer/)
-- 2026-10-09T06:30:00+00:00 — [How the macOS System has changed over 7 years](https://eclecticlight.co/2026/10/09/how-the-macos-system-has-changed-over-7-years/)
+- 2026-10-10T11:30:00+00:00 — [The artist who died crossing Australia](https://eclecticlight.co/2026/10/10/the-artist-who-died-crossing-australia/)
+- 2026-10-10T08:00:00+00:00 — [Saturday Mac riddles 381](https://eclecticlight.co/2026/10/10/saturday-mac-riddles-381/)
+- 2026-10-10T07:00:00+00:00 — [Try on-device AI with fm](https://eclecticlight.co/2026/10/10/try-on-device-ai-with-fm/)
 
 ## JPCERT/CC
 
@@ -395,18 +393,18 @@ Generated: 2026-10-10T03:39:50Z
 - Site: https://blog.elcomsoft.com/
 - Feed: https://blog.elcomsoft.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-10-09T08:00:53+00:00 — [Low-Level Extraction of the HomePod mini](https://blog.elcomsoft.com/2026/10/low-level-extraction-of-the-homepod-mini/)
+- No new entries detected
 
 ## Huntress Blog
 
 - Site: https://www.huntress.com/blog
 - Feed: https://www.huntress.com/blog/rss.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-10-08T20:00:00+00:00 — [Threat Actors Exploit Critical AhsayCBS Flaws to Drop Webshells and XMRig Cryptominer](https://www.huntress.com/blog/ahsaycbs-flaws-exploit)
+- No new entries detected
 
 ## Red Canary Blog
 
@@ -500,9 +498,9 @@ Generated: 2026-10-10T03:39:50Z
 - Site: https://cellebrite.com/en/blog/
 - Feed: https://cellebrite.com/en/feed/
 - Entries checked: 5
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-10-09T13:03:53+00:00 — [AI for Investigations: 5 Myths, Debunked](https://cellebrite.com/en/blog/ai-for-investigations-5-myths-debunked/)
+- No new entries detected
 
 ## DFIR Science
 
@@ -527,49 +525,38 @@ Generated: 2026-10-10T03:39:50Z
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-10-09T10:56:41+00:00 — [ASOS breach update: Hackers stole customer details and shopping searches](https://www.malwarebytes.com/blog/data-breaches/2026/10/asos-breach-update-hackers-stole-customer-details-and-shopping-searches)
+- No new entries detected
 
 ## Krebs on Security
 
 - Site: https://krebsonsecurity.com/
 - Feed: https://krebsonsecurity.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-10-10T00:17:42+00:00 — [FBI Arrests Founder of Ransomware Negotiation Firm](https://krebsonsecurity.com/2026/10/fbi-arrests-founder-of-ransomware-negotiation-firm/)
+- No new entries detected
 
 ## BleepingComputer
 
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 10
+- New since last snapshot: 3
 
-- 2026-10-09T16:31:37-04:00 — [Hackers abuse Google Ads, Bing redirects to push Claude ClickFix attacks](https://www.bleepingcomputer.com/news/security/hackers-abuse-google-ads-bing-redirects-to-push-claude-clickfix-attacks/)
-- 2026-10-09T13:17:23-04:00 — [Unpatched AhsayCBS flaws exploited to deploy webshells, mine crypto](https://www.bleepingcomputer.com/news/security/unpatched-ahsaycbs-flaws-exploited-to-deploy-webshells-mine-crypto/)
-- 2026-10-09T13:02:29-04:00 — [FBI arrests another suspected ShinyHunters hacker after agency breach](https://www.bleepingcomputer.com/news/security/fbi-arrests-another-suspected-shinyhunters-hacker-after-agency-breach/)
-- 2026-10-09T11:38:56-04:00 — [Germany arrests alleged core Qilin ransomware member after extradition](https://www.bleepingcomputer.com/news/security/germany-arrests-alleged-core-qilin-ransomware-member-after-extradition/)
-- 2026-10-09T10:01:11-04:00 — [How to keep AI agents within their permissions](https://www.bleepingcomputer.com/news/security/how-to-keep-ai-agents-within-their-permissions/)
-- 2026-10-09T08:32:16-04:00 — [Max severity SonicWall SMA1000 flaw now exploited in attacks](https://www.bleepingcomputer.com/news/security/max-severity-sonicwall-sma1000-flaw-now-exploited-in-attacks/)
-- 2026-10-09T07:14:28-04:00 — [Man admits to running network of 15,000 money mules for cybercriminals](https://www.bleepingcomputer.com/news/security/ukrainian-russian-dual-citizen-admits-to-laundering-millions-for-cybercriminals/)
-- 2026-10-09T06:12:24-04:00 — [Microsoft: Outdated Windows devices will stop receiving security updates](https://www.bleepingcomputer.com/news/microsoft/microsoft-outdated-windows-devices-will-lose-security-protection-next-year/)
-- 2026-10-09T04:27:42-04:00 — [Citrix warns admins to patch new NetScaler RCE flaw immediately](https://www.bleepingcomputer.com/news/security/citrix-warns-admins-to-patch-new-netscaler-rce-flaw-immediately/)
-- 2026-10-09T01:41:04-04:00 — [Hackers get $1,262,000 for 98 zero-days at Pwn2Own Ireland](https://www.bleepingcomputer.com/news/security/hackers-earn-1262000-for-98-zero-days-at-pwn2own-ireland/)
+- 2026-10-10T11:07:54-04:00 — [Cyber exec arrested in case allegedly tied to ShinyHunters hackers](https://www.bleepingcomputer.com/news/security/cyber-exec-arrested-in-case-allegedly-tied-to-shinyhunters-hackers/)
+- 2026-10-10T10:16:17-04:00 — [ARTEX AI, Claude agents used in cyberattacks on South Korean banks](https://www.bleepingcomputer.com/news/security/hacker-used-artex-ai-and-claude-agents-to-target-south-korean-banks/)
+- 2026-10-10T08:30:39-04:00 — [Criminal IP Introduces AITEM as the Next Evolution of Attack Surface Management](https://www.bleepingcomputer.com/news/security/criminal-ip-introduces-aitem-as-the-next-evolution-of-attack-surface-management/)
 
 ## Dark Reading
 
 - Site: https://www.darkreading.com/
 - Feed: https://www.darkreading.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 5
+- New since last snapshot: 0
 
-- 2026-10-09T20:58:32+00:00 — [ASOS Breach Reveals the Risks in Customer-Facing SaaS](https://www.darkreading.com/cyberattacks-data-breaches/asos-breach-risks-customer-facing-saas)
-- 2026-10-09T19:26:26+00:00 — [AI Scramble Drives Cybersecurity M&amp;A Boom](https://www.darkreading.com/cybersecurity-analytics/ai-scramble-cybersecurity-ma-boom)
-- 2026-10-09T17:21:00+00:00 — [What We Missed: FBI Strikes Back at ShinyHunters](https://www.darkreading.com/identity-access-management-security/fbi-shinyhunters-claims-hack)
-- 2026-10-09T16:25:05+00:00 — [Security Threats Don't Stop at the Office: Why Executives' Families Need Training, Too](https://www.darkreading.com/cyber-risk/security-threats-don-t-stop-at-the-office-why-executives-families-need-training-too)
-- 2026-10-09T13:00:00+00:00 — [Social Engineering AI Agents: The New BEC for 2026](https://www.darkreading.com/cybersecurity-operations/social-engineering-ai-agents-bec-2026)
+- No new entries detected
 
 ## Volexity Blog
 
@@ -600,9 +587,9 @@ Generated: 2026-10-10T03:39:50Z
 - Site: https://hackingpassion.com/
 - Feed: https://hackingpassion.com/index.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-10-10T13:10:23+02:00 — [Midnight Mimosa Malware Was Built Into Android Phones Before Their Owners Ever Switched Them On](https://hackingpassion.com/midnight-mimosa-preinstalled-android-malware/)
 
 ## LOLBAS Project (Windows)
 
@@ -771,9 +758,10 @@ Generated: 2026-10-10T03:39:50Z
 - Site: https://github.com/EricZimmerman/KapeFiles
 - Feed: https://github.com/EricZimmerman/KapeFiles/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- 2026-10-10T20:54:24+00:00 — [Merge pull request #1126 from reece394/master](https://github.com/EricZimmerman/KapeFiles/commit/20691cac4a59ef715b4cf7c0175966663990ea3d)
+- 2026-10-10T20:40:47+00:00 — [Gate WDI Path to GUID Folder](https://github.com/EricZimmerman/KapeFiles/commit/fe792b1e8ae9247befe26f4d4e02e84a4deabb12)
 
 ## EZ RegistryPlugins commits
 
