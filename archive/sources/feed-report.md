@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-10-11T03:43:00Z
+Generated: 2026-10-12T03:49:47Z
 
 ## Windows Incident Response
 
@@ -58,9 +58,9 @@ Generated: 2026-10-11T03:43:00Z
 - Site: https://andreafortuna.org/
 - Feed: https://andreafortuna.org/feed.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-10-11T00:00:00+00:00 — [Weekly Wire #13: Off the Leash](https://andreafortuna.org/2026/10/11/weekly-wire-13/)
 
 ## Salt Forensics
 
@@ -213,7 +213,7 @@ Generated: 2026-10-11T03:43:00Z
 
 - Site: https://www.youtube.com/@13cubed
 - Feed: https://www.youtube.com/feeds/videos.xml?channel_id=UCy8ntxFEudOCRZYT1f7ya9Q
-- Status: error: HTTP 500
+- Status: error: HTTP 404
 
 ## SANS Internet Storm Center
 
@@ -222,7 +222,7 @@ Generated: 2026-10-11T03:43:00Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-10-10T09:11:34+00:00 — [Why TLP should not replace your internal information classification, (Sat, Oct 10th)](https://isc.sans.edu/diary/rss/33414)
+- 2026-10-12T02:00:03+00:00 — [ISC Stormcast For Monday, October 12th, 2026 https://isc.sans.edu/podcastdetail/10132, (Mon, Oct 12th)](https://isc.sans.edu/diary/rss/33416)
 
 ## DFIR Training Blog
 
@@ -265,9 +265,9 @@ Generated: 2026-10-11T03:43:00Z
 - Site: https://thisweekin4n6.com/
 - Feed: https://thisweekin4n6.wordpress.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-10-11T09:53:05+00:00 — [Week 41 – 2026](https://thisweekin4n6.com/2026/10/11/week-41-2026/)
 
 ## The Sleuth Kit updates
 
@@ -364,11 +364,10 @@ Generated: 2026-10-11T03:43:00Z
 - Site: https://eclecticlight.co/
 - Feed: https://eclecticlight.co/feed/
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 2
 
-- 2026-10-10T11:30:00+00:00 — [The artist who died crossing Australia](https://eclecticlight.co/2026/10/10/the-artist-who-died-crossing-australia/)
-- 2026-10-10T08:00:00+00:00 — [Saturday Mac riddles 381](https://eclecticlight.co/2026/10/10/saturday-mac-riddles-381/)
-- 2026-10-10T07:00:00+00:00 — [Try on-device AI with fm](https://eclecticlight.co/2026/10/10/try-on-device-ai-with-fm/)
+- 2026-10-11T11:30:00+00:00 — [The artist who died alongside Scott](https://eclecticlight.co/2026/10/11/the-artist-who-died-alongside-scott/)
+- 2026-10-11T07:00:00+00:00 — [Last Week on My Mac: When is it safe to upgrade macOS?](https://eclecticlight.co/2026/10/11/last-week-on-my-mac-when-is-it-safe-to-upgrade-macos/)
 
 ## JPCERT/CC
 
@@ -543,11 +542,9 @@ Generated: 2026-10-11T03:43:00Z
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 1
 
-- 2026-10-10T11:07:54-04:00 — [Cyber exec arrested in case allegedly tied to ShinyHunters hackers](https://www.bleepingcomputer.com/news/security/cyber-exec-arrested-in-case-allegedly-tied-to-shinyhunters-hackers/)
-- 2026-10-10T10:16:17-04:00 — [ARTEX AI, Claude agents used in cyberattacks on South Korean banks](https://www.bleepingcomputer.com/news/security/hacker-used-artex-ai-and-claude-agents-to-target-south-korean-banks/)
-- 2026-10-10T08:30:39-04:00 — [Criminal IP Introduces AITEM as the Next Evolution of Attack Surface Management](https://www.bleepingcomputer.com/news/security/criminal-ip-introduces-aitem-as-the-next-evolution-of-attack-surface-management/)
+- 2026-10-11T10:23:46-04:00 — [Nippon Columbia malware incident exposes 8.6 million karaoke fan records](https://www.bleepingcomputer.com/news/security/nippon-columbia-malware-incident-exposes-86-million-karaoke-fan-records/)
 
 ## Dark Reading
 
@@ -589,7 +586,7 @@ Generated: 2026-10-11T03:43:00Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-10-10T13:10:23+02:00 — [Midnight Mimosa Malware Was Built Into Android Phones Before Their Owners Ever Switched Them On](https://hackingpassion.com/midnight-mimosa-preinstalled-android-malware/)
+- 2026-10-11T13:15:10+02:00 — [Telegram Desktop One Click Account Takeover](https://hackingpassion.com/telegram-desktop-one-click-account-takeover/)
 
 ## LOLBAS Project (Windows)
 
@@ -614,9 +611,17 @@ Generated: 2026-10-11T03:43:00Z
 - Site: https://loobins.io/
 - Feed: https://github.com/infosecB/LOOBins/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 9
 
-- No new entries detected
+- 2026-10-11T13:15:07+00:00 — [Use orchard palette on a graphite background (#283)](https://github.com/infosecB/LOOBins/commit/5cbd21c76670e35acda074f124985fe12fde7d69)
+- 2026-10-11T13:05:46+00:00 — [Add dsenableroot (#275)](https://github.com/infosecB/LOOBins/commit/2b369bfd86d2e8d42cfbee3574fe963f798d1f25)
+- 2026-10-11T13:05:38+00:00 — [Add PlistBuddy (#276)](https://github.com/infosecB/LOOBins/commit/9c88997a550a1c4f8bdb7132852104e4b31bf83d)
+- 2026-10-11T13:05:27+00:00 — [Add socketfilterfw (#277)](https://github.com/infosecB/LOOBins/commit/fc1d2253d7907f2d44ec6e8775d64b68c6793e2a)
+- 2026-10-11T13:05:14+00:00 — [Add kickstart (#278)](https://github.com/infosecB/LOOBins/commit/d3ec8ae5aa21c0e208ff471f09a3ff7f3753fa52)
+- 2026-10-11T13:03:57+00:00 — [Add dseditgroup (#279)](https://github.com/infosecB/LOOBins/commit/262418e39360d508659b357e9c7460f5a453d069)
+- 2026-10-11T13:03:48+00:00 — [Add kmutil (#280)](https://github.com/infosecB/LOOBins/commit/b79d279c7ce027227595dcef1a45a1d2683de22e)
+- 2026-10-11T13:03:39+00:00 — [Add pwpolicy (#281)](https://github.com/infosecB/LOOBins/commit/1194be603cd0a35672cca444566936c9dc7dc246)
+- 2026-10-11T13:01:38+00:00 — [Retheme web UI with a cyberpunk look (#282)](https://github.com/infosecB/LOOBins/commit/e549025fdfb13169aa5118722f8107d0c6d990fd)
 
 ## LOLDrivers (BYOVD)
 
@@ -758,10 +763,9 @@ Generated: 2026-10-11T03:43:00Z
 - Site: https://github.com/EricZimmerman/KapeFiles
 - Feed: https://github.com/EricZimmerman/KapeFiles/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-10-10T20:54:24+00:00 — [Merge pull request #1126 from reece394/master](https://github.com/EricZimmerman/KapeFiles/commit/20691cac4a59ef715b4cf7c0175966663990ea3d)
-- 2026-10-10T20:40:47+00:00 — [Gate WDI Path to GUID Folder](https://github.com/EricZimmerman/KapeFiles/commit/fe792b1e8ae9247befe26f4d4e02e84a4deabb12)
+- No new entries detected
 
 ## EZ RegistryPlugins commits
 
@@ -858,9 +862,9 @@ Generated: 2026-10-11T03:43:00Z
 - Site: https://github.com/mkorman90/regipy
 - Feed: https://github.com/mkorman90/regipy/releases.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-10-12T00:16:20+00:00 — [6.5.0: Fix crafted hive and log bounds](https://github.com/mkorman90/regipy/releases/tag/6.5.0)
 
 ## EZ Registry commits
 
@@ -1065,6 +1069,9 @@ Generated: 2026-10-11T03:43:00Z
 - Site: https://www.misp-project.org/
 - Feed: https://github.com/MISP/misp-taxonomies/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 4
 
-- No new entries detected
+- 2026-10-11T13:58:07+00:00 — [chg: [abuseIPDB] fixed](https://github.com/MISP/misp-taxonomies/commit/3bb56dbbf54131f4305dfff30dc6c00a622a673f)
+- 2026-10-11T13:51:43+00:00 — [chg: [abuseIPDB] updated](https://github.com/MISP/misp-taxonomies/commit/492ca89f90626ccf232a8d3a24a1f938811f5b1a)
+- 2026-10-11T13:49:40+00:00 — [Merge pull request #349 from mhrn83/feat-add-abuseipdb-taxonomy](https://github.com/MISP/misp-taxonomies/commit/603ba2188cc7a6c99f0c440fb1c2b76528122c9c)
+- 2026-09-25T07:32:02+00:00 — [feat: Add a taxonomy for AbuseIPDB](https://github.com/MISP/misp-taxonomies/commit/9754de8973d7ed591cc14b35e169672c69a54d38)
