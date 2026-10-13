@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-10-12T03:49:47Z
+Generated: 2026-10-13T03:45:28Z
 
 ## Windows Incident Response
 
@@ -33,7 +33,19 @@ Generated: 2026-10-12T03:49:47Z
 
 - Site: https://dfirdiva.com/
 - Feed: https://dfirdiva.com/feed
-- Status: error: not well-formed (invalid token): line 1, column 116
+- Entries checked: 10
+- New since last snapshot: 10
+
+- 2026-09-23T02:32:48+00:00 — [Techno Security & Digital Forensics Conference: October 20-22, 2026](https://dfirdiva.com/techno-security-digital-forensics-conference-october-20-22-2026/)
+- 2026-09-11T21:01:49+00:00 — [Introducing DFIR, OSINT, & Cybersecurity Community Listings](https://dfirdiva.com/introducing-dfir-osint-cybersecurity-community-listings/)
+- 2026-07-28T01:53:25+00:00 — [The Events Site is Being Rebuilt](https://dfirdiva.com/the-events-site-is-being-rebuilt/)
+- 2025-11-30T06:00:00+00:00 — [My Experience with Alias by SockPuppet](https://dfirdiva.com/my-experience-with-alias-by-sockpuppet/)
+- 2025-11-29T04:39:45+00:00 — [Free & Affordable Training News: Black Friday 2025 Edition](https://dfirdiva.com/free-affordable-training-news-black-friday-2025-edition/)
+- 2025-10-01T04:47:39+00:00 — [Techno Security & Digital Forensics Conference: October 27-29, 2025](https://dfirdiva.com/techno-security-digital-forensics-conference-october-27-29-2025/)
+- 2025-05-28T02:49:49+00:00 — [Upcoming Techno Security & Digital Forensics Conference](https://dfirdiva.com/upcoming-techno-security-digital-forensics-conference-2/)
+- 2025-03-10T05:47:02+00:00 — [Free & Affordable Training News Monthly: Feb – Mar 2025](https://dfirdiva.com/free-affordable-training-news-monthly-feb-march-2025/)
+- 2025-02-03T09:18:55+00:00 — [Free & Affordable Training News Monthly: Dec 2024 – Feb 2025](https://dfirdiva.com/free-amp-affordable-training-news-monthly-dec-2024-feb-2025/)
+- 2024-12-01T19:45:17+00:00 — [Free & Affordable Training News Monthly: Nov – Dec, 2024](https://dfirdiva.com/free-affordable-training-news-monthly-nov-dec-2024/)
 
 ## mac4n6
 
@@ -58,9 +70,9 @@ Generated: 2026-10-12T03:49:47Z
 - Site: https://andreafortuna.org/
 - Feed: https://andreafortuna.org/feed.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-10-11T00:00:00+00:00 — [Weekly Wire #13: Off the Leash](https://andreafortuna.org/2026/10/11/weekly-wire-13/)
+- No new entries detected
 
 ## Salt Forensics
 
@@ -222,16 +234,25 @@ Generated: 2026-10-12T03:49:47Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-10-12T02:00:03+00:00 — [ISC Stormcast For Monday, October 12th, 2026 https://isc.sans.edu/podcastdetail/10132, (Mon, Oct 12th)](https://isc.sans.edu/diary/rss/33416)
+- 2026-10-13T02:00:02+00:00 — [ISC Stormcast For Tuesday, October 13th, 2026 https://isc.sans.edu/podcastdetail/10134, (Tue, Oct 13th)](https://isc.sans.edu/diary/rss/33418)
 
 ## DFIR Training Blog
 
 - Site: https://www.dfir.training/blog
 - Feed: https://www.dfir.training/blog
-- Entries checked: 0
-- New since last snapshot: 0
+- Entries checked: 10
+- New since last snapshot: 10
 
-- No new entries detected
+- unknown date — [Training](https://www.dfir.training/training)
+- unknown date — [Tools](https://www.dfir.training/dfir-tools)
+- unknown date — [Directory](https://www.dfir.training/providers)
+- unknown date — [Library](https://www.dfir.training/resources)
+- unknown date — [Sponsors](https://www.dfir.training/sponsors)
+- unknown date — [Blog](https://www.dfir.training/blog)
+- unknown date — [Contact](https://www.dfir.training/contact-form)
+- unknown date — [What 400 DFIR Books Tell Us About the Field](https://www.dfir.training/blog/what-400-dfir-books-tell-us-about-the-field)
+- unknown date — [Where Are Digital Investigations Breaking Down?](https://www.dfir.training/blog/where-are-digital-investigations-breaking-down)
+- unknown date — [The Marketplace for the DFIR Community](https://www.dfir.training/blog/the-marketplace-for-the-dfir-community)
 
 ## MSAB
 
@@ -247,9 +268,9 @@ Generated: 2026-10-12T03:49:47Z
 - Site: https://aboutdfir.com/
 - Feed: https://aboutdfir.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-10-12T11:56:12+00:00 — [InfoSec News Nuggets – 10/12/2026](https://aboutdfir.com/infosec-news-nuggets-10-12-2026/)
 
 ## Forensic 4cast
 
@@ -265,9 +286,9 @@ Generated: 2026-10-12T03:49:47Z
 - Site: https://thisweekin4n6.com/
 - Feed: https://thisweekin4n6.wordpress.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-10-11T09:53:05+00:00 — [Week 41 – 2026](https://thisweekin4n6.com/2026/10/11/week-41-2026/)
+- No new entries detected
 
 ## The Sleuth Kit updates
 
@@ -292,9 +313,9 @@ Generated: 2026-10-12T03:49:47Z
 - Site: https://blog.didierstevens.com/
 - Feed: https://blog.didierstevens.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-10-12T15:48:42+00:00 — [Update: onedump.py Version 0.0.3](https://blog.didierstevens.com/2026/10/12/update-onedump-py-version-0-0-3/)
 
 ## Hexordia
 
@@ -364,10 +385,11 @@ Generated: 2026-10-12T03:49:47Z
 - Site: https://eclecticlight.co/
 - Feed: https://eclecticlight.co/feed/
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 3
 
-- 2026-10-11T11:30:00+00:00 — [The artist who died alongside Scott](https://eclecticlight.co/2026/10/11/the-artist-who-died-alongside-scott/)
-- 2026-10-11T07:00:00+00:00 — [Last Week on My Mac: When is it safe to upgrade macOS?](https://eclecticlight.co/2026/10/11/last-week-on-my-mac-when-is-it-safe-to-upgrade-macos/)
+- 2026-10-12T11:30:00+00:00 — [Hero or hooligan: Orpheus in the underworld](https://eclecticlight.co/2026/10/12/hero-or-hooligan-orpheus-in-the-underworld/)
+- 2026-10-12T08:00:00+00:00 — [Solutions to Saturday Mac riddles 381](https://eclecticlight.co/2026/10/12/solutions-to-saturday-mac-riddles-381/)
+- 2026-10-12T06:30:00+00:00 — [When to expect updates to macOS 27 Golden Gate](https://eclecticlight.co/2026/10/12/when-to-expect-updates-to-macos-27-golden-gate/)
 
 ## JPCERT/CC
 
@@ -401,9 +423,9 @@ Generated: 2026-10-12T03:49:47Z
 - Site: https://www.huntress.com/blog
 - Feed: https://www.huntress.com/blog/rss.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-10-12T14:00:00+00:00 — [CMMC Level 2 Non-Negotiable Requirements Explained | Huntress](https://www.huntress.com/blog/cmmc-level-2-non-negotiable-requirements)
 
 ## Red Canary Blog
 
@@ -524,9 +546,11 @@ Generated: 2026-10-12T03:49:47Z
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 3
 
-- No new entries detected
+- 2026-10-12T12:34:10+00:00 — [How “123456” became the key to almost 9 million personal records](https://www.malwarebytes.com/blog/news/2026/10/how-123456-became-the-key-to-almost-9-million-personal-records)
+- 2026-10-12T10:54:40+00:00 — [Phishing emails are baiting your AI assistant](https://www.malwarebytes.com/blog/ai/2026/10/phishing-emails-are-baiting-your-ai-assistant)
+- 2026-10-12T07:01:00+00:00 — [A week in security (October 5 – October 11)](https://www.malwarebytes.com/blog/news/2026/10/a-week-in-security-october-5-october-11)
 
 ## Krebs on Security
 
@@ -542,18 +566,29 @@ Generated: 2026-10-12T03:49:47Z
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 9
 
-- 2026-10-11T10:23:46-04:00 — [Nippon Columbia malware incident exposes 8.6 million karaoke fan records](https://www.bleepingcomputer.com/news/security/nippon-columbia-malware-incident-exposes-86-million-karaoke-fan-records/)
+- 2026-10-12T16:13:52-04:00 — [Norway fines Microsoft ad firm $9.6 million over Grindr data sharing](https://www.bleepingcomputer.com/news/security/norway-fines-microsoft-ad-firm-96-million-over-grindr-data-sharing/)
+- 2026-10-12T15:23:01-04:00 — [Yandex confirms service outage as users lose access to cloud files](https://www.bleepingcomputer.com/news/security/yandex-confirms-service-outage-as-users-lose-access-to-cloud-files/)
+- 2026-10-12T14:51:59-04:00 — [Anthropic takes risky AI tests offline after models breach govt sites](https://www.bleepingcomputer.com/news/security/anthropic-takes-risky-ai-tests-offline-after-models-breach-govt-sites/)
+- 2026-10-12T12:27:23-04:00 — [Ledger confirms spy chip implant behind wallet crypto thefts](https://www.bleepingcomputer.com/news/security/ledger-confirms-hardware-wallet-spy-implant-behind-crypto-thefts/)
+- 2026-10-12T11:23:34-04:00 — [Cyberattack shuts down refrigerators at French supermarkets](https://www.bleepingcomputer.com/news/security/cyberattack-shuts-down-refrigerators-at-french-supermarkets/)
+- 2026-10-12T10:00:10-04:00 — [Inside AvisLoader: A Windows Malware Loader Built to Resist Disruption](https://www.bleepingcomputer.com/news/security/inside-avisloader-a-windows-malware-loader-built-to-resist-disruption/)
+- 2026-10-12T09:51:07-04:00 — [Retail giant Ahold Delhaize takes systems offline after cyberattack](https://www.bleepingcomputer.com/news/security/retail-giant-ahold-delhaize-takes-systems-offline-after-cyberattack/)
+- 2026-10-12T09:09:09-04:00 — [GitLab warns of max severity code execution vulnerability](https://www.bleepingcomputer.com/news/security/gitlab-warns-of-max-severity-rce-flaw-in-regex-compiler-engine/)
+- 2026-10-12T07:58:33-04:00 — [Microsoft: Windows 11 23H2 reaches end of support in 30 days](https://www.bleepingcomputer.com/news/microsoft/microsoft-windows-11-23h2-reaches-end-of-support-in-30-days/)
 
 ## Dark Reading
 
 - Site: https://www.darkreading.com/
 - Feed: https://www.darkreading.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 4
 
-- No new entries detected
+- 2026-10-12T21:42:42+00:00 — [Maximum-Severity SSRF Flaw in SonicWall SMA Devices Under Attack](https://www.darkreading.com/vulnerabilities-threats/max-severity-ssrf-flaw-sonicwall-sma-devices-under-attack)
+- 2026-10-12T20:00:53+00:00 — [Prominent Ransomware Negotiator Faces Extortion Charges](https://www.darkreading.com/insider-threats/prominent-ransomware-negotiator-extortion-charges)
+- 2026-10-12T18:27:25+00:00 — [No Identity, No Recovery: Cyber Resilience Starts With IAM](https://www.darkreading.com/cybersecurity-operations/cyber-resilience-starts-with-iam)
+- 2026-10-12T12:30:58+00:00 — [Passing the Baton: Dark Reading Names New Editor-in-Chief](https://www.darkreading.com/cyber-risk/passing-baton-dark-reading-new-editor-in-chief)
 
 ## Volexity Blog
 
@@ -586,7 +621,7 @@ Generated: 2026-10-12T03:49:47Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-10-11T13:15:10+02:00 — [Telegram Desktop One Click Account Takeover](https://hackingpassion.com/telegram-desktop-one-click-account-takeover/)
+- 2026-10-12T13:43:42+02:00 — [Keurig Smart Coffee Makers Have a Camera Inside and Keurig Wrote It Into Its Privacy Policy in 2020](https://hackingpassion.com/keurig-smart-coffee-maker-camera/)
 
 ## LOLBAS Project (Windows)
 
@@ -611,26 +646,22 @@ Generated: 2026-10-12T03:49:47Z
 - Site: https://loobins.io/
 - Feed: https://github.com/infosecB/LOOBins/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 9
+- New since last snapshot: 2
 
-- 2026-10-11T13:15:07+00:00 — [Use orchard palette on a graphite background (#283)](https://github.com/infosecB/LOOBins/commit/5cbd21c76670e35acda074f124985fe12fde7d69)
-- 2026-10-11T13:05:46+00:00 — [Add dsenableroot (#275)](https://github.com/infosecB/LOOBins/commit/2b369bfd86d2e8d42cfbee3574fe963f798d1f25)
-- 2026-10-11T13:05:38+00:00 — [Add PlistBuddy (#276)](https://github.com/infosecB/LOOBins/commit/9c88997a550a1c4f8bdb7132852104e4b31bf83d)
-- 2026-10-11T13:05:27+00:00 — [Add socketfilterfw (#277)](https://github.com/infosecB/LOOBins/commit/fc1d2253d7907f2d44ec6e8775d64b68c6793e2a)
-- 2026-10-11T13:05:14+00:00 — [Add kickstart (#278)](https://github.com/infosecB/LOOBins/commit/d3ec8ae5aa21c0e208ff471f09a3ff7f3753fa52)
-- 2026-10-11T13:03:57+00:00 — [Add dseditgroup (#279)](https://github.com/infosecB/LOOBins/commit/262418e39360d508659b357e9c7460f5a453d069)
-- 2026-10-11T13:03:48+00:00 — [Add kmutil (#280)](https://github.com/infosecB/LOOBins/commit/b79d279c7ce027227595dcef1a45a1d2683de22e)
-- 2026-10-11T13:03:39+00:00 — [Add pwpolicy (#281)](https://github.com/infosecB/LOOBins/commit/1194be603cd0a35672cca444566936c9dc7dc246)
-- 2026-10-11T13:01:38+00:00 — [Retheme web UI with a cyberpunk look (#282)](https://github.com/infosecB/LOOBins/commit/e549025fdfb13169aa5118722f8107d0c6d990fd)
+- 2026-10-12T13:01:05+00:00 — [Add Script Editor (#273)](https://github.com/infosecB/LOOBins/commit/a9cc33c22954221717952e0ca970e6d60806b2d6)
+- 2026-10-12T12:58:17+00:00 — [New clear-all use cases for xattr (#274)](https://github.com/infosecB/LOOBins/commit/ca701222a47c231b473a90a0639f44bbb3aad577)
 
 ## LOLDrivers (BYOVD)
 
 - Site: https://www.loldrivers.io/
 - Feed: https://github.com/magicsword-io/LOLDrivers/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 4
 
-- No new entries detected
+- 2026-10-13T03:40:20+00:00 — [Merge pull request #465 from magicsword-io/cursor/seo-driver-pages-a1c0](https://github.com/magicsword-io/LOLDrivers/commit/7c03657b993f9bfbb2176e20d0e38c21d7bf5427)
+- 2026-10-13T03:33:17+00:00 — [Fix Prettier formatting issues](https://github.com/magicsword-io/LOLDrivers/commit/7e8c2117303a291ccd02d3163c6221bce6c9f320)
+- 2026-10-12T14:38:15+00:00 — [Shorten driver page titles to stay under 60 characters](https://github.com/magicsword-io/LOLDrivers/commit/2a7391b020062455b9a9b7b292bbb4f0b128504a)
+- 2026-10-12T14:36:14+00:00 — [Improve SEO for driver detail pages with concise titles and query-fri…](https://github.com/magicsword-io/LOLDrivers/commit/520776b5f7fbc4141bed6c7cc7f819fb0d30a68b)
 
 ## LOFL Project (RMM C2 indicators)
 
@@ -763,9 +794,10 @@ Generated: 2026-10-12T03:49:47Z
 - Site: https://github.com/EricZimmerman/KapeFiles
 - Feed: https://github.com/EricZimmerman/KapeFiles/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- 2026-10-12T23:24:18+00:00 — [Merge pull request #1127 from angry-bender/patch-3](https://github.com/EricZimmerman/KapeFiles/commit/f2fcba084571c5d8275eb08a218112765db0ffcb)
+- 2026-10-12T23:17:57+00:00 — [Bump Hayabusa version to 1.6 and update commands](https://github.com/EricZimmerman/KapeFiles/commit/5b65d8536be9af34d7def4d5c2a9ce3327482502)
 
 ## EZ RegistryPlugins commits
 
@@ -826,18 +858,18 @@ Generated: 2026-10-12T03:49:47Z
 - Site: https://github.com/Yamato-Security/hayabusa-rules
 - Feed: https://github.com/Yamato-Security/hayabusa-rules/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-10-12T21:06:27+00:00 — [Sigma Rule Supported Modifier Update (2026-10-12  21:06:19) (#1080)](https://github.com/Yamato-Security/hayabusa-rules/commit/cde84eef71b2093dc2733b919ff958d409df940c)
 
 ## Hayabusa releases
 
 - Site: https://github.com/Yamato-Security/hayabusa
 - Feed: https://github.com/Yamato-Security/hayabusa/releases.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-10-13T02:55:32+00:00 — [v4.2.0 - Autumn Release](https://github.com/Yamato-Security/hayabusa/releases/tag/v4.2.0)
 
 ## Chainsaw releases
 
@@ -862,9 +894,9 @@ Generated: 2026-10-12T03:49:47Z
 - Site: https://github.com/mkorman90/regipy
 - Feed: https://github.com/mkorman90/regipy/releases.atom
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-10-12T00:16:20+00:00 — [6.5.0: Fix crafted hive and log bounds](https://github.com/mkorman90/regipy/releases/tag/6.5.0)
+- No new entries detected
 
 ## EZ Registry commits
 
@@ -1069,9 +1101,6 @@ Generated: 2026-10-12T03:49:47Z
 - Site: https://www.misp-project.org/
 - Feed: https://github.com/MISP/misp-taxonomies/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 4
+- New since last snapshot: 0
 
-- 2026-10-11T13:58:07+00:00 — [chg: [abuseIPDB] fixed](https://github.com/MISP/misp-taxonomies/commit/3bb56dbbf54131f4305dfff30dc6c00a622a673f)
-- 2026-10-11T13:51:43+00:00 — [chg: [abuseIPDB] updated](https://github.com/MISP/misp-taxonomies/commit/492ca89f90626ccf232a8d3a24a1f938811f5b1a)
-- 2026-10-11T13:49:40+00:00 — [Merge pull request #349 from mhrn83/feat-add-abuseipdb-taxonomy](https://github.com/MISP/misp-taxonomies/commit/603ba2188cc7a6c99f0c440fb1c2b76528122c9c)
-- 2026-09-25T07:32:02+00:00 — [feat: Add a taxonomy for AbuseIPDB](https://github.com/MISP/misp-taxonomies/commit/9754de8973d7ed591cc14b35e169672c69a54d38)
+- No new entries detected
