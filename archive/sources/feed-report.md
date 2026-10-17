@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-10-16T03:34:26Z
+Generated: 2026-10-17T03:32:30Z
 
 ## Windows Incident Response
 
@@ -33,10 +33,7 @@ Generated: 2026-10-16T03:34:26Z
 
 - Site: https://dfirdiva.com/
 - Feed: https://dfirdiva.com/feed
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: not well-formed (invalid token): line 1, column 116
 
 ## mac4n6
 
@@ -199,9 +196,9 @@ Generated: 2026-10-16T03:34:26Z
 - Site: https://www.magnetforensics.com/
 - Feed: https://www.magnetforensics.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-10-16T20:30:04+00:00 — [How digital forensics reveals the full scope of a data breach](https://www.magnetforensics.com/blog/how-digital-forensics-reveals-the-full-scope-of-a-data-breach/)
 
 ## The DFIR Report
 
@@ -223,16 +220,15 @@ Generated: 2026-10-16T03:34:26Z
 - Site: https://isc.sans.edu/
 - Feed: https://isc.sans.edu/rssfeed_full.xml
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-10-16T02:00:03+00:00 — [ISC Stormcast For Friday, October 16th, 2026 https://isc.sans.edu/podcastdetail/10140, (Fri, Oct 16th)](https://isc.sans.edu/diary/rss/33432)
-- 2026-10-16T00:46:35+00:00 — [Small Agents, Smaller Blast Radius: Controlling What AI Can Do, (Fri, Oct 16th)](https://isc.sans.edu/diary/rss/33430)
+- No new entries detected
 
 ## DFIR Training Blog
 
 - Site: https://www.dfir.training/blog
 - Feed: https://www.dfir.training/blog
-- Entries checked: 10
+- Entries checked: 0
 - New since last snapshot: 0
 
 - No new entries detected
@@ -253,7 +249,7 @@ Generated: 2026-10-16T03:34:26Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-10-15T12:09:40+00:00 — [InfoSec News Nuggets – 10/15/2026](https://aboutdfir.com/infosec-news-nuggets-10-15-2026/)
+- 2026-10-16T10:52:18+00:00 — [InfoSec News Nuggets – 10/16/2026](https://aboutdfir.com/infosec-news-nuggets-10-16-2026/)
 
 ## Forensic 4cast
 
@@ -287,9 +283,9 @@ Generated: 2026-10-16T03:34:26Z
 - Site: https://blog.ampedsoftware.com/
 - Feed: https://blog.ampedsoftware.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-10-15T13:30:43+00:00 — [Amped FIVE Update 42578: Encrypted File Formats, Atom Viewer, Multiscale Segments, Bezier Curve, and Much More](https://blog.ampedsoftware.com/2026/10/15/amped-five-update-42578)
+- No new entries detected
 
 ## Didier Stevens Blog
 
@@ -370,8 +366,8 @@ Generated: 2026-10-16T03:34:26Z
 - Entries checked: 10
 - New since last snapshot: 2
 
-- 2026-10-15T11:30:00+00:00 — [Painting with impaired vision: Edgar Degas](https://eclecticlight.co/2026/10/15/painting-with-impaired-vision-edgar-degas/)
-- 2026-10-15T06:30:00+00:00 — [Cirrus 1.17: an update for this unique iCloud Drive utility](https://eclecticlight.co/2026/10/15/cirrus-1-17-an-update-for-this-unique-icloud-drive-utility/)
+- 2026-10-16T11:30:00+00:00 — [Masaccio’s six years](https://eclecticlight.co/2026/10/16/masaccios-six-years/)
+- 2026-10-16T06:30:00+00:00 — [Changing developer certificates might affect installers next year](https://eclecticlight.co/2026/10/16/changing-developer-certificates-might-affect-installers-next-year/)
 
 ## JPCERT/CC
 
@@ -405,10 +401,9 @@ Generated: 2026-10-16T03:34:26Z
 - Site: https://www.huntress.com/blog
 - Feed: https://www.huntress.com/blog/rss.xml
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-10-15T13:00:00+00:00 — [Huntress + AlgaPSA Integration: Built in Days by Nine Minds](https://www.huntress.com/blog/algapsa-huntress-api-integration)
-- 2026-10-14T19:00:00+00:00 — [What Does the Dark Web Look Like? Pulling Back the Curtain | Huntress](https://www.huntress.com/blog/pulling-back-the-curtain-a-journey-through-the-dark-web)
+- No new entries detected
 
 ## Red Canary Blog
 
@@ -426,7 +421,7 @@ Generated: 2026-10-16T03:34:26Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-10-15T22:00:09+00:00 — [AI-Powered Espionage Campaign Targets Government Linux Infrastructure](https://unit42.paloaltonetworks.com/ai-campaign-targets-linux-infrastructure/)
+- 2026-10-16T17:47:54+00:00 — [Top 5 Initial Access Threat Vectors Observed by Unit 42 in September 2026](https://unit42.paloaltonetworks.com/top-5-initial-access-vectors-september-2026/)
 
 ## Mandiant Threat Intelligence
 
@@ -435,16 +430,16 @@ Generated: 2026-10-16T03:34:26Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-10-15T14:00:00+00:00 — [ARMORY CASTLE Exploits BeyondTrust](https://cloud.google.com/blog/topics/threat-intelligence/armory-castle-exploits-beyondtrust/)
+- 2026-10-15T11:00:00+00:00 — [Investigating Ephemeral Supply Chain Tampering](https://cloud.google.com/blog/topics/threat-intelligence/investigating-ephemeral-supply-chain-tampering/)
 
 ## Cisco Talos Blog
 
 - Site: https://blog.talosintelligence.com/
 - Feed: https://blog.talosintelligence.com/rss/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-10-15T18:00:00+00:00 — [The Q3 Vulnerability Pulse: Discovery ≠ Exploitation](https://blog.talosintelligence.com/the-q3-vulnerability-pulse-discovery-exploitation/)
+- No new entries detected
 
 ## SANS Blog
 
@@ -471,7 +466,7 @@ Generated: 2026-10-16T03:34:26Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-10-15T13:00:07+00:00 — [Analysis After the Refrigeration System Attack in France: Two Thirds of Exposed Refrigeration Controllers Share an Address with Cameras, Remote Desktop, and VPNs](https://flare.io/learn/resources/blog/after-refrigeration-system-attack-france-exposed-refrigeration-controllers)
+- 2026-10-16T13:00:24+00:00 — [How an Average of $6 Can Buy Personal Information: Inside Latin America’s “Identity-as-a-Service” Markets](https://flare.io/learn/resources/blog/cybercrime-identity-as-a-service-latin-america-markets)
 
 ## Binalyze Blog
 
@@ -529,12 +524,11 @@ Generated: 2026-10-16T03:34:26Z
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 4
+- New since last snapshot: 3
 
-- 2026-10-15T14:15:03+00:00 — [Update Chrome: Google fixes 37 security flaws, including seven critical bugs](https://www.malwarebytes.com/blog/bugs/2026/10/update-chrome-google-fixes-37-security-flaws-including-seven-critical-bugs)
-- 2026-10-15T12:55:00+00:00 — [Is this link safe? Find out with Malwarebytes Scam Link Check](https://www.malwarebytes.com/blog/product/2026/10/is-this-link-safe-find-out-with-malwarebytes-scam-link-check)
-- 2026-10-15T11:48:26+00:00 — [Sextortion “help” firm took $60 million from victims, FTC alleges](https://www.malwarebytes.com/blog/news/2026/10/sextortion-help-firm-took-60-million-from-victims-ftc-alleges)
-- 2026-10-15T11:09:53+00:00 — [Raven AI lets cops find your home from a photo taken inside](https://www.malwarebytes.com/blog/privacy/2026/10/raven-ai-lets-cops-find-your-home-from-a-photo-taken-inside)
+- 2026-10-16T14:28:33+00:00 — [Eiliko robot companion exposes private chats and can be hijacked](https://www.malwarebytes.com/blog/ai/2026/10/eiliko-robot-companion-exposes-private-chats-and-can-be-hijacked)
+- 2026-10-16T11:55:15+00:00 — [“Spray and pray” job applications could make it harder for you to spot a scam](https://www.malwarebytes.com/blog/news/2026/10/spray-and-pray-job-applications-could-make-it-harder-for-you-to-spot-a-scam)
+- 2026-10-16T10:51:20+00:00 — [OpenAI sued over children safety and data use](https://www.malwarebytes.com/blog/ai/2026/10/openai-sued-over-children-safety-and-data-use)
 
 ## Krebs on Security
 
@@ -550,30 +544,30 @@ Generated: 2026-10-16T03:34:26Z
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 9
+- New since last snapshot: 7
 
-- 2026-10-15T16:25:04-04:00 — [Hackers exploit Collabora RCE flaw to backdoor Nextcloud servers](https://www.bleepingcomputer.com/news/security/hackers-exploit-collabora-rce-flaw-to-backdoor-nextcloud-servers/)
-- 2026-10-15T15:48:43-04:00 — [Android gets AI defenses against messaging scams, fake calls](https://www.bleepingcomputer.com/news/security/android-gets-ai-defenses-against-messaging-scams-fake-calls/)
-- 2026-10-15T14:20:59-04:00 — [Hackers hijack D-Link, Ubiquiti devices to resell your stolen bandwidth](https://www.bleepingcomputer.com/news/security/hackers-hijack-d-link-ubiquiti-devices-to-resell-your-stolen-bandwidth/)
-- 2026-10-15T13:12:31-04:00 — [Fake Arch Linux packages push malware with root privileges](https://www.bleepingcomputer.com/news/security/fake-arch-linux-packages-push-malware-with-root-privileges/)
-- 2026-10-15T10:01:11-04:00 — [Is AI pentesting as good as a human pentester?](https://www.bleepingcomputer.com/news/security/is-ai-pentesting-as-good-as-a-human-pentester/)
-- 2026-10-15T09:18:36-04:00 — [Microsoft: Windows Server 2022 reached end of mainstream support](https://www.bleepingcomputer.com/news/microsoft/microsoft-windows-server-2022-reached-end-of-mainstream-support/)
-- 2026-10-15T07:55:38-04:00 — [Police arrests 95 suspects in international CSAM crackdown action](https://www.bleepingcomputer.com/news/security/police-arrests-95-suspects-in-child-sexual-abuse-material-crackdown/)
-- 2026-10-15T05:10:20-04:00 — [Microsoft fixes bug causing Windows black screens, Explorer crashes](https://www.bleepingcomputer.com/news/microsoft/microsoft-fixes-bug-causing-windows-black-screens-explorer-crashes/)
-- 2026-10-15T04:06:47-04:00 — [UK Legal Aid Agency: Hackers stole records dating back to 1978](https://www.bleepingcomputer.com/news/security/uk-legal-aid-agency-hackers-stole-records-dating-back-to-1978/)
+- 2026-10-16T16:00:59-04:00 — [Critical BlockStrap flaw lets hackers run code on Magento servers](https://www.bleepingcomputer.com/news/security/critical-blockstrap-flaw-lets-hackers-run-code-on-magento-servers/)
+- 2026-10-16T13:20:03-04:00 — [Targeted ads installed Candiru spyware in zero-click attacks](https://www.bleepingcomputer.com/news/security/zero-click-attacks-used-targeted-ads-to-deliver-candiru-spyware/)
+- 2026-10-16T09:50:59-04:00 — [Employees using personal ChatGPT at work? Here's what IT admins need to do](https://www.bleepingcomputer.com/news/security/employees-using-personal-chatgpt-at-work-heres-what-it-admins-need-to-do/)
+- 2026-10-16T08:01:29-04:00 — [Burger King Japan data breach exposes 11 million customer records](https://www.bleepingcomputer.com/news/security/burger-king-japan-data-breach-exposes-11-million-customer-records/)
+- 2026-10-16T04:44:22-04:00 — [Microsoft: October Windows update may break Smart App Control](https://www.bleepingcomputer.com/news/microsoft/kb5127648-windows-security-update-may-break-smart-app-control/)
+- 2026-10-16T03:37:35-04:00 — [BAE Systems cyberattack disrupts US federal court operations](https://www.bleepingcomputer.com/news/security/bae-systems-cyberattack-disrupts-us-federal-court-operations/)
+- 2026-10-16T02:18:08-04:00 — [BeyondTrust patches zero-day exploited in attacks since August](https://www.bleepingcomputer.com/news/security/beyondtrust-patches-zero-day-exploited-in-attacks-since-august/)
 
 ## Dark Reading
 
 - Site: https://www.darkreading.com/
 - Feed: https://www.darkreading.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 5
+- New since last snapshot: 7
 
-- 2026-10-15T22:10:08+00:00 — [SecTor 2026 Reveals a Rapidly Shifting Cybersecurity Landscape](https://www.darkreading.com/cybersecurity-operations/sector-2026-reveals-a-rapidly-shifting-cybersecurity-landscape)
-- 2026-10-15T21:55:07+00:00 — [F-Secure Launches Victim-First Scam Encyclopedia Covering 50+ Types of Consumer Fraud](https://www.darkreading.com/threat-intelligence/f-secure-launches-victim-first-scam-encyclopedia-covering-50-types-of-consumer-fraud)
-- 2026-10-15T20:43:20+00:00 — [AI Slop Isn't Just for Social Media; It's Ruining Cyberattacks, Too](https://www.darkreading.com/threat-intelligence/ai-slop-ruining-cyberattacks)
-- 2026-10-15T15:17:18+00:00 — [Vulnerability Management Isn't About the Score — It's About How It Applies to You](https://www.darkreading.com/cybersecurity-operations/vulnerability-management-isnt-about-the-score-its-about-how-it-applies-to-you)
-- 2026-10-15T07:00:00+00:00 — [EU Grocers Pay a Steep Price for Unpatched Fridge Firmware](https://www.darkreading.com/ics-ot-security/eu-grocers-unpatched-fridge-firmware)
+- 2026-10-16T20:34:37+00:00 — [BeyondTrust Remote Support Zero-Day Continues Trend of Exploited Edge Bugs](https://www.darkreading.com/endpoint-security/beyondtrust-remote-support-exploited-edge-bugs)
+- 2026-10-16T19:49:30+00:00 — [Fake Claude, ChatGPT Attacks Surge, Putting Developers at Risk](https://www.darkreading.com/application-security/fake-claude-chatgpt-attacks-developers-risk)
+- 2026-10-16T19:22:12+00:00 — [Biomemory Launches DNA Shield, First Commercial Product Built on Its Molecular IT Platform](https://www.darkreading.com/data-privacy/biomemory-launches-dna-shield)
+- 2026-10-16T19:13:59+00:00 — [Enterprise AI Enters Risk Management Phase as Security Concerns Rise](https://www.darkreading.com/cyber-risk/enterprise-ai-risk-management-phase-security-concerns-rise)
+- 2026-10-16T18:37:50+00:00 — [AI Takes Control of Robotic Arm in 16 Minutes Flat](https://www.darkreading.com/ics-ot-security/ai-takes-control-robotic-arm-16-minutes)
+- 2026-10-16T14:00:00+00:00 — [When Your Ransomware Negotiator Works for the Other Side](https://www.darkreading.com/cyber-risk/when-your-ransomware-negotiator-works-other-side)
+- 2026-10-16T13:00:00+00:00 — [When AI Agents Commit Breaches, Humans May Not Be Held Liable](https://www.darkreading.com/insider-threats/ai-agents-breaches-humans-liable)
 
 ## Volexity Blog
 
@@ -595,18 +589,18 @@ Generated: 2026-10-16T03:34:26Z
 - Site: https://www.microsoft.com/en-us/security/blog/
 - Feed: https://www.microsoft.com/en-us/security/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-10-16T16:00:00+00:00 — [Managing open-weight model risk in enterprise deployments](https://www.microsoft.com/en-us/security/blog/2026/10/16/managing-open-weight-model-risk-in-enterprise-deployments/)
 
 ## HackingPassion
 
 - Site: https://hackingpassion.com/
 - Feed: https://hackingpassion.com/index.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-10-15T10:00:38+02:00 — [Denmark CPR Breach Took 8.7 Million ID Numbers Through a Two Person Company and the Password 123456](https://hackingpassion.com/denmark-cpr-breach-password-123456/)
+- No new entries detected
 
 ## LOLBAS Project (Windows)
 
@@ -684,37 +678,38 @@ Generated: 2026-10-16T03:34:26Z
 
 - Site: https://github.com/EricZimmerman/MFTECmd
 - Feed: https://github.com/EricZimmerman/MFTECmd/releases.atom
-- Entries checked: 7
+- Entries checked: 8
 - New since last snapshot: 1
 
-- 2026-10-16T00:43:22+00:00 — [2026.10.0](https://github.com/EricZimmerman/MFTECmd/releases/tag/2026.10.0)
+- 2026-10-16T13:50:40+00:00 — [2026.10.1](https://github.com/EricZimmerman/MFTECmd/releases/tag/2026.10.1)
 
 ## EZ AppCompatCacheParser releases
 
 - Site: https://github.com/EricZimmerman/AppCompatCacheParser
 - Feed: https://github.com/EricZimmerman/AppCompatCacheParser/releases.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- 2026-10-16T18:39:13+00:00 — [2026.10.1: Registry 2026.10.0](https://github.com/EricZimmerman/AppCompatCacheParser/releases/tag/2026.10.1)
+- 2026-10-16T16:33:39+00:00 — [2026.10.0](https://github.com/EricZimmerman/AppCompatCacheParser/releases/tag/2026.10.0)
 
 ## EZ AmcacheParser releases
 
 - Site: https://github.com/EricZimmerman/AmcacheParser
 - Feed: https://github.com/EricZimmerman/AmcacheParser/releases.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-10-16T20:34:19+00:00 — [2026.10.0](https://github.com/EricZimmerman/AmcacheParser/releases/tag/2026.10.0)
 
 ## EZ SQLECmd releases
 
 - Site: https://github.com/EricZimmerman/SQLECmd
 - Feed: https://github.com/EricZimmerman/SQLECmd/releases.atom
 - Entries checked: 3
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-10-15T22:52:28+00:00 — [2026.10.0](https://github.com/EricZimmerman/SQLECmd/releases/tag/2026.10.0)
+- No new entries detected
 
 ## EZ WxTCmd releases
 
@@ -730,10 +725,9 @@ Generated: 2026-10-16T03:34:26Z
 - Site: https://github.com/EricZimmerman/JLECmd
 - Feed: https://github.com/EricZimmerman/JLECmd/releases.atom
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-10-15T22:34:10+00:00 — [2026.10.1](https://github.com/EricZimmerman/JLECmd/releases/tag/2026.10.1)
-- 2026-10-15T22:28:20+00:00 — [2026.10.0](https://github.com/EricZimmerman/JLECmd/releases/tag/2026.10.0)
+- No new entries detected
 
 ## EZ LECmd releases
 
@@ -748,28 +742,28 @@ Generated: 2026-10-16T03:34:26Z
 
 - Site: https://github.com/EricZimmerman/PECmd
 - Feed: https://github.com/EricZimmerman/PECmd/releases.atom
-- Entries checked: 6
-- New since last snapshot: 0
+- Entries checked: 7
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-10-16T14:00:52+00:00 — [2026.10.1](https://github.com/EricZimmerman/PECmd/releases/tag/2026.10.1)
 
 ## EZ RBCmd releases
 
 - Site: https://github.com/EricZimmerman/RBCmd
 - Feed: https://github.com/EricZimmerman/RBCmd/releases.atom
 - Entries checked: 2
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-10-15T20:03:45+00:00 — [2026.10.0](https://github.com/EricZimmerman/RBCmd/releases/tag/2026.10.0)
+- No new entries detected
 
 ## EZ evtx releases
 
 - Site: https://github.com/EricZimmerman/evtx
 - Feed: https://github.com/EricZimmerman/evtx/releases.atom
-- Entries checked: 4
-- New since last snapshot: 0
+- Entries checked: 5
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-10-16T15:34:23+00:00 — [2026.10.0](https://github.com/EricZimmerman/evtx/releases/tag/2026.10.0)
 
 ## EZ KapeFiles commits
 
@@ -785,9 +779,9 @@ Generated: 2026-10-16T03:34:26Z
 - Site: https://github.com/EricZimmerman/RegistryPlugins
 - Feed: https://github.com/EricZimmerman/RegistryPlugins/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-10-16T19:35:19+00:00 — [2026.10.0: modernize, fix plugins, 7-Zip history plugins, tests](https://github.com/EricZimmerman/RegistryPlugins/commit/1fdbc3459c6565e5e55456c5dfccd4919bc1b1f2)
 
 ## EZ RegistryExplorerBookmarks commits
 
@@ -803,17 +797,9 @@ Generated: 2026-10-16T03:34:26Z
 - Site: https://github.com/EricZimmerman/GuidMapping
 - Feed: https://github.com/EricZimmerman/GuidMapping/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 9
+- New since last snapshot: 0
 
-- 2026-10-15T22:22:01+00:00 — [Dependabot: ignore FluentAssertions 8.x (commercial license)](https://github.com/EricZimmerman/GuidMapping/commit/e7698c1f59620c1ff443e582f13fa1a15c23b3af)
-- 2026-10-15T16:57:11+00:00 — [CLAUDE.md: tests use NUnit 5](https://github.com/EricZimmerman/GuidMapping/commit/dcad923eaa7f876218948ee5c3c1be5c5c1f14a9)
-- 2026-10-15T15:51:33+00:00 — [Bump NUnit from 4.6.0 to 5.0.0 (#17)](https://github.com/EricZimmerman/GuidMapping/commit/d02f1ebbc1dd9a4220d1e9559abae604b14354b3)
-- 2026-10-15T15:48:34+00:00 — [Bump NUnit3TestAdapter from 5.0.0 to 6.3.1 (#18)](https://github.com/EricZimmerman/GuidMapping/commit/152b02d2d12a4a18e84a6b927fa765b26ad2cd04)
-- 2026-10-15T15:47:38+00:00 — [Bump Microsoft.NET.Test.Sdk from 18.5.1 to 18.11.0 (#15)](https://github.com/EricZimmerman/GuidMapping/commit/7c1ba976cabba02a5859ef46065fa47727578b76)
-- 2026-10-15T15:47:33+00:00 — [Bump MinVer from 7.0.0 to 8.0.0 (#16)](https://github.com/EricZimmerman/GuidMapping/commit/043d0a9c599919f3a4e128054f3d655579dc2fd9)
-- 2026-10-15T15:47:29+00:00 — [Bump DotNet.ReproducibleBuilds from 2.0.2 to 2.0.5 (#14)](https://github.com/EricZimmerman/GuidMapping/commit/07bd7690d004af20e6815d9a02dbebacec1fbc7f)
-- 2026-10-15T15:19:32+00:00 — [Fix data errors, embed data as plain txt, add tests, MinVer-only vers…](https://github.com/EricZimmerman/GuidMapping/commit/e207973abddd466a695907cb6aba71ddfdeee219)
-- 2026-10-15T14:03:29+00:00 — [2026.10.0: modernize publish workflow](https://github.com/EricZimmerman/GuidMapping/commit/c2b6557385940a005b17a9a839a2faf920e7d584)
+- No new entries detected
 
 ## EZ documentation commits
 
@@ -847,9 +833,11 @@ Generated: 2026-10-16T03:34:26Z
 - Site: https://github.com/Yamato-Security/hayabusa-rules
 - Feed: https://github.com/Yamato-Security/hayabusa-rules/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 3
 
-- No new entries detected
+- 2026-10-16T21:06:14+00:00 — [Sigma Rule Supported Modifier Update (2026-10-16  21:05:54) (#1085)](https://github.com/Yamato-Security/hayabusa-rules/commit/3264c6f733ddf223fdb3825adc1df9c14104ed87)
+- 2026-10-16T20:13:26+00:00 — [Merge pull request #1084 from Yamato-Security/fix/wlan-autoconfig-cha…](https://github.com/Yamato-Security/hayabusa-rules/commit/aaa5b91e8868520ebdeb558a43801a85ff234931)
+- 2026-10-14T11:36:39+00:00 — [fix: Wifi AP Conn rule never matched due to incomplete channel name](https://github.com/Yamato-Security/hayabusa-rules/commit/27bd3252819dde98f1f6c357e1a53911b51b3729)
 
 ## Hayabusa releases
 
@@ -874,9 +862,9 @@ Generated: 2026-10-16T03:34:26Z
 - Site: https://github.com/elastic/detection-rules
 - Feed: https://github.com/elastic/detection-rules/releases.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-10-16T14:53:36+00:00 — [dev-v3.0.12](https://github.com/elastic/detection-rules/releases/tag/dev-v3.0.12)
 
 ## regipy releases
 
@@ -892,66 +880,64 @@ Generated: 2026-10-16T03:34:26Z
 - Site: https://github.com/EricZimmerman/Registry
 - Feed: https://github.com/EricZimmerman/Registry/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 3
 
-- No new entries detected
+- 2026-10-16T18:20:54+00:00 — [Robustness (lists, sizes, short records), docs, CI](https://github.com/EricZimmerman/Registry/commit/65177e77ff4399b91af94be0606277344a727179)
+- 2026-10-16T18:09:48+00:00 — [Transaction logs as Windows applies them, robust parsing, faster, tests](https://github.com/EricZimmerman/Registry/commit/ab9311d20647009e88b59da6314a773c14a17671)
+- 2026-10-16T17:13:29+00:00 — [Read UTF-16 value names that have no Latin characters](https://github.com/EricZimmerman/Registry/commit/8f220bbe5ecf49d6a74c270eb129c8326b5aa7b7)
 
 ## EZ MFT commits
 
 - Site: https://github.com/EricZimmerman/MFT
 - Feed: https://github.com/EricZimmerman/MFT/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 2
 
-- 2026-10-16T00:39:21+00:00 — [2026.10.1: new $LogFile parser (package MFT.LogFile)](https://github.com/EricZimmerman/MFT/commit/0da35acdc9c49ee6fc3cbf03eda5d6769db17210)
-- 2026-10-16T00:07:30+00:00 — [2026.10.0: accuracy and hang fixes across MFT, I30, Secure, Usn, O an…](https://github.com/EricZimmerman/MFT/commit/a9372d095b22d9534c3f1fccc39ba351d7354b25)
-- 2026-10-15T22:22:22+00:00 — [Dependabot: ignore FluentAssertions 8.x (commercial license)](https://github.com/EricZimmerman/MFT/commit/b3b9c7ad9468653aa764fcc676ab90e06dc7f3d8)
+- 2026-10-16T13:28:09+00:00 — [2026.10.2: $LogFile checkpoints and open attributes, 48 bit entry num…](https://github.com/EricZimmerman/MFT/commit/4ba3fb14a20d90d89ee267a2659d9967fd613392)
+- 2026-10-16T12:05:45+00:00 — [Corpus tests: look in ../Corpus first](https://github.com/EricZimmerman/MFT/commit/52b2288aaf17578ee2c2a1cc3dfa2ee64c733877)
 
 ## EZ Lnk commits
 
 - Site: https://github.com/EricZimmerman/Lnk
 - Feed: https://github.com/EricZimmerman/Lnk/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 5
+- New since last snapshot: 6
 
-- 2026-10-15T22:22:14+00:00 — [Dependabot: ignore FluentAssertions 8.x (commercial license)](https://github.com/EricZimmerman/Lnk/commit/9fdbee61ab08b5bc8de28fa6f46f01082185643b)
-- 2026-10-15T21:08:33+00:00 — [2026.10.3: parse 20 byte 0x2E shell items; corpus test; trusted publi…](https://github.com/EricZimmerman/Lnk/commit/ba0fbdc6360a4ecefe0c22d930a5135913506fab)
-- 2026-10-15T17:20:45+00:00 — [2026.10.2: report undefined ShowCommand; readable damaged-item reasons](https://github.com/EricZimmerman/Lnk/commit/ff1447833b7922e051b76bbee9b0007548bc7abf)
-- 2026-10-15T17:00:23+00:00 — [2026.10.1: ExtensionBlocks 2026.10.0, GuidMapping 2026.10.1](https://github.com/EricZimmerman/Lnk/commit/76a3a29abba0e40b7d91c47526e1ed21a69329c6)
-- 2026-10-14T22:59:52+00:00 — [CI: publish to NuGet via trusted publishing (OIDC) instead of API key](https://github.com/EricZimmerman/Lnk/commit/cce50c67fcfe6bb64efedb23b587dcbb9e89cd29)
+- 2026-10-16T22:24:26+00:00 — [Bump NUnit from 4.6.0 to 5.0.0 (#33)](https://github.com/EricZimmerman/Lnk/commit/c2ae95db784f3f70121eefc5e631e96b521bc5f6)
+- 2026-10-16T22:18:19+00:00 — [Bump MinVer from 7.0.0 to 8.0.0 (#32)](https://github.com/EricZimmerman/Lnk/commit/8f5c876d1ac2fe2b3e9dff3d981a9b174dd93fba)
+- 2026-10-16T22:18:15+00:00 — [Bump Microsoft.NET.Test.Sdk from 18.5.1 to 18.11.0 (#31)](https://github.com/EricZimmerman/Lnk/commit/1007dc9c06ba270004a1fbc0120ea9ed03790a19)
+- 2026-10-16T22:18:12+00:00 — [Bump FluentAssertions from 7.0.0 to 7.2.2 (#30)](https://github.com/EricZimmerman/Lnk/commit/03c777cb0ce7e678c30f00df4c831d92ac41a573)
+- 2026-10-16T22:18:09+00:00 — [Bump DotNet.ReproducibleBuilds from 2.0.2 to 2.0.5 (#29)](https://github.com/EricZimmerman/Lnk/commit/376db227e5bce8807f48dc92c425d69e7a56d219)
+- 2026-10-16T12:05:34+00:00 — [Corpus tests: look in ../Corpus first](https://github.com/EricZimmerman/Lnk/commit/3199e0be79f80c199888a37e3671e0c90f9c4278)
 
 ## EZ OleCf commits
 
 - Site: https://github.com/EricZimmerman/OleCf
 - Feed: https://github.com/EricZimmerman/OleCf/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 2
 
-- 2026-10-15T22:22:06+00:00 — [Dependabot: ignore FluentAssertions 8.x (commercial license)](https://github.com/EricZimmerman/OleCf/commit/3d910c6273efd0b7e301b0997d5cc4f25d2e880a)
-- 2026-10-15T20:48:49+00:00 — [2026.10.1: read truncated files instead of rejecting them](https://github.com/EricZimmerman/OleCf/commit/afd5ee9aadf22f5d289fd933c1c90779c5764d39)
-- 2026-10-15T20:24:33+00:00 — [2026.10.0: hardened OLE compound file parsing, v4 and large file fixe…](https://github.com/EricZimmerman/OleCf/commit/5b8655ffe115fe43ca5420a8144f9de0ef36f82f)
+- 2026-10-16T22:17:55+00:00 — [Bump FluentAssertions from 7.0.0 to 7.2.2 (#10)](https://github.com/EricZimmerman/OleCf/commit/bd49022e75aa82cdd7c65eb3333d7ffb92d0865e)
+- 2026-10-16T12:05:33+00:00 — [Corpus tests: look in ../Corpus first](https://github.com/EricZimmerman/OleCf/commit/5f0f83308ddb32c53f91d8817a0f568740d18560)
 
 ## EZ JumpList commits
 
 - Site: https://github.com/EricZimmerman/JumpList
 - Feed: https://github.com/EricZimmerman/JumpList/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 2
 
-- 2026-10-15T22:22:03+00:00 — [Dependabot: ignore FluentAssertions 8.x (commercial license)](https://github.com/EricZimmerman/JumpList/commit/44a5057b022e3218984ac834e1efa86f7b249de8)
-- 2026-10-15T21:17:40+00:00 — [2026.10.1: Lnk 2026.10.3](https://github.com/EricZimmerman/JumpList/commit/00c8b3c117c09184304ef59947cc52031c0026ee)
-- 2026-10-15T20:51:16+00:00 — [2026.10.0: AppId and custom destination fixes, per-entry error handli…](https://github.com/EricZimmerman/JumpList/commit/c3eeea6d26eb2cdfcc828298e3426e16f3994438)
+- 2026-10-16T22:17:51+00:00 — [Bump FluentAssertions from 7.0.0 to 7.2.2 (#25)](https://github.com/EricZimmerman/JumpList/commit/9f578ec8e0685465c1c5885299f795b46590684e)
+- 2026-10-16T12:05:31+00:00 — [Corpus tests: look in ../Corpus first](https://github.com/EricZimmerman/JumpList/commit/b8980ea0cec2ba3367bde6864c5893eb0f1bdd13)
 
 ## EZ Prefetch commits
 
 - Site: https://github.com/EricZimmerman/Prefetch
 - Feed: https://github.com/EricZimmerman/Prefetch/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 1
 
-- 2026-10-15T22:22:08+00:00 — [Dependabot: ignore FluentAssertions 8.x (commercial license)](https://github.com/EricZimmerman/Prefetch/commit/f2c21ab6444221522acb21887685c25f3c9efe05)
-- 2026-10-15T18:03:22+00:00 — [Add PrefetchHash; reject non-prefetch streams after 8 bytes](https://github.com/EricZimmerman/Prefetch/commit/4915ccf49671b6ae6b6245a3f802ba93f5b3e6c0)
-- 2026-10-15T17:55:17+00:00 — [Modernize build and CI; managed XPRESS Huffman decoder; fix parser bugs](https://github.com/EricZimmerman/Prefetch/commit/62778f81d9df64c1d9f346687058bcd65492c0b6)
+- 2026-10-16T22:17:58+00:00 — [Bump FluentAssertions from 7.0.0 to 7.2.2 (#8)](https://github.com/EricZimmerman/Prefetch/commit/841212266356a9121a1c34ee538cbce2bb2b9cf3)
 
 ## EZ Srum commits
 
@@ -967,10 +953,9 @@ Generated: 2026-10-16T03:34:26Z
 - Site: https://github.com/EricZimmerman/RecentFileCacheParser
 - Feed: https://github.com/EricZimmerman/RecentFileCacheParser/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 1
 
-- 2026-10-15T22:22:11+00:00 — [Dependabot: ignore FluentAssertions 8.x (commercial license)](https://github.com/EricZimmerman/RecentFileCacheParser/commit/0df64c47d2aac273d35712ed93e2e62531aba5a6)
-- 2026-10-15T19:40:27+00:00 — [2026.10.0: hardened parser, checksum, working tests, .NET 10](https://github.com/EricZimmerman/RecentFileCacheParser/commit/da049d0e70fe83a9aa9e43f0db426b3dcf72053d)
+- 2026-10-16T22:18:06+00:00 — [Bump FluentAssertions from 7.0.0 to 7.2.2 (#8)](https://github.com/EricZimmerman/RecentFileCacheParser/commit/2d0c2364d289c28b38609e92e5327dceea86bd80)
 
 ## EZ WinSearchDbAnalyzer commits
 
@@ -995,14 +980,9 @@ Generated: 2026-10-16T03:34:26Z
 - Site: https://github.com/EricZimmerman/ExtensionBlocks
 - Feed: https://github.com/EricZimmerman/ExtensionBlocks/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 6
+- New since last snapshot: 0
 
-- 2026-10-15T22:22:00+00:00 — [Dependabot: ignore FluentAssertions 8.x (commercial license)](https://github.com/EricZimmerman/ExtensionBlocks/commit/4c9b79b78a332740d65ee633af54b5468dee3812)
-- 2026-10-15T16:57:08+00:00 — [CLAUDE.md: tests use NUnit 5](https://github.com/EricZimmerman/ExtensionBlocks/commit/90db180595e00ede148493d544d4928a0bfe6607)
-- 2026-10-15T15:51:29+00:00 — [Bump NUnit3TestAdapter from 5.2.0 to 6.3.1 (#13)](https://github.com/EricZimmerman/ExtensionBlocks/commit/b0c7f4ccbcadaf08879616d8c4ecbdf879d04dca)
-- 2026-10-15T15:47:25+00:00 — [Bump NUnit from 4.6.1 to 5.0.0 (#12)](https://github.com/EricZimmerman/ExtensionBlocks/commit/38ad4eed7d0c81e08590423da1ba8026e331fa05)
-- 2026-10-15T15:47:20+00:00 — [Bump MinVer from 7.0.0 to 8.0.0 (#11)](https://github.com/EricZimmerman/ExtensionBlocks/commit/721b34aec96e1583aaa6bd5e493605792179d006)
-- 2026-10-15T15:38:16+00:00 — [Modernize build and CI; fix parser bugs; add real tests](https://github.com/EricZimmerman/ExtensionBlocks/commit/d2b26acc9442be22f72870c4c21f822b14a75592)
+- No new entries detected
 
 ## EZ TLEFilePlugins commits
 
