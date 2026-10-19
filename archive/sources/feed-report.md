@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-10-18T03:33:50Z
+Generated: 2026-10-19T03:37:58Z
 
 ## Windows Incident Response
 
@@ -33,7 +33,19 @@ Generated: 2026-10-18T03:33:50Z
 
 - Site: https://dfirdiva.com/
 - Feed: https://dfirdiva.com/feed
-- Status: error: not well-formed (invalid token): line 1, column 116
+- Entries checked: 10
+- New since last snapshot: 10
+
+- 2026-09-23T02:32:48+00:00 — [Techno Security & Digital Forensics Conference: October 20-22, 2026](https://dfirdiva.com/techno-security-digital-forensics-conference-october-20-22-2026/)
+- 2026-09-11T21:01:49+00:00 — [Introducing DFIR, OSINT, & Cybersecurity Community Listings](https://dfirdiva.com/introducing-dfir-osint-cybersecurity-community-listings/)
+- 2026-07-28T01:53:25+00:00 — [The Events Site is Being Rebuilt](https://dfirdiva.com/the-events-site-is-being-rebuilt/)
+- 2025-11-30T06:00:00+00:00 — [My Experience with Alias by SockPuppet](https://dfirdiva.com/my-experience-with-alias-by-sockpuppet/)
+- 2025-11-29T04:39:45+00:00 — [Free & Affordable Training News: Black Friday 2025 Edition](https://dfirdiva.com/free-affordable-training-news-black-friday-2025-edition/)
+- 2025-10-01T04:47:39+00:00 — [Techno Security & Digital Forensics Conference: October 27-29, 2025](https://dfirdiva.com/techno-security-digital-forensics-conference-october-27-29-2025/)
+- 2025-05-28T02:49:49+00:00 — [Upcoming Techno Security & Digital Forensics Conference](https://dfirdiva.com/upcoming-techno-security-digital-forensics-conference-2/)
+- 2025-03-10T05:47:02+00:00 — [Free & Affordable Training News Monthly: Feb – Mar 2025](https://dfirdiva.com/free-affordable-training-news-monthly-feb-march-2025/)
+- 2025-02-03T09:18:55+00:00 — [Free & Affordable Training News Monthly: Dec 2024 – Feb 2025](https://dfirdiva.com/free-amp-affordable-training-news-monthly-dec-2024-feb-2025/)
+- 2024-12-01T19:45:17+00:00 — [Free & Affordable Training News Monthly: Nov – Dec, 2024](https://dfirdiva.com/free-affordable-training-news-monthly-nov-dec-2024/)
 
 ## mac4n6
 
@@ -58,9 +70,9 @@ Generated: 2026-10-18T03:33:50Z
 - Site: https://andreafortuna.org/
 - Feed: https://andreafortuna.org/feed.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-10-18T00:00:00+00:00 — [Weekly Wire #14: When Trusted Channels Turn](https://andreafortuna.org/2026/10/18/weekly-wire-14/)
 
 ## Salt Forensics
 
@@ -220,18 +232,27 @@ Generated: 2026-10-18T03:33:50Z
 - Site: https://isc.sans.edu/
 - Feed: https://isc.sans.edu/rssfeed_full.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-10-18T12:59:30+00:00 — [Orphaned VBA Projects Inside DWG Files: YARA Rule, (Sun, Oct 18th)](https://isc.sans.edu/diary/rss/33434)
 
 ## DFIR Training Blog
 
 - Site: https://www.dfir.training/blog
 - Feed: https://www.dfir.training/blog
-- Entries checked: 0
-- New since last snapshot: 0
+- Entries checked: 10
+- New since last snapshot: 10
 
-- No new entries detected
+- unknown date — [Training](https://www.dfir.training/training)
+- unknown date — [Tools](https://www.dfir.training/dfir-tools)
+- unknown date — [Directory](https://www.dfir.training/providers)
+- unknown date — [Library](https://www.dfir.training/resources)
+- unknown date — [Sponsors](https://www.dfir.training/sponsors)
+- unknown date — [Blog](https://www.dfir.training/blog)
+- unknown date — [Contact](https://www.dfir.training/contact-form)
+- unknown date — [Ask AI. Then Ask the People Doing the Work.](https://www.dfir.training/blog/ask-ai-then-ask-the-people-doing-the-work)
+- unknown date — [The Digital Forensics Devil You Know](https://www.dfir.training/blog/the-digital-forensics-devil-you-know)
+- unknown date — [What 400 DFIR Books Tell Us About the Field](https://www.dfir.training/blog/what-400-dfir-books-tell-us-about-the-field)
 
 ## MSAB
 
@@ -265,9 +286,9 @@ Generated: 2026-10-18T03:33:50Z
 - Site: https://thisweekin4n6.com/
 - Feed: https://thisweekin4n6.wordpress.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-10-18T11:27:55+00:00 — [Week 42 – 2026](https://thisweekin4n6.com/2026/10/18/week-42-2026/)
 
 ## The Sleuth Kit updates
 
@@ -355,20 +376,19 @@ Generated: 2026-10-18T03:33:50Z
 - Site: https://objective-see.org/blog.html
 - Feed: https://objective-see.org/rss.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-10-18T00:00:00+00:00 — [Heartbreaker 💔](https://objective-see.org/blog/blog_0x8A.html)
 
 ## The Eclectic Light Company
 
 - Site: https://eclecticlight.co/
 - Feed: https://eclecticlight.co/feed/
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 2
 
-- 2026-10-17T11:30:00+00:00 — [Paintings of gales 1](https://eclecticlight.co/2026/10/17/paintings-of-gales-1/)
-- 2026-10-17T08:00:00+00:00 — [Saturday Mac riddles 382](https://eclecticlight.co/2026/10/17/saturday-mac-riddles-382/)
-- 2026-10-17T07:00:00+00:00 — [How Ask Siri constructs and uses context](https://eclecticlight.co/2026/10/17/how-ask-siri-constructs-and-uses-context/)
+- 2026-10-18T11:30:00+00:00 — [Paintings of gales 2](https://eclecticlight.co/2026/10/18/paintings-of-gales-2/)
+- 2026-10-18T07:00:00+00:00 — [Last Week on My Mac: Selection and focus in Golden Gate](https://eclecticlight.co/2026/10/18/last-week-on-my-mac-selection-and-focus-in-golden-gate/)
 
 ## JPCERT/CC
 
@@ -402,10 +422,9 @@ Generated: 2026-10-18T03:33:50Z
 - Site: https://www.huntress.com/blog
 - Feed: https://www.huntress.com/blog/rss.xml
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-10-16T23:00:00+00:00 — [ConnectWise (SkyKick) Vendor Credentials Abused in M365 Attacks](https://www.huntress.com/blog/vendor-credential-enables-unauthorized-access)
-- 2026-10-16T13:00:00+00:00 — [Inside the Hunt: Sarah Reddish](https://www.huntress.com/blog/employee-spotlight-sarah-reddish)
+- No new entries detected
 
 ## Red Canary Blog
 
@@ -544,10 +563,9 @@ Generated: 2026-10-18T03:33:50Z
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 1
 
-- 2026-10-17T11:18:51-04:00 — [Hackers breach Microsoft 365 tenants via ConnectWise supply-chain attack](https://www.bleepingcomputer.com/news/security/hackers-breach-microsoft-365-tenants-via-connectwise-supply-chain-attack/)
-- 2026-10-17T10:32:48-04:00 — [Drupal patches critical RCE flaws, warns exploits may emerge soon](https://www.bleepingcomputer.com/news/security/drupal-patches-critical-rce-flaws-warns-exploits-may-emerge-soon/)
+- 2026-10-18T10:23:16-04:00 — [Hackers exploit SiteGuard WAF flaw to run commands as admins](https://www.bleepingcomputer.com/news/security/hackers-exploit-siteguard-waf-flaw-to-run-commands-as-system-root/)
 
 ## Dark Reading
 
@@ -589,7 +607,7 @@ Generated: 2026-10-18T03:33:50Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-10-17T11:32:56+02:00 — [Ahold Delhaize Shut Down Albert Heijn and Five US Chains and Still Will Not Say What Happened](https://hackingpassion.com/ahold-delhaize-albert-heijn-cyber-incident/)
+- 2026-10-18T10:59:56+02:00 — [LG Smart TVs Could Be Taken Over From the Same WiFi Without a PIN](https://hackingpassion.com/lg-webos-smart-tv-root-takeover/)
 
 ## LOLBAS Project (Windows)
 
@@ -614,9 +632,11 @@ Generated: 2026-10-18T03:33:50Z
 - Site: https://loobins.io/
 - Feed: https://github.com/infosecB/LOOBins/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 3
 
-- 2026-10-17T14:59:22+00:00 — [Add llms.txt endpoints and scheduled link/coverage scans (#284)](https://github.com/infosecB/LOOBins/commit/b60f39be392889c2093dd7217811f91efb1b2233)
+- 2026-10-18T12:06:19+00:00 — [chore: bump version to 2.0.17 [skip ci]](https://github.com/infosecB/LOOBins/commit/2103d44d207ba0425400693744eddf1b3ee97a25)
+- 2026-10-18T12:05:30+00:00 — [Fix auto-release race that left main behind the latest release (#286)](https://github.com/infosecB/LOOBins/commit/147dcf33a3a7cae34bb62c1a4f1e3036387ff143)
+- 2026-10-18T12:00:17+00:00 — [Serve a sitemap index at /sitemap.xml (#285)](https://github.com/infosecB/LOOBins/commit/7be4307fdc90880805ec7ca71ef72636130c8285)
 
 ## LOLDrivers (BYOVD)
 
@@ -695,9 +715,9 @@ Generated: 2026-10-18T03:33:50Z
 - Site: https://github.com/EricZimmerman/SQLECmd
 - Feed: https://github.com/EricZimmerman/SQLECmd/releases.atom
 - Entries checked: 4
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-10-17T15:12:21+00:00 — [2026.10.1](https://github.com/EricZimmerman/SQLECmd/releases/tag/2026.10.1)
+- No new entries detected
 
 ## EZ WxTCmd releases
 
@@ -767,12 +787,9 @@ Generated: 2026-10-18T03:33:50Z
 - Site: https://github.com/EricZimmerman/RegistryPlugins
 - Feed: https://github.com/EricZimmerman/RegistryPlugins/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 4
+- New since last snapshot: 0
 
-- 2026-10-17T21:06:17+00:00 — [RegistryPluginBase 2026.10.3: ExtensionBlocks 2026.10.5](https://github.com/EricZimmerman/RegistryPlugins/commit/2036ca6dc8079395117912632cf74eca3d0e2323)
-- 2026-10-17T20:19:55+00:00 — [Adobe TrustManager websites plugin in the solution; CopyPlugins copie…](https://github.com/EricZimmerman/RegistryPlugins/commit/f4efc71a261521612db894f61042a5f5aa72de96)
-- 2026-10-17T19:57:24+00:00 — [Shell item plugins use ExtensionBlocks' shell items; RegistryPluginBa…](https://github.com/EricZimmerman/RegistryPlugins/commit/0f661dc79aa2bde126e14b55885d4b7f9098cf1a)
-- 2026-10-17T18:03:33+00:00 — [RegistryPluginBase 2026.10.1: ExtensionBlocks 2026.10.2](https://github.com/EricZimmerman/RegistryPlugins/commit/c2f39603bab486d2a3bfe51308a817c045347a62)
+- No new entries detected
 
 ## EZ RegistryExplorerBookmarks commits
 
@@ -824,9 +841,9 @@ Generated: 2026-10-18T03:33:50Z
 - Site: https://github.com/Yamato-Security/hayabusa-rules
 - Feed: https://github.com/Yamato-Security/hayabusa-rules/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-10-18T21:05:47+00:00 — [Sigma Rule Supported Modifier Update (2026-10-18  21:05:36) (#1086)](https://github.com/Yamato-Security/hayabusa-rules/commit/1d29ba594f01a35eb21df8f66cbe6a689fa87536)
 
 ## Hayabusa releases
 
@@ -887,11 +904,9 @@ Generated: 2026-10-18T03:33:50Z
 - Site: https://github.com/EricZimmerman/Lnk
 - Feed: https://github.com/EricZimmerman/Lnk/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 1
 
-- 2026-10-17T20:52:10+00:00 — [2026.10.6: shell items from ExtensionBlocks (breaking: TargetIDs types)](https://github.com/EricZimmerman/Lnk/commit/cdc4f38a51671ebe988544d4fd23f55f5b0ed360)
-- 2026-10-17T17:44:59+00:00 — [2026.10.5: ExtensionBlocks 2026.10.1](https://github.com/EricZimmerman/Lnk/commit/0bc15108d924ab3bd69ca2390bbef54ff89eaede)
-- 2026-10-17T14:37:18+00:00 — [2026.10.4: report LNK files damaged by a text mode copy (Issues #43)](https://github.com/EricZimmerman/Lnk/commit/4236e5d972ae3eba819e377b0eb1af8bead19159)
+- 2026-10-18T12:23:15+00:00 — [PropertyStoreDataBlock.ToString: named property sheets (their key is …](https://github.com/EricZimmerman/Lnk/commit/74d49c3f983f98bc4951692651aea44c5040bed7)
 
 ## EZ OleCf commits
 
@@ -907,11 +922,9 @@ Generated: 2026-10-18T03:33:50Z
 - Site: https://github.com/EricZimmerman/JumpList
 - Feed: https://github.com/EricZimmerman/JumpList/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 1
 
-- 2026-10-17T21:01:46+00:00 — [2026.10.4: Lnk 2026.10.6, ExtensionBlocks 2026.10.5](https://github.com/EricZimmerman/JumpList/commit/9f33696c914254371bbbbc6dd7cd9b0d0de0699e)
-- 2026-10-17T18:06:22+00:00 — [2026.10.3: Lnk 2026.10.5, ExtensionBlocks 2026.10.2](https://github.com/EricZimmerman/JumpList/commit/60f642e15a95977c5e7ce7c5d54833e0801210fa)
-- 2026-10-17T15:00:21+00:00 — [2026.10.2: Lnk 2026.10.4](https://github.com/EricZimmerman/JumpList/commit/48de26b464a761ebb9f098b86efd39476b026fa7)
+- 2026-10-18T12:29:18+00:00 — [2026.10.5: Lnk 2026.10.7 (ToString with named property sheets)](https://github.com/EricZimmerman/JumpList/commit/84c603ad7555e4948c5bb34dbdb98e9d4b2e2b52)
 
 ## EZ Prefetch commits
 
@@ -927,18 +940,20 @@ Generated: 2026-10-18T03:33:50Z
 - Site: https://github.com/EricZimmerman/Srum
 - Feed: https://github.com/EricZimmerman/Srum/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 3
 
-- No new entries detected
+- 2026-10-18T16:52:23+00:00 — [Test: no ParseErrors other than the synthetic EndTime (OnlyContain fa…](https://github.com/EricZimmerman/Srum/commit/562a91206d7f0ac5d99b1cf6b68d7c46784b5bc5)
+- 2026-10-18T16:50:23+00:00 — [Test: a repaired copy without logs may keep rows (what was flushed be…](https://github.com/EricZimmerman/Srum/commit/1c5d58f1584d85a2b5308b0c5f0e87068a2bd1a6)
+- 2026-10-18T16:48:19+00:00 — [2026.10 pass: database read from a copy with its logs replayed, per-r…](https://github.com/EricZimmerman/Srum/commit/75d679b2369b450bf43efdf62185e5d8032d98d6)
 
 ## EZ RecentFileCacheParser commits
 
 - Site: https://github.com/EricZimmerman/RecentFileCacheParser
 - Feed: https://github.com/EricZimmerman/RecentFileCacheParser/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-10-17T14:59:58+00:00 — [RecentFileCacheParser 2026.10.1: ISO 8601 UTC time stamps in JSON](https://github.com/EricZimmerman/RecentFileCacheParser/commit/163a4c447a6370b0d348e0bda08fc27b5879d369)
+- No new entries detected
 
 ## EZ WinSearchDbAnalyzer commits
 
@@ -963,31 +978,35 @@ Generated: 2026-10-18T03:33:50Z
 - Site: https://github.com/EricZimmerman/ExtensionBlocks
 - Feed: https://github.com/EricZimmerman/ExtensionBlocks/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 5
+- New since last snapshot: 0
 
-- 2026-10-17T20:43:16+00:00 — [Shell items for Lnk: code page, Lnk's types, names that make paths](https://github.com/EricZimmerman/ExtensionBlocks/commit/7bfb33296e1cf9cdf21418d71b917d41d7309e3e)
-- 2026-10-17T19:47:35+00:00 — [0x00 property views: Delegate ID List blocks not added to the item](https://github.com/EricZimmerman/ExtensionBlocks/commit/ee92382dd47f457cef009dcbde465011a90e805c)
-- 2026-10-17T19:33:54+00:00 — [Shell items: Lnk's and the RECmd plugins' fixes; ShellItemFactory](https://github.com/EricZimmerman/ExtensionBlocks/commit/0b8c267b8e1c347799c908d611da905649ce900f)
-- 2026-10-17T17:51:51+00:00 — [PropertySheet.Version is the string it was (2026.10.1 made it a uint)](https://github.com/EricZimmerman/ExtensionBlocks/commit/216518358810a7e229d8f3ebd74a72946fb8f744)
-- 2026-10-17T17:37:30+00:00 — [Shell items and ShellBags' extension block fixes moved here, to be sh…](https://github.com/EricZimmerman/ExtensionBlocks/commit/9cb1d2bc1696bddf1359d18b16e166eb6c6735c3)
+- No new entries detected
 
 ## EZ TLEFilePlugins commits
 
 - Site: https://github.com/EricZimmerman/TLEFilePlugins
 - Feed: https://github.com/EricZimmerman/TLEFilePlugins/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 5
 
-- No new entries detected
+- 2026-10-18T17:48:39+00:00 — [Plugins for RECmd's registry plugin CSVs (69, one per header line), B…](https://github.com/EricZimmerman/TLEFilePlugins/commit/b956f66d3c4ffcb258a1540c867681e5da0b75bd)
+- 2026-10-18T17:40:02+00:00 — [Old-format Amcache: the associated files and programs CSVs' header li…](https://github.com/EricZimmerman/TLEFilePlugins/commit/f40ad7f6d70d93fecfc67b9b895e46396b147744)
+- 2026-10-18T17:37:42+00:00 — [Plugins for AmcacheParser's other database tables (20, Windows 11 26H…](https://github.com/EricZimmerman/TLEFilePlugins/commit/82fd2fbee673d80306d5debc784320548418a18b)
+- 2026-10-18T17:25:34+00:00 — [Layouts/!!README.txt (shipped next to the Default folder); CopyPlugin…](https://github.com/EricZimmerman/TLEFilePlugins/commit/669ebfd47f161c72afbaca51bda37639d55949ec)
+- 2026-10-18T17:18:45+00:00 — [Current tool CSVs (2026.10), new plugins, shared CSV loader, layouts …](https://github.com/EricZimmerman/TLEFilePlugins/commit/8ca38e85511d10ffa1d028328a5e2ba9125085cc)
 
 ## EZ Get-ZimmermanTools commits
 
 - Site: https://github.com/EricZimmerman/Get-ZimmermanTools
 - Feed: https://github.com/EricZimmerman/Get-ZimmermanTools/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 5
 
-- 2026-10-17T19:32:52+00:00 — [Move to .net 10 (/net/ URLs) and speed up downloads](https://github.com/EricZimmerman/Get-ZimmermanTools/commit/64e81a113c1b70f47ecaf2f353042db01013d869)
+- 2026-10-18T22:04:54+00:00 — [Build-ZimmermanTools: -Clear empties the -Out folder first (never a d…](https://github.com/EricZimmerman/Get-ZimmermanTools/commit/833cf58dc44c376d1c326f1a8f1909efaf95ed28)
+- 2026-10-18T19:42:53+00:00 — [Build-ZimmermanTools: the program lines in red, the plugin and layout…](https://github.com/EricZimmerman/Get-ZimmermanTools/commit/a5eb3ffbade720eb3e84f1ed7d57a4ddf8e63868)
+- 2026-10-18T19:37:09+00:00 — [Build-ZimmermanTools: AmcacheParser and WxTCmd as single files; every…](https://github.com/EricZimmerman/Get-ZimmermanTools/commit/3d935236b860c1a33278708511eb41277d21eea1)
+- 2026-10-18T19:30:50+00:00 — [Build-ZimmermanTools: VSCMount no longer has WmiLight.Native.dll (Wmi…](https://github.com/EricZimmerman/Get-ZimmermanTools/commit/338ccf91822235f8439df2b82123739f79fdf7ba)
+- 2026-10-18T19:25:43+00:00 — [Build-ZimmermanTools.ps1: builds, stages, signs and zips every EZ Too…](https://github.com/EricZimmerman/Get-ZimmermanTools/commit/c6033c3104af6a59bc009d29176b64cf505f877d)
 
 ## EZ KapeDocs commits
 
