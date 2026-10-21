@@ -1,15 +1,15 @@
 # Feed Update Report
 
-Generated: 2026-10-20T03:34:57Z
+Generated: 2026-10-21T03:35:29Z
 
 ## Windows Incident Response
 
 - Site: https://windowsir.blogspot.com/
 - Feed: https://windowsir.blogspot.com/feeds/posts/default
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-10-19T09:03:16-05:00 — [Investigations and Analysis](https://windowsir.blogspot.com/2026/10/investigations-and-analysis.html)
+- No new entries detected
 
 ## dfir.blog
 
@@ -148,9 +148,9 @@ Generated: 2026-10-20T03:34:57Z
 - Site: https://smarterforensics.com/
 - Feed: https://smarterforensics.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-10-20T17:54:45+00:00 — [More Hay On The Haystack: What Our AI Panel Disagreed On](https://smarterforensics.com/2026/10/more-hay-on-the-haystack-what-our-ai-panel-disagreed-on/)
 
 ## Initialization Vectors
 
@@ -213,7 +213,7 @@ Generated: 2026-10-20T03:34:57Z
 
 - Site: https://www.youtube.com/@13cubed
 - Feed: https://www.youtube.com/feeds/videos.xml?channel_id=UCy8ntxFEudOCRZYT1f7ya9Q
-- Status: error: HTTP 500
+- Status: error: HTTP 404
 
 ## SANS Internet Storm Center
 
@@ -222,7 +222,7 @@ Generated: 2026-10-20T03:34:57Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-10-20T02:00:03+00:00 — [ISC Stormcast For Tuesday, October 20th, 2026 https://isc.sans.edu/podcastdetail/10142, (Tue, Oct 20th)](https://isc.sans.edu/diary/rss/33436)
+- 2026-10-21T02:00:03+00:00 — [ISC Stormcast For Wednesday, October 21st, 2026 https://isc.sans.edu/podcastdetail/10144, (Wed, Oct 21st)](https://isc.sans.edu/diary/rss/33438)
 
 ## DFIR Training Blog
 
@@ -249,7 +249,7 @@ Generated: 2026-10-20T03:34:57Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-10-19T11:26:08+00:00 — [InfoSec News Nuggets – 10/19/2026](https://aboutdfir.com/infosec-news-nuggets-10-19-2026/)
+- 2026-10-20T12:02:25+00:00 — [InfoSec News Nuggets – 10/20/2026](https://aboutdfir.com/infosec-news-nuggets-10-20-2026/)
 
 ## Forensic 4cast
 
@@ -366,18 +366,18 @@ Generated: 2026-10-20T03:34:57Z
 - Entries checked: 10
 - New since last snapshot: 3
 
-- 2026-10-19T11:30:00+00:00 — [Hero or hooligan: Death of Orpheus](https://eclecticlight.co/2026/10/19/hero-or-hooligan-death-of-orpheus/)
-- 2026-10-19T08:00:00+00:00 — [Solutions to Saturday Mac riddles 382](https://eclecticlight.co/2026/10/19/solutions-to-saturday-mac-riddles-382/)
-- 2026-10-19T06:30:00+00:00 — [Can I browse log entries from 2 weeks ago?](https://eclecticlight.co/2026/10/19/can-i-browse-log-entries-from-2-weeks-ago/)
+- 2026-10-20T17:00:00+00:00 — [LogUI 1.2 fixes selection and focus in macOS 27](https://eclecticlight.co/2026/10/20/logui-1-2-fixes-selection-and-focus-in-macos-27/)
+- 2026-10-20T11:30:00+00:00 — [Portraits of trees: Palm](https://eclecticlight.co/2026/10/20/portraits-of-trees-palm/)
+- 2026-10-20T06:30:00+00:00 — [How Spotlight indexes in Golden Gate](https://eclecticlight.co/2026/10/20/how-spotlight-indexes-in-golden-gate/)
 
 ## JPCERT/CC
 
 - Site: https://blogs.jpcert.or.jp/en/
 - Feed: https://blogs.jpcert.or.jp/en/atom.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-10-21T02:00:00+00:00 — [Recent AI-Assisted Cyber Attacks in Japan: Investigating Attack Infrastructure and Techniques](https://blogs.jpcert.or.jp/en/2026/10/web_api_attacks.html)
 
 ## DFIR Review
 
@@ -402,9 +402,10 @@ Generated: 2026-10-20T03:34:57Z
 - Site: https://www.huntress.com/blog
 - Feed: https://www.huntress.com/blog/rss.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- 2026-10-20T13:00:00+00:00 — [Introducing ITDR Lookback: Find Out Who Was in Your Microsoft 365 Tenant Before You Were](https://www.huntress.com/blog/managed-itdr-lookback-feature)
+- 2026-10-20T13:00:00+00:00 — [Identity Posture Assessment for Microsoft 365 | Managed ISPM](https://www.huntress.com/blog/identity-posture-assessment-microsoft-365)
 
 ## Red Canary Blog
 
@@ -420,9 +421,9 @@ Generated: 2026-10-20T03:34:57Z
 - Site: https://unit42.paloaltonetworks.com/
 - Feed: https://unit42.paloaltonetworks.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-10-19T22:35:42+00:00 — [Threat Brief: Active Exploitation of PAN-OS CVE-2026-0257 (Updated October 19)](https://unit42.paloaltonetworks.com/active-exploitation-of-pan-os-cve-2026-0257/)
+- No new entries detected
 
 ## Mandiant Threat Intelligence
 
@@ -438,9 +439,9 @@ Generated: 2026-10-20T03:34:57Z
 - Site: https://blog.talosintelligence.com/
 - Feed: https://blog.talosintelligence.com/rss/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-10-20T15:31:22+00:00 — [There's only so much code: the rise in vulnerability numbers](https://blog.talosintelligence.com/theres-only-so-much-code-the-rise-in-vulnerability-numbers/)
 
 ## SANS Blog
 
@@ -465,9 +466,10 @@ Generated: 2026-10-20T03:34:57Z
 - Site: https://flare.io/learn/resources/blog/
 - Feed: https://flare.io/learn/resources/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- 2026-10-20T20:28:31+00:00 — [AI Models are Fueling a New Wave of Cybercrime: A Quantitative Analysis](https://flare.io/learn/resources/blog/ai-models-cybercrime-quantitative-analysis)
+- 2026-10-20T13:37:50+00:00 — [Arachnophobia: How Fear, Branding, and Bad Attribution Distorted The Com](https://flare.io/learn/resources/blog/the-com-ecosystem-actors-attribution)
 
 ## Binalyze Blog
 
@@ -497,7 +499,7 @@ Generated: 2026-10-20T03:34:57Z
 
 - Site: https://cellebrite.com/en/blog/
 - Feed: https://cellebrite.com/en/feed/
-- Entries checked: 5
+- Entries checked: 0
 - New since last snapshot: 0
 
 - No new entries detected
@@ -516,30 +518,29 @@ Generated: 2026-10-20T03:34:57Z
 - Site: https://www.crowdstrike.com/blog/
 - Feed: https://www.crowdstrike.com/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-10-20T00:00:00-05:00 — [CrowdStrike Achieves NCSC CIR Enhanced Level Assurance](https://www.crowdstrike.com/en-us/blog/crowdstrike-achieves-uk-ncsc-cir-enhanced-level-assurance/)
 
 ## Malwarebytes Labs
 
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 4
+- New since last snapshot: 3
 
-- 2026-10-19T14:21:22+00:00 — [AOMEI Backupper update servers hijacked to push malware: Check your PC](https://www.malwarebytes.com/blog/news/2026/10/aomei-backupper-update-servers-hijacked-to-push-malware-check-your-pc)
-- 2026-10-19T12:10:53+00:00 — [A sextortion conspiracy killed his son (Lock and Code S07E21)](https://www.malwarebytes.com/blog/podcast/2026/10/a-sextortion-conspiracy-killed-his-son-lock-and-code-s07e21)
-- 2026-10-19T11:10:14+00:00 — [Millions of California students’ sensitive data stolen in breach](https://www.malwarebytes.com/blog/data-breaches/2026/10/millions-of-california-students-sensitive-data-stolen-in-breach)
-- 2026-10-19T07:01:00+00:00 — [A week in security (October 12 – October 18)](https://www.malwarebytes.com/blog/news/2026/10/a-week-in-security-october-12-october-18)
+- 2026-10-20T12:45:23+00:00 — [Google may add your number to all your accounts: How to stop it](https://www.malwarebytes.com/blog/mobile/2026/10/google-may-add-your-number-to-all-your-accounts-how-to-stop-it)
+- 2026-10-20T10:06:58+00:00 — [Meta glasses caught recording conversations without wake phrase](https://www.malwarebytes.com/blog/news/2026/10/meta-says-it-fixed-smart-glasses-unprompted-eavesdropping)
+- 2026-10-20T09:44:53+00:00 — [Man seeking love travels 2,000 km to meet an AI-generated woman](https://www.malwarebytes.com/blog/scams/2026/10/man-seeking-love-travels-2000-km-to-meet-an-ai-generated-woman)
 
 ## Krebs on Security
 
 - Site: https://krebsonsecurity.com/
 - Feed: https://krebsonsecurity.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-10-19T13:48:56+00:00 — [Feds Suspect Ransom Negotiator Ran ShinyHunters Extortion Site](https://krebsonsecurity.com/2026/10/feds-suspect-ransom-negotiator-ran-shinyhunters-extortion-site/)
+- No new entries detected
 
 ## BleepingComputer
 
@@ -548,29 +549,28 @@ Generated: 2026-10-20T03:34:57Z
 - Entries checked: 10
 - New since last snapshot: 10
 
-- 2026-10-19T17:49:48-04:00 — [Nikkei discloses third data breach in a month, 1.8M records exposed](https://www.bleepingcomputer.com/news/security/nikkei-discloses-third-data-breach-in-a-month-18m-records-exposed/)
-- 2026-10-19T17:24:51-04:00 — [WordPress SEO plugin Rank Math compromised to backdoor websites](https://www.bleepingcomputer.com/news/security/wordpress-seo-plugin-rank-math-compromised-to-backdoor-websites/)
-- 2026-10-19T15:40:58-04:00 — [Hackers hijack AOMEI update servers to secretly spread malware](https://www.bleepingcomputer.com/news/security/hackers-hijack-aomei-update-servers-to-secretly-spread-malware/)
-- 2026-10-19T14:51:13-04:00 — [Bullhorn takes staffing platform offline to contain cyberattack](https://www.bleepingcomputer.com/news/security/bullhorn-takes-staffing-platform-offline-to-contain-cyberattack/)
-- 2026-10-19T13:27:15-04:00 — [OpenCode hack exposes API keys amid AI distillation attacks](https://www.bleepingcomputer.com/news/security/opencode-hack-exposes-api-keys-amid-ai-distillation-attacks/)
-- 2026-10-19T10:55:23-04:00 — [Microsoft fixes game, app crashes caused by recent Windows update](https://www.bleepingcomputer.com/news/microsoft/microsoft-fixes-game-app-crashes-caused-by-windows-kb5124010-preview-update/)
-- 2026-10-19T10:00:10-04:00 — [Inside the Underground Market for Know Your Client Services](https://www.bleepingcomputer.com/news/security/inside-the-underground-market-for-know-your-client-services/)
-- 2026-10-19T09:49:24-04:00 — [F5 releases out-of-band patches for critical NGINX vulnerabilities](https://www.bleepingcomputer.com/news/security/f5-releases-out-of-band-patches-for-critical-nginx-vulnerabilities/)
-- 2026-10-19T08:44:44-04:00 — [Microsoft fixes classic Outlook bug that hid Copilot buttons](https://www.bleepingcomputer.com/news/microsoft/microsoft-fixes-bug-that-hid-copilot-buttons-in-classic-outlook/)
-- 2026-10-19T04:58:41-04:00 — [Microsoft: October Windows Server updates break Exchange sign-in, mail flow](https://www.bleepingcomputer.com/news/microsoft/microsoft-october-windows-server-updates-cause-exchange-issues/)
+- 2026-10-20T21:01:50-04:00 — [Stolen UpdraftCentral keys used to backdoor WordPress sites](https://www.bleepingcomputer.com/news/security/stolen-updraftcentral-keys-used-to-backdoor-wordpress-sites/)
+- 2026-10-20T20:46:42-04:00 — [Mozilla, Google, Apple block compromised eMudhra CA certificates](https://www.bleepingcomputer.com/news/security/mozilla-google-apple-block-compromised-emudhra-ca-certificates/)
+- 2026-10-20T16:56:43-04:00 — [PHP warns admins of two critical flaws, emergency patches coming tomorrow](https://www.bleepingcomputer.com/news/security/php-warns-admins-of-two-critical-flaws-emergency-patches-coming-tomorrow/)
+- 2026-10-20T15:33:02-04:00 — [Zeabur shutting down after second security breach in two months](https://www.bleepingcomputer.com/news/security/zeabur-shutting-down-after-second-security-breach-in-two-months/)
+- 2026-10-20T14:11:03-04:00 — [OpenAI says GPT-6.1 Sol is dramatically better at migrating legacy code](https://www.bleepingcomputer.com/news/artificial-intelligence/openai-says-gpt-61-sol-is-dramatically-better-at-migrating-legacy-code/)
+- 2026-10-20T10:19:05-04:00 — [DHS bans DeepSeek products across US federal civilian agencies](https://www.bleepingcomputer.com/news/security/dhs-bans-deepseek-products-across-us-federal-civilian-agencies/)
+- 2026-10-20T09:51:00-04:00 — [CJIS v6.1 Compliance: 5 Practical Priorities for Agencies](https://www.bleepingcomputer.com/news/security/cjis-v61-compliance-5-practical-priorities-for-agencies/)
+- 2026-10-20T09:18:36-04:00 — [Hacker gets 8 years for stealing $3.3 million from taxpayers](https://www.bleepingcomputer.com/news/security/hacker-gets-8-years-for-stealing-33-million-from-taxpayers/)
+- 2026-10-20T08:16:32-04:00 — [Windows Server 2025 gets support for quick machine recovery](https://www.bleepingcomputer.com/news/microsoft/windows-server-2025-gets-support-for-quick-machine-recovery/)
+- 2026-10-20T07:31:22-04:00 — [OVHcloud CLI releases backdoored on GitHub to steal developer secrets](https://www.bleepingcomputer.com/news/security/ovhcloud-cli-releases-backdoored-on-github-to-steal-developer-secrets/)
 
 ## Dark Reading
 
 - Site: https://www.darkreading.com/
 - Feed: https://www.darkreading.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 5
+- New since last snapshot: 4
 
-- 2026-10-19T21:13:41+00:00 — [Researchers Infiltrate Microsoft Tech Support Scam Operation](https://www.darkreading.com/threat-intelligence/microsoft-tech-support-scam-operation)
-- 2026-10-19T19:55:01+00:00 — ['AdFection' Turns Ad Impressions Into Zero-Click Spyware Delivery](https://www.darkreading.com/data-privacy/adfection-online-ads-spyware-delivery)
-- 2026-10-19T19:19:33+00:00 — [ConnectWise Disables Cloud Backups Amid Concerns for Downstream MSPs](https://www.darkreading.com/identity-access-management-security/connectwise-disables-cloud-backups-downstream-msps)
-- 2026-10-19T14:28:11+00:00 — [OnlyFans Copyright Takedowns Expose Compromised Websites](https://www.darkreading.com/vulnerabilities-threats/onlyfans-copyright-takedowns-expose-compromised-websites)
-- 2026-10-19T14:00:00+00:00 — [The Evolving Cybersecurity Lexicon: Vulnerability Discovery to Resilience](https://www.darkreading.com/vulnerabilities-threats/cybersecurity-lexicon-vulnerability-discovery-resilience)
+- 2026-10-20T21:45:47+00:00 — [Tech Giants Block eMudhra Certificates Tied to 8 Compromised Keys](https://www.darkreading.com/cyber-risk/tech-giants-emudhra-certificates-compromised-keys)
+- 2026-10-20T19:16:49+00:00 — [Ex-OpenAI Engineer Detained After Planting Secret Recorder at HQ](https://www.darkreading.com/insider-threats/ex-openai-engineer-secret-recorder-saudi-ties)
+- 2026-10-20T15:35:45+00:00 — [Close Identity Gaps in Software Development Before Unleashing AI](https://www.darkreading.com/application-security/close-identity-gaps-sdlc-before-ai)
+- 2026-10-20T14:36:05+00:00 — [Hackers Abuse AI Pen-Test Tool Cairn to Automate Massive Attack Spree](https://www.darkreading.com/cyberattacks-data-breaches/hackers-abuse-ai-pen-test-tool-cairn)
 
 ## Volexity Blog
 
@@ -592,9 +592,9 @@ Generated: 2026-10-20T03:34:57Z
 - Site: https://www.microsoft.com/en-us/security/blog/
 - Feed: https://www.microsoft.com/en-us/security/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-10-19T13:00:00+00:00 — [Agents are your newest insiders. Security must move at their speed.](https://www.microsoft.com/en-us/security/blog/2026/10/19/agents-are-your-newest-insiders-security-must-move-at-their-speed/)
+- No new entries detected
 
 ## HackingPassion
 
@@ -603,7 +603,7 @@ Generated: 2026-10-20T03:34:57Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-10-19T11:44:53+02:00 — [Discover-Tech Ads Delivered Zero-Click Spyware to Al Jazeera While Google Approved the Company for Six Years](https://hackingpassion.com/discover-tech-zero-click-spyware-ads/)
+- 2026-10-20T11:37:08+02:00 — [Siemens Software Center Ran Attackers' Code With a Valid Siemens Signature on PCs That Never Installed It](https://hackingpassion.com/siemens-software-center-signed-dll-clickfix/)
 
 ## LOLBAS Project (Windows)
 
@@ -637,18 +637,9 @@ Generated: 2026-10-20T03:34:57Z
 - Site: https://www.loldrivers.io/
 - Feed: https://github.com/magicsword-io/LOLDrivers/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 10
+- New since last snapshot: 0
 
-- 2026-10-19T19:30:55+00:00 — [New site and hashes generated by GitHub Actions [ci skip]](https://github.com/magicsword-io/LOLDrivers/commit/75c2a244ebda1a551e6cf2a35968ac3d4eff95d6)
-- 2026-10-19T19:18:23+00:00 — [Add HeySafe-X driver sample with Ghidra-verified behavior and correct…](https://github.com/magicsword-io/LOLDrivers/commit/16cf2fc729e5e403702d6df6a9d15a03f3e4626d)
-- 2026-10-19T19:10:48+00:00 — [New site and hashes generated by GitHub Actions [ci skip]](https://github.com/magicsword-io/LOLDrivers/commit/0185368d422bab1099ad917572a8c3aa7bd5da6a)
-- 2026-10-19T19:10:08+00:00 — [Update NeacSafe64.sys (#467)](https://github.com/magicsword-io/LOLDrivers/commit/a36c1ba05b0178f11f58a3520c18e8113d6b0346)
-- 2026-10-19T19:10:01+00:00 — [Add AmdTools64.sys 1.7.16.218 with verified metadata and sample (#477)](https://github.com/magicsword-io/LOLDrivers/commit/c36f170c6bef5571955a7b1e3460807e1105ae9d)
-- 2026-10-19T19:03:05+00:00 — [Add Realtek RtsUpx.sys 1.13.0.0 and CVE references (#472)](https://github.com/magicsword-io/LOLDrivers/commit/474347b5593b05ad29c81e5c717ac64315f34460)
-- 2026-10-19T19:02:14+00:00 — [Add TrueSight.sys 2.0.2 with verified metadata and sample (#476)](https://github.com/magicsword-io/LOLDrivers/commit/6e003c394ad5f3a5ca3febfebd6b822324d6c3c6)
-- 2026-10-19T19:01:47+00:00 — [Update NSecKrnl.sys with Reynolds and Warlock ransomware context (#470)](https://github.com/magicsword-io/LOLDrivers/commit/735a261a5db3db657429431f76e05d680f5c636a)
-- 2026-10-19T19:00:44+00:00 — [New site and hashes generated by GitHub Actions [ci skip]](https://github.com/magicsword-io/LOLDrivers/commit/b7c216080c015fd99e6b7eb7a09a08afbc7f4c58)
-- 2026-10-19T18:52:01+00:00 — [Add KillerLand libwasys and MonProcessControl drivers (#475)](https://github.com/magicsword-io/LOLDrivers/commit/5e12b6b64cf18ee315b10ce06f3e112514817400)
+- No new entries detected
 
 ## LOFL Project (RMM C2 indicators)
 
@@ -700,18 +691,18 @@ Generated: 2026-10-20T03:34:57Z
 - Site: https://github.com/EricZimmerman/AppCompatCacheParser
 - Feed: https://github.com/EricZimmerman/AppCompatCacheParser/releases.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-10-20T14:57:49+00:00 — [AppCompatCache 2026.10.2](https://github.com/EricZimmerman/AppCompatCacheParser/releases/tag/2026.10.2)
 
 ## EZ AmcacheParser releases
 
 - Site: https://github.com/EricZimmerman/AmcacheParser
 - Feed: https://github.com/EricZimmerman/AmcacheParser/releases.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-10-20T14:57:45+00:00 — [Amcache 2026.10.1](https://github.com/EricZimmerman/AmcacheParser/releases/tag/2026.10.1)
 
 ## EZ SQLECmd releases
 
@@ -781,22 +772,20 @@ Generated: 2026-10-20T03:34:57Z
 - Site: https://github.com/EricZimmerman/KapeFiles
 - Feed: https://github.com/EricZimmerman/KapeFiles/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 4
+- New since last snapshot: 0
 
-- 2026-10-19T22:33:19+00:00 — [Merge pull request #1129 from Gear-I/NirSoft_AppNetworkCounter](https://github.com/EricZimmerman/KapeFiles/commit/9d3ec9ccba83e15c9f2d496226e69145049d0187)
-- 2026-10-19T22:24:19+00:00 — [Add NirSoft_AppNetworkCounter module](https://github.com/EricZimmerman/KapeFiles/commit/671b93928df849ab84607910d125eac80c441a75)
-- 2026-10-19T22:11:53+00:00 — [Merge pull request #1128 from Gear-I/NirSoft_ESEDatabaseView_SRUM](https://github.com/EricZimmerman/KapeFiles/commit/b210138f74e748265d1fdaffd55209bcdd398460)
-- 2026-10-19T22:04:39+00:00 — [Add NirSoft_ESEDatabaseView_SRUM module](https://github.com/EricZimmerman/KapeFiles/commit/3550ae57512a00bcabadd348283b5e526a67ac2e)
+- No new entries detected
 
 ## EZ RegistryPlugins commits
 
 - Site: https://github.com/EricZimmerman/RegistryPlugins
 - Feed: https://github.com/EricZimmerman/RegistryPlugins/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 3
 
-- 2026-10-19T22:33:25+00:00 — [DsrmAdminLogonBehaviour: key path ControlSet00*\Control\Lsa, value Ds…](https://github.com/EricZimmerman/RegistryPlugins/commit/65f9e1f775394a0733528f5c1403ab8806c15ac5)
-- 2026-10-19T13:50:54+00:00 — [CLAUDE.md: release staging by Build-ZimmermanTools, GUI conventions (…](https://github.com/EricZimmerman/RegistryPlugins/commit/26c82a9b724008a6e00de1e4c40be91fab71f1f0)
+- 2026-10-21T00:12:21+00:00 — [Embedded pdbs and ContinuousIntegrationBuild in Directory.Build.props](https://github.com/EricZimmerman/RegistryPlugins/commit/3490d5d3805c3305e69d175936ab0c342b9c4874)
+- 2026-10-20T19:48:14+00:00 — [RegistryPluginBase: ExtensionBlocks 2026.10.7, GuidMapping 2026.10.2 …](https://github.com/EricZimmerman/RegistryPlugins/commit/9186b46d39b8ad2eb966910ebae4e8e927328741)
+- 2026-10-20T15:08:50+00:00 — [RegistryPlugin.AppCompatCache: AppCompatCache 2026.10.2 (ERZHelpers 2…](https://github.com/EricZimmerman/RegistryPlugins/commit/7aa65b227605ec36f45eb810fe543e280c906a13)
 
 ## EZ RegistryExplorerBookmarks commits
 
@@ -812,9 +801,9 @@ Generated: 2026-10-20T03:34:57Z
 - Site: https://github.com/EricZimmerman/GuidMapping
 - Feed: https://github.com/EricZimmerman/GuidMapping/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-10-20T19:05:19+00:00 — [Map GUID families by prefix: OneDrive and Creative Cloud sync roots (…](https://github.com/EricZimmerman/GuidMapping/commit/e2c93615a491ca43197b36960a436b559062cb52)
 
 ## EZ documentation commits
 
@@ -848,11 +837,9 @@ Generated: 2026-10-20T03:34:57Z
 - Site: https://github.com/Yamato-Security/hayabusa-rules
 - Feed: https://github.com/Yamato-Security/hayabusa-rules/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 1
 
-- 2026-10-20T00:36:18+00:00 — [Merge pull request #1088 from Yamato-Security/fix/node24-slack-action](https://github.com/Yamato-Security/hayabusa-rules/commit/c1401ec655e246ffacf6c55abf0ff98fa8daad2b)
-- 2026-10-19T23:14:00+00:00 — [Update Slack notifications to Node 24 action](https://github.com/Yamato-Security/hayabusa-rules/commit/2cdb46cbcb618df65300d11a04bb84a29be71548)
-- 2026-10-19T21:07:30+00:00 — [Sigma Rule Supported Modifier Update (2026-10-19  21:06:11) (#1087)](https://github.com/Yamato-Security/hayabusa-rules/commit/83b1b174eea205f82e74ac96d36408d5f04ef46b)
+- 2026-10-20T20:08:35+00:00 — [Sigma Rule Update (2026-10-20  20:07:13) (#1089)](https://github.com/Yamato-Security/hayabusa-rules/commit/4c8427c59a6080c993cd115ec837b97ca99ec0e2)
 
 ## Hayabusa releases
 
@@ -904,18 +891,21 @@ Generated: 2026-10-20T03:34:57Z
 - Site: https://github.com/EricZimmerman/MFT
 - Feed: https://github.com/EricZimmerman/MFT/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- 2026-10-21T00:12:16+00:00 — [Embedded pdbs and ContinuousIntegrationBuild in Directory.Build.props](https://github.com/EricZimmerman/MFT/commit/a6d23c108cc55fa8974e645d47368d3b55084a97)
+- 2026-10-20T19:08:09+00:00 — [2026.10.3: Mft.GetDirectoryEntries (unsorted, read-only), Mft.HasSubd…](https://github.com/EricZimmerman/MFT/commit/8f9c15563a8336ee9a92a47033bebc9c27f9d637)
 
 ## EZ Lnk commits
 
 - Site: https://github.com/EricZimmerman/Lnk
 - Feed: https://github.com/EricZimmerman/Lnk/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 3
 
-- No new entries detected
+- 2026-10-21T00:12:14+00:00 — [Embedded pdbs and ContinuousIntegrationBuild in Directory.Build.props](https://github.com/EricZimmerman/Lnk/commit/1b480eccbfea51729a23a7577cd71dd65734a4c8)
+- 2026-10-20T19:37:57+00:00 — [ExtensionBlocks 2026.10.7 and GuidMapping 2026.10.2](https://github.com/EricZimmerman/Lnk/commit/757eef62e4f541c4b9e9c3b6f18fb57ad8a8c204)
+- 2026-10-20T19:11:56+00:00 — [ExtensionBlocks 2026.10.6: 0x36 items' text says File](https://github.com/EricZimmerman/Lnk/commit/67a48692abe6c0f5489817ece2d5547d79153e91)
 
 ## EZ OleCf commits
 
@@ -931,9 +921,11 @@ Generated: 2026-10-20T03:34:57Z
 - Site: https://github.com/EricZimmerman/JumpList
 - Feed: https://github.com/EricZimmerman/JumpList/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 3
 
-- 2026-10-19T16:58:32+00:00 — [2026.10.6: AutomaticDestination no longer keeps the OLE container (th…](https://github.com/EricZimmerman/JumpList/commit/384f43cd9056d28f551e5f79bf73d4e18f453e8a)
+- 2026-10-21T00:12:12+00:00 — [Embedded pdbs and ContinuousIntegrationBuild in Directory.Build.props](https://github.com/EricZimmerman/JumpList/commit/1a08ec65d31231d9445f0393c9a52f3598fc51c6)
+- 2026-10-20T19:46:54+00:00 — [Lnk 2026.10.9, ExtensionBlocks 2026.10.7, GuidMapping 2026.10.2](https://github.com/EricZimmerman/JumpList/commit/e30f73cf5a31a03af408da6e413e412ca7ad3dbf)
+- 2026-10-20T19:21:07+00:00 — [Lnk 2026.10.8, ExtensionBlocks 2026.10.6](https://github.com/EricZimmerman/JumpList/commit/c1697dcf562d2044a3692bad7cd453c6e87b89fb)
 
 ## EZ Prefetch commits
 
@@ -949,9 +941,10 @@ Generated: 2026-10-20T03:34:57Z
 - Site: https://github.com/EricZimmerman/Srum
 - Feed: https://github.com/EricZimmerman/Srum/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 2
 
-- 2026-10-19T13:51:18+00:00 — [CLAUDE.md: release staging by Build-ZimmermanTools, GUI conventions (…](https://github.com/EricZimmerman/Srum/commit/56289c9663e6009f1a2e566d4faae0496ac043e3)
+- 2026-10-21T00:11:53+00:00 — [Embedded pdbs and ContinuousIntegrationBuild in Directory.Build.props](https://github.com/EricZimmerman/Srum/commit/f287e2a4859f8ac54983dfafa4bd85534a84ec55)
+- 2026-10-20T23:16:26+00:00 — [--temp: the database copies go to a Temp folder next to SrumECmd, nev…](https://github.com/EricZimmerman/Srum/commit/5e6182699f9c2c39a675e8ca6551b27db6690eee)
 
 ## EZ RecentFileCacheParser commits
 
@@ -960,7 +953,7 @@ Generated: 2026-10-20T03:34:57Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-10-19T13:50:49+00:00 — [CLAUDE.md: release staging by Build-ZimmermanTools, GUI conventions (…](https://github.com/EricZimmerman/RecentFileCacheParser/commit/440239537d805d4c30fc4639668820868a6b9b0e)
+- 2026-10-21T00:11:51+00:00 — [Embedded pdbs and ContinuousIntegrationBuild in Directory.Build.props](https://github.com/EricZimmerman/RecentFileCacheParser/commit/bdd7ef3ea2be6f65ebe59c6cc5fced94acdcfc5c)
 
 ## EZ WinSearchDbAnalyzer commits
 
@@ -985,42 +978,42 @@ Generated: 2026-10-20T03:34:57Z
 - Site: https://github.com/EricZimmerman/ExtensionBlocks
 - Feed: https://github.com/EricZimmerman/ExtensionBlocks/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 3
 
-- No new entries detected
+- 2026-10-21T00:12:10+00:00 — [Embedded pdbs and ContinuousIntegrationBuild in Directory.Build.props](https://github.com/EricZimmerman/ExtensionBlocks/commit/9ea19831c8463796c7d208cdb8c69c9c288861bd)
+- 2026-10-20T19:22:24+00:00 — [Shell items: archive contents, document drive and 0x3D; GuidMapping 2…](https://github.com/EricZimmerman/ExtensionBlocks/commit/b73f933dbad04c30ff91488b91e51b661782bdb1)
+- 2026-10-20T19:00:02+00:00 — [Wrapper shell items keep the last interacted time and 0x36's File type](https://github.com/EricZimmerman/ExtensionBlocks/commit/404e233323af2ec8b8bd936b6652859ae9fed142)
 
 ## EZ TLEFilePlugins commits
 
 - Site: https://github.com/EricZimmerman/TLEFilePlugins
 - Feed: https://github.com/EricZimmerman/TLEFilePlugins/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 10
+- New since last snapshot: 5
 
-- 2026-10-19T22:41:32+00:00 — [Layouts: no sort by Line in Autoruns, ShimcacheVolatility and MacTime](https://github.com/EricZimmerman/TLEFilePlugins/commit/0d94db8b1e709f6f26d33b91d00842d44aa64093)
-- 2026-10-19T22:39:23+00:00 — [CLAUDE.md: the LayoutsStartWithLineThenTag test](https://github.com/EricZimmerman/TLEFilePlugins/commit/2b922d0567fcd72406e3506a0dd2fe0efe731ba5)
-- 2026-10-19T22:39:11+00:00 — [Test: every layout starts with Line, then Tag](https://github.com/EricZimmerman/TLEFilePlugins/commit/729fcf63993f0f0e55696654e1b3dd436a59cae8)
-- 2026-10-19T22:38:03+00:00 — [Layouts: Line first and Tag second in Autoruns, MsftMft and ForensicT…](https://github.com/EricZimmerman/TLEFilePlugins/commit/4615fa90469e144ba311d91e168afe29ed208aac)
-- 2026-10-19T22:34:06+00:00 — [RECmd plugin layouts: column widths from real CSVs (40 plugins)](https://github.com/EricZimmerman/TLEFilePlugins/commit/aac5af918f4d913185fe48c74e332c1ff208495e)
-- 2026-10-19T18:59:36+00:00 — [Plugin classes named as the tools are: PECmd, RBCmd, JLECmdAuto, JLEC…](https://github.com/EricZimmerman/TLEFilePlugins/commit/b473a52bc03b9e69add43fa3eb65df92251c10cd)
-- 2026-10-19T18:59:35+00:00 — [Layouts: no sort by Line (the file's order) in the AcpiPhatHealthReco…](https://github.com/EricZimmerman/TLEFilePlugins/commit/9521f76c1ca580704d406a9a251433d18a92ced3)
-- 2026-10-19T18:56:39+00:00 — [Default layouts: Eric's column choices for the EZ Tools CSVs (81 layo…](https://github.com/EricZimmerman/TLEFilePlugins/commit/95e3fd38221514418b25cc0ed5a5ae7858ec971b)
-- 2026-10-19T18:33:08+00:00 — [CopyPlugins.ps1 -ImportLayouts: makes the layouts saved in Timeline E…](https://github.com/EricZimmerman/TLEFilePlugins/commit/41b66dfd9a3f0f4884773925b29c97394132ec31)
-- 2026-10-19T18:07:21+00:00 — [Plugins for the CSVs that opened as generic: MFTECmd $I30, RecentFile…](https://github.com/EricZimmerman/TLEFilePlugins/commit/8723889e7b26dac2c0d32c7c0894152975cf62fe)
+- 2026-10-21T00:12:23+00:00 — [Embedded pdbs and ContinuousIntegrationBuild in Directory.Build.props](https://github.com/EricZimmerman/TLEFilePlugins/commit/40c083127413f04e0a297bc0e8f9f51e20592e55)
+- 2026-10-20T17:32:07+00:00 — [Hand-parsed plugins: columns matched ignoring case, as TLE matches he…](https://github.com/EricZimmerman/TLEFilePlugins/commit/a460f27b4c7eb69dbd5bd9716edb3cb09299e7bc)
+- 2026-10-20T17:20:01+00:00 — [Plugins: CsvHelper CacheFields, one string for a repeated value](https://github.com/EricZimmerman/TLEFilePlugins/commit/fa63497aca422dec3bdbd800ef5c28212d1ec258)
+- 2026-10-20T17:19:42+00:00 — [GenericCsv: rows straight into an ExpandoObject; #TYPE only on the fi…](https://github.com/EricZimmerman/TLEFilePlugins/commit/f2d3540d802eaf931f0a2274c30cb9739fcba924)
+- 2026-10-20T17:19:35+00:00 — [Plugins: no per-row work for debug messages or list events; ordinal t…](https://github.com/EricZimmerman/TLEFilePlugins/commit/1c5f35ea0b0898a1ce723b989d6d84349d5747ce)
 
 ## EZ Get-ZimmermanTools commits
 
 - Site: https://github.com/EricZimmerman/Get-ZimmermanTools
 - Feed: https://github.com/EricZimmerman/Get-ZimmermanTools/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 7
+- New since last snapshot: 10
 
-- 2026-10-19T16:35:01+00:00 — [Build-ZimmermanTools: maps, batch files, bookmarks, the manual and TL…](https://github.com/EricZimmerman/Get-ZimmermanTools/commit/519f2e0957e311a8729fa27a53311cd7c0c4c27f)
-- 2026-10-19T15:24:09+00:00 — [Build-ZimmermanTools: stage on one machine, sign and zip on another (…](https://github.com/EricZimmerman/Get-ZimmermanTools/commit/0d79cde9ba13bdb0627c8c357faca41f4e9d88e7)
-- 2026-10-19T14:23:14+00:00 — [Build-ZimmermanTools --zip: each zip copied under a temporary name ne…](https://github.com/EricZimmerman/Get-ZimmermanTools/commit/c0303eac9d8fbb760cc8e53ba3b3b468246ea435)
-- 2026-10-19T14:17:45+00:00 — [Build-ZimmermanTools --sign: a message for each phase (finding files,…](https://github.com/EricZimmerman/Get-ZimmermanTools/commit/d1a2d1f96bd8bd67c42279c8ad26c213f8bfb20b)
-- 2026-10-19T14:08:50+00:00 — [Build-ZimmermanTools: a note for every download (the download page, e…](https://github.com/EricZimmerman/Get-ZimmermanTools/commit/332f866d2487fafffb3a03d92d4313c93e177c8f)
-- 2026-10-19T14:03:42+00:00 — [Build-ZimmermanTools: '== ' in red, the program and framework after i…](https://github.com/EricZimmerman/Get-ZimmermanTools/commit/03c73daad232e6dda661478c7df0b1c1a117cddb)
-- 2026-10-19T13:51:31+00:00 — [CLAUDE.md: release staging by Build-ZimmermanTools, GUI conventions (…](https://github.com/EricZimmerman/Get-ZimmermanTools/commit/38e819759751d378e9f0b47cd10fdabafda47ef0)
+- 2026-10-21T00:15:27+00:00 — [Build-ZimmermanTools: no .pdb staged (fails), embedded pdb check of e…](https://github.com/EricZimmerman/Get-ZimmermanTools/commit/5cd55d01302a716b33ed0afaa77b51d6687dc073)
+- 2026-10-20T23:42:20+00:00 — [CLAUDE.md: no GUI ships a .dll.config (no App.config in any)](https://github.com/EricZimmerman/Get-ZimmermanTools/commit/50e7c0130f1eb1f78e84cb4669cb610272e0b106)
+- 2026-10-20T22:44:28+00:00 — [Build-ZimmermanTools: AmcacheParser and WxTCmd as Costura command lin…](https://github.com/EricZimmerman/Get-ZimmermanTools/commit/80d1e294a76bb426c9952e0165124485d6e3c586)
+- 2026-10-20T22:37:05+00:00 — [CLAUDE.md: the GUIs ship no sni.dll (excluded in their projects)](https://github.com/EricZimmerman/Get-ZimmermanTools/commit/9782cc251961602ec2c28d47074a03804f76f3c1)
+- 2026-10-20T22:29:06+00:00 — [Build-ZimmermanTools: TimeApp's .NET 10 build is one exe too (at the …](https://github.com/EricZimmerman/Get-ZimmermanTools/commit/9bc015077b4da4e452784fb0a63a6a4fb9a948d4)
+- 2026-10-20T22:12:04+00:00 — [Build-ZimmermanTools: the programs with a window are published as one…](https://github.com/EricZimmerman/Get-ZimmermanTools/commit/bd93174298a95fcc4913f1c1a0474b855a490f18)
+- 2026-10-20T20:50:57+00:00 — [Build-ZimmermanTools: --sign signs only Eric's files, listed by stagi…](https://github.com/EricZimmerman/Get-ZimmermanTools/commit/54562163c1abbcc87402af2b4b8f00a6ba2f79af)
+- 2026-10-20T20:26:15+00:00 — [Build-ZimmermanTools: GUIs without Costura are staged with every file…](https://github.com/EricZimmerman/Get-ZimmermanTools/commit/3ca9231cb3fed0a772d066affb3e66ec6d203e36)
+- 2026-10-20T16:38:19+00:00 — [Build-ZimmermanTools: --zip warns about a zip left from a framework a…](https://github.com/EricZimmerman/Get-ZimmermanTools/commit/ab029a8f5e01cdae94cf15a84bcae41ac714e18f)
+- 2026-10-20T15:04:09+00:00 — [CLAUDE.md: ezTriage is not built by Build-ZimmermanTools (it has its …](https://github.com/EricZimmerman/Get-ZimmermanTools/commit/b5c3e22bcebbf13a3713c43afbab1b1a293a5ac8)
 
 ## EZ KapeDocs commits
 
