@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-10-23T03:35:58Z
+Generated: 2026-10-24T03:34:11Z
 
 ## Windows Incident Response
 
@@ -33,7 +33,19 @@ Generated: 2026-10-23T03:35:58Z
 
 - Site: https://dfirdiva.com/
 - Feed: https://dfirdiva.com/feed
-- Status: error: not well-formed (invalid token): line 1, column 116
+- Entries checked: 10
+- New since last snapshot: 10
+
+- 2026-09-23T02:32:48+00:00 — [Techno Security & Digital Forensics Conference: October 20-22, 2026](https://dfirdiva.com/techno-security-digital-forensics-conference-october-20-22-2026/)
+- 2026-09-11T21:01:49+00:00 — [Introducing DFIR, OSINT, & Cybersecurity Community Listings](https://dfirdiva.com/introducing-dfir-osint-cybersecurity-community-listings/)
+- 2026-07-28T01:53:25+00:00 — [The Events Site is Being Rebuilt](https://dfirdiva.com/the-events-site-is-being-rebuilt/)
+- 2025-11-30T06:00:00+00:00 — [My Experience with Alias by SockPuppet](https://dfirdiva.com/my-experience-with-alias-by-sockpuppet/)
+- 2025-11-29T04:39:45+00:00 — [Free & Affordable Training News: Black Friday 2025 Edition](https://dfirdiva.com/free-affordable-training-news-black-friday-2025-edition/)
+- 2025-10-01T04:47:39+00:00 — [Techno Security & Digital Forensics Conference: October 27-29, 2025](https://dfirdiva.com/techno-security-digital-forensics-conference-october-27-29-2025/)
+- 2025-05-28T02:49:49+00:00 — [Upcoming Techno Security & Digital Forensics Conference](https://dfirdiva.com/upcoming-techno-security-digital-forensics-conference-2/)
+- 2025-03-10T05:47:02+00:00 — [Free & Affordable Training News Monthly: Feb – Mar 2025](https://dfirdiva.com/free-affordable-training-news-monthly-feb-march-2025/)
+- 2025-02-03T09:18:55+00:00 — [Free & Affordable Training News Monthly: Dec 2024 – Feb 2025](https://dfirdiva.com/free-amp-affordable-training-news-monthly-dec-2024-feb-2025/)
+- 2024-12-01T19:45:17+00:00 — [Free & Affordable Training News Monthly: Nov – Dec, 2024](https://dfirdiva.com/free-affordable-training-news-monthly-nov-dec-2024/)
 
 ## mac4n6
 
@@ -196,9 +208,9 @@ Generated: 2026-10-23T03:35:58Z
 - Site: https://www.magnetforensics.com/
 - Feed: https://www.magnetforensics.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-10-23T19:07:12+00:00 — [RDP: Forensic analysis of Windows Remote Desktop Protocol artifacts](https://www.magnetforensics.com/blog/rdp-forensic-analysis-of-windows-remote-desktop-protocol-artifacts/)
 
 ## The DFIR Report
 
@@ -220,27 +232,38 @@ Generated: 2026-10-23T03:35:58Z
 - Site: https://isc.sans.edu/
 - Feed: https://isc.sans.edu/rssfeed_full.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 3
 
-- No new entries detected
+- 2026-10-23T20:04:47+00:00 — [(Reliable)&#x3f; php2shell exploitability, (Fri, Oct 23rd)](https://isc.sans.edu/diary/rss/33452)
+- 2026-10-23T13:43:20+00:00 — [PHP Vulnerability Wrap-Up, (Fri, Oct 23rd)](https://isc.sans.edu/diary/rss/33450)
+- 2026-10-23T10:25:11+00:00 — [ISC Stormcast For Friday, October 23rd, 2026 https://isc.sans.edu/podcastdetail/10148, (Fri, Oct 23rd)](https://isc.sans.edu/diary/rss/33448)
 
 ## DFIR Training Blog
 
 - Site: https://www.dfir.training/blog
 - Feed: https://www.dfir.training/blog
-- Entries checked: 0
-- New since last snapshot: 0
+- Entries checked: 10
+- New since last snapshot: 10
 
-- No new entries detected
+- unknown date — [Training](https://www.dfir.training/training)
+- unknown date — [Tools](https://www.dfir.training/dfir-tools)
+- unknown date — [Directory](https://www.dfir.training/providers)
+- unknown date — [Library](https://www.dfir.training/resources)
+- unknown date — [Sponsors](https://www.dfir.training/sponsors)
+- unknown date — [Blog](https://www.dfir.training/blog)
+- unknown date — [Contact](https://www.dfir.training/contact-form)
+- unknown date — [Ask AI. Then Ask the People Doing the Work.](https://www.dfir.training/blog/ask-ai-then-ask-the-people-doing-the-work)
+- unknown date — [The Digital Forensics Devil You Know](https://www.dfir.training/blog/the-digital-forensics-devil-you-know)
+- unknown date — [What 400 DFIR Books Tell Us About the Field](https://www.dfir.training/blog/what-400-dfir-books-tell-us-about-the-field)
 
 ## MSAB
 
 - Site: https://www.msab.com/
 - Feed: https://www.msab.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-10-22T11:30:45+00:00 — [Q3 2026 Release Now Available](https://www.msab.com/updates/q3-2026-major-release-is-now-available-2/)
+- No new entries detected
 
 ## AboutDFIR
 
@@ -249,7 +272,7 @@ Generated: 2026-10-23T03:35:58Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-10-22T11:38:50+00:00 — [InfoSec News Nuggets – 10/22/2026](https://aboutdfir.com/infosec-news-nuggets-10-22-2026/)
+- 2026-10-23T11:37:53+00:00 — [InfoSec News Nuggets – 10/23/2026](https://aboutdfir.com/infosec-news-nuggets-10-23-2026/)
 
 ## Forensic 4cast
 
@@ -366,8 +389,8 @@ Generated: 2026-10-23T03:35:58Z
 - Entries checked: 10
 - New since last snapshot: 2
 
-- 2026-10-22T11:30:00+00:00 — [Painting with impaired vision: Camille Pissarro](https://eclecticlight.co/2026/10/22/painting-with-impaired-vision-camille-pissarro/)
-- 2026-10-22T06:30:00+00:00 — [Local network privacy is getting better](https://eclecticlight.co/2026/10/22/local-network-privacy-is-getting-better/)
+- 2026-10-23T11:30:00+00:00 — [Briefly better than Turner: Thomas Girtin](https://eclecticlight.co/2026/10/23/briefly-better-than-turner-thomas-girtin/)
+- 2026-10-23T06:30:00+00:00 — [Why Golden Gate may not change focus correctly](https://eclecticlight.co/2026/10/23/why-golden-gate-may-not-change-focus-correctly/)
 
 ## JPCERT/CC
 
@@ -401,10 +424,9 @@ Generated: 2026-10-23T03:35:58Z
 - Site: https://www.huntress.com/blog
 - Feed: https://www.huntress.com/blog/rss.xml
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-10-22T15:00:00+00:00 — [Unboxing Phishing Kits: Huntress Examines 3 Real Kits](https://www.huntress.com/blog/unboxing-phishing-kits)
-- 2026-10-22T13:00:00+00:00 — [M365 Token Spray and Replay Campaign Compromises Business Email Accounts](https://www.huntress.com/blog/token-replay-spray)
+- No new entries detected
 
 ## Red Canary Blog
 
@@ -420,10 +442,9 @@ Generated: 2026-10-23T03:35:58Z
 - Site: https://unit42.paloaltonetworks.com/
 - Feed: https://unit42.paloaltonetworks.com/feed/
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-10-22T17:15:32+00:00 — [EMudhra Intermediate CA Certificates Compromised](https://unit42.paloaltonetworks.com/emudhra-certificate-compromise/)
-- 2026-10-22T17:00:25+00:00 — [The Current Landscape of OAuth Attacks](https://unit42.paloaltonetworks.com/current-landscape-oauth-attacks/)
+- No new entries detected
 
 ## Mandiant Threat Intelligence
 
@@ -439,9 +460,9 @@ Generated: 2026-10-23T03:35:58Z
 - Site: https://blog.talosintelligence.com/
 - Feed: https://blog.talosintelligence.com/rss/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-10-22T18:04:32+00:00 — [I had plans for that second](https://blog.talosintelligence.com/i-had-plans-for-that-second/)
+- No new entries detected
 
 ## SANS Blog
 
@@ -468,7 +489,7 @@ Generated: 2026-10-23T03:35:58Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-10-22T16:26:55+00:00 — [PHP2Shell Exposure: 73% of 2.2 Million Version-Disclosing PHP Services Run Unsupported Branches](https://flare.io/learn/resources/blog/php2shell-exposure)
+- 2026-10-23T17:26:31+00:00 — [“PoC Yes. RCE No.”: What the Underground Actually Thinks of the Public PHP2Shell Exploits](https://flare.io/learn/resources/blog/php2shell-exploits-underground-analysis)
 
 ## Binalyze Blog
 
@@ -499,9 +520,10 @@ Generated: 2026-10-23T03:35:58Z
 - Site: https://cellebrite.com/en/blog/
 - Feed: https://cellebrite.com/en/feed/
 - Entries checked: 5
-- New since last snapshot: 1
+- New since last snapshot: 2
 
-- 2026-10-22T19:46:42+00:00 — [Contraband Phone Triage: How Cellebrite Genesis Turns Device Backlogs into Investigative Intelligence](https://cellebrite.com/en/blog/contraband-phone-triage-corrections-genesis/)
+- 2026-10-23T18:56:55+00:00 — [Lessons From the Forensic Examiners Behind the University of Idaho Murders Investigation](https://cellebrite.com/en/blog/university-of-idaho-murders-forensic-lessons/)
+- 2026-10-23T14:41:32+00:00 — [Every Device Tells a Story: Turning contraband phones and drones into actionable intelligence](https://cellebrite.com/en/resources/webinars/every-device-tells-a-story-turning-contraband-phones-and-drones-into-actionable-intelligen/)
 
 ## DFIR Science
 
@@ -517,21 +539,20 @@ Generated: 2026-10-23T03:35:58Z
 - Site: https://www.crowdstrike.com/blog/
 - Feed: https://www.crowdstrike.com/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- 2026-10-23T00:00:00-05:00 — [Why Organizations Secure AI Agents with Falcon Guardian](https://www.crowdstrike.com/en-us/blog/why-organizations-secure-ai-agents-with-falcon-guardian/)
+- 2026-10-23T00:00:00-05:00 — [Obstacles to Weaponizing PHP2Shell Likely Constrain Immediate Widespread Exploitation](https://www.crowdstrike.com/en-us/blog/obstacles-to-weaponizing-php2shell-likely-constrain-exploitation/)
 
 ## Malwarebytes Labs
 
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 4
+- New since last snapshot: 2
 
-- 2026-10-22T16:59:22+00:00 — [Facebook’s misleading privacy claims land Meta a $25 billion penalty](https://www.malwarebytes.com/blog/news/2026/10/facebooks-misleading-privacy-claims-land-meta-a-25-billion-penalty)
-- 2026-10-22T14:14:26+00:00 — [Scammers are finding new ways to target your phone. Here are 5 ways to protect yourself](https://www.malwarebytes.com/blog/scams/2026/10/scammers-are-finding-new-ways-to-target-your-phone-here-are-5-ways-to-protect-yourself)
-- 2026-10-22T11:27:07+00:00 — [Woman faces years in prison over a Cash App account she says she never opened](https://www.malwarebytes.com/blog/news/2026/10/woman-faces-years-in-prison-over-a-cash-app-account-she-says-she-never-opened)
-- 2026-10-22T09:39:23+00:00 — [Delivery bots accused of illegally scanning customers](https://www.malwarebytes.com/blog/privacy/2026/10/delivery-bots-accused-of-illegally-scanning-customers)
+- 2026-10-23T13:07:52+00:00 — [Resident Evil maker Capcom warns of phishing after 11.7 million records exposed](https://www.malwarebytes.com/blog/data-breaches/2026/10/resident-evil-maker-capcom-warns-of-phishing-after-11-7-million-records-exposed)
+- 2026-10-23T09:57:48+00:00 — [Crime Stoppers chapter freezes tips after breach breaks anonymity promise](https://www.malwarebytes.com/blog/data-breaches/2026/10/crime-stoppers-chapter-freezes-tips-after-breach-breaks-anonymity-promise)
 
 ## Krebs on Security
 
@@ -547,30 +568,29 @@ Generated: 2026-10-23T03:35:58Z
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 9
+- New since last snapshot: 7
 
-- 2026-10-22T17:25:31-04:00 — [Railway warns devs to rotate secrets after potential breach](https://www.bleepingcomputer.com/news/security/railway-warns-devs-to-rotate-secrets-after-potential-breach/)
-- 2026-10-22T16:22:45-04:00 — [Capcom confirms data breach affecting 11.7 million accounts](https://www.bleepingcomputer.com/news/security/capcom-confirms-data-breach-affecting-117-million-accounts/)
-- 2026-10-22T15:12:51-04:00 — [LiteLLM release pipeline hacked to distribute info-stealer malware](https://www.bleepingcomputer.com/news/security/litellm-release-pipeline-hacked-to-distribute-info-stealer-malware/)
-- 2026-10-22T13:18:22-04:00 — [Arista patches new VeloCloud Orchestrator zero-day exploited in attacks](https://www.bleepingcomputer.com/news/security/arista-patches-new-velocloud-orchestrator-zero-day-exploited-in-attacks/)
-- 2026-10-22T11:49:32-04:00 — [Microsoft shares how to fix broken Exchange Online EWS apps](https://www.bleepingcomputer.com/news/microsoft/microsoft-shares-how-to-fix-broken-exchange-online-ews-apps/)
-- 2026-10-22T10:02:12-04:00 — [Machine speed attacks require machine speed detection and response](https://www.bleepingcomputer.com/news/security/machine-speed-attacks-require-machine-speed-detection-and-response/)
-- 2026-10-22T09:09:12-04:00 — [Amazon says PHP2Shell exploitation began 4 days before patches](https://www.bleepingcomputer.com/news/security/amazon-says-php2shell-exploitation-began-4-days-before-patches/)
-- 2026-10-22T07:41:48-04:00 — [GitLab warns of new max severity code execution vulnerability](https://www.bleepingcomputer.com/news/security/gitlab-warns-of-new-max-severity-code-execution-vulnerability/)
-- 2026-10-22T04:27:11-04:00 — [Authorities disrupt nearly 11,000 cybercrime networks in Africa](https://www.bleepingcomputer.com/news/security/authorities-disrupt-nearly-11-000-cybercrime-networks-in-africa/)
+- 2026-10-23T16:55:05-04:00 — [Abandoned Popcorn Time app exposed millions of devices to RCE attacks](https://www.bleepingcomputer.com/news/security/abandoned-popcorn-time-app-exposed-millions-of-device-to-rce-attacks/)
+- 2026-10-23T14:54:41-04:00 — [Microsoft Teams to get AI-powered, context-aware phishing detection](https://www.bleepingcomputer.com/news/microsoft/microsoft-teams-to-get-ai-powered-context-aware-phishing-detection/)
+- 2026-10-23T13:05:07-04:00 — [Microsoft: Windows Server 2016 reaches end of support in January](https://www.bleepingcomputer.com/news/microsoft/microsoft-windows-server-2016-reaches-end-of-support-in-january/)
+- 2026-10-23T12:40:07-04:00 — [Quest Diagnostics confirms data breach exposed patient records](https://www.bleepingcomputer.com/news/security/quest-diagnostics-confirms-data-breach-exposed-patient-records/)
+- 2026-10-23T11:38:05-04:00 — [PHP shares mitigation for new RCE vulnerability with no patch](https://www.bleepingcomputer.com/news/security/php-shares-mitigation-for-new-and-unpatched-rce-vulnerability/)
+- 2026-10-23T10:00:10-04:00 — [You gave your AI agent access, but who is giving it orders?](https://www.bleepingcomputer.com/news/security/you-gave-your-ai-agent-access-but-who-is-giving-it-orders/)
+- 2026-10-23T08:48:00-04:00 — [HPE patches eight max severity RCE and auth bypass AOS flaws](https://www.bleepingcomputer.com/news/security/hpe-patches-eight-max-severity-rce-and-auth-bypass-aos-flaws/)
 
 ## Dark Reading
 
 - Site: https://www.darkreading.com/
 - Feed: https://www.darkreading.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 5
+- New since last snapshot: 6
 
-- 2026-10-23T03:30:00+00:00 — [State Bank of India Suffers a Customer PII Data Leak](https://www.darkreading.com/cyberattacks-data-breaches/state-bank-india-customer-pii-data-leak)
-- 2026-10-22T20:42:17+00:00 — [Microsoft Links Storm-0940 to ConnectWise Supply Chain Attack](https://www.darkreading.com/cyberattacks-data-breaches/microsoft-storm-0940-connectwise-supply-chain-attack)
-- 2026-10-22T20:33:10+00:00 — [What We Missed: Feds Lasso Texas Laptop Farms](https://www.darkreading.com/insider-threats/texas-laptop-farms-north-korean-it-workers)
-- 2026-10-22T19:30:20+00:00 — [Les supermarchés de l'UE paient d'un firmware de réfrigérateur non mis à jour](https://www.darkreading.com/ics-ot-security/eu-grocers-unpatched-fridge-firmware-french)
-- 2026-10-22T05:00:00+00:00 — [UAE Transitions 50% of Gov't Services to Agentic AI](https://www.darkreading.com/cybersecurity-operations/uae-transitions-50-government-services-agentic-ai)
+- 2026-10-23T20:57:56+00:00 — [Trust Is Not What It Seems — And Fraudsters Are Counting on It](https://www.darkreading.com/cyber-risk/trust-is-not-what-it-seems-and-fraudsters-are-counting-on-it)
+- 2026-10-23T19:41:23+00:00 — [Exposed to PHP2Shell? Cyber Experts Weigh in With Advice](https://www.darkreading.com/application-security/exposed-php2shell-cyber-experts-advice)
+- 2026-10-23T17:26:59+00:00 — [AI Tools Are Generating Massive Attacks for Little Cost](https://www.darkreading.com/cybersecurity-operations/ai-tools-massive-attacks-little-cost)
+- 2026-10-23T14:00:00+00:00 — [Why Caribbean Threats Cascade Into Global Cyber-Risk](https://www.darkreading.com/cyber-risk/why-caribbean-threats-cascade-global-cyber-risk)
+- 2026-10-23T13:30:00+00:00 — [Cyber Insurance's New Reality: Underwriting Isn't Enough](https://www.darkreading.com/cyber-risk/cyber-insurances-underwriting-isnt-enough)
+- 2026-10-23T11:38:28+00:00 — [AI Agents as Insider Threats: Inside Microsoft's Bet on a Unified Security Stack](https://www.darkreading.com/cybersecurity-operations/ai-agents-insider-threats-inside-microsoft-unified-security-stack)
 
 ## Volexity Blog
 
@@ -592,18 +612,18 @@ Generated: 2026-10-23T03:35:58Z
 - Site: https://www.microsoft.com/en-us/security/blog/
 - Feed: https://www.microsoft.com/en-us/security/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-10-23T18:12:19+00:00 — [Inside the LiteLLM 1.107.0 supply chain compromise: Credential theft through Python startup hooks](https://www.microsoft.com/en-us/security/blog/2026/10/23/inside-the-litellm-1-107-0-supply-chain-compromise-credential-theft-through-python-startup-hooks/)
 
 ## HackingPassion
 
 - Site: https://hackingpassion.com/
 - Feed: https://hackingpassion.com/index.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-10-22T11:41:17+02:00 — [Plex2shell Home Servers Crypto Miner](https://hackingpassion.com/plex2shell-home-servers-crypto-miner/)
+- No new entries detected
 
 ## LOLBAS Project (Windows)
 
@@ -637,9 +657,11 @@ Generated: 2026-10-23T03:35:58Z
 - Site: https://www.loldrivers.io/
 - Feed: https://github.com/magicsword-io/LOLDrivers/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 3
 
-- No new entries detected
+- 2026-10-23T19:50:46+00:00 — [New site and hashes generated by GitHub Actions [ci skip]](https://github.com/magicsword-io/LOLDrivers/commit/96a491d410f849fd392762c83cea8ccbe81a5bff)
+- 2026-10-23T19:39:51+00:00 — [Merge pull request #478 from magicsword-io/josehelps/prevent-link-mag…](https://github.com/magicsword-io/LOLDrivers/commit/e5cd628b2b62dbcc36324a98a18c0df514d87e5e)
+- 2026-10-23T19:30:46+00:00 — [Add Prevent navigation link with LOLDrivers tracking](https://github.com/magicsword-io/LOLDrivers/commit/e4a94479c85f05ff8faea908675780137bbce49b)
 
 ## LOFL Project (RMM C2 indicators)
 
@@ -691,18 +713,18 @@ Generated: 2026-10-23T03:35:58Z
 - Site: https://github.com/EricZimmerman/AppCompatCacheParser
 - Feed: https://github.com/EricZimmerman/AppCompatCacheParser/releases.atom
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-10-22T22:36:58+00:00 — [2026.10.3](https://github.com/EricZimmerman/AppCompatCacheParser/releases/tag/2026.10.3)
+- No new entries detected
 
 ## EZ AmcacheParser releases
 
 - Site: https://github.com/EricZimmerman/AmcacheParser
 - Feed: https://github.com/EricZimmerman/AmcacheParser/releases.atom
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-10-22T22:36:55+00:00 — [2026.10.2](https://github.com/EricZimmerman/AmcacheParser/releases/tag/2026.10.2)
+- No new entries detected
 
 ## EZ SQLECmd releases
 
@@ -781,20 +803,18 @@ Generated: 2026-10-23T03:35:58Z
 - Site: https://github.com/EricZimmerman/RegistryPlugins
 - Feed: https://github.com/EricZimmerman/RegistryPlugins/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 1
 
-- 2026-10-22T23:00:14+00:00 — [Copyright: Eric R. Zimmerman 2027](https://github.com/EricZimmerman/RegistryPlugins/commit/1510af8e9e3095e23119543af2432a8fc8012ea1)
-- 2026-10-22T22:45:31+00:00 — [AppCompatCache plugin: AppCompatCache 2026.10.3 (Registry 2026.10.1)](https://github.com/EricZimmerman/RegistryPlugins/commit/e4e8fd3c251eacd0a1365bec26b8f72659d880cf)
-- 2026-10-22T22:35:04+00:00 — [Registry 2026.10.1 (an invalid base block time stamp no longer stops …](https://github.com/EricZimmerman/RegistryPlugins/commit/480010446aa4eccc6d6e57d436c359f7cc4cc6d9)
+- 2026-10-23T20:40:12+00:00 — [RegistryPluginBase: ExtensionBlocks 2026.10.8 (0x2E GUID items with e…](https://github.com/EricZimmerman/RegistryPlugins/commit/fff14635e82b7b665c624fb8ac619c34513d8c27)
 
 ## EZ RegistryExplorerBookmarks commits
 
 - Site: https://github.com/EricZimmerman/RegistryExplorerBookmarks
 - Feed: https://github.com/EricZimmerman/RegistryExplorerBookmarks/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-10-22T23:00:11+00:00 — [Copyright: Eric R. Zimmerman 2027](https://github.com/EricZimmerman/RegistryExplorerBookmarks/commit/587d5ab65b850f696e4fc1cf367c9e7cd1b09238)
+- No new entries detected
 
 ## EZ GuidMapping commits
 
@@ -864,9 +884,15 @@ Generated: 2026-10-23T03:35:58Z
 - Site: https://github.com/elastic/detection-rules
 - Feed: https://github.com/elastic/detection-rules/releases.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 7
 
-- No new entries detected
+- 2026-10-23T14:24:04+00:00 — [integration-v9.5.9: Lock versions for releases: 8.19,9.3,9.4,9.5 (#7078)](https://github.com/elastic/detection-rules/releases/tag/integration-v9.5.9)
+- 2026-10-23T14:23:17+00:00 — [integration-v9.4.16: Lock versions for releases: 8.19,9.3,9.4,9.5 (#7078)](https://github.com/elastic/detection-rules/releases/tag/integration-v9.4.16)
+- 2026-10-23T14:22:15+00:00 — [integration-v9.3.24: Lock versions for releases: 8.19,9.3,9.4,9.5 (#7078)](https://github.com/elastic/detection-rules/releases/tag/integration-v9.3.24)
+- 2026-10-23T14:21:15+00:00 — [integration-v8.19.36: Lock versions for releases: 8.19,9.3,9.4,9.5 (#7078)](https://github.com/elastic/detection-rules/releases/tag/integration-v8.19.36)
+- 2026-10-23T14:19:20+00:00 — [dev-v3.0.21](https://github.com/elastic/detection-rules/releases/tag/dev-v3.0.21)
+- 2026-10-23T11:58:57+00:00 — [dev-v3.0.20](https://github.com/elastic/detection-rules/releases/tag/dev-v3.0.20)
+- 2026-10-23T08:23:33+00:00 — [dev-v3.0.19](https://github.com/elastic/detection-rules/releases/tag/dev-v3.0.19)
 
 ## regipy releases
 
@@ -882,19 +908,18 @@ Generated: 2026-10-23T03:35:58Z
 - Site: https://github.com/EricZimmerman/Registry
 - Feed: https://github.com/EricZimmerman/Registry/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-10-22T23:00:00+00:00 — [Copyright: Eric R. Zimmerman 2027](https://github.com/EricZimmerman/Registry/commit/d23a4b049de1ac31efbb915946e028a901d22bfb)
-- 2026-10-22T22:25:55+00:00 — [An invalid base block time stamp no longer stops the hive from loading](https://github.com/EricZimmerman/Registry/commit/de0bdbbea699637fe0e7b519c9f7fc07aafb173a)
+- No new entries detected
 
 ## EZ MFT commits
 
 - Site: https://github.com/EricZimmerman/MFT
 - Feed: https://github.com/EricZimmerman/MFT/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-10-22T22:59:40+00:00 — [Copyright: Eric R. Zimmerman 2027](https://github.com/EricZimmerman/MFT/commit/c5e9e2ada53c9812b0de5a66543b76fc91b3aa0e)
+- No new entries detected
 
 ## EZ Lnk commits
 
@@ -903,7 +928,7 @@ Generated: 2026-10-23T03:35:58Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-10-22T22:59:37+00:00 — [Copyright: Eric R. Zimmerman 2027](https://github.com/EricZimmerman/Lnk/commit/0db6834e90cb96489d0ecfab236e0ffea8486569)
+- 2026-10-23T20:40:11+00:00 — [ExtensionBlocks 2026.10.8 (0x2E GUID items with extension blocks no l…](https://github.com/EricZimmerman/Lnk/commit/2807476c989f72ea17fbdc2466b8cb8a3938bef7)
 
 ## EZ OleCf commits
 
@@ -921,7 +946,7 @@ Generated: 2026-10-23T03:35:58Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-10-22T22:59:29+00:00 — [Copyright: Eric R. Zimmerman 2027](https://github.com/EricZimmerman/JumpList/commit/1b44e42672cbb5b99b331a3dc6fb0bb3e76f0799)
+- 2026-10-23T20:49:13+00:00 — [Lnk 2026.10.10 and ExtensionBlocks 2026.10.8 (0x2E GUID items with ex…](https://github.com/EricZimmerman/JumpList/commit/c158abb87dbcd83edbec296d4024efa2debf4cc7)
 
 ## EZ Prefetch commits
 
@@ -937,25 +962,20 @@ Generated: 2026-10-23T03:35:58Z
 - Site: https://github.com/EricZimmerman/Srum
 - Feed: https://github.com/EricZimmerman/Srum/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 5
+- New since last snapshot: 2
 
-- 2026-10-23T00:31:51+00:00 — [SrumECmd: name each -d folder that can't be read; fix net472 reporting](https://github.com/EricZimmerman/Srum/commit/3095f0b317a3d38f0f5931903c83c777c7e35ef8)
-- 2026-10-23T00:27:34+00:00 — [SrumECmd: a -r SOFTWARE hive that can't be read exits 1](https://github.com/EricZimmerman/Srum/commit/985338d96905738b971dd5a7d1ca01bc235a3433)
-- 2026-10-23T00:10:41+00:00 — [SrumECmd: exit code 1 only when the tool fails, 0 for damaged databases](https://github.com/EricZimmerman/Srum/commit/0548b6b1c695379c262274e954b6be92daaf267b)
-- 2026-10-22T23:00:28+00:00 — [Copyright: Eric R. Zimmerman 2027](https://github.com/EricZimmerman/Srum/commit/9936ad960ffccc68f8d1d4f9bb68c5693b10b467)
-- 2026-10-22T22:34:57+00:00 — [Registry 2026.10.1 (an invalid base block time stamp no longer stops …](https://github.com/EricZimmerman/Srum/commit/814f7b68a41996a80c5a6209f38df671433a68d3)
+- 2026-10-23T18:11:06+00:00 — [README: ChangeLog link to the ChangeLog page on ericzimmerman.github.io](https://github.com/EricZimmerman/Srum/commit/46fb4e9611c33fdc96236e79d0075db9090bd91c)
+- 2026-10-23T18:01:44+00:00 — [README: 2026.10 release, standard format](https://github.com/EricZimmerman/Srum/commit/c23510f17f3daa8ae5ba41a9df37d754ea6d5f91)
 
 ## EZ RecentFileCacheParser commits
 
 - Site: https://github.com/EricZimmerman/RecentFileCacheParser
 - Feed: https://github.com/EricZimmerman/RecentFileCacheParser/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 4
+- New since last snapshot: 2
 
-- 2026-10-23T00:31:47+00:00 — [RecentFileCacheParser: a file that can't be read is reported as "Unab…](https://github.com/EricZimmerman/RecentFileCacheParser/commit/5f76ce351ddd127e27f61857e50db9ff1f2d7161)
-- 2026-10-23T00:10:05+00:00 — [Exit code 0 for damaged files again, 1 only when the tool fails](https://github.com/EricZimmerman/RecentFileCacheParser/commit/282ec09a50845d830f0bf5c9e3c33210824ce76e)
-- 2026-10-22T22:59:55+00:00 — [Copyright: Eric R. Zimmerman 2027](https://github.com/EricZimmerman/RecentFileCacheParser/commit/9bff91630261b51676afa9361f49f9a4cff8cb1c)
-- 2026-10-22T22:34:25+00:00 — [Exit code 1 for a file that did not parse completely](https://github.com/EricZimmerman/RecentFileCacheParser/commit/742725aa52eb26f6631536a22e4d70476e9e2ca8)
+- 2026-10-23T18:11:00+00:00 — [README: ChangeLog link to the ChangeLog page on ericzimmerman.github.io](https://github.com/EricZimmerman/RecentFileCacheParser/commit/0523eb45fd7c87a4d7d34bdb9e5f27657a144e22)
+- 2026-10-23T18:01:39+00:00 — [README: 2026.10 release, standard format](https://github.com/EricZimmerman/RecentFileCacheParser/commit/6033b0852fd6c6c9bec30c2056fd4cb65da93a01)
 
 ## EZ WinSearchDbAnalyzer commits
 
@@ -980,27 +1000,31 @@ Generated: 2026-10-23T03:35:58Z
 - Site: https://github.com/EricZimmerman/ExtensionBlocks
 - Feed: https://github.com/EricZimmerman/ExtensionBlocks/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 3
 
-- 2026-10-22T22:59:06+00:00 — [Copyright: Eric R. Zimmerman 2027](https://github.com/EricZimmerman/ExtensionBlocks/commit/222619bd32eaaa4ce3e24a22eb57127412796314)
+- 2026-10-24T00:52:45+00:00 — [Corpus tests: !Ftp and !FindData class folders](https://github.com/EricZimmerman/ExtensionBlocks/commit/af36883fc3a2912525d31cb21b26007372d9f2ac)
+- 2026-10-24T00:48:02+00:00 — [Shell items: FTP folders and find data items found by their layout, w…](https://github.com/EricZimmerman/ExtensionBlocks/commit/6eba211aec0beb126ff748c81b83e59318b0c352)
+- 2026-10-23T20:22:20+00:00 — [0x2E GUID items with extension blocks after the GUID (0x48: it threw)…](https://github.com/EricZimmerman/ExtensionBlocks/commit/8936a7d436c84b2a94fd762883ef10f5aab8c07d)
 
 ## EZ TLEFilePlugins commits
 
 - Site: https://github.com/EricZimmerman/TLEFilePlugins
 - Feed: https://github.com/EricZimmerman/TLEFilePlugins/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-10-22T23:00:38+00:00 — [Copyright: Eric R. Zimmerman 2027](https://github.com/EricZimmerman/TLEFilePlugins/commit/f3d7a085a4d65492c1dac681bd59843b6870bb43)
+- No new entries detected
 
 ## EZ Get-ZimmermanTools commits
 
 - Site: https://github.com/EricZimmerman/Get-ZimmermanTools
 - Feed: https://github.com/EricZimmerman/Get-ZimmermanTools/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 3
 
-- 2026-10-22T22:59:16+00:00 — [Build-ZimmermanTools: GUIs' LICENSE.txt from their repositories; a mi…](https://github.com/EricZimmerman/Get-ZimmermanTools/commit/b580f488e9066cd1a916c2b6115cc45cb9ca84db)
+- 2026-10-23T18:01:56+00:00 — [CLAUDE.md: update the changed tools' READMEs with every release](https://github.com/EricZimmerman/Get-ZimmermanTools/commit/020ad30e3903c6d39a92021766a9f5526f2139c6)
+- 2026-10-23T17:22:32+00:00 — [Get-ZimmermanTools: compare the whole script when checking for a newe…](https://github.com/EricZimmerman/Get-ZimmermanTools/commit/340696dedf42d3fc2e5e35cf315be56189cda67c)
+- 2026-10-23T12:27:48+00:00 — [Get-ZimmermanTools: check for a newer version of itself first](https://github.com/EricZimmerman/Get-ZimmermanTools/commit/cc0d42b067b756546ef35716b3f60f7419a1b837)
 
 ## EZ KapeDocs commits
 
