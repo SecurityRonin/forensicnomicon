@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-10-25T03:37:13Z
+Generated: 2026-10-26T03:40:21Z
 
 ## Windows Incident Response
 
@@ -33,10 +33,7 @@ Generated: 2026-10-25T03:37:13Z
 
 - Site: https://dfirdiva.com/
 - Feed: https://dfirdiva.com/feed
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: not well-formed (invalid token): line 1, column 116
 
 ## mac4n6
 
@@ -61,9 +58,9 @@ Generated: 2026-10-25T03:37:13Z
 - Site: https://andreafortuna.org/
 - Feed: https://andreafortuna.org/feed.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-10-25T00:00:00+00:00 — [Weekly Wire #15: PHP’s Decade-Old Hangover](https://andreafortuna.org/2026/10/25/weekly-wire-15/)
 
 ## Salt Forensics
 
@@ -223,15 +220,16 @@ Generated: 2026-10-25T03:37:13Z
 - Site: https://isc.sans.edu/
 - Feed: https://isc.sans.edu/rssfeed_full.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- 2026-10-26T03:30:12+00:00 — [ISC Stormcast For Monday, October 26th, 2026 https://isc.sans.edu/podcastdetail/10150, (Mon, Oct 26th)](https://isc.sans.edu/diary/rss/33456)
+- 2026-10-25T19:57:53+00:00 — [YARA-X 1.22.0 Release, (Sun, Oct 25th)](https://isc.sans.edu/diary/rss/33454)
 
 ## DFIR Training Blog
 
 - Site: https://www.dfir.training/blog
 - Feed: https://www.dfir.training/blog
-- Entries checked: 10
+- Entries checked: 0
 - New since last snapshot: 0
 
 - No new entries detected
@@ -268,9 +266,9 @@ Generated: 2026-10-25T03:37:13Z
 - Site: https://thisweekin4n6.com/
 - Feed: https://thisweekin4n6.wordpress.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-10-25T11:25:03+00:00 — [Week 43 – 2026](https://thisweekin4n6.com/2026/10/25/week-43-2026/)
 
 ## The Sleuth Kit updates
 
@@ -313,10 +311,9 @@ Generated: 2026-10-25T03:37:13Z
 - Site: https://www.hexacorn.com/blog/
 - Feed: https://www.hexacorn.com/blog/feed/
 - Entries checked: 5
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-10-25T01:11:26+00:00 — [ripgrep as a lolbin](https://www.hexacorn.com/blog/2026/10/25/ripgrep-as-a-lolbin/)
-- 2026-10-24T21:04:28+00:00 — [Solving practical problems with AI – Part 2 – the most popular, and most commonly used passwords for malicious archives…](https://www.hexacorn.com/blog/2026/10/24/solving-practical-problems-with-ai-part-2-the-most-popular-and-most-commonly-used-passwords-for-malicious-archives/)
+- No new entries detected
 
 ## The DFIR Spot
 
@@ -368,11 +365,10 @@ Generated: 2026-10-25T03:37:13Z
 - Site: https://eclecticlight.co/
 - Feed: https://eclecticlight.co/feed/
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 2
 
-- 2026-10-24T11:30:00+00:00 — [American expatriates: Benjamin West](https://eclecticlight.co/2026/10/24/american-expatriates-benjamin-west/)
-- 2026-10-24T08:00:00+00:00 — [Saturday Mac riddles 383](https://eclecticlight.co/2026/10/24/saturday-mac-riddles-383/)
-- 2026-10-24T07:00:00+00:00 — [Reviewing the Desktop metaphor](https://eclecticlight.co/2026/10/24/reviewing-the-desktop-metaphor/)
+- 2026-10-25T12:30:00+00:00 — [American expatriates: James Abbott McNeill Whistler](https://eclecticlight.co/2026/10/25/american-expatriates-james-abbott-mcneill-whistler/)
+- 2026-10-25T08:00:00+00:00 — [Last Week on My Mac: The Wit and Wisdom of the Log](https://eclecticlight.co/2026/10/25/last-week-on-my-mac-the-wit-and-wisdom-of-the-log/)
 
 ## JPCERT/CC
 
@@ -549,7 +545,7 @@ Generated: 2026-10-25T03:37:13Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-10-24T10:17:32-04:00 — [BlackX UEFI bootkit exploits Baton Drop flaw to bypass Secure Boot](https://www.bleepingcomputer.com/news/security/blackx-uefi-bootkit-exploits-baton-drop-flaw-to-bypass-secure-boot/)
+- 2026-10-25T11:49:38-04:00 — [AI coding agents hijacked using AGENTS.md file in Downloads folder](https://www.bleepingcomputer.com/news/security/ai-coding-agents-hijacked-using-agentsmd-file-in-downloads-folder/)
 
 ## Dark Reading
 
@@ -591,7 +587,7 @@ Generated: 2026-10-25T03:37:13Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-10-24T11:58:11+02:00 — [WhatsApp Help Pages Hid Rules Telling Its Chatbot Not to Recommend a Privacy Regulator](https://hackingpassion.com/whatsapp-hidden-chatbot-instructions/)
+- 2026-10-25T10:48:36+01:00 — [Signal Hang-Up Flaw Could Keep Your Microphone Open After the Call Ended](https://hackingpassion.com/signal-hang-up-flaw-microphone/)
 
 ## LOLBAS Project (Windows)
 
@@ -877,10 +873,9 @@ Generated: 2026-10-25T03:37:13Z
 - Site: https://github.com/EricZimmerman/MFT
 - Feed: https://github.com/EricZimmerman/MFT/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-10-24T17:59:42+00:00 — [CLAUDE.md: invalid timestamp warnings](https://github.com/EricZimmerman/MFT/commit/3eecafae50ac8935b239cf3ded690b11af5020f4)
-- 2026-10-24T17:47:21+00:00 — [Invalid timestamp warnings say where the timestamp is (#22)](https://github.com/EricZimmerman/MFT/commit/f0928998052011246016080cd365632ecc0c57eb)
+- No new entries detected
 
 ## EZ Lnk commits
 
@@ -923,18 +918,21 @@ Generated: 2026-10-25T03:37:13Z
 - Site: https://github.com/EricZimmerman/Srum
 - Feed: https://github.com/EricZimmerman/Srum/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 3
 
-- No new entries detected
+- 2026-10-25T13:28:26+00:00 — [Test: TempThatCantBeWrittenStops passes --co false (the console log, …](https://github.com/EricZimmerman/Srum/commit/6dbb636b4fe734874c3439e1f0db5cb7dce618ab)
+- 2026-10-25T13:10:38+00:00 — [--co is on by default; --co false turns it off (Issues #259)](https://github.com/EricZimmerman/Srum/commit/bf1efdc5f623fd607d4d51e9cb253617a6d822f2)
+- 2026-10-25T12:57:29+00:00 — [Add --co: save the console messages to a ConsoleLog.txt in the --csv …](https://github.com/EricZimmerman/Srum/commit/d93c065a3d744348ffae2855ab305de8218e0d32)
 
 ## EZ RecentFileCacheParser commits
 
 - Site: https://github.com/EricZimmerman/RecentFileCacheParser
 - Feed: https://github.com/EricZimmerman/RecentFileCacheParser/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- 2026-10-25T13:10:35+00:00 — [--co is on by default; --co false turns it off (Issues #259)](https://github.com/EricZimmerman/RecentFileCacheParser/commit/f953a6028c09a57006be1fec365a69cda7c87acf)
+- 2026-10-25T12:55:33+00:00 — [Add --co: save the console messages to a log file in the output direc…](https://github.com/EricZimmerman/RecentFileCacheParser/commit/c971b569c4b18dbd8c1224d92addfb1dccb13381)
 
 ## EZ WinSearchDbAnalyzer commits
 
@@ -965,19 +963,18 @@ Generated: 2026-10-25T03:37:13Z
 - Site: https://github.com/EricZimmerman/TLEFilePlugins
 - Feed: https://github.com/EricZimmerman/TLEFilePlugins/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-10-24T14:58:16+00:00 — [MFTSourceFile: MFTECmd 2026.10.3 $MFT header without --ir](https://github.com/EricZimmerman/TLEFilePlugins/commit/7199c81ba45a97be74b4e05da43cbaabecccf5ca)
+- No new entries detected
 
 ## EZ Get-ZimmermanTools commits
 
 - Site: https://github.com/EricZimmerman/Get-ZimmermanTools
 - Feed: https://github.com/EricZimmerman/Get-ZimmermanTools/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-10-24T15:15:47+00:00 — [CLAUDE.md: the pull step worked on Windows (2026-10-24 build)](https://github.com/EricZimmerman/Get-ZimmermanTools/commit/6e57e22030aee1c4e4369a87ed0f7f6ca0d76c73)
-- 2026-10-24T15:11:08+00:00 — [Build-ZimmermanTools: pull every repository before building it](https://github.com/EricZimmerman/Get-ZimmermanTools/commit/750b0a6740ba8545030bf08ec51c61e06ffe98cf)
+- No new entries detected
 
 ## EZ KapeDocs commits
 
