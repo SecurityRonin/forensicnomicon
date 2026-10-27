@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-10-26T03:40:21Z
+Generated: 2026-10-27T03:36:51Z
 
 ## Windows Incident Response
 
@@ -33,7 +33,19 @@ Generated: 2026-10-26T03:40:21Z
 
 - Site: https://dfirdiva.com/
 - Feed: https://dfirdiva.com/feed
-- Status: error: not well-formed (invalid token): line 1, column 116
+- Entries checked: 10
+- New since last snapshot: 10
+
+- 2026-09-23T02:32:48+00:00 — [Techno Security & Digital Forensics Conference: October 20-22, 2026](https://dfirdiva.com/techno-security-digital-forensics-conference-october-20-22-2026/)
+- 2026-09-11T21:01:49+00:00 — [Introducing DFIR, OSINT, & Cybersecurity Community Listings](https://dfirdiva.com/introducing-dfir-osint-cybersecurity-community-listings/)
+- 2026-07-28T01:53:25+00:00 — [The Events Site is Being Rebuilt](https://dfirdiva.com/the-events-site-is-being-rebuilt/)
+- 2025-11-30T06:00:00+00:00 — [My Experience with Alias by SockPuppet](https://dfirdiva.com/my-experience-with-alias-by-sockpuppet/)
+- 2025-11-29T04:39:45+00:00 — [Free & Affordable Training News: Black Friday 2025 Edition](https://dfirdiva.com/free-affordable-training-news-black-friday-2025-edition/)
+- 2025-10-01T04:47:39+00:00 — [Techno Security & Digital Forensics Conference: October 27-29, 2025](https://dfirdiva.com/techno-security-digital-forensics-conference-october-27-29-2025/)
+- 2025-05-28T02:49:49+00:00 — [Upcoming Techno Security & Digital Forensics Conference](https://dfirdiva.com/upcoming-techno-security-digital-forensics-conference-2/)
+- 2025-03-10T05:47:02+00:00 — [Free & Affordable Training News Monthly: Feb – Mar 2025](https://dfirdiva.com/free-affordable-training-news-monthly-feb-march-2025/)
+- 2025-02-03T09:18:55+00:00 — [Free & Affordable Training News Monthly: Dec 2024 – Feb 2025](https://dfirdiva.com/free-amp-affordable-training-news-monthly-dec-2024-feb-2025/)
+- 2024-12-01T19:45:17+00:00 — [Free & Affordable Training News Monthly: Nov – Dec, 2024](https://dfirdiva.com/free-affordable-training-news-monthly-nov-dec-2024/)
 
 ## mac4n6
 
@@ -58,9 +70,9 @@ Generated: 2026-10-26T03:40:21Z
 - Site: https://andreafortuna.org/
 - Feed: https://andreafortuna.org/feed.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-10-25T00:00:00+00:00 — [Weekly Wire #15: PHP’s Decade-Old Hangover](https://andreafortuna.org/2026/10/25/weekly-wire-15/)
+- No new entries detected
 
 ## Salt Forensics
 
@@ -196,9 +208,9 @@ Generated: 2026-10-26T03:40:21Z
 - Site: https://www.magnetforensics.com/
 - Feed: https://www.magnetforensics.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-10-26T13:19:42+00:00 — [Introducing the Magnet AI Research Lab: Our first peer-reviewed study puts AI in digital forensics to the test](https://www.magnetforensics.com/blog/introducing-the-magnet-ai-research-lab-our-first-peer-reviewed-study-puts-ai-in-digital-forensics-to-the-test/)
 
 ## The DFIR Report
 
@@ -220,19 +232,17 @@ Generated: 2026-10-26T03:40:21Z
 - Site: https://isc.sans.edu/
 - Feed: https://isc.sans.edu/rssfeed_full.xml
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 3
 
-- 2026-10-26T03:30:12+00:00 — [ISC Stormcast For Monday, October 26th, 2026 https://isc.sans.edu/podcastdetail/10150, (Mon, Oct 26th)](https://isc.sans.edu/diary/rss/33456)
-- 2026-10-25T19:57:53+00:00 — [YARA-X 1.22.0 Release, (Sun, Oct 25th)](https://isc.sans.edu/diary/rss/33454)
+- 2026-10-27T02:55:13+00:00 — [ISC Stormcast For Tuesday, October 27th, 2026 https://isc.sans.edu/podcastdetail/10152, (Tue, Oct 27th)](https://isc.sans.edu/diary/rss/33462)
+- 2026-10-27T02:09:55+00:00 — [Apple Patches for October 2026, (Mon, Oct 26th)](https://isc.sans.edu/diary/rss/33458)
+- 2026-10-26T09:38:03+00:00 — [Looking for a Language &#x5b;Guest Diary&#x5d;, (Wed, Oct 21st)](https://isc.sans.edu/diary/rss/33442)
 
 ## DFIR Training Blog
 
 - Site: https://www.dfir.training/blog
 - Feed: https://www.dfir.training/blog
-- Entries checked: 0
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1082)
 
 ## MSAB
 
@@ -248,9 +258,9 @@ Generated: 2026-10-26T03:40:21Z
 - Site: https://aboutdfir.com/
 - Feed: https://aboutdfir.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-10-26T10:29:44+00:00 — [InfoSec News Nuggets – 10/26/2026](https://aboutdfir.com/infosec-news-nuggets-10-26-2026/)
 
 ## Forensic 4cast
 
@@ -266,9 +276,9 @@ Generated: 2026-10-26T03:40:21Z
 - Site: https://thisweekin4n6.com/
 - Feed: https://thisweekin4n6.wordpress.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-10-25T11:25:03+00:00 — [Week 43 – 2026](https://thisweekin4n6.com/2026/10/25/week-43-2026/)
+- No new entries detected
 
 ## The Sleuth Kit updates
 
@@ -365,10 +375,12 @@ Generated: 2026-10-26T03:40:21Z
 - Site: https://eclecticlight.co/
 - Feed: https://eclecticlight.co/feed/
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 4
 
-- 2026-10-25T12:30:00+00:00 — [American expatriates: James Abbott McNeill Whistler](https://eclecticlight.co/2026/10/25/american-expatriates-james-abbott-mcneill-whistler/)
-- 2026-10-25T08:00:00+00:00 — [Last Week on My Mac: The Wit and Wisdom of the Log](https://eclecticlight.co/2026/10/25/last-week-on-my-mac-the-wit-and-wisdom-of-the-log/)
+- 2026-10-26T18:14:37+00:00 — [Apple has just released updates to Golden Gate 27.2, 26.7.2. and 15.8.2](https://eclecticlight.co/2026/10/26/apple-has-just-released-updates-to-golden-gate-27-2-26-7-2-and-15-8-2/)
+- 2026-10-26T12:30:00+00:00 — [Hero or hooligan: Orestes murders his mother](https://eclecticlight.co/2026/10/26/hero-or-hooligan-orestes-murders-his-mother/)
+- 2026-10-26T09:00:00+00:00 — [Solutions to Saturday Mac riddles 383](https://eclecticlight.co/2026/10/26/solutions-to-saturday-mac-riddles-383/)
+- 2026-10-26T07:30:00+00:00 — [How free space has been changing, with an update to DeltaFree](https://eclecticlight.co/2026/10/26/how-free-space-has-been-changing-with-an-update-to-deltafree/)
 
 ## JPCERT/CC
 
@@ -402,9 +414,10 @@ Generated: 2026-10-26T03:40:21Z
 - Site: https://www.huntress.com/blog
 - Feed: https://www.huntress.com/blog/rss.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- 2026-10-26T19:00:00+00:00 — [AI, Scripts, Operator: Inside the ConnectWise Attack](https://www.huntress.com/blog/connectwise-attack-ai)
+- 2026-10-26T16:00:00+00:00 — [Meet the Huntress Neighborhood Watch Program](https://www.huntress.com/blog/introducing-the-huntress-neighborhood-watch-program)
 
 ## Red Canary Blog
 
@@ -465,9 +478,9 @@ Generated: 2026-10-26T03:40:21Z
 - Site: https://flare.io/learn/resources/blog/
 - Feed: https://flare.io/learn/resources/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-10-26T18:27:46+00:00 — [Who Pays When AI Makes Cybercrime Cheaper? Inside the New Economics of Ransomware and Extortion](https://flare.io/learn/resources/blog/ai-cybercrime-economics-ransomware-extortion)
 
 ## Binalyze Blog
 
@@ -489,9 +502,11 @@ Generated: 2026-10-26T03:40:21Z
 - Site: https://www.forensafe.com/blogs/
 - Feed: https://www.forensafe.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 3
 
-- No new entries detected
+- Fri, 23 Oct 2026 — [Windows CBS Log](https://forensafe.com/blogs/windows-cbs-log.html)
+- Fri, 16 Oct 2026 — [Apple Podcasts](https://forensafe.com/blogs/apple-podcasts.html)
+- Fri, 09 Oct 2026 — [Apple Wallet](https://forensafe.com/blogs/apple-wallet.html)
 
 ## Cellebrite Blog
 
@@ -525,9 +540,12 @@ Generated: 2026-10-26T03:40:21Z
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 4
 
-- No new entries detected
+- 2026-10-26T13:48:08+00:00 — [Popcorn Time’s forgotten updater left millions of devices exposed to hijacking](https://www.malwarebytes.com/blog/news/2026/10/popcorn-times-forgotten-updater-left-millions-of-devices-exposed-to-hijacking)
+- 2026-10-26T12:51:28+00:00 — [AI Halloween videos: Who’s getting your photos?](https://www.malwarebytes.com/blog/ai/2026/10/ai-halloween-videos-whos-getting-your-photos)
+- 2026-10-26T11:34:00+00:00 — [Patient records exposed in Quest breach: What you need to know](https://www.malwarebytes.com/blog/data-breaches/2026/10/patient-records-exposed-in-quest-breach-what-you-need-to-know)
+- 2026-10-26T07:00:00+00:00 — [A week in security (October 19 – October 25)](https://www.malwarebytes.com/blog/news/2026/10/a-week-in-security-october-19-october-25)
 
 ## Krebs on Security
 
@@ -543,18 +561,31 @@ Generated: 2026-10-26T03:40:21Z
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 10
 
-- 2026-10-25T11:49:38-04:00 — [AI coding agents hijacked using AGENTS.md file in Downloads folder](https://www.bleepingcomputer.com/news/security/ai-coding-agents-hijacked-using-agentsmd-file-in-downloads-folder/)
+- 2026-10-26T18:20:36-04:00 — [University of Copenhagen data breach exposes data of 525,000 people](https://www.bleepingcomputer.com/news/security/university-of-copenhagen-data-breach-exposes-data-of-525-000-people/)
+- 2026-10-26T17:08:28-04:00 — [Former pentester used ARTEX AI to steal 8.2 million data records](https://www.bleepingcomputer.com/news/security/former-pentester-used-artex-ai-to-steal-82-million-data-records/)
+- 2026-10-26T16:46:49-04:00 — [OpenAI launches GPT-6.1 Terra with 3x faster AI agents, 50% lower pricing](https://www.bleepingcomputer.com/news/artificial-intelligence/openai-launches-gpt-61-terra-with-3x-faster-ai-agents-50-percent-lower-pricing/)
+- 2026-10-26T15:26:20-04:00 — [DreamHost forces password resets in ongoing "incident"](https://www.bleepingcomputer.com/news/security/dreamhost-forces-email-ftp-sftp-password-resets-in-ongoing-incident/)
+- 2026-10-26T12:27:57-04:00 — [Critical 'HTTP2Shell' Brotli vulnerability triggers emergency patches](https://www.bleepingcomputer.com/news/security/critical-http2shell-brotli-vulnerability-triggers-emergency-patches/)
+- 2026-10-26T11:38:24-04:00 — [Microsoft releases emergency .NET patches for critical Brotli flaw](https://www.bleepingcomputer.com/news/microsoft/microsoft-releases-emergency-net-patches-for-critical-brotli-flaw/)
+- 2026-10-26T10:00:10-04:00 — [When an AI Agent Is the Incident, the Identity Record Is the Evidence](https://www.bleepingcomputer.com/news/security/when-an-ai-agent-is-the-incident-the-identity-record-is-the-evidence/)
+- 2026-10-26T09:56:44-04:00 — [Chinese man extradited for role in $36 million cryptocurrency scam](https://www.bleepingcomputer.com/news/security/chinese-man-extradited-for-role-in-36-million-cryptocurrency-scam/)
+- 2026-10-26T06:26:52-04:00 — [Kali Linux 2026.3 released with 6 new tools, desktop updates](https://www.bleepingcomputer.com/news/linux/kali-linux-20263-released-with-6-new-tools-desktop-updates/)
+- 2026-10-26T05:19:57-04:00 — [PHP2Shell security flaws now sucessfully exploited in the wild](https://www.bleepingcomputer.com/news/security/php2shell-security-flaws-now-sucessfully-exploited-in-the-wild/)
 
 ## Dark Reading
 
 - Site: https://www.darkreading.com/
 - Feed: https://www.darkreading.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 5
 
-- No new entries detected
+- 2026-10-27T00:26:50+00:00 — [So Many AI Security Benchmarks, But None Tell the Whole Story](https://www.darkreading.com/cybersecurity-analytics/benchmarking-security-of-ai-models-poses-challenges)
+- 2026-10-26T21:44:33+00:00 — [Risks &amp; Rewards: How AI Is Redefining the CISO's Role](https://www.darkreading.com/cybersecurity-careers/risks-rewards-ai-redefining-ciso-role)
+- 2026-10-26T20:59:26+00:00 — [In-the-Wild Attack Abuses AI Agents' Trust in Markdown](https://www.darkreading.com/application-security/in-the-wild-attack-ai-agents-trust-markdown)
+- 2026-10-26T18:01:40+00:00 — ['Gheist' Weaponizes GitHub Tokens to Steal Cloud Secrets](https://www.darkreading.com/cyberattacks-data-breaches/gheist-stolen-github-tokens-cloud-secrets)
+- 2026-10-26T14:00:00+00:00 — [10 Software Security Practices Built for the Next 250 Years](https://www.darkreading.com/cyberattacks-data-breaches/10-software-security-practices-built-250-years)
 
 ## Volexity Blog
 
@@ -587,7 +618,7 @@ Generated: 2026-10-26T03:40:21Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-10-25T10:48:36+01:00 — [Signal Hang-Up Flaw Could Keep Your Microphone Open After the Call Ended](https://hackingpassion.com/signal-hang-up-flaw-microphone/)
+- 2026-10-26T10:28:33+01:00 — [Popcorn Time Updater Left Millions of PCs Open to Whoever Owned Its Dead Web Addresses](https://hackingpassion.com/popcorn-time-updater-vulnerability/)
 
 ## LOLBAS Project (Windows)
 
@@ -621,9 +652,18 @@ Generated: 2026-10-26T03:40:21Z
 - Site: https://www.loldrivers.io/
 - Feed: https://github.com/magicsword-io/LOLDrivers/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 10
 
-- No new entries detected
+- 2026-10-27T02:12:25+00:00 — [New site and hashes generated by GitHub Actions [ci skip]](https://github.com/magicsword-io/LOLDrivers/commit/39c70ca64ae9b66650e2c50e011eec6f7354e9cf)
+- 2026-10-27T02:08:29+00:00 — [Merge pull request #491 from magicsword-io/josehelps/ignore-generatio…](https://github.com/magicsword-io/LOLDrivers/commit/3fe1f4c5cf18f01953317a8850f5cefdde10123d)
+- 2026-10-27T01:06:32+00:00 — [Ignore temporary generation research downloads](https://github.com/magicsword-io/LOLDrivers/commit/692cb3d57cd4a762616e318de786d8a40341c5b7)
+- 2026-10-27T01:04:00+00:00 — [Merge pull request #488 from magicsword-io/josehelps/pasted-text](https://github.com/magicsword-io/LOLDrivers/commit/82946036e6e72959083f3f221745d5e62d785253)
+- 2026-10-27T00:56:30+00:00 — [Avoid host-only pip launcher paths in browser container](https://github.com/magicsword-io/LOLDrivers/commit/4f4fd819745602c29092d6b8b7718d786ccb1d0c)
+- 2026-10-27T00:53:11+00:00 — [Cancel superseded PR builds while serializing production publishes](https://github.com/magicsword-io/LOLDrivers/commit/fd50af931d8478c3beee2dd90a980393feae5213)
+- 2026-10-27T00:51:36+00:00 — [Stabilize browser CI and verify canonical API artifacts](https://github.com/magicsword-io/LOLDrivers/commit/4d74dcde4762fbf4a081400471f654d358f18056)
+- 2026-10-27T00:48:29+00:00 — [Hydrate validation samples and reconcile upstream generated rules](https://github.com/magicsword-io/LOLDrivers/commit/cf3b3a48c736fb1558a1c81ecd916ee88ed73815)
+- 2026-10-27T00:41:29+00:00 — [Scope website research JSON and verify canonical indicator exports](https://github.com/magicsword-io/LOLDrivers/commit/8701d069eb05172d0f9507282acd99053c510b79)
+- 2026-10-27T00:41:28+00:00 — [Validate catalog indicators and generated detection policies](https://github.com/magicsword-io/LOLDrivers/commit/ef19d4c10047af428a18ef65407f0eef9a80875a)
 
 ## LOFL Project (RMM C2 indicators)
 
@@ -819,9 +859,14 @@ Generated: 2026-10-26T03:40:21Z
 - Site: https://github.com/Yamato-Security/hayabusa-rules
 - Feed: https://github.com/Yamato-Security/hayabusa-rules/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 6
 
-- No new entries detected
+- 2026-10-27T00:15:44+00:00 — [Merge pull request #1097 from Yamato-Security/fix-1094](https://github.com/Yamato-Security/hayabusa-rules/commit/b06549d3c798e5940f4798bd601067fefaee20a7)
+- 2026-10-27T00:15:17+00:00 — [fix-1094](https://github.com/Yamato-Security/hayabusa-rules/commit/46955130419c59309d380eee3933a15553a92bd2)
+- 2026-10-27T00:08:27+00:00 — [Merge pull request #1096 from Yamato-Security/fix-1093](https://github.com/Yamato-Security/hayabusa-rules/commit/338627b31b47c45922dc22f30048a662547bc899)
+- 2026-10-26T23:53:16+00:00 — [fix 1093](https://github.com/Yamato-Security/hayabusa-rules/commit/c1d736217ccc730fb431d1a7430b0f65880dac52)
+- 2026-10-26T23:50:39+00:00 — [Merge pull request #1092 from Shirofune-Security/chore/bump-github-ac…](https://github.com/Yamato-Security/hayabusa-rules/commit/dd9545999878b9dded7908f4aee208bc974535b7)
+- 2026-10-23T16:34:20+00:00 — [chore(ci): update GitHub Actions to latest](https://github.com/Yamato-Security/hayabusa-rules/commit/ffa06d231d71bc7d5f71c948e7a7322562f7827e)
 
 ## Hayabusa releases
 
@@ -918,21 +963,18 @@ Generated: 2026-10-26T03:40:21Z
 - Site: https://github.com/EricZimmerman/Srum
 - Feed: https://github.com/EricZimmerman/Srum/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 0
 
-- 2026-10-25T13:28:26+00:00 — [Test: TempThatCantBeWrittenStops passes --co false (the console log, …](https://github.com/EricZimmerman/Srum/commit/6dbb636b4fe734874c3439e1f0db5cb7dce618ab)
-- 2026-10-25T13:10:38+00:00 — [--co is on by default; --co false turns it off (Issues #259)](https://github.com/EricZimmerman/Srum/commit/bf1efdc5f623fd607d4d51e9cb253617a6d822f2)
-- 2026-10-25T12:57:29+00:00 — [Add --co: save the console messages to a ConsoleLog.txt in the --csv …](https://github.com/EricZimmerman/Srum/commit/d93c065a3d744348ffae2855ab305de8218e0d32)
+- No new entries detected
 
 ## EZ RecentFileCacheParser commits
 
 - Site: https://github.com/EricZimmerman/RecentFileCacheParser
 - Feed: https://github.com/EricZimmerman/RecentFileCacheParser/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-10-25T13:10:35+00:00 — [--co is on by default; --co false turns it off (Issues #259)](https://github.com/EricZimmerman/RecentFileCacheParser/commit/f953a6028c09a57006be1fec365a69cda7c87acf)
-- 2026-10-25T12:55:33+00:00 — [Add --co: save the console messages to a log file in the output direc…](https://github.com/EricZimmerman/RecentFileCacheParser/commit/c971b569c4b18dbd8c1224d92addfb1dccb13381)
+- No new entries detected
 
 ## EZ WinSearchDbAnalyzer commits
 
