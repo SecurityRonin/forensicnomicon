@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-10-31T03:22:38Z
+Generated: 2026-11-01T03:26:54Z
 
 ## Windows Incident Response
 
@@ -199,9 +199,9 @@ Generated: 2026-10-31T03:22:38Z
 - Site: https://www.magnetforensics.com/
 - Feed: https://www.magnetforensics.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-10-30T19:56:35+00:00 — [How to investigate business email compromise (BEC): from fraudulent email to full scope](https://www.magnetforensics.com/blog/how-to-investigate-business-email-compromise-bec-from-fraudulent-email-to-full-scope/)
+- No new entries detected
 
 ## The DFIR Report
 
@@ -223,9 +223,10 @@ Generated: 2026-10-31T03:22:38Z
 - Site: https://isc.sans.edu/
 - Feed: https://isc.sans.edu/rssfeed_full.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 2
 
-- 2026-10-30T03:30:17+00:00 — [ISC Stormcast For Friday, October 30th, 2026 https://isc.sans.edu/podcastdetail/10158, (Fri, Oct 30th)](https://isc.sans.edu/diary/rss/33472)
+- 2026-10-31T10:52:53+00:00 — [Wireshark 5.0.0rc1 Release, (Sat, Oct 31st)](https://isc.sans.edu/diary/rss/33476)
+- 2026-10-31T10:48:17+00:00 — [YARA-X 1.22.1 Release, (Sat, Oct 31st)](https://isc.sans.edu/diary/rss/33474)
 
 ## DFIR Training Blog
 
@@ -250,18 +251,15 @@ Generated: 2026-10-31T03:22:38Z
 - Site: https://aboutdfir.com/
 - Feed: https://aboutdfir.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-10-30T11:46:04+00:00 — [InfoSec News Nuggets – 10/30/2026](https://aboutdfir.com/infosec-news-nuggets-10-30-2026/)
+- No new entries detected
 
 ## Forensic 4cast
 
 - Site: https://forensic4cast.com/blog/
 - Feed: https://forensic4cast.com/feed/
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: The read operation timed out
 
 ## This Week In 4n6
 
@@ -297,8 +295,8 @@ Generated: 2026-10-31T03:22:38Z
 - Entries checked: 10
 - New since last snapshot: 2
 
-- 2026-10-31T00:00:00+00:00 — [Quickpost: Ghost USB-C](https://blog.didierstevens.com/2026/10/31/quickpost-ghost-usb-c/)
-- 2026-10-30T13:50:46+00:00 — [“A Ring Tone That I Cannot Hear” – Twenty Years Later](https://blog.didierstevens.com/2026/10/30/a-ring-tone-that-i-cannot-hear-twenty-years-later/)
+- 2026-11-01T00:00:00+00:00 — [Overview of Content Published in October](https://blog.didierstevens.com/2026/11/01/overview-of-content-published-in-october-12/)
+- 2026-10-31T11:31:22+00:00 — [Quickpost: WT20 Welding Electrodes & Radiation](https://blog.didierstevens.com/2026/10/31/quickpost-wt20-welding-electrodes-radiation/)
 
 ## Hexordia
 
@@ -368,10 +366,11 @@ Generated: 2026-10-31T03:22:38Z
 - Site: https://eclecticlight.co/
 - Feed: https://eclecticlight.co/feed/
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 3
 
-- 2026-10-30T12:30:00+00:00 — [Painting with impaired vision: Vincent van Gogh](https://eclecticlight.co/2026/10/30/painting-with-impaired-vision-vincent-van-gogh/)
-- 2026-10-30T07:30:00+00:00 — [From click to action: how macOS does what you want](https://eclecticlight.co/2026/10/30/from-click-to-action-how-macos-does-what-you-want/)
+- 2026-10-31T12:30:00+00:00 — [A painted weekend in Egypt 1](https://eclecticlight.co/2026/10/31/a-painted-weekend-in-egypt-1/)
+- 2026-10-31T09:00:00+00:00 — [Saturday Mac riddles 384](https://eclecticlight.co/2026/10/31/saturday-mac-riddles-384/)
+- 2026-10-31T08:00:00+00:00 — [New products for new species, revisited](https://eclecticlight.co/2026/10/31/new-products-for-new-species-revisited/)
 
 ## JPCERT/CC
 
@@ -405,9 +404,9 @@ Generated: 2026-10-31T03:22:38Z
 - Site: https://www.huntress.com/blog
 - Feed: https://www.huntress.com/blog/rss.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-10-29T14:00:00+00:00 — [Reports of SIEM's Death Have Been Greatly Exaggerated](https://www.huntress.com/blog/reports-that-siem-is-dead-are-exaggerated)
+- No new entries detected
 
 ## Red Canary Blog
 
@@ -441,9 +440,9 @@ Generated: 2026-10-31T03:22:38Z
 - Site: https://blog.talosintelligence.com/
 - Feed: https://blog.talosintelligence.com/rss/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-10-31T12:00:00+00:00 — [Appraisal by AI: Model-driven victim prioritization in the VOLTA infostealer](https://blog.talosintelligence.com/appraisal-by-ai-model-driven-victim-prioritization-in-the-volta-infostealer/)
 
 ## SANS Blog
 
@@ -468,9 +467,9 @@ Generated: 2026-10-31T03:22:38Z
 - Site: https://flare.io/learn/resources/blog/
 - Feed: https://flare.io/learn/resources/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-10-30T22:12:12+00:00 — [Beyond the Binance Attack: How Stealer Logs Can Link Corporate Sign-Ins to Developer and Monitoring Tools](https://flare.io/learn/resources/blog/binance-attack-stealer-logs)
+- No new entries detected
 
 ## Binalyze Blog
 
@@ -519,23 +518,18 @@ Generated: 2026-10-31T03:22:38Z
 - Site: https://www.crowdstrike.com/blog/
 - Feed: https://www.crowdstrike.com/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 0
 
-- 2026-10-30T00:00:00-05:00 — [CrowdStrike Expands Falcon Adversary OverWatch Threat Hunting Across AI and Google Cloud](https://www.crowdstrike.com/en-us/blog/crowdstrike-expands-threat-hunting-across-ai-and-google-cloud/)
-- 2026-10-30T00:00:00-05:00 — [Build an Intelligence Advantage with Falcon Next-Gen SIEM](https://www.crowdstrike.com/en-us/blog/build-intelligence-advantage-with-falcon-next-gen-siem/)
-- 2026-10-30T00:00:00-05:00 — [CrowdStrike Agent Graph Shows How Agents Act on the Endpoint](https://www.crowdstrike.com/en-us/blog/crowdstrike-agent-graph-shows-how-agents-act-on-endpoint/)
+- No new entries detected
 
 ## Malwarebytes Labs
 
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 4
+- New since last snapshot: 0
 
-- 2026-10-30T15:25:41+00:00 — [Fake PDF and search tools hijacked searches for 13.4 million Chrome users](https://www.malwarebytes.com/blog/news/2026/10/fake-pdf-and-search-tools-hijacked-searches-for-13-4-million-chrome-users)
-- 2026-10-30T13:00:02+00:00 — [Photo ID, bank checks, face scan? The UK’s age-check options](https://www.malwarebytes.com/blog/news/2026/10/photo-id-bank-checks-face-scan-the-uks-age-check-options)
-- 2026-10-30T12:24:19+00:00 — [Binance hit by largest-ever crypto theft, with $6.3 billion stolen](https://www.malwarebytes.com/blog/news/2026/10/binance-hit-by-largest-ever-crypto-theft-with-6-3-billion-stolen)
-- 2026-10-30T11:33:12+00:00 — [Hackers steal and publish data on 41,000 Homeland Security workers](https://www.malwarebytes.com/blog/data-breaches/2026/10/hackers-steal-and-publish-data-on-41000-homeland-security-workers)
+- No new entries detected
 
 ## Krebs on Security
 
@@ -551,30 +545,22 @@ Generated: 2026-10-31T03:22:38Z
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 8
+- New since last snapshot: 5
 
-- 2026-10-30T17:09:46-04:00 — [Critical Linux kernel flaw allows remote root attacks on MPTCP servers](https://www.bleepingcomputer.com/news/security/critical-linux-kernel-flaw-allows-remote-root-attacks-on-mptcp-servers/)
-- 2026-10-30T11:58:20-04:00 — [Trezor warns of suspected crypto-theft implant in hardware wallet](https://www.bleepingcomputer.com/news/security/trezor-warns-of-suspected-crypto-theft-implant-in-hardware-wallet/)
-- 2026-10-30T10:36:54-04:00 — [Malicious Claude Code extension on Cursor planted SSH backdoors](https://www.bleepingcomputer.com/news/security/malicious-claude-code-extension-on-cursor-planted-ssh-backdoors/)
-- 2026-10-30T10:00:10-04:00 — [SS7 and Diameter Attacks: How Signaling Flaws Expose Your Phone](https://www.bleepingcomputer.com/news/security/ss7-and-diameter-attacks-how-signaling-flaws-expose-your-phone/)
-- 2026-10-30T09:00:32-04:00 — [CISA says max severity GitLab flaw now exploited in the wild](https://www.bleepingcomputer.com/news/security/hackers-now-exploiting-max-severity-gitlab-flaw-in-attacks/)
-- 2026-10-30T07:20:26-04:00 — [Microsoft finally fixes VPN issues caused by September updates](https://www.bleepingcomputer.com/news/microsoft/microsoft-finally-fixes-vpn-issues-caused-by-september-updates/)
-- 2026-10-30T06:16:07-04:00 — [Drupal warns of critical Commerce Core flaw exploited in attacks](https://www.bleepingcomputer.com/news/security/drupal-warns-of-critical-commerce-core-flaw-exploited-in-attacks/)
-- 2026-10-30T05:18:13-04:00 — [Binance links $6.3 billion crypto theft to compromised DevOps laptop](https://www.bleepingcomputer.com/news/security/binance-links-63-billion-crypto-theft-to-compromised-devops-laptop/)
+- 2026-10-31T14:01:12-04:00 — [Northflank security breach leads to abuse of customers' AI API keys](https://www.bleepingcomputer.com/news/security/northflank-security-breach-leads-to-abuse-of-customers-ai-api-keys/)
+- 2026-10-31T11:35:11-04:00 — [New Android SMS of Death exploit can remotely crash unpatched phones](https://www.bleepingcomputer.com/news/security/new-android-sms-of-death-exploit-can-remotely-crash-unpatched-phones/)
+- 2026-10-31T10:05:15-04:00 — [Reddit to lock content behind logins to fight scrapers](https://www.bleepingcomputer.com/news/security/reddit-to-lock-content-behind-logins-to-fight-scrapers/)
+- 2026-10-31T09:10:19-04:00 — [From Beginner to Bug Hunter: Learning Cybersecurity in the AI Era.](https://www.bleepingcomputer.com/news/security/from-beginner-to-bug-hunter-learning-cybersecurity-in-the-ai-era/)
+- 2026-10-31T08:50:09-04:00 — [Chainalysis discloses data breach from "offensive agentic techniques"](https://www.bleepingcomputer.com/news/security/chainalysis-discloses-data-breach-from-offensive-agentic-techniques/)
 
 ## Dark Reading
 
 - Site: https://www.darkreading.com/
 - Feed: https://www.darkreading.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 6
+- New since last snapshot: 0
 
-- 2026-10-30T20:05:58+00:00 — [Devs Hit by Trojanized Claude Code Extension for Cursor](https://www.darkreading.com/cyberattacks-data-breaches/devs-trojanized-claude-code-extension-cursor)
-- 2026-10-30T19:46:08+00:00 — [Behind the Scenes of How Operation Blackout Went Down](https://www.darkreading.com/cybersecurity-operations/behind-the-scenes-how-operation-blackout-went-down)
-- 2026-10-30T15:39:54+00:00 — [L’Italia è afflitta da vulnerabilità informatiche, senza una causa chiara](https://www.darkreading.com/cybersecurity-analytics/cyber-vulnerabilities-besiege-italy-italian)
-- 2026-10-30T14:10:37+00:00 — [Undead Software Projects Continue to Raise Security Risks](https://www.darkreading.com/application-security/undead-software-projects-raise-security-risks)
-- 2026-10-30T08:00:00+00:00 — [As Russia's Cyberwar Evolves, Belarus Steps Forward](https://www.darkreading.com/physical-security/russia-cyber-war-belarus-steps-forward)
-- 2026-10-29T19:56:44+00:00 — [Why CTF Competitions May Be More Important Than Ever](https://www.darkreading.com/cybersecurity-operations/why-ctf-more-important-than-ever)
+- No new entries detected
 
 ## Volexity Blog
 
@@ -596,19 +582,18 @@ Generated: 2026-10-31T03:22:38Z
 - Site: https://www.microsoft.com/en-us/security/blog/
 - Feed: https://www.microsoft.com/en-us/security/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-10-31T01:02:57+00:00 — [Inside a malicious Claude Code-branded extension and its persistent SSH backdoor](https://www.microsoft.com/en-us/security/blog/2026/10/30/inside-malicious-claude-code-branded-cursor-extension-persistent-ssh-backdoor/)
-- 2026-10-30T16:11:44+00:00 — [From help desk impersonation to AD CS abuse: Investigating ESC1 and ESC8 intrusion paths](https://www.microsoft.com/en-us/security/blog/2026/10/30/help-desk-impersonation-ad-cs-abuse-investigating-esc1-esc8-intrusion-paths/)
+- No new entries detected
 
 ## HackingPassion
 
 - Site: https://hackingpassion.com/
 - Feed: https://hackingpassion.com/index.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-10-31T11:33:58+01:00 — [Binance 6 Billion Dollar Hack North Korea](https://hackingpassion.com/binance-6-billion-dollar-hack-north-korea/)
 
 ## LOLBAS Project (Windows)
 
