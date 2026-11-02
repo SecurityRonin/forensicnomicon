@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-11-01T03:26:54Z
+Generated: 2026-11-02T11:21:59Z
 
 ## Windows Incident Response
 
@@ -61,9 +61,9 @@ Generated: 2026-11-01T03:26:54Z
 - Site: https://andreafortuna.org/
 - Feed: https://andreafortuna.org/feed.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-11-01T00:00:00+00:00 — [Weekly Wire #16: North Korea’s $6.3 Billion Exit](https://andreafortuna.org/2026/11/01/weekly-wire-16/)
 
 ## Salt Forensics
 
@@ -216,7 +216,19 @@ Generated: 2026-11-01T03:26:54Z
 
 - Site: https://www.youtube.com/@13cubed
 - Feed: https://www.youtube.com/feeds/videos.xml?channel_id=UCy8ntxFEudOCRZYT1f7ya9Q
-- Status: error: HTTP 404
+- Entries checked: 10
+- New since last snapshot: 10
+
+- 2026-10-10T06:54:32+00:00 — [I Got Promoted at Microsoft... Then I Quit](https://www.youtube.com/watch?v=OnavGwRIAtw)
+- 2026-09-29T02:47:29+00:00 — [Windows Forensics on a Mac?! You Have to See This!](https://www.youtube.com/watch?v=W9xHbNgZuT0)
+- 2026-10-04T01:48:19+00:00 — [Want to Get Into Threat Hunting? Start Here!](https://www.youtube.com/shorts/B_iHFonaOHg)
+- 2026-10-09T02:58:21+00:00 — [The Threat Hunting Course I Wish I Had](https://www.youtube.com/watch?v=cFxwYz5TOk0)
+- 2026-10-13T18:27:06+00:00 — [Automate Volatility 3 Memory Analysis with This Tool](https://www.youtube.com/watch?v=0GMTydimOP4)
+- 2026-10-14T01:49:20+00:00 — [How the USN Journal Really Works](https://www.youtube.com/watch?v=eSLHyqZlglk)
+- 2026-10-15T05:12:41+00:00 — [The Korvath Incident: A macOS Forensics Challenge](https://www.youtube.com/watch?v=tRvw13e3Qn0)
+- 2026-11-02T06:13:48+00:00 — [Hunting Copy Fail: 732 Bytes to Root](https://www.youtube.com/watch?v=ZVmpK-9rP0Q)
+- 2026-10-04T00:16:58+00:00 — [The AI Conversation I've Been Avoiding](https://www.youtube.com/watch?v=wKn-9sKBqX8)
+- 2026-10-05T22:00:15+00:00 — [Mac Imaging Made Easy with Fuji](https://www.youtube.com/watch?v=9ZkLdFodhzM)
 
 ## SANS Internet Storm Center
 
@@ -225,8 +237,8 @@ Generated: 2026-11-01T03:26:54Z
 - Entries checked: 10
 - New since last snapshot: 2
 
-- 2026-10-31T10:52:53+00:00 — [Wireshark 5.0.0rc1 Release, (Sat, Oct 31st)](https://isc.sans.edu/diary/rss/33476)
-- 2026-10-31T10:48:17+00:00 — [YARA-X 1.22.1 Release, (Sat, Oct 31st)](https://isc.sans.edu/diary/rss/33474)
+- 2026-11-02T02:00:03+00:00 — [ISC Stormcast For Monday, November 2nd, 2026 https://isc.sans.edu/podcastdetail/10160, (Mon, Nov 2nd)](https://isc.sans.edu/diary/rss/33480)
+- 2026-11-01T09:12:23+00:00 — [OneNote File Extraction, (Sun, Nov 1st)](https://isc.sans.edu/diary/rss/33478)
 
 ## DFIR Training Blog
 
@@ -259,16 +271,28 @@ Generated: 2026-11-01T03:26:54Z
 
 - Site: https://forensic4cast.com/blog/
 - Feed: https://forensic4cast.com/feed/
-- Status: error: The read operation timed out
+- Entries checked: 10
+- New since last snapshot: 10
+
+- 2026-06-09T22:05:05+00:00 — [New Software: Perceptor](https://forensic4cast.com/2026/06/new-software-perceptor/)
+- 2024-01-30T22:23:33+00:00 — [All Good Things…](https://forensic4cast.com/2024/01/all-good-things/)
+- 2023-05-14T17:33:15+00:00 — [Forensic 4:cast Awards 2023 – Voting is now open!](https://forensic4cast.com/2023/05/forensic-4cast-awards-2023-voting-is-now-open/)
+- 2023-02-18T17:47:32+00:00 — [Forensic 4:cast Awards 2023 – Nominations are now open!](https://forensic4cast.com/2023/02/forensic-4cast-awards-2023-nominations-are-now-open/)
+- 2022-09-12T17:59:35+00:00 — [Moving On](https://forensic4cast.com/2022/09/moving-on/)
+- 2022-06-28T16:39:16+00:00 — [2022 Forensic 4:cast Awards – Voting is now OPEN](https://forensic4cast.com/2022/06/2022-forensic-4cast-awards-voting-is-now-open/)
+- 2022-06-18T12:44:36+00:00 — [Forensic 4:cast Awards – Update](https://forensic4cast.com/2022/06/forensic-4cast-awards-update/)
+- 2022-03-16T22:37:00+00:00 — [The Strength of a Tree](https://forensic4cast.com/2022/03/trees/)
+- 2022-02-02T23:52:00+00:00 — [Mac Randomization in Windows](https://forensic4cast.com/2022/02/mac-randomization-in-windows/)
+- 2021-08-05T02:50:33+00:00 — [We Didn’t Start DFIR](https://forensic4cast.com/2021/08/we-didnt-start-dfir/)
 
 ## This Week In 4n6
 
 - Site: https://thisweekin4n6.com/
 - Feed: https://thisweekin4n6.wordpress.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-11-01T11:47:28+00:00 — [Week 44 – 2026](https://thisweekin4n6.com/2026/11/01/week-44-2026/)
 
 ## The Sleuth Kit updates
 
@@ -293,10 +317,9 @@ Generated: 2026-11-01T03:26:54Z
 - Site: https://blog.didierstevens.com/
 - Feed: https://blog.didierstevens.com/feed/
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-11-01T00:00:00+00:00 — [Overview of Content Published in October](https://blog.didierstevens.com/2026/11/01/overview-of-content-published-in-october-12/)
-- 2026-10-31T11:31:22+00:00 — [Quickpost: WT20 Welding Electrodes & Radiation](https://blog.didierstevens.com/2026/10/31/quickpost-wt20-welding-electrodes-radiation/)
+- No new entries detected
 
 ## Hexordia
 
@@ -366,11 +389,12 @@ Generated: 2026-11-01T03:26:54Z
 - Site: https://eclecticlight.co/
 - Feed: https://eclecticlight.co/feed/
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 4
 
-- 2026-10-31T12:30:00+00:00 — [A painted weekend in Egypt 1](https://eclecticlight.co/2026/10/31/a-painted-weekend-in-egypt-1/)
-- 2026-10-31T09:00:00+00:00 — [Saturday Mac riddles 384](https://eclecticlight.co/2026/10/31/saturday-mac-riddles-384/)
-- 2026-10-31T08:00:00+00:00 — [New products for new species, revisited](https://eclecticlight.co/2026/10/31/new-products-for-new-species-revisited/)
+- 2026-11-02T09:00:00+00:00 — [Solutions to Saturday Mac riddles 384](https://eclecticlight.co/2026/11/02/solutions-to-saturday-mac-riddles-384/)
+- 2026-11-02T06:30:00+00:00 — [Lightest-weight macOS virtualisation with Vimy, an update](https://eclecticlight.co/2026/11/02/lightest-weight-macos-virtualisation-with-vimy-an-update/)
+- 2026-11-01T12:30:00+00:00 — [A painted weekend in Egypt 2](https://eclecticlight.co/2026/11/01/a-painted-weekend-in-egypt-2/)
+- 2026-11-01T08:00:00+00:00 — [Last Week on My Mac: An insecure world built on trust stores](https://eclecticlight.co/2026/11/01/last-week-on-my-mac-an-insecure-world-built-on-trust-stores/)
 
 ## JPCERT/CC
 
@@ -431,18 +455,18 @@ Generated: 2026-11-01T03:26:54Z
 - Site: https://cloud.google.com/blog/topics/threat-intelligence
 - Feed: https://feeds.feedburner.com/threatintelligence/pvexyqv7v0v
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-10-30T14:00:00+00:00 — [ARTEX and Friends: Enter Agentic Offensive Frameworks](https://cloud.google.com/blog/topics/threat-intelligence/artex-and-friends-enter-agentic-offensive-frameworks/)
 
 ## Cisco Talos Blog
 
 - Site: https://blog.talosintelligence.com/
 - Feed: https://blog.talosintelligence.com/rss/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-10-31T12:00:00+00:00 — [Appraisal by AI: Model-driven victim prioritization in the VOLTA infostealer](https://blog.talosintelligence.com/appraisal-by-ai-model-driven-victim-prioritization-in-the-volta-infostealer/)
+- No new entries detected
 
 ## SANS Blog
 
@@ -527,9 +551,9 @@ Generated: 2026-11-01T03:26:54Z
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-11-02T08:01:00+00:00 — [A week in security (October 26 – November 1)](https://www.malwarebytes.com/blog/news/2026/11/a-week-in-security-october-26-november-1-2)
 
 ## Krebs on Security
 
@@ -545,13 +569,12 @@ Generated: 2026-11-01T03:26:54Z
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 5
+- New since last snapshot: 4
 
-- 2026-10-31T14:01:12-04:00 — [Northflank security breach leads to abuse of customers' AI API keys](https://www.bleepingcomputer.com/news/security/northflank-security-breach-leads-to-abuse-of-customers-ai-api-keys/)
-- 2026-10-31T11:35:11-04:00 — [New Android SMS of Death exploit can remotely crash unpatched phones](https://www.bleepingcomputer.com/news/security/new-android-sms-of-death-exploit-can-remotely-crash-unpatched-phones/)
-- 2026-10-31T10:05:15-04:00 — [Reddit to lock content behind logins to fight scrapers](https://www.bleepingcomputer.com/news/security/reddit-to-lock-content-behind-logins-to-fight-scrapers/)
-- 2026-10-31T09:10:19-04:00 — [From Beginner to Bug Hunter: Learning Cybersecurity in the AI Era.](https://www.bleepingcomputer.com/news/security/from-beginner-to-bug-hunter-learning-cybersecurity-in-the-ai-era/)
-- 2026-10-31T08:50:09-04:00 — [Chainalysis discloses data breach from "offensive agentic techniques"](https://www.bleepingcomputer.com/news/security/chainalysis-discloses-data-breach-from-offensive-agentic-techniques/)
+- 2026-11-02T04:33:26-05:00 — [Ivanti patches two more Connect Secure zero-days chained in attacks](https://www.bleepingcomputer.com/news/security/ivanti-patches-two-more-connect-secure-zero-days-chained-in-attacks/)
+- 2026-11-01T14:57:53-05:00 — [FBI links $6.3 billion Binance crypto heist to North Korean hackers](https://www.bleepingcomputer.com/news/security/fbi-links-63-billion-binance-crypto-heist-to-north-korean-hackers/)
+- 2026-11-01T10:11:21-05:00 — [Alpine Linux rebuilds GitLab after attempted RCE attack](https://www.bleepingcomputer.com/news/security/alpine-linux-rebuilds-gitlab-after-attempted-rce-attack/)
+- 2026-11-01T08:53:11-05:00 — [OpenAI says it's doubling Pro usage limits and bringing Work features to Chat](https://www.bleepingcomputer.com/news/artificial-intelligence/openai-says-its-doubling-pro-usage-limits-and-bringing-work-features-to-chat/)
 
 ## Dark Reading
 
@@ -593,7 +616,7 @@ Generated: 2026-11-01T03:26:54Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-10-31T11:33:58+01:00 — [Binance 6 Billion Dollar Hack North Korea](https://hackingpassion.com/binance-6-billion-dollar-hack-north-korea/)
+- 2026-11-01T12:23:42+01:00 — [Sign in with Google and How to Clean Up the Apps Connected to Your Accounts](https://hackingpassion.com/sign-in-with-google-take-back-access/)
 
 ## LOLBAS Project (Windows)
 
@@ -852,9 +875,9 @@ Generated: 2026-11-01T03:26:54Z
 - Site: https://github.com/elastic/detection-rules
 - Feed: https://github.com/elastic/detection-rules/releases.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-11-02T08:50:50+00:00 — [dev-v3.0.23](https://github.com/elastic/detection-rules/releases/tag/dev-v3.0.23)
 
 ## regipy releases
 
