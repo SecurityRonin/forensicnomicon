@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-11-02T11:21:59Z
+Generated: 2026-11-03T10:59:15Z
 
 ## Windows Incident Response
 
@@ -61,9 +61,9 @@ Generated: 2026-11-02T11:21:59Z
 - Site: https://andreafortuna.org/
 - Feed: https://andreafortuna.org/feed.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-11-01T00:00:00+00:00 — [Weekly Wire #16: North Korea’s $6.3 Billion Exit](https://andreafortuna.org/2026/11/01/weekly-wire-16/)
+- No new entries detected
 
 ## Salt Forensics
 
@@ -168,7 +168,7 @@ Generated: 2026-11-02T11:21:59Z
 
 - Site: https://brettshavers.com/brett-s-blog
 - Feed: https://feeds.feedburner.com/brettshavers/oSyq
-- Status: error: undefined entity: line 1, column 1031
+- Status: error: undefined entity: line 1, column 974
 
 ## Yogesh Khatri's forensic blog
 
@@ -199,9 +199,12 @@ Generated: 2026-11-02T11:21:59Z
 - Site: https://www.magnetforensics.com/
 - Feed: https://www.magnetforensics.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 4
 
-- No new entries detected
+- 2026-11-02T21:24:37+00:00 — [New ways to scale investigations with Graykey Fastrak](https://www.magnetforensics.com/blog/new-ways-to-scale-investigations-with-graykey-fastrak/)
+- 2026-11-02T21:24:33+00:00 — [Magnet Graykey 2: Expanding the capabilities of mobile investigations](https://www.magnetforensics.com/blog/magnet-graykey-2-expanding-the-capabilities-of-mobile-investigations/)
+- 2026-11-02T20:05:38+00:00 — [Scale your forensic workflows with Magnet Automate 5.2](https://www.magnetforensics.com/blog/scale-your-forensic-workflows-with-magnet-automate-5-2/)
+- 2026-11-02T18:18:01+00:00 — [That One Artifact: The video that mapped a murder](https://www.magnetforensics.com/blog/that-one-artifact-the-video-that-mapped-a-murder/)
 
 ## The DFIR Report
 
@@ -217,18 +220,9 @@ Generated: 2026-11-02T11:21:59Z
 - Site: https://www.youtube.com/@13cubed
 - Feed: https://www.youtube.com/feeds/videos.xml?channel_id=UCy8ntxFEudOCRZYT1f7ya9Q
 - Entries checked: 10
-- New since last snapshot: 10
+- New since last snapshot: 0
 
-- 2026-10-10T06:54:32+00:00 — [I Got Promoted at Microsoft... Then I Quit](https://www.youtube.com/watch?v=OnavGwRIAtw)
-- 2026-09-29T02:47:29+00:00 — [Windows Forensics on a Mac?! You Have to See This!](https://www.youtube.com/watch?v=W9xHbNgZuT0)
-- 2026-10-04T01:48:19+00:00 — [Want to Get Into Threat Hunting? Start Here!](https://www.youtube.com/shorts/B_iHFonaOHg)
-- 2026-10-09T02:58:21+00:00 — [The Threat Hunting Course I Wish I Had](https://www.youtube.com/watch?v=cFxwYz5TOk0)
-- 2026-10-13T18:27:06+00:00 — [Automate Volatility 3 Memory Analysis with This Tool](https://www.youtube.com/watch?v=0GMTydimOP4)
-- 2026-10-14T01:49:20+00:00 — [How the USN Journal Really Works](https://www.youtube.com/watch?v=eSLHyqZlglk)
-- 2026-10-15T05:12:41+00:00 — [The Korvath Incident: A macOS Forensics Challenge](https://www.youtube.com/watch?v=tRvw13e3Qn0)
-- 2026-11-02T06:13:48+00:00 — [Hunting Copy Fail: 732 Bytes to Root](https://www.youtube.com/watch?v=ZVmpK-9rP0Q)
-- 2026-10-04T00:16:58+00:00 — [The AI Conversation I've Been Avoiding](https://www.youtube.com/watch?v=wKn-9sKBqX8)
-- 2026-10-05T22:00:15+00:00 — [Mac Imaging Made Easy with Fuji](https://www.youtube.com/watch?v=9ZkLdFodhzM)
+- No new entries detected
 
 ## SANS Internet Storm Center
 
@@ -237,8 +231,8 @@ Generated: 2026-11-02T11:21:59Z
 - Entries checked: 10
 - New since last snapshot: 2
 
-- 2026-11-02T02:00:03+00:00 — [ISC Stormcast For Monday, November 2nd, 2026 https://isc.sans.edu/podcastdetail/10160, (Mon, Nov 2nd)](https://isc.sans.edu/diary/rss/33480)
-- 2026-11-01T09:12:23+00:00 — [OneNote File Extraction, (Sun, Nov 1st)](https://isc.sans.edu/diary/rss/33478)
+- 2026-11-03T02:00:02+00:00 — [ISC Stormcast For Tuesday, November 3rd, 2026 https://isc.sans.edu/podcastdetail/10162, (Tue, Nov 3rd)](https://isc.sans.edu/diary/rss/33484)
+- 2026-11-02T14:52:05+00:00 — [Mutipath TCP: Use and Detection, (Mon, Nov 2nd)](https://isc.sans.edu/diary/rss/33482)
 
 ## DFIR Training Blog
 
@@ -263,36 +257,27 @@ Generated: 2026-11-02T11:21:59Z
 - Site: https://aboutdfir.com/
 - Feed: https://aboutdfir.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-11-02T11:51:01+00:00 — [InfoSec News Nuggets – 11/02/2026](https://aboutdfir.com/infosec-news-nuggets-11-02-2026/)
 
 ## Forensic 4cast
 
 - Site: https://forensic4cast.com/blog/
 - Feed: https://forensic4cast.com/feed/
 - Entries checked: 10
-- New since last snapshot: 10
+- New since last snapshot: 0
 
-- 2026-06-09T22:05:05+00:00 — [New Software: Perceptor](https://forensic4cast.com/2026/06/new-software-perceptor/)
-- 2024-01-30T22:23:33+00:00 — [All Good Things…](https://forensic4cast.com/2024/01/all-good-things/)
-- 2023-05-14T17:33:15+00:00 — [Forensic 4:cast Awards 2023 – Voting is now open!](https://forensic4cast.com/2023/05/forensic-4cast-awards-2023-voting-is-now-open/)
-- 2023-02-18T17:47:32+00:00 — [Forensic 4:cast Awards 2023 – Nominations are now open!](https://forensic4cast.com/2023/02/forensic-4cast-awards-2023-nominations-are-now-open/)
-- 2022-09-12T17:59:35+00:00 — [Moving On](https://forensic4cast.com/2022/09/moving-on/)
-- 2022-06-28T16:39:16+00:00 — [2022 Forensic 4:cast Awards – Voting is now OPEN](https://forensic4cast.com/2022/06/2022-forensic-4cast-awards-voting-is-now-open/)
-- 2022-06-18T12:44:36+00:00 — [Forensic 4:cast Awards – Update](https://forensic4cast.com/2022/06/forensic-4cast-awards-update/)
-- 2022-03-16T22:37:00+00:00 — [The Strength of a Tree](https://forensic4cast.com/2022/03/trees/)
-- 2022-02-02T23:52:00+00:00 — [Mac Randomization in Windows](https://forensic4cast.com/2022/02/mac-randomization-in-windows/)
-- 2021-08-05T02:50:33+00:00 — [We Didn’t Start DFIR](https://forensic4cast.com/2021/08/we-didnt-start-dfir/)
+- No new entries detected
 
 ## This Week In 4n6
 
 - Site: https://thisweekin4n6.com/
 - Feed: https://thisweekin4n6.wordpress.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-11-01T11:47:28+00:00 — [Week 44 – 2026](https://thisweekin4n6.com/2026/11/01/week-44-2026/)
+- No new entries detected
 
 ## The Sleuth Kit updates
 
@@ -317,9 +302,10 @@ Generated: 2026-11-02T11:21:59Z
 - Site: https://blog.didierstevens.com/
 - Feed: https://blog.didierstevens.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- 2026-11-03T00:00:00+00:00 — [Quickpost: Banana Equivalent Dose](https://blog.didierstevens.com/2026/11/03/quickpost-banana-equivalent-dose/)
+- 2026-11-02T21:10:28+00:00 — [Quickpost: Rad Pro](https://blog.didierstevens.com/2026/11/02/quickpost-rad-pro/)
 
 ## Hexordia
 
@@ -389,12 +375,10 @@ Generated: 2026-11-02T11:21:59Z
 - Site: https://eclecticlight.co/
 - Feed: https://eclecticlight.co/feed/
 - Entries checked: 10
-- New since last snapshot: 4
+- New since last snapshot: 2
 
-- 2026-11-02T09:00:00+00:00 — [Solutions to Saturday Mac riddles 384](https://eclecticlight.co/2026/11/02/solutions-to-saturday-mac-riddles-384/)
-- 2026-11-02T06:30:00+00:00 — [Lightest-weight macOS virtualisation with Vimy, an update](https://eclecticlight.co/2026/11/02/lightest-weight-macos-virtualisation-with-vimy-an-update/)
-- 2026-11-01T12:30:00+00:00 — [A painted weekend in Egypt 2](https://eclecticlight.co/2026/11/01/a-painted-weekend-in-egypt-2/)
-- 2026-11-01T08:00:00+00:00 — [Last Week on My Mac: An insecure world built on trust stores](https://eclecticlight.co/2026/11/01/last-week-on-my-mac-an-insecure-world-built-on-trust-stores/)
+- 2026-11-03T07:30:00+00:00 — [Trackpad and touch input in macOS Golden Gate](https://eclecticlight.co/2026/11/03/trackpad-and-touch-input-in-macos-golden-gate/)
+- 2026-11-02T12:30:00+00:00 — [Hero or hooligan: Orestes and the Furies](https://eclecticlight.co/2026/11/02/hero-or-hooligan-orestes-and-the-furies/)
 
 ## JPCERT/CC
 
@@ -428,9 +412,9 @@ Generated: 2026-11-02T11:21:59Z
 - Site: https://www.huntress.com/blog
 - Feed: https://www.huntress.com/blog/rss.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-11-02T17:00:00+00:00 — [Threat Hunting: What It Is, How It Works, & Why It Matters](https://www.huntress.com/blog/what-is-threat-hunting)
 
 ## Red Canary Blog
 
@@ -446,18 +430,19 @@ Generated: 2026-11-02T11:21:59Z
 - Site: https://unit42.paloaltonetworks.com/
 - Feed: https://unit42.paloaltonetworks.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-11-02T23:00:45+00:00 — [Unit 42 Threat Intelligence Highlights - Nov. 2, 2026](https://unit42.paloaltonetworks.com/u42-threat-intelligence-highlights-oct-2026/)
 
 ## Mandiant Threat Intelligence
 
 - Site: https://cloud.google.com/blog/topics/threat-intelligence
 - Feed: https://feeds.feedburner.com/threatintelligence/pvexyqv7v0v
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 2
 
-- 2026-10-30T14:00:00+00:00 — [ARTEX and Friends: Enter Agentic Offensive Frameworks](https://cloud.google.com/blog/topics/threat-intelligence/artex-and-friends-enter-agentic-offensive-frameworks/)
+- 2026-11-02T14:00:00+00:00 — [Shutting the Door on the XCPE Botnet](https://cloud.google.com/blog/topics/threat-intelligence/shutting-the-door-on-the-xcpe-botnet/)
+- 2026-11-02T14:00:00+00:00 — [The Rise of LLMJacking: How Threat Actors Monetize Compromised Cloud and Model Resources](https://cloud.google.com/blog/topics/threat-intelligence/llmjacking-monetizing-compromised-cloud-models/)
 
 ## Cisco Talos Blog
 
@@ -524,9 +509,10 @@ Generated: 2026-11-02T11:21:59Z
 - Site: https://cellebrite.com/en/blog/
 - Feed: https://cellebrite.com/en/feed/
 - Entries checked: 5
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- 2026-11-03T09:40:15+00:00 — [Odblokowywanie urządzeń mobilnych z Inseyets UFED: procedury dla Androida i iOS](https://cellebrite.com/en/resources/webinars/odblokowywanie-urzadzen-mobilnych-z-inseyets-ufed-procedury-dla-androida-i-ios/)
+- 2026-11-02T12:44:31+00:00 — [Managing CSAM Investigations at Scale: How AI-Powered Triage Is Transforming Child Protection](https://cellebrite.com/en/blog/managing-csam-investigations-at-scale-how-ai-powered-triage-is-transforming-child-protection/)
 
 ## DFIR Science
 
@@ -542,48 +528,63 @@ Generated: 2026-11-02T11:21:59Z
 - Site: https://www.crowdstrike.com/blog/
 - Feed: https://www.crowdstrike.com/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 6
 
-- No new entries detected
+- 2026-11-03T00:00:00-08:00 — [Introducing AI Kill Switch: Taking Control When AI Agents Go Rogue](https://www.crowdstrike.com/en-us/blog/crowdstrike-introduces-ai-kill-switch/)
+- 2026-11-03T00:00:00-08:00 — [CrowdStrike Advances AI Security and Safety from Endpoint to Cloud](https://www.crowdstrike.com/en-us/blog/crowdstrike-advances-ai-security-and-safety-falcon-guardian/)
+- 2026-11-03T00:00:00-08:00 — [CrowdStrike to Acquire Dreadnode to Bring Automated AI Security Testing to the Falcon Platform](https://www.crowdstrike.com/en-us/blog/crowdstrike-to-acquire-dreadnode/)
+- 2026-11-03T00:00:00-08:00 — [CrowdStrike to Acquire Fiddler to Deliver Falcon Observe for AI Agent Observability](https://www.crowdstrike.com/en-us/blog/crowdstrike-to-acquire-fiddler/)
+- 2026-11-03T00:00:00-08:00 — [CrowdStrike Secures AI Agents Inside Claude Cowork](https://www.crowdstrike.com/en-us/blog/crowdstrike-secures-ai-agents-inside-claude-cowork/)
+- 2026-11-02T00:00:00-06:00 — [What Makes a Good Security Agent? 5 Lessons from the AgentWorks Hackathon](https://www.crowdstrike.com/en-us/blog/five-lessons-from-agentworks-hackathon/)
 
 ## Malwarebytes Labs
 
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 2
 
-- 2026-11-02T08:01:00+00:00 — [A week in security (October 26 – November 1)](https://www.malwarebytes.com/blog/news/2026/11/a-week-in-security-october-26-november-1-2)
+- 2026-11-02T14:24:43+00:00 — [5 stars for sale: Inside the underground fake review trade](https://www.malwarebytes.com/blog/threat-intel/2026/11/5-stars-for-sale-inside-the-underground-fake-review-trade)
+- 2026-11-02T14:22:43+00:00 — [Applebee’s customer data exposed by password left in app](https://www.malwarebytes.com/blog/news/2026/11/applebees-customer-data-exposed-by-password-left-in-app)
 
 ## Krebs on Security
 
 - Site: https://krebsonsecurity.com/
 - Feed: https://krebsonsecurity.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-11-03T02:24:31+00:00 — [Tech Firms Dismantle Botnet That Turned 1.3M TV Boxes Into Proxies](https://krebsonsecurity.com/2026/11/tech-firms-dismantle-botnet-that-turned-1-3m-tv-boxes-into-proxies/)
 
 ## BleepingComputer
 
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 4
+- New since last snapshot: 10
 
-- 2026-11-02T04:33:26-05:00 — [Ivanti patches two more Connect Secure zero-days chained in attacks](https://www.bleepingcomputer.com/news/security/ivanti-patches-two-more-connect-secure-zero-days-chained-in-attacks/)
-- 2026-11-01T14:57:53-05:00 — [FBI links $6.3 billion Binance crypto heist to North Korean hackers](https://www.bleepingcomputer.com/news/security/fbi-links-63-billion-binance-crypto-heist-to-north-korean-hackers/)
-- 2026-11-01T10:11:21-05:00 — [Alpine Linux rebuilds GitLab after attempted RCE attack](https://www.bleepingcomputer.com/news/security/alpine-linux-rebuilds-gitlab-after-attempted-rce-attack/)
-- 2026-11-01T08:53:11-05:00 — [OpenAI says it's doubling Pro usage limits and bringing Work features to Chat](https://www.bleepingcomputer.com/news/artificial-intelligence/openai-says-its-doubling-pro-usage-limits-and-bringing-work-features-to-chat/)
+- 2026-11-03T05:53:25-05:00 — [Harvard University data breach exposed info of 851,000 accounts](https://www.bleepingcomputer.com/news/security/harvard-university-data-breach-exposed-info-of-851-000-accounts/)
+- 2026-11-02T16:40:14-05:00 — [Chinese hackers use ARTEX AI in automated attacks against 200 orgs](https://www.bleepingcomputer.com/news/security/chinese-hackers-use-artex-ai-in-automated-attacks-against-200-orgs/)
+- 2026-11-02T14:00:45-05:00 — [Fintech platform Sageworks taken offline after suspected cyberattack](https://www.bleepingcomputer.com/news/security/fintech-platform-sageworks-taken-offline-after-suspected-cyberattack/)
+- 2026-11-02T13:16:34-05:00 — [Google disrupts million-device XCPE Android malware botnet, bans TV box maker](https://www.bleepingcomputer.com/news/security/google-disrupts-million-device-xcpe-android-malware-botnet-bans-tv-box-maker/)
+- 2026-11-02T10:03:07-05:00 — [BTCPay Server warns of hot wallet crypto thefts on outdated instances](https://www.bleepingcomputer.com/news/security/btcpay-server-warns-of-hot-wallet-thefts-targeting-outdated-instances/)
+- 2026-11-02T10:01:11-05:00 — [Your Mobile Carrier Stores Your Call Logs for Years](https://www.bleepingcomputer.com/news/security/your-mobile-carrier-stores-your-call-logs-for-years/)
+- 2026-11-02T09:28:39-05:00 — [Hackers disrupt refrigeration systems at European supermarkets](https://www.bleepingcomputer.com/news/security/hackers-disrupt-refrigeration-systems-at-european-supermarkets/)
+- 2026-11-02T08:57:29-05:00 — [Microsoft fixes Smart App Control broken by October Windows update](https://www.bleepingcomputer.com/news/microsoft/microsoft-fixes-smart-app-control-broken-by-october-windows-update/)
+- 2026-11-02T07:47:00-05:00 — [Over 1,000 GitLab servers vulnerable to ongoing RCE attacks](https://www.bleepingcomputer.com/news/security/over-1-000-gitlab-servers-vulnerable-to-code-execution-attacks/)
+- 2026-11-02T06:28:42-05:00 — [Synology warns of C3RB3R ransomware attacks targeting NAS devices](https://www.bleepingcomputer.com/news/security/synology-warns-customers-of-ongoing-c3rb3r-ransomware-attacks/)
 
 ## Dark Reading
 
 - Site: https://www.darkreading.com/
 - Feed: https://www.darkreading.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 4
 
-- No new entries detected
+- 2026-11-02T22:27:24+00:00 — [One Compromised Laptop, Billions Lost: The Binance Attack-Path Warning](https://www.darkreading.com/cyberattacks-data-breaches/binance-hack-test-attack-paths)
+- 2026-11-02T15:00:00+00:00 — [Microsoft's AI Risk Report Misses This Key Detail](https://www.darkreading.com/cyberattacks-data-breaches/microsoft-ai-cyber-risk-report-miss)
+- 2026-11-02T14:00:00+00:00 — [PapRAT Cyber-Espionage Campaign Leaves a 'Bitter' Taste in South Asia](https://www.darkreading.com/cyberattacks-data-breaches/paprat-cyberespionage-campaign-bitter-south-asia)
+- 2026-10-30T21:08:25+00:00 — [Investors Dish on New Startups &amp; What They'd Back Next](https://www.darkreading.com/cybersecurity-operations/investors-dish-new-startsup-what-back-next)
 
 ## Volexity Blog
 
@@ -605,9 +606,9 @@ Generated: 2026-11-02T11:21:59Z
 - Site: https://www.microsoft.com/en-us/security/blog/
 - Feed: https://www.microsoft.com/en-us/security/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-11-02T20:20:59+00:00 — [What exploited vulnerabilities have in common: A data-driven analysis of real-world attacks](https://www.microsoft.com/en-us/security/blog/2026/11/02/exploited-vulnerabilities-common-data-driven-analysis-real-world-attacks/)
 
 ## HackingPassion
 
@@ -616,7 +617,7 @@ Generated: 2026-11-02T11:21:59Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-11-01T12:23:42+01:00 — [Sign in with Google and How to Clean Up the Apps Connected to Your Accounts](https://hackingpassion.com/sign-in-with-google-take-back-access/)
+- 2026-11-02T11:36:52+01:00 — [Microsoft Edge Hacked With Logic Bugs Only in a $175,000 Pwn2Own Chain](https://hackingpassion.com/microsoft-edge-logic-bug-full-chain/)
 
 ## LOLBAS Project (Windows)
 
@@ -785,9 +786,14 @@ Generated: 2026-11-02T11:21:59Z
 - Site: https://github.com/EricZimmerman/KapeFiles
 - Feed: https://github.com/EricZimmerman/KapeFiles/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 6
 
-- No new entries detected
+- 2026-11-03T00:06:29+00:00 — [Merge pull request #1132 from Gear-I/NirSoft_WinPrefetchView](https://github.com/EricZimmerman/KapeFiles/commit/901c3815e90b23ab26207d1114a564d47cfa20b2)
+- 2026-11-02T22:08:53+00:00 — [Add NirSoft_WinPrefetchView module](https://github.com/EricZimmerman/KapeFiles/commit/400c489d3d4aff4697d0112d67722a0cf1f62b90)
+- 2026-11-02T21:27:51+00:00 — [Merge pull request #1131 from reece394/MFTECmd](https://github.com/EricZimmerman/KapeFiles/commit/81d4871d20f2ecd48815af0e9dca95cd25baa343)
+- 2026-11-02T21:00:36+00:00 — [Add $I30 and $LogFile to MFTECmd Compund and add $LogFile Module](https://github.com/EricZimmerman/KapeFiles/commit/330559c00feaeab14597409af89eadf6de7055e4)
+- 2026-11-02T20:34:47+00:00 — [Merge pull request #1130 from reece394/master](https://github.com/EricZimmerman/KapeFiles/commit/bdb8280c5128e07aa00d95f2dfb9431d2bd179ca)
+- 2026-11-02T19:44:45+00:00 — [Removing Duplicate Rule](https://github.com/EricZimmerman/KapeFiles/commit/1430af42ac24594388a9edbe60adb4f9cd81d593)
 
 ## EZ RegistryPlugins commits
 
@@ -848,9 +854,10 @@ Generated: 2026-11-02T11:21:59Z
 - Site: https://github.com/Yamato-Security/hayabusa-rules
 - Feed: https://github.com/Yamato-Security/hayabusa-rules/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- 2026-11-02T21:07:48+00:00 — [Sigma Rule Supported Modifier Update (2026-11-02  21:07:14) (#1101)](https://github.com/Yamato-Security/hayabusa-rules/commit/871ce53259f25f6609719366a7687f31fc94210c)
+- 2026-11-02T20:04:36+00:00 — [Sigma Rule Update (2026-11-02  20:03:44) (#1100)](https://github.com/Yamato-Security/hayabusa-rules/commit/c6b4f09f102d04dd5001ebe1489d4a93153a3d4a)
 
 ## Hayabusa releases
 
@@ -875,9 +882,10 @@ Generated: 2026-11-02T11:21:59Z
 - Site: https://github.com/elastic/detection-rules
 - Feed: https://github.com/elastic/detection-rules/releases.atom
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 2
 
-- 2026-11-02T08:50:50+00:00 — [dev-v3.0.23](https://github.com/elastic/detection-rules/releases/tag/dev-v3.0.23)
+- 2026-11-02T20:28:31+00:00 — [dev-v3.0.25](https://github.com/elastic/detection-rules/releases/tag/dev-v3.0.25)
+- 2026-11-02T15:08:01+00:00 — [dev-v3.0.24](https://github.com/elastic/detection-rules/releases/tag/dev-v3.0.24)
 
 ## regipy releases
 
