@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-11-07T10:23:31Z
+Generated: 2026-11-08T10:40:27Z
 
 ## Windows Incident Response
 
@@ -16,9 +16,10 @@ Generated: 2026-11-07T10:23:31Z
 - Site: https://dfir.blog/
 - Feed: https://dfir.blog/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- unknown date — [Chrome Databases](https://dfir.blog/resources/chrome-databases)
+- unknown date — [Chrome Values](https://dfir.blog/resources/chrome-values)
 
 ## Another Forensics Blog
 
@@ -58,9 +59,9 @@ Generated: 2026-11-07T10:23:31Z
 - Site: https://andreafortuna.org/
 - Feed: https://andreafortuna.org/feed.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-11-08T00:00:00+00:00 — [Weekly Wire #17: Hybrid war hits home](https://andreafortuna.org/2026/11/08/weekly-wire-17/)
 
 ## Salt Forensics
 
@@ -250,9 +251,9 @@ Generated: 2026-11-07T10:23:31Z
 - Site: https://aboutdfir.com/
 - Feed: https://aboutdfir.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-11-06T11:10:26+00:00 — [InfoSec News Nuggets – 11/06/2026](https://aboutdfir.com/infosec-news-nuggets-11-06-2026/)
+- No new entries detected
 
 ## Forensic 4cast
 
@@ -367,11 +368,10 @@ Generated: 2026-11-07T10:23:31Z
 - Site: https://eclecticlight.co/
 - Feed: https://eclecticlight.co/feed/
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 2
 
-- 2026-11-07T09:00:00+00:00 — [Saturday Mac riddles 385](https://eclecticlight.co/2026/11/07/saturday-mac-riddles-385/)
-- 2026-11-07T08:00:00+00:00 — [A brief history of Recovery Mode](https://eclecticlight.co/2026/11/07/a-brief-history-of-recovery-mode/)
-- 2026-11-06T12:30:00+00:00 — [Painting with impaired vision: Claude Monet](https://eclecticlight.co/2026/11/06/painting-with-impaired-vision-claude-monet/)
+- 2026-11-08T08:00:00+00:00 — [Last Week on My Mac: You don’t really want to install that](https://eclecticlight.co/2026/11/08/last-week-on-my-mac-you-dont-really-want-to-install-that/)
+- 2026-11-07T12:30:00+00:00 — [Painting the whole truth, and nothing but the truth 1](https://eclecticlight.co/2026/11/07/painting-the-whole-truth-and-nothing-but-the-truth-1/)
 
 ## JPCERT/CC
 
@@ -405,9 +405,9 @@ Generated: 2026-11-07T10:23:31Z
 - Site: https://www.huntress.com/blog
 - Feed: https://www.huntress.com/blog/rss.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-11-06T21:00:00+00:00 — [Brute Force Sentry for Managed SIEM | Huntress](https://www.huntress.com/blog/brute-force-sentry)
+- No new entries detected
 
 ## Red Canary Blog
 
@@ -423,9 +423,9 @@ Generated: 2026-11-07T10:23:31Z
 - Site: https://unit42.paloaltonetworks.com/
 - Feed: https://unit42.paloaltonetworks.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-11-06T21:15:09+00:00 — [Turning Up the Heat: Inside the Attacks on Europe’s Refrigeration System](https://unit42.paloaltonetworks.com/europes-refrigeration-systems-attacks/)
+- No new entries detected
 
 ## Mandiant Threat Intelligence
 
@@ -528,10 +528,9 @@ Generated: 2026-11-07T10:23:31Z
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-11-06T15:06:02+00:00 — [Big Tech sues over California plan to limit kids’ scrolling](https://www.malwarebytes.com/blog/news/2026/11/big-tech-sues-over-california-plan-to-limit-kids-scrolling)
-- 2026-11-06T12:02:17+00:00 — [Attacks on supermarket and blood storage systems prompt US warning](https://www.malwarebytes.com/blog/news/2026/11/attacks-on-supermarket-and-blood-storage-systems-prompt-us-warning)
+- No new entries detected
 
 ## Krebs on Security
 
@@ -547,29 +546,19 @@ Generated: 2026-11-07T10:23:31Z
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 9
+- New since last snapshot: 2
 
-- 2026-11-06T19:00:55-05:00 — [SonicWall warns of new SSL-VPN MFA bypass flaw exploited in attacks](https://www.bleepingcomputer.com/news/security/sonicwall-warns-of-new-ssl-vpn-mfa-bypass-flaw-exploited-in-attacks/)
-- 2026-11-06T17:27:25-05:00 — [Runaway AI hacking agent behind WorkOS breach after escaping sandbox](https://www.bleepingcomputer.com/news/security/runaway-ai-hacking-agent-behind-workos-breach-after-escaping-sandbox/)
-- 2026-11-06T15:24:19-05:00 — [OpenAI's new GPT-6 Cyber AI finds 81 Firefox flaws, 948 Linux bugs](https://www.bleepingcomputer.com/news/security/openais-new-gpt-6-cyber-ai-finds-81-firefox-flaws-948-linux-bugs/)
-- 2026-11-06T13:46:52-05:00 — [Fake security tools on GitHub push backdoors and infostealers](https://www.bleepingcomputer.com/news/security/fake-security-tools-on-github-push-backdoors-and-infostealers/)
-- 2026-11-06T12:04:23-05:00 — [QNAP says hackers breaching NAS devices in Plex2Shell attacks](https://www.bleepingcomputer.com/news/security/qnap-says-hackers-breaching-nas-devices-in-plex2shell-attacks/)
-- 2026-11-06T10:25:31-05:00 — [Veeam warns of Software Appliance boot failures on AMD EPYC hosts](https://www.bleepingcomputer.com/news/security/veeam-software-appliance-vms-fail-to-boot-on-amd-epyc-hosts/)
-- 2026-11-06T10:00:10-05:00 — [IMSI vs IMEI: What Your Phone Broadcasts and Who Can Read It](https://www.bleepingcomputer.com/news/security/imsi-vs-imei-what-your-phone-broadcasts-and-who-can-read-it/)
-- 2026-11-06T09:17:07-05:00 — [Chainalysis says breach exposed credentials for all customers](https://www.bleepingcomputer.com/news/security/chainalysis-says-breach-exposed-credentials-for-all-customers/)
-- 2026-11-06T07:37:22-05:00 — [D-Link warns of multiple zero-days in DGS-3130 Series switches](https://www.bleepingcomputer.com/news/security/d-link-warns-of-multiple-zero-days-in-dgs-3130-series-switches/)
+- 2026-11-07T10:25:35-05:00 — [Hackers pull off $133 million French bank heist via service provider](https://www.bleepingcomputer.com/news/security/hackers-pull-off-133-million-french-bank-heist-via-service-provider/)
+- 2026-11-07T09:10:19-05:00 — [CTM360 Exposes Fake Gift Card Scams Exploiting Trusted Brands](https://www.bleepingcomputer.com/news/security/ctm360-exposes-fake-gift-card-scams-exploiting-trusted-brands/)
 
 ## Dark Reading
 
 - Site: https://www.darkreading.com/
 - Feed: https://www.darkreading.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 4
+- New since last snapshot: 0
 
-- 2026-11-06T21:27:36+00:00 — [UK Wades Into Tech Sovereignty Amid AI Policy Changes](https://www.darkreading.com/cybersecurity-operations/uk-tech-sovereignty-ai-policy)
-- 2026-11-06T18:27:30+00:00 — [AI Gave Your Incident Archive a Second Job](https://www.darkreading.com/cyber-risk/ai-gave-your-incident-archive-second-job)
-- 2026-11-06T14:00:00+00:00 — [Why Europe's Freezer Hacks Spread So Far, So Fast](https://www.darkreading.com/ics-ot-security/europes-freezer-hacks-spread-so-far-so-fast)
-- 2026-11-05T22:13:23+00:00 — [Operação de influência russa tem como alvo generalizado a América Latina](https://www.darkreading.com/cyberattacks-data-breaches/opera-o-de-influ-ncia-russa-tem-como-alvo-generalizado-a-am-rica-latina)
+- No new entries detected
 
 ## Volexity Blog
 
@@ -591,81 +580,60 @@ Generated: 2026-11-07T10:23:31Z
 - Site: https://www.microsoft.com/en-us/security/blog/
 - Feed: https://www.microsoft.com/en-us/security/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-11-07T02:44:34+00:00 — [ARTEX abuse expands as cybercriminals target financial sector](https://www.microsoft.com/en-us/security/blog/2026/11/06/artex-abuse-expands-as-cybercriminals-target-financial-sector/)
+- No new entries detected
 
 ## HackingPassion
 
 - Site: https://hackingpassion.com/
 - Feed: https://hackingpassion.com/index.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-11-07T11:22:13+01:00 — [mSecure Password Manager Tells Customers to Replace Their Passwords, 2FA and Passkeys Without Saying Why](https://hackingpassion.com/msecure-password-manager-reset-passwords-2fa-passkeys/)
 
 ## LOLBAS Project (Windows)
 
 - Site: https://lolbas-project.github.io/
 - Feed: https://github.com/LOLBAS-Project/LOLBAS/commits/master.atom
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: HTTP 504
 
 ## GTFOBins (Linux)
 
 - Site: https://gtfobins.github.io/
 - Feed: https://github.com/GTFOBins/GTFOBins.github.io/commits/master.atom
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: HTTP 504
 
 ## LOOBins (macOS)
 
 - Site: https://loobins.io/
 - Feed: https://github.com/infosecB/LOOBins/commits/main.atom
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: HTTP 504
 
 ## LOLDrivers (BYOVD)
 
 - Site: https://www.loldrivers.io/
 - Feed: https://github.com/magicsword-io/LOLDrivers/commits/main.atom
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: HTTP 504
 
 ## LOFL Project (RMM C2 indicators)
 
 - Site: https://lofl-project.github.io/
 - Feed: https://github.com/LOFL-Project/LOFL-Project.github.io/commits/main.atom
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: HTTP 504
 
 ## Blue_Team_Hunting_Field_Notes
 
 - Site: https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes
 - Feed: https://github.com/bitbug0x55AA/Blue_Team_Hunting_Field_Notes/commits/main.atom
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: HTTP 504
 
 ## kacos2000_Win10
 
 - Site: https://github.com/kacos2000/Win10
 - Feed: https://github.com/kacos2000/Win10/commits/master.atom
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: HTTP 504
 
 ## EZ RECmd releases
 
@@ -770,19 +738,13 @@ Generated: 2026-11-07T10:23:31Z
 
 - Site: https://github.com/EricZimmerman/KapeFiles
 - Feed: https://github.com/EricZimmerman/KapeFiles/commits/master.atom
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: HTTP 504
 
 ## EZ RegistryPlugins commits
 
 - Site: https://github.com/EricZimmerman/RegistryPlugins
 - Feed: https://github.com/EricZimmerman/RegistryPlugins/commits/master.atom
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: HTTP 504
 
 ## EZ RegistryExplorerBookmarks commits
 
@@ -797,19 +759,13 @@ Generated: 2026-11-07T10:23:31Z
 
 - Site: https://github.com/EricZimmerman/GuidMapping
 - Feed: https://github.com/EricZimmerman/GuidMapping/commits/master.atom
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: HTTP 504
 
 ## EZ documentation commits
 
 - Site: https://github.com/EricZimmerman/documentation
 - Feed: https://github.com/EricZimmerman/documentation/commits/master.atom
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: HTTP 504
 
 ## EZ DFIR-SQL-Query-Repo commits
 
@@ -836,8 +792,8 @@ Generated: 2026-11-07T10:23:31Z
 - Entries checked: 10
 - New since last snapshot: 2
 
-- 2026-11-06T21:07:15+00:00 — [Sigma Rule Supported Modifier Update (2026-11-06  21:06:30) (#1110)](https://github.com/Yamato-Security/hayabusa-rules/commit/9e2db772119c03044fc728c95312fa366be9b38a)
-- 2026-11-06T20:06:09+00:00 — [Sigma Rule Update (2026-11-06  20:04:32) (#1109)](https://github.com/Yamato-Security/hayabusa-rules/commit/5a92afdb7ac41052e83db1aa406e0489b61a5d52)
+- 2026-11-07T21:08:22+00:00 — [Sigma Rule Supported Modifier Update (2026-11-07  21:07:53) (#1112)](https://github.com/Yamato-Security/hayabusa-rules/commit/0419bf0a7591eb22588455ca1f48fdd0dc5e84f0)
+- 2026-11-07T20:05:17+00:00 — [Sigma Rule Update (2026-11-07  20:04:42) (#1111)](https://github.com/Yamato-Security/hayabusa-rules/commit/ff2d796abb2a94e3ea3931ea569374b64d3cf1d6)
 
 ## Hayabusa releases
 
@@ -862,10 +818,9 @@ Generated: 2026-11-07T10:23:31Z
 - Site: https://github.com/elastic/detection-rules
 - Feed: https://github.com/elastic/detection-rules/releases.atom
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-11-06T18:04:36+00:00 — [dev-v3.0.31](https://github.com/elastic/detection-rules/releases/tag/dev-v3.0.31)
-- 2026-11-06T17:03:22+00:00 — [dev-v3.0.30](https://github.com/elastic/detection-rules/releases/tag/dev-v3.0.30)
+- No new entries detected
 
 ## regipy releases
 
@@ -880,10 +835,7 @@ Generated: 2026-11-07T10:23:31Z
 
 - Site: https://github.com/EricZimmerman/Registry
 - Feed: https://github.com/EricZimmerman/Registry/commits/master.atom
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: HTTP 504
 
 ## EZ MFT commits
 
@@ -898,19 +850,13 @@ Generated: 2026-11-07T10:23:31Z
 
 - Site: https://github.com/EricZimmerman/Lnk
 - Feed: https://github.com/EricZimmerman/Lnk/commits/master.atom
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: HTTP 504
 
 ## EZ OleCf commits
 
 - Site: https://github.com/EricZimmerman/OleCf
 - Feed: https://github.com/EricZimmerman/OleCf/commits/master.atom
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: The read operation timed out
 
 ## EZ JumpList commits
 
@@ -925,106 +871,73 @@ Generated: 2026-11-07T10:23:31Z
 
 - Site: https://github.com/EricZimmerman/Prefetch
 - Feed: https://github.com/EricZimmerman/Prefetch/commits/master.atom
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: The read operation timed out
 
 ## EZ Srum commits
 
 - Site: https://github.com/EricZimmerman/Srum
 - Feed: https://github.com/EricZimmerman/Srum/commits/master.atom
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: The read operation timed out
 
 ## EZ RecentFileCacheParser commits
 
 - Site: https://github.com/EricZimmerman/RecentFileCacheParser
 - Feed: https://github.com/EricZimmerman/RecentFileCacheParser/commits/master.atom
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: HTTP 502
 
 ## EZ WinSearchDbAnalyzer commits
 
 - Site: https://github.com/EricZimmerman/WinSearchDbAnalyzer
 - Feed: https://github.com/EricZimmerman/WinSearchDbAnalyzer/commits/master.atom
-- Entries checked: 5
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: The read operation timed out
 
 ## EZ USBDevices commits
 
 - Site: https://github.com/EricZimmerman/USBDevices
 - Feed: https://github.com/EricZimmerman/USBDevices/commits/master.atom
-- Status: error: HTTP 404
+- Status: error: The read operation timed out
 
 ## EZ ExtensionBlocks commits
 
 - Site: https://github.com/EricZimmerman/ExtensionBlocks
 - Feed: https://github.com/EricZimmerman/ExtensionBlocks/commits/master.atom
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: HTTP 502
 
 ## EZ TLEFilePlugins commits
 
 - Site: https://github.com/EricZimmerman/TLEFilePlugins
 - Feed: https://github.com/EricZimmerman/TLEFilePlugins/commits/master.atom
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: The read operation timed out
 
 ## EZ Get-ZimmermanTools commits
 
 - Site: https://github.com/EricZimmerman/Get-ZimmermanTools
 - Feed: https://github.com/EricZimmerman/Get-ZimmermanTools/commits/master.atom
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: The read operation timed out
 
 ## EZ KapeDocs commits
 
 - Site: https://github.com/EricZimmerman/KapeDocs
 - Feed: https://github.com/EricZimmerman/KapeDocs/commits/master.atom
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: The read operation timed out
 
 ## MITRE ATT&CK CTI releases
 
 - Site: https://attack.mitre.org/
 - Feed: https://github.com/mitre/cti/releases.atom
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: The read operation timed out
 
 ## Velociraptor releases
 
 - Site: https://docs.velociraptor.app/
 - Feed: https://github.com/Velocidex/velociraptor/releases.atom
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: HTTP 504
 
 ## dfir-scripts DFIR Reference
 
 - Site: https://dfir-scripts.github.io/
 - Feed: https://github.com/dfir-scripts/dfir-scripts.github.io/commits/main.atom
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: The read operation timed out
 
 ## Microsoft Learn Windows What's New
 
@@ -1075,7 +988,4 @@ Generated: 2026-11-07T10:23:31Z
 
 - Site: https://www.misp-project.org/
 - Feed: https://github.com/MISP/misp-taxonomies/commits/main.atom
-- Entries checked: 10
-- New since last snapshot: 0
-
-- No new entries detected
+- Status: error: The read operation timed out
