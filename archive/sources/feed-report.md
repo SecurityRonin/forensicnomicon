@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-11-14T10:37:20Z
+Generated: 2026-11-15T11:07:14Z
 
 ## Windows Incident Response
 
@@ -61,9 +61,9 @@ Generated: 2026-11-14T10:37:20Z
 - Site: https://andreafortuna.org/
 - Feed: https://andreafortuna.org/feed.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-11-15T00:00:00+00:00 — [Weekly Wire #18: The cloud and the sky broke](https://andreafortuna.org/2026/11/15/weekly-wire-18/)
 
 ## Salt Forensics
 
@@ -175,9 +175,9 @@ Generated: 2026-11-14T10:37:20Z
 - Site: https://www.swiftforensics.com/
 - Feed: https://www.swiftforensics.com/feeds/posts/default
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-11-15T03:02:04-05:00 — [Siri app conversations](http://www.swiftforensics.com/2026/11/siri-app-conversations.html)
 
 ## Forensic Focus
 
@@ -199,9 +199,9 @@ Generated: 2026-11-14T10:37:20Z
 - Site: https://www.magnetforensics.com/
 - Feed: https://www.magnetforensics.com/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-11-13T19:42:57+00:00 — [Threat hunting with digital forensics](https://www.magnetforensics.com/blog/threat-hunting-with-digital-forensics/)
+- No new entries detected
 
 ## The DFIR Report
 
@@ -316,9 +316,9 @@ Generated: 2026-11-14T10:37:20Z
 - Site: https://www.hexacorn.com/blog/
 - Feed: https://www.hexacorn.com/blog/feed/
 - Entries checked: 5
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-11-15T01:54:52+00:00 — [Anti-AI tricks, Part 1](https://www.hexacorn.com/blog/2026/11/15/anti-ai-tricks-part-1/)
 
 ## The DFIR Spot
 
@@ -370,11 +370,10 @@ Generated: 2026-11-14T10:37:20Z
 - Site: https://eclecticlight.co/
 - Feed: https://eclecticlight.co/feed/
 - Entries checked: 10
-- New since last snapshot: 3
+- New since last snapshot: 2
 
-- 2026-11-14T09:00:00+00:00 — [Saturday Mac riddles 386](https://eclecticlight.co/2026/11/14/saturday-mac-riddles-386/)
-- 2026-11-14T08:00:00+00:00 — [Understand space management with DeltaFree](https://eclecticlight.co/2026/11/14/understand-space-management-with-deltafree/)
-- 2026-11-13T12:30:00+00:00 — [Claude Monet: Le Havre to Argenteuil](https://eclecticlight.co/2026/11/13/claude-monet-le-havre-to-argenteuil/)
+- 2026-11-15T08:00:00+00:00 — [Last Week on My Mac: Eggs, baskets and resilience](https://eclecticlight.co/2026/11/15/last-week-on-my-mac-eggs-baskets-and-resilience/)
+- 2026-11-14T12:30:00+00:00 — [British Impressionists on the beach 1](https://eclecticlight.co/2026/11/14/british-impressionists-on-the-beach-1/)
 
 ## JPCERT/CC
 
@@ -408,10 +407,9 @@ Generated: 2026-11-14T10:37:20Z
 - Site: https://www.huntress.com/blog
 - Feed: https://www.huntress.com/blog/rss.xml
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-11-14T01:50:00+00:00 — [Attackers use Crypto Exchange Names to Disguise Unauthorized Sessions on 100+ ScreenConnect Servers](https://www.huntress.com/blog/fake-crypto-exchange-sessions-screenconnect)
-- 2026-11-13T14:00:00+00:00 — [GeoVision Camera Software Abused to Deploy XMRig Cryptominer](https://www.huntress.com/blog/geovision-camera-software-xmrig-cryptominer)
+- No new entries detected
 
 ## Red Canary Blog
 
@@ -445,9 +443,9 @@ Generated: 2026-11-14T10:37:20Z
 - Site: https://blog.talosintelligence.com/
 - Feed: https://blog.talosintelligence.com/rss/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-11-13T20:57:13+00:00 — [ARTEX and beyond: AI-enabled penetration testing platforms](https://blog.talosintelligence.com/artex-and-beyond/)
+- No new entries detected
 
 ## SANS Blog
 
@@ -472,9 +470,9 @@ Generated: 2026-11-14T10:37:20Z
 - Site: https://flare.io/learn/resources/blog/
 - Feed: https://flare.io/learn/resources/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-11-13T17:44:12+00:00 — [The Binance Hack, Infostealers, and AI-Powered Social Engineering](https://flare.io/learn/resources/blog/binance-hack-infostealers-ai-powered-social-engineering)
+- No new entries detected
 
 ## Binalyze Blog
 
@@ -523,19 +521,18 @@ Generated: 2026-11-14T10:37:20Z
 - Site: https://www.crowdstrike.com/blog/
 - Feed: https://www.crowdstrike.com/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-11-13T00:00:00-06:00 — [Inside Falcon AI Gateway: One Control Point for AI Traffic](https://www.crowdstrike.com/en-us/blog/falcon-ai-gateway-one-control-point-for-ai-traffic/)
+- No new entries detected
 
 ## Malwarebytes Labs
 
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-11-13T16:52:36+00:00 — [New York City votes to ban surveillance pricing](https://www.malwarebytes.com/blog/news/2026/11/new-york-city-council-votes-to-ban-surveillance-pricing)
-- 2026-11-13T11:20:50+00:00 — [Google pushes second Chrome update this week](https://www.malwarebytes.com/blog/bugs/2026/11/google-pushes-second-chrome-update-this-week)
+- No new entries detected
 
 ## Krebs on Security
 
@@ -551,23 +548,19 @@ Generated: 2026-11-14T10:37:20Z
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 5
+- New since last snapshot: 2
 
-- 2026-11-13T14:38:36-05:00 — [Trezor confirms crypto-stealing implants in three wallets, releases fix](https://www.bleepingcomputer.com/news/cryptocurrency/trezor-confirms-crypto-stealing-implants-in-three-wallets-releases-fix/)
-- 2026-11-13T12:31:56-05:00 — [German military drone operations disrupted by cyberattack](https://www.bleepingcomputer.com/news/security/german-military-drone-operations-disrupted-by-cyberattack/)
-- 2026-11-13T11:21:43-05:00 — [Check Point gateways hacked via PHP2Shell to deploy VMware ESXi wiper](https://www.bleepingcomputer.com/news/security/check-point-gateways-hacked-via-php2shell-to-deploy-vmware-esxi-wiper/)
-- 2026-11-13T10:01:11-05:00 — [How one AI agent exposed five critical enterprise security gaps](https://www.bleepingcomputer.com/news/security/how-one-ai-agent-exposed-five-critical-enterprise-security-gaps/)
-- 2026-11-13T07:27:40-05:00 — [Microsoft says November security updates cause printing issues](https://www.bleepingcomputer.com/news/microsoft/microsoft-says-november-security-updates-cause-printing-issues/)
+- 2026-11-14T12:27:25-05:00 — [Cursor confirms security breach led to malicious Claude Code extension](https://www.bleepingcomputer.com/news/security/cursor-confirms-security-breach-led-to-malicious-claude-code-extension/)
+- 2026-11-14T10:15:49-05:00 — [US disrupts North Korean campaign behind $400 million crypto theft](https://www.bleepingcomputer.com/news/security/us-disrupts-north-korean-campaign-behind-400-million-crypto-theft/)
 
 ## Dark Reading
 
 - Site: https://www.darkreading.com/
 - Feed: https://www.darkreading.com/rss.xml
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-11-13T20:20:27+00:00 — [ArcticRAT Cybercrime Gang Profiles Victim Finances With AI](https://www.darkreading.com/mobile-security/arcticrat-cybercrime-gang-profiles-victim-finances-ai)
-- 2026-11-13T13:00:00+00:00 — [Attackers in Binance Breach Targeted Known Weakness, Missing Controls](https://www.darkreading.com/cybersecurity-operations/attackers-binance-breach-targeted-weakness-missing-controls)
+- No new entries detected
 
 ## Volexity Blog
 
@@ -589,18 +582,18 @@ Generated: 2026-11-14T10:37:20Z
 - Site: https://www.microsoft.com/en-us/security/blog/
 - Feed: https://www.microsoft.com/en-us/security/blog/feed/
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-11-13T21:31:44+00:00 — [SCKit abuses ScreenConnect to deploy remote access and target technician sessions](https://www.microsoft.com/en-us/security/blog/2026/11/13/sckit-abuses-screenconnect-deploy-remote-access-target-technician-sessions/)
+- No new entries detected
 
 ## HackingPassion
 
 - Site: https://hackingpassion.com/
 - Feed: https://hackingpassion.com/index.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-11-14T11:43:08+01:00 — [SignDrop Turns the Protection Microsoft Built for Windows Log Files Into SYSTEM Access](https://hackingpassion.com/signdrop-windows-clfs-zero-day/)
 
 ## LOLBAS Project (Windows)
 
@@ -769,9 +762,18 @@ Generated: 2026-11-14T10:37:20Z
 - Site: https://github.com/EricZimmerman/KapeFiles
 - Feed: https://github.com/EricZimmerman/KapeFiles/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 10
 
-- No new entries detected
+- 2026-11-14T12:46:16+00:00 — [Merge pull request #1140 from vmaca123/add-kakaotalk-targets](https://github.com/EricZimmerman/KapeFiles/commit/fee80dafa89d80818084337f70e03ad983772cf1)
+- 2026-11-14T12:46:10+00:00 — [Merge pull request #1139 from vmaca123/fix-googleearth-id](https://github.com/EricZimmerman/KapeFiles/commit/8515dd485ffbd50ed8e3b5bed487f5bd206c2606)
+- 2026-11-14T12:46:05+00:00 — [Merge pull request #1138 from vmaca123/fix-compound-reference-case](https://github.com/EricZimmerman/KapeFiles/commit/9374618343c35120ed8281af72d69bedcd62f1c6)
+- 2026-11-14T12:43:23+00:00 — [Merge pull request #1141 from vmaca123/add-npki-target](https://github.com/EricZimmerman/KapeFiles/commit/f5bc19d23b1eace0bd419ee82f4ca397e7cd0945)
+- 2026-11-14T12:41:57+00:00 — [Merge pull request #1142 from vmaca123/add-hancomoffice-target](https://github.com/EricZimmerman/KapeFiles/commit/c01d9fe35e0f16fd467266178d5b7bae7b8e8616)
+- 2026-11-14T11:54:39+00:00 — [Add NPKI Target (South Korean joint certificate store)](https://github.com/EricZimmerman/KapeFiles/commit/c4393f5e067a301b592b38d1da6ab41ab9374336)
+- 2026-11-14T11:54:25+00:00 — [Add KakaoTalk and KakaoTalk_Media Targets](https://github.com/EricZimmerman/KapeFiles/commit/35663187cdcc58730390d2ee9ab1942094cdd44d)
+- 2026-11-14T10:33:29+00:00 — [Fix GoogleEarth Target Id (letter l in place of the digit 1)](https://github.com/EricZimmerman/KapeFiles/commit/7565f2626afc1be004d683d3a3e954f1555f116d)
+- 2026-11-14T10:33:23+00:00 — [Add HancomOffice Target](https://github.com/EricZimmerman/KapeFiles/commit/5cc245e959a676a16c3fcc5ac860b41a05294865)
+- 2026-11-13T21:32:10+00:00 — [Match six compound Target references to the case of the referenced fi…](https://github.com/EricZimmerman/KapeFiles/commit/80e2873440c9f23751776c75a839de8ae5fcaed5)
 
 ## EZ RegistryPlugins commits
 
@@ -832,10 +834,9 @@ Generated: 2026-11-14T10:37:20Z
 - Site: https://github.com/Yamato-Security/hayabusa-rules
 - Feed: https://github.com/Yamato-Security/hayabusa-rules/commits/main.atom
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 0
 
-- 2026-11-13T21:08:19+00:00 — [Sigma Rule Supported Modifier Update (2026-11-13  21:07:57) (#1117)](https://github.com/Yamato-Security/hayabusa-rules/commit/73f990fa5ab767a401515ad91b4ed297da9351fc)
-- 2026-11-13T20:05:23+00:00 — [Sigma Rule Update (2026-11-13  20:05:09) (#1116)](https://github.com/Yamato-Security/hayabusa-rules/commit/9e5dc5db831f6a5e037069f9b9344929b954d474)
+- No new entries detected
 
 ## Hayabusa releases
 
