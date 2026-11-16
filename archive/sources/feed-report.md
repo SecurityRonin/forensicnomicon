@@ -1,6 +1,6 @@
 # Feed Update Report
 
-Generated: 2026-11-15T11:07:14Z
+Generated: 2026-11-16T11:37:16Z
 
 ## Windows Incident Response
 
@@ -61,9 +61,9 @@ Generated: 2026-11-15T11:07:14Z
 - Site: https://andreafortuna.org/
 - Feed: https://andreafortuna.org/feed.xml
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-11-15T00:00:00+00:00 — [Weekly Wire #18: The cloud and the sky broke](https://andreafortuna.org/2026/11/15/weekly-wire-18/)
+- No new entries detected
 
 ## Salt Forensics
 
@@ -175,9 +175,9 @@ Generated: 2026-11-15T11:07:14Z
 - Site: https://www.swiftforensics.com/
 - Feed: https://www.swiftforensics.com/feeds/posts/default
 - Entries checked: 10
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-11-15T03:02:04-05:00 — [Siri app conversations](http://www.swiftforensics.com/2026/11/siri-app-conversations.html)
+- No new entries detected
 
 ## Forensic Focus
 
@@ -226,9 +226,10 @@ Generated: 2026-11-15T11:07:14Z
 - Site: https://isc.sans.edu/
 - Feed: https://isc.sans.edu/rssfeed_full.xml
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 2
 
-- No new entries detected
+- 2026-11-16T02:00:05+00:00 — [ISC Stormcast For Monday, November 16th, 2026 https://isc.sans.edu/podcastdetail/10180, (Mon, Nov 16th)](https://isc.sans.edu/diary/rss/33520)
+- 2026-11-15T18:17:27+00:00 — [YARA-X 1.23.0 Release, (Sun, Nov 15th)](https://isc.sans.edu/diary/rss/33496)
 
 ## DFIR Training Blog
 
@@ -253,9 +254,9 @@ Generated: 2026-11-15T11:07:14Z
 - Site: https://aboutdfir.com/
 - Feed: https://aboutdfir.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-11-16T11:04:19+00:00 — [InfoSec News Nuggets – 11/16/2026](https://aboutdfir.com/infosec-news-nuggets-11-16-2026/)
 
 ## Forensic 4cast
 
@@ -271,9 +272,9 @@ Generated: 2026-11-15T11:07:14Z
 - Site: https://thisweekin4n6.com/
 - Feed: https://thisweekin4n6.wordpress.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-11-15T11:26:24+00:00 — [Week 46 – 2026](https://thisweekin4n6.com/2026/11/15/week-46-2026/)
 
 ## The Sleuth Kit updates
 
@@ -316,9 +317,9 @@ Generated: 2026-11-15T11:07:14Z
 - Site: https://www.hexacorn.com/blog/
 - Feed: https://www.hexacorn.com/blog/feed/
 - Entries checked: 5
-- New since last snapshot: 1
+- New since last snapshot: 0
 
-- 2026-11-15T01:54:52+00:00 — [Anti-AI tricks, Part 1](https://www.hexacorn.com/blog/2026/11/15/anti-ai-tricks-part-1/)
+- No new entries detected
 
 ## The DFIR Spot
 
@@ -343,9 +344,9 @@ Generated: 2026-11-15T11:07:14Z
 - Site: https://embee-research.ghost.io/
 - Feed: https://embee-research.ghost.io/rss/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-11-15T16:13:24+00:00 — [Notes on Finding Threat Infrastructure with Local Models](https://www.embeeresearch.io/notes-on-finding-threat-infrastructure-with-local-models/)
 
 ## Digital Forensics Tips
 
@@ -370,10 +371,11 @@ Generated: 2026-11-15T11:07:14Z
 - Site: https://eclecticlight.co/
 - Feed: https://eclecticlight.co/feed/
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 3
 
-- 2026-11-15T08:00:00+00:00 — [Last Week on My Mac: Eggs, baskets and resilience](https://eclecticlight.co/2026/11/15/last-week-on-my-mac-eggs-baskets-and-resilience/)
-- 2026-11-14T12:30:00+00:00 — [British Impressionists on the beach 1](https://eclecticlight.co/2026/11/14/british-impressionists-on-the-beach-1/)
+- 2026-11-16T09:00:00+00:00 — [Solutions to Saturday Mac riddles 386](https://eclecticlight.co/2026/11/16/solutions-to-saturday-mac-riddles-386/)
+- 2026-11-16T07:30:00+00:00 — [When deleting files may disappoint](https://eclecticlight.co/2026/11/16/when-deleting-files-may-disappoint/)
+- 2026-11-15T12:30:00+00:00 — [British Impressionists on the beach 2](https://eclecticlight.co/2026/11/15/british-impressionists-on-the-beach-2/)
 
 ## JPCERT/CC
 
@@ -530,9 +532,9 @@ Generated: 2026-11-15T11:07:14Z
 - Site: https://blog.malwarebytes.com/
 - Feed: https://blog.malwarebytes.com/feed/
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-11-16T08:01:00+00:00 — [A week in security (November 9 – November 15)](https://www.malwarebytes.com/blog/uncategorized/2026/11/a-week-in-security-november-9-november-15-2)
 
 ## Krebs on Security
 
@@ -548,10 +550,14 @@ Generated: 2026-11-15T11:07:14Z
 - Site: https://www.bleepingcomputer.com/
 - Feed: https://www.bleepingcomputer.com/feed/
 - Entries checked: 10
-- New since last snapshot: 2
+- New since last snapshot: 6
 
-- 2026-11-14T12:27:25-05:00 — [Cursor confirms security breach led to malicious Claude Code extension](https://www.bleepingcomputer.com/news/security/cursor-confirms-security-breach-led-to-malicious-claude-code-extension/)
-- 2026-11-14T10:15:49-05:00 — [US disrupts North Korean campaign behind $400 million crypto theft](https://www.bleepingcomputer.com/news/security/us-disrupts-north-korean-campaign-behind-400-million-crypto-theft/)
+- 2026-11-16T06:18:09-05:00 — [Australian retail giant Coles investigates cybersecurity incident](https://www.bleepingcomputer.com/news/security/australian-retail-giant-coles-investigates-cybersecurity-incident/)
+- 2026-11-16T06:00:00-05:00 — [Anthropic’s Claude Fable 5.2 blocks fewer security tasks, while Mythos gets better at finding bugs](https://www.bleepingcomputer.com/news/artificial-intelligence/anthropics-claude-fable-52-blocks-fewer-security-tasks-while-mythos-gets-better-at-finding-bugs/)
+- 2026-11-16T04:30:04-05:00 — [New NoisyTCP vulnerability lets attackers crash Linux servers](https://www.bleepingcomputer.com/news/linux/new-noisytcp-linux-kernel-flaw-lets-attackers-crash-servers/)
+- 2026-11-16T03:26:52-05:00 — [Microsoft pushes Windows emergency updates to fix activation failures](https://www.bleepingcomputer.com/news/microsoft/microsoft-new-windows-emergency-updates-fix-activation-licensing-failures/)
+- 2026-11-15T13:29:53-05:00 — [FBI warns ARTEX AI hacking tool is powering global cyberattacks](https://www.bleepingcomputer.com/news/security/fbi-warns-artex-ai-hacking-tool-is-powering-global-cyberattacks/)
+- 2026-11-15T10:23:48-05:00 — [TSMC employee data breach linked to cloud provider](https://www.bleepingcomputer.com/news/security/tsmc-employee-data-breach-linked-to-cloud-provider/)
 
 ## Dark Reading
 
@@ -593,7 +599,7 @@ Generated: 2026-11-15T11:07:14Z
 - Entries checked: 10
 - New since last snapshot: 1
 
-- 2026-11-14T11:43:08+01:00 — [SignDrop Turns the Protection Microsoft Built for Windows Log Files Into SYSTEM Access](https://hackingpassion.com/signdrop-windows-clfs-zero-day/)
+- 2026-11-15T12:14:53+01:00 — [worse_query Lets iPhone Apps Read Other Apps' Files and Apple's Update Left It Open](https://hackingpassion.com/worse-query-iphone-sandbox-escape/)
 
 ## LOLBAS Project (Windows)
 
@@ -762,18 +768,9 @@ Generated: 2026-11-15T11:07:14Z
 - Site: https://github.com/EricZimmerman/KapeFiles
 - Feed: https://github.com/EricZimmerman/KapeFiles/commits/master.atom
 - Entries checked: 10
-- New since last snapshot: 10
+- New since last snapshot: 0
 
-- 2026-11-14T12:46:16+00:00 — [Merge pull request #1140 from vmaca123/add-kakaotalk-targets](https://github.com/EricZimmerman/KapeFiles/commit/fee80dafa89d80818084337f70e03ad983772cf1)
-- 2026-11-14T12:46:10+00:00 — [Merge pull request #1139 from vmaca123/fix-googleearth-id](https://github.com/EricZimmerman/KapeFiles/commit/8515dd485ffbd50ed8e3b5bed487f5bd206c2606)
-- 2026-11-14T12:46:05+00:00 — [Merge pull request #1138 from vmaca123/fix-compound-reference-case](https://github.com/EricZimmerman/KapeFiles/commit/9374618343c35120ed8281af72d69bedcd62f1c6)
-- 2026-11-14T12:43:23+00:00 — [Merge pull request #1141 from vmaca123/add-npki-target](https://github.com/EricZimmerman/KapeFiles/commit/f5bc19d23b1eace0bd419ee82f4ca397e7cd0945)
-- 2026-11-14T12:41:57+00:00 — [Merge pull request #1142 from vmaca123/add-hancomoffice-target](https://github.com/EricZimmerman/KapeFiles/commit/c01d9fe35e0f16fd467266178d5b7bae7b8e8616)
-- 2026-11-14T11:54:39+00:00 — [Add NPKI Target (South Korean joint certificate store)](https://github.com/EricZimmerman/KapeFiles/commit/c4393f5e067a301b592b38d1da6ab41ab9374336)
-- 2026-11-14T11:54:25+00:00 — [Add KakaoTalk and KakaoTalk_Media Targets](https://github.com/EricZimmerman/KapeFiles/commit/35663187cdcc58730390d2ee9ab1942094cdd44d)
-- 2026-11-14T10:33:29+00:00 — [Fix GoogleEarth Target Id (letter l in place of the digit 1)](https://github.com/EricZimmerman/KapeFiles/commit/7565f2626afc1be004d683d3a3e954f1555f116d)
-- 2026-11-14T10:33:23+00:00 — [Add HancomOffice Target](https://github.com/EricZimmerman/KapeFiles/commit/5cc245e959a676a16c3fcc5ac860b41a05294865)
-- 2026-11-13T21:32:10+00:00 — [Match six compound Target references to the case of the referenced fi…](https://github.com/EricZimmerman/KapeFiles/commit/80e2873440c9f23751776c75a839de8ae5fcaed5)
+- No new entries detected
 
 ## EZ RegistryPlugins commits
 
@@ -852,9 +849,9 @@ Generated: 2026-11-15T11:07:14Z
 - Site: https://github.com/WithSecureLabs/chainsaw
 - Feed: https://github.com/WithSecureLabs/chainsaw/releases.atom
 - Entries checked: 10
-- New since last snapshot: 0
+- New since last snapshot: 1
 
-- No new entries detected
+- 2026-11-15T14:04:18+00:00 — [v2.18.0](https://github.com/WithSecureOpenSource/chainsaw/releases/tag/v2.18.0)
 
 ## Elastic detection-rules releases
 
